@@ -3,6 +3,8 @@ if [ "`cat /sys/devices/soc0/machine`" == "Altera SOCFPGA Cyclone V" ]; then
 	MACHINE="cyclone5"
 elif [ "`cat /sys/devices/soc0/machine`" == "Altera SOCFPGA Arria V" ]; then
 	MACHINE="arria5"
+elif [ "`cat /sys/devices/soc0/machine`" == "Altera SOCFPGA Arria 10" ]; then
+	MACHINE="arria10"
 else
 	MACHINE="undef"
 fi
@@ -13,6 +15,9 @@ cyclone5)
 	;;
 arria5)
 	DEVKIT_NAME="Arria V SoC Development Kit"
+	;;
+arria10)
+	DEVKIT_NAME="Arria 10 SoC Development Kit"
 	;;
 undef)
 	DEVKIT_NAME="Unknown Development Kit"
@@ -97,6 +102,21 @@ elif [ "$MACHINE" == "arria5" ]; then
 	echo -e "<param name=\"movie\" value=\"arriav-board-flash.swf\" />"
 	echo -e "<param name=\"quality\" value=\"high\" />"
 	echo -e "<embed src=\"../arriav-board-flash.swf\" quality=\"high\" pluginspage=\"http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash\" type=\"application/x-shockwave-flash\" width=\"640\" height=\"478\"></embed>"
+	echo -e "</object>"
+	echo -e "</noscript>"
+	echo -e "</span>"
+	echo -e "<div class=\"dev-kit-flash\"></div>"
+	echo -e "</div>"
+elif [ "$MACHINE" == "arria10" ]; then
+	echo -e "<span class=\"dev-kit-flash\">"
+	echo -e "<script type=\"text/javascript\">"
+	echo -e "AC_FL_RunContent( 'codebase','http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0','width','640','height','478','src','arria10-board-flash','quality','high','pluginspage','http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash','movie','../arria10-board-flash');"
+	echo -e "</script>"
+	echo -e "<noscript>"
+	echo -e "<object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0\" width=\"640\" height=\"478\">"
+	echo -e "<param name=\"movie\" value=\"arria10-board-flash.swf\" />"
+	echo -e "<param name=\"quality\" value=\"high\" />"
+	echo -e "<embed src=\"../arria10-board-flash.swf\" quality=\"high\" pluginspage=\"http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash\" type=\"application/x-shockwave-flash\" width=\"640\" height=\"478\"></embed>"
 	echo -e "</object>"
 	echo -e "</noscript>"
 	echo -e "</span>"

@@ -9,6 +9,7 @@ FILES_${PN} = "/www/pages/* \
 
 SRC_URI = "file://AC_RunActiveContent.js "
 SRC_URI += "file://altera-logo.gif "
+SRC_URI += "file://arria10-board-flash.swf "
 SRC_URI += "file://arriav-board-flash.swf "
 SRC_URI += "file://blinkled.gif "
 SRC_URI += "file://board-flash.jpg "
@@ -33,6 +34,7 @@ do_install() {
 	install -m 0755 AC_RunActiveContent.js ${D}/www/pages/
 	install -m 0755 altera-logo.gif ${D}/www/pages/
 	install -m 0755 arriav-board-flash.swf ${D}/www/pages/
+	install -m 0755 arria10-board-flash.swf ${D}/www/pages/
 	install -m 0755 blinkled.gif ${D}/www/pages/
 	install -m 0755 board-flash.jpg ${D}/www/pages/
 	install -m 0755 board.jpg ${D}/www/pages/

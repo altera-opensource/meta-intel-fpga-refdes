@@ -6,10 +6,10 @@ LIC_FILES_CHKSUM="file://${COMMON_LICENSE_DIR}/BSD-3-Clause;md5=550794465ba0ec53
 S="${WORKDIR}/git"
 DEPENDS="ncurses"
 
-REFDES_REPO ?= "git://git.rocketboards.org/linux-refdesigns.git"
+REFDES_REPO ?= "git://github.com/altera-opensource/linux-refdesigns.git"
 REFDES_PROT ?= "http"
-REFDES_BRANCH ?= "socfpga-14.0.1"
-SRCREV = "f587cf8789f42d55452d6f544e73df5a8cfbee07"
+REFDES_BRANCH ?= "socfpga-15.0.1"
+SRCREV = "e06d1b3d3b99f92c2e41d64a048a212bd03c2442"
 
 SRC_URI = "${REFDES_REPO};protocol=${REFDES_PROT};branch=${REFDES_BRANCH} "
 

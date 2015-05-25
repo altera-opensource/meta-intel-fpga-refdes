@@ -10,8 +10,17 @@ Web server and application for FPGA LED control will not work"
 	else
 		/www/pages/cgi-bin/scroll_server &
 	fi
+
+	modprobe altera_sysid
+	if [ $? != 0 ]; then
+		echo "WARNING: Failed to load Altera Sys ID module."
+	fi
 fi
 
+# Loads the PMBUS module on Arria10
+if [ "`cat /sys/devices/soc0/machine`" == "Altera SOCFPGA Arria 10" ]; then
+	echo pmbus 0x10 > /sys/bus/i2c/devices/i2c-0/new_device
+fi
 
 COUNTER=1
 while [ $COUNTER -le 10 ]

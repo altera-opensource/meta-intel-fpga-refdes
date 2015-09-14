@@ -9,7 +9,7 @@ DEPENDS="ncurses"
 REFDES_REPO ?= "git://github.com/altera-opensource/linux-refdesigns.git"
 REFDES_PROT ?= "http"
 REFDES_BRANCH ?= "socfpga-15.1"
-SRCREV = "e06d1b3d3b99f92c2e41d64a048a212bd03c2442"
+SRCREV = "f3bc8680276705204f1c59fa20f35f7b47069317"
 
 SRC_URI = "${REFDES_REPO};protocol=${REFDES_PROT};branch=${REFDES_BRANCH} "
 

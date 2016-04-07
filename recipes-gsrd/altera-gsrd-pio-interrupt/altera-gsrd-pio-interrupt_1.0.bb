@@ -11,8 +11,8 @@ PV = "0.1"
 
 REFDES_REPO ?= "git://github.com/altera-opensource/linux-refdesigns.git"
 REFDES_PROT ?= "http"
-REFDES_BRANCH ?= "socfpga-15.1"
-SRCREV = "97fdb3734afb73a481db838596aa388d5f8e3031"
+REFDES_BRANCH ?= "socfpga-16.1"
+SRCREV = "a3d4e657087dbf535401b18cdd810591857b6961"
 
 SRC_URI = "${REFDES_REPO};protocol=${REFDES_PROT};branch=${REFDES_BRANCH} "
 

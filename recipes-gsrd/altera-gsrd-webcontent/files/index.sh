@@ -1,13 +1,5 @@
 #!/bin/sh
-if [ "`cat /sys/devices/soc0/machine`" == "Altera SOCFPGA Cyclone V" ]; then
-	MACHINE="cyclone5"
-elif [ "`cat /sys/devices/soc0/machine`" == "Altera SOCFPGA Arria V" ]; then
-	MACHINE="arria5"
-elif [ "`cat /sys/devices/soc0/machine`" == "Altera SOCFPGA Arria 10" ]; then
-	MACHINE="arria10"
-else
-	MACHINE="undef"
-fi
+MACHINE=$(hostname)
 
 case $MACHINE in
 cyclone5)
@@ -266,8 +258,8 @@ else
 SCROLL_START=0
 fi
 
-FPGA_IN_USER_MODE=`cat /sys/class/fpga/fpga0/status`
-if [ "$FPGA_IN_USER_MODE" != "user mode" ]; then
+FPGA_IN_USER_MODE=$(cat /sys/class/fpga_manager/fpga0/state)
+if [ "$FPGA_IN_USER_MODE" != "operating" ]; then
 echo -e "<p>FPGA is currently not programmed. LED control panel is disabled.</p>"
 echo -e "<p>In order to display and control the LED via web or using command shell, "
 echo -e "please program the FPGA before booting the system up. </p>"

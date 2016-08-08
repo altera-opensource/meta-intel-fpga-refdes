@@ -4,7 +4,7 @@ DEPENDS += "bash perl gcc i2c-tools \
 "
 
 IMAGE_INSTALL += "bash perl gcc i2c-tools ethtool iperf	\
-	net-tools nfs-utils-client portmap tcpdump gdbserver \
+	net-tools nfs-utils-client portmap tcpdump gdbserver fpga-overlay \
 "
 
 export IMAGE_BASENAME = "extended-console-image"

@@ -15,6 +15,8 @@
 # This script loads the gpio-altera module and the LED scrolling application,
 # updates the LCD with IP address obtained
 
+declare -r CONST_IP_CHECK_RETRIES=70
+
 if [ "$(cat /sys/class/fpga_manager/fpga0/state)" == "operating" ]; then
 	/www/pages/cgi-bin/scroll_server &
 
@@ -29,8 +31,8 @@ if [ "`cat /sys/devices/soc0/machine`" == "Altera SOCFPGA Arria 10" ]; then
 	echo pmbus 0x10 > /sys/bus/i2c/devices/i2c-0/new_device
 fi
 
-COUNTER=1
-while [ $COUNTER -le 10 ]
+RETRY_COUNT=1
+while [ $RETRY_COUNT -le ${CONST_IP_CHECK_RETRIES} ]
 do
 	IP=`ifconfig eth0 | head -n 2 | tail -n 1 | sed s/inet\ addr:// | sed s/\ Bcast.*// | sed s/\ *//g`
 	IP_CHECK=`echo $IP | sed 's/\(\([0-9]\{1,3\}\)\.\)\{3\}\([0-9]\{1,3\}\)//g'`
@@ -38,9 +40,9 @@ do
 		IP="No IP obtained"
 		sleep 1
 	else
-		COUNTER=11
+		RETRY_COUNT=$((${CONST_IP_CHECK_RETRIES} + 1))
 	fi
-	COUNTER=`expr $COUNTER + 1`
+	RETRY_COUNT=$((${RETRY_COUNT} + 1))
 done
 
 printf '\e[2J' > /dev/ttyLCD0

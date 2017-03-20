@@ -15,7 +15,7 @@
 # This script loads the gpio-altera module and the LED scrolling application,
 # updates the LCD with IP address obtained
 
-declare -r CONST_IP_CHECK_RETRIES=70
+CONST_IP_CHECK_RETRIES=70
 
 if [ "$(cat /sys/class/fpga_manager/fpga0/state)" == "operating" ]; then
 	/www/pages/cgi-bin/scroll_server &

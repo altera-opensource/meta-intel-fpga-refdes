@@ -56,7 +56,7 @@ echo -e "</head>"
 
 echo -e "<body class=\"body-container\" onload=\"start()\">"
 echo -e "<div class=\"bup-header\">"
-echo -e "<img src=\"../altera-logo.gif\" alt=\"Altera Logo\" style=\"float:left; padding:15px 0px 15px 10px;\"/>"
+echo -e "<img src=\"../intel-logo.jpg\" alt=\"Intel Logo\" style=\"float:left; padding:15px 0px 15px 10px;\"/>"
 echo -e "<div class=\"bup-header-right\"><span>Board Update Portal</span><br/>"
 echo -e $DEVKIT_NAME
 echo -e "</div>"

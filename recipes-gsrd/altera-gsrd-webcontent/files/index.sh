@@ -65,10 +65,10 @@ echo -e "<div class=\"bup-content\">"
 echo -e "<div class=\"bup-form\">"
 echo -e "<span><strong><h1>Overview</h1></strong><br/>"
 echo -e "</span>"
-echo -e "<p>This Board Update Portal web page is being served by the web server applicaiton running on the Hard Processor System (HPS) of your development board. This web page provides links to useful information on Altera<sup>®</sup> website. Please refer to the side bar for the reference links. You can use this web page to interact with your board by blinking the LEDs and writing text messages to LCD on the board. "
+echo -e "<p>This Board Update Portal web page is being served by the web server application running on the Hard Processor System (HPS) of your development board. This web page provides links to useful information on Altera<sup>®</sup> website. Please refer to the side bar for the reference links. You can use this web page to interact with your board by blinking the LEDs and writing text messages to LCD on the board. "
 echo -e "</div>"
 
-
+if [ "$MACHINE" == "cyclone5" ] || [ "$MACHINE" == "arria5" ]; then
 echo -e "<div class=\"bup-links\">"
 echo -e "<h4>Developer Resources</h4>"
 echo -e "<ul>"	
@@ -76,7 +76,17 @@ echo -e "<ul>"
 	echo -e "<li><a href=\"http://www.altera.com/soc-sw-resources.html\" target=\"_blank\">Software Developers</a></li>"
 echo -e "</ul>"
 echo -e "</div>"
-
+elif [ "$MACHINE" == "arria10" ]; then
+echo -e "<div class=\"bup-links\">"
+echo -e "<h4>Developer Resources</h4>"
+echo -e "<ul>"
+	echo -e "<li><a href=\"https://www.altera.com/products/soc/soc-quick-start-guide/arria10soc-dev-kit-quick-start.html\" target=\"_blank\">Arria 10 SoC Quick Start Guide</a></li> "
+        echo -e "<li><a href=\"https://www.altera.com/products/fpga/arria-series/arria-10/support.html\" target=\"_blank\">Hardware Resources</a></li> "
+        echo -e "<li><a href=\"https://www.altera.com/products/soc/portfolio/arria-10-soc/design-tools.html\" target=\"_blank\">Software Resources</a></li> "
+	echo -e "<li><a href=\"http://www.rocketboards.org\" target=\"_blank\">Rocketboards.org</a></li> "
+echo -e "</ul>"
+echo -e "</div>"
+fi
 
 echo -e "<div class=\"bup-form\">"
 echo "<hr style=\"border: 1px solid; color:#06c\"><br>"

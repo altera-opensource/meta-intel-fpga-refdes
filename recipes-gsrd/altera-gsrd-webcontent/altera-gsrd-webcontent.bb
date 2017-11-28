@@ -7,7 +7,6 @@ PR = "r0"
 FILES_${PN} = "/www/pages/* \
 		"
 
-SRC_URI = "file://AC_RunActiveContent.js "
 SRC_URI += "file://intel-logo.jpg "
 SRC_URI += "file://arria10-board-flash.swf "
 SRC_URI += "file://arriav-board-flash.swf "
@@ -31,7 +30,6 @@ S = "${WORKDIR}"
 do_install() {
 	install -d ${D}/www/pages/cgi-bin
 	install -d ${D}/home/root/intelFPGA
-	install -m 0755 AC_RunActiveContent.js ${D}/www/pages/
 	install -m 0755 intel-logo.jpg ${D}/www/pages/
 	install -m 0755 arriav-board-flash.swf ${D}/www/pages/
 	install -m 0755 arria10-board-flash.swf ${D}/www/pages/

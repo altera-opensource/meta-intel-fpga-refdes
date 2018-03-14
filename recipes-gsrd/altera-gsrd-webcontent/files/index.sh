@@ -25,6 +25,9 @@ arria5)
 arria10)
 	DEVKIT_NAME="Arria 10 SoC Development Kit"
 	;;
+stratix10)
+	DEVKIT_NAME="Stratix 10 SoC Development Kit"
+	;;
 undef)
 	DEVKIT_NAME="Unknown Development Kit"
 	exit -1
@@ -86,6 +89,16 @@ echo -e "<ul>"
 	echo -e "<li><a href=\"http://www.rocketboards.org\" target=\"_blank\">Rocketboards.org</a></li> "
 echo -e "</ul>"
 echo -e "</div>"
+elif [ "$MACHINE" == "stratix10" ]; then
+echo -e "<div class=\"bup-links\">"
+echo -e "<h4>Developer Resources</h4>"
+echo -e "<ul>"
+        echo -e "<li><a href=\"https://www.altera.com/products/soc/soc-quick-start-guide/arria10soc-dev-kit-quick-start.html\" target=\"_blank\">Stratix 10 SoC Quick Start Guide</a></li> "
+        echo -e "<li><a href=\"https://www.altera.com/products/fpga/arria-series/Stratix-10/support.html\" target=\"_blank\">Hardware Resources</a></li> "
+        echo -e "<li><a href=\"https://www.altera.com/products/soc/portfolio/stratix-10-soc/design-tools.html\" target=\"_blank\">Software Resources</a></li> "
+        echo -e "<li><a href=\"http://www.rocketboards.org\" target=\"_blank\">Rocketboards.org</a></li> "
+echo -e "</ul>"
+echo -e "</div>"
 fi
 
 echo -e "<div class=\"bup-form\">"
@@ -138,6 +151,21 @@ elif [ "$MACHINE" == "arria10" ]; then
 	echo -e "</span>"
 	echo -e "<div class=\"dev-kit-flash\"></div>"
 	echo -e "</div>"
+elif [ "$MACHINE" == "stratix10" ]; then
+        echo -e "<span class=\"dev-kit-flash\">"
+        echo -e "<script type=\"text/javascript\">"
+        echo -e "AC_FL_RunContent( 'codebase','http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0','width','640','height','478','src','stratix10-board-flash','quality','high','pluginspage','http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash','movie','../arria10-board-flash');"
+        echo -e "</script>"
+        echo -e "<noscript>"
+        echo -e "<object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0\" width=\"640\" height=\"478\">"
+        echo -e "<param name=\"movie\" value=\"stratix10-board-flash.swf\" />"
+        echo -e "<param name=\"quality\" value=\"high\" />"
+        echo -e "<embed src=\"../stratix10-board-flash.swf\" quality=\"high\" pluginspage=\"http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash\" type=\"application/x-shockwave-flash\" width=\"640\" height=\"478\"></embed>"
+        echo -e "</object>"
+        echo -e "</noscript>"
+        echo -e "</span>"
+        echo -e "<div class=\"dev-kit-flash\"></div>"
+        echo -e "</div>"
 fi
 
 ##
@@ -282,12 +310,6 @@ else
 SCROLL_START=0
 fi
 
-FPGA_IN_USER_MODE=$(cat /sys/class/fpga_manager/fpga0/state)
-if [ "$FPGA_IN_USER_MODE" != "operating" ]; then
-echo -e "<p>FPGA is currently not programmed. LED control panel is disabled.</p>"
-echo -e "<p>In order to display and control the LED via web or using command shell, "
-echo -e "please program the FPGA before booting the system up. </p>"
-else
 echo -e "<p>You can observe the LED that are connected to the FPGA on the board from the picture below.</p>"
 
 echo -e "<table style=\"margin-top:10px; margin-left:0px; font-family: Arial; font-size: 10pt\">"
@@ -328,7 +350,6 @@ elif [ "$LED3_STATUS" == "1" ]; then
 	echo -e "<td align=center width=19 height=46> <img src=\"../onled.jpg\"> </td>"
 else
 	echo -e "<td align=center width=19 height=46> <img src=\"../blinkled.gif\"> </td>"
-fi
 fi
 
 echo -e "</tr>"
@@ -471,8 +492,8 @@ echo -e "<div class=\"footer-container-shadow\">"
 echo -e "<div id=\"footer\" class=\"footer-container\">"
 
 	echo -e "<div id=\"footerCopyright\" class=\"footer-copyright\">"
-	echo -e "<p align=\"center\" style=\"width:900px; font-size:9px;\">Copyright &copy; 1995-2013 Altera Corporation. All Rights Reserved.<br/>"
-	echo -e "ALTERA, ARRIA, CYCLONE, HARDCOPY, MAX, MEGACORE, NIOS, QUARTUS &amp; STRATIX are Reg. U.S. Pat. &amp; Tm. Off. and Altera marks in and outside the U.S.</p></div>"
+	echo -e "<p align=\"center\" style=\"width:900px; font-size:9px;\">Copyright &copy; 2018 Intel Corporation. All Rights Reserved.<br/>"
+	echo -e "ALTERA, STRATIX, ARRIA, CYCLONE, HARDCOPY, MAX, MEGACORE, NIOS, QUARTUS &amp; STRATIX are Reg. U.S. Pat. &amp; Tm. Off. and Altera marks in and outside the U.S.</p></div>"
 echo -e "</div>"
 echo -e "</div>"
 echo -e "</div>"

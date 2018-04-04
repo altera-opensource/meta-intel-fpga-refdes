@@ -23,6 +23,7 @@ SRC_URI += "file://progress.js "
 SRC_URI += "file://runningled.gif "
 SRC_URI += "file://style.css "
 SRC_URI += "file://validation_script.js "
+SRC_URI += "file://stratix10-board-image.jpg "
 SRC_URI += "file://index.sh "
 
 S = "${WORKDIR}"
@@ -46,5 +47,6 @@ do_install() {
 	install -m 0755 runningled.gif ${D}/www/pages/
 	install -m 0755 style.css ${D}/www/pages/
 	install -m 0755 validation_script.js ${D}/www/pages/
+	install -m 0755 stratix10-board-image.jpg ${D}/www/pages/
 	install -m 0755 index.sh ${D}/www/pages/cgi-bin
 }

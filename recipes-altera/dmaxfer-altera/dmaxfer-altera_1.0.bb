@@ -8,7 +8,7 @@ REFDES_PROT ?= "http"
 REFDES_BRANCH ?= "master"
 SRCREV = "${AUTOREV}"
 
-FILES_${PN} = "/home/root/IntelFPGA/*"
+FILES_${PN} = "/home/root/intelFPGA/*"
 
 SRC_URI = "${REFDES_REPO};protocol=${REFDES_PROT};branch=${REFDES_BRANCH} "
 
@@ -20,7 +20,7 @@ do_compile() {
 }
 
 do_install() {
-	install -d ${D}/home/root/IntelFPGA
-	install -m 0755 dmaxfer ${D}/home/root/IntelFPGA/dmaxfer
+	install -d ${D}/home/root/intelFPGA
+	install -m 0755 dmaxfer ${D}/home/root/intelFPGA/dmaxfer
 }
 

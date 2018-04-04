@@ -68,7 +68,7 @@ echo -e "<div class=\"bup-content\">"
 echo -e "<div class=\"bup-form\">"
 echo -e "<span><strong><h1>Overview</h1></strong><br/>"
 echo -e "</span>"
-echo -e "<p>This Board Update Portal web page is being served by the web server application running on the Hard Processor System (HPS) of your development board. This web page provides links to useful information on Altera<sup>®</sup> website. Please refer to the side bar for the reference links. You can use this web page to interact with your board by blinking the LEDs and writing text messages to LCD on the board. "
+echo -e "<p>This Board Update Portal web page is being served by the web server application running on the Hard Processor System (HPS) of your development board. This web page provides links to useful information on Intel FPGA<sup>®</sup> website. Please refer to the side bar for the reference links. You can use this web page to interact with your board by blinking the LEDs and writing text messages to LCD on the board. For Stratix 10 there would be no LCD therefore users would have to use the JTAG UART"
 echo -e "</div>"
 
 if [ "$MACHINE" == "cyclone5" ] || [ "$MACHINE" == "arria5" ]; then
@@ -93,8 +93,8 @@ elif [ "$MACHINE" == "stratix10" ]; then
 echo -e "<div class=\"bup-links\">"
 echo -e "<h4>Developer Resources</h4>"
 echo -e "<ul>"
-        echo -e "<li><a href=\"https://www.altera.com/products/soc/soc-quick-start-guide/arria10soc-dev-kit-quick-start.html\" target=\"_blank\">Stratix 10 SoC Quick Start Guide</a></li> "
-        echo -e "<li><a href=\"https://www.altera.com/products/fpga/arria-series/Stratix-10/support.html\" target=\"_blank\">Hardware Resources</a></li> "
+        echo -e "<li><a href=\"https://www.altera.com/products/soc/soc-quick-start-guide/stratix10soc-dev-kit-quick-start.html\" target=\"_blank\">Stratix 10 SoC Quick Start Guide</a></li> "
+        echo -e "<li><a href=\"https://www.altera.com/products/fpga/stratix-series/Stratix-10/support.html\" target=\"_blank\">Hardware Resources</a></li> "
         echo -e "<li><a href=\"https://www.altera.com/products/soc/portfolio/stratix-10-soc/design-tools.html\" target=\"_blank\">Software Resources</a></li> "
         echo -e "<li><a href=\"http://www.rocketboards.org\" target=\"_blank\">Rocketboards.org</a></li> "
 echo -e "</ul>"
@@ -103,10 +103,10 @@ fi
 
 echo -e "<div class=\"bup-form\">"
 echo "<hr style=\"border: 1px solid; color:#06c\"><br>"
-echo -e "<span><strong><h1>$DEVKIT_NAME Features</h1></strong><br/>"
-echo -e "Mouse over the board photo to view features.</span>"
 
 if [ "$MACHINE" == "cyclone5" ]; then
+	echo -e "<span><strong><h1>$DEVKIT_NAME Features</h1></strong><br/>"
+	echo -e "Mouse over the board photo to view features.</span>"
 	echo -e "<span class=\"dev-kit-flash\">"
 	echo -e "<script type=\"text/javascript\">"
 	echo -e "AC_FL_RunContent( 'codebase','http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0','width','640','height','478','src','cyclonev-board-flash','quality','high','pluginspage','http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash','movie','../cyclonev-board-flash');"
@@ -122,6 +122,8 @@ if [ "$MACHINE" == "cyclone5" ]; then
 	echo -e "<div class=\"dev-kit-flash\"></div>"
 	echo -e "</div>"
 elif [ "$MACHINE" == "arria5" ]; then
+	echo -e "<span><strong><h1>$DEVKIT_NAME Features</h1></strong><br/>"
+	echo -e "Mouse over the board photo to view features.</span>"
 	echo -e "<span class=\"dev-kit-flash\">"
 	echo -e "<script type=\"text/javascript\">"
 	echo -e "AC_FL_RunContent( 'codebase','http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0','width','640','height','478','src','arriav-board-flash','quality','high','pluginspage','http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash','movie','../arriav-board-flash');"
@@ -137,6 +139,8 @@ elif [ "$MACHINE" == "arria5" ]; then
 	echo -e "<div class=\"dev-kit-flash\"></div>"
 	echo -e "</div>"
 elif [ "$MACHINE" == "arria10" ]; then
+	echo -e "<span><strong><h1>$DEVKIT_NAME Features</h1></strong><br/>"
+	echo -e "Mouse over the board photo to view features.</span>"
 	echo -e "<span class=\"dev-kit-flash\">"
 	echo -e "<script type=\"text/javascript\">"
 	echo -e "AC_FL_RunContent( 'codebase','http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0','width','640','height','478','src','arria10-board-flash','quality','high','pluginspage','http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash','movie','../arria10-board-flash');"
@@ -152,20 +156,8 @@ elif [ "$MACHINE" == "arria10" ]; then
 	echo -e "<div class=\"dev-kit-flash\"></div>"
 	echo -e "</div>"
 elif [ "$MACHINE" == "stratix10" ]; then
-        echo -e "<span class=\"dev-kit-flash\">"
-        echo -e "<script type=\"text/javascript\">"
-        echo -e "AC_FL_RunContent( 'codebase','http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0','width','640','height','478','src','stratix10-board-flash','quality','high','pluginspage','http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash','movie','../arria10-board-flash');"
-        echo -e "</script>"
-        echo -e "<noscript>"
-        echo -e "<object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0\" width=\"640\" height=\"478\">"
-        echo -e "<param name=\"movie\" value=\"stratix10-board-flash.swf\" />"
-        echo -e "<param name=\"quality\" value=\"high\" />"
-        echo -e "<embed src=\"../stratix10-board-flash.swf\" quality=\"high\" pluginspage=\"http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash\" type=\"application/x-shockwave-flash\" width=\"640\" height=\"478\"></embed>"
-        echo -e "</object>"
-        echo -e "</noscript>"
-        echo -e "</span>"
-        echo -e "<div class=\"dev-kit-flash\"></div>"
-        echo -e "</div>"
+	echo -e "<span><strong><h1>$DEVKIT_NAME Features</h1></strong><br/></span>"
+        echo -e "<div><img src=\"stratix10-board-image.jpg\" style=\"width:640px;height:478px;\"></div>"
 fi
 
 ##
@@ -476,7 +468,7 @@ fi
 
  echo -e "<br> <hr style=\"border: 1px solid; color:#06c\"> <br>"
  echo -e "<span><strong><h1>Connect to Linux Console on board over SSH Connection</h1></strong><br>"
- echo -e "<p>You may connect your host system to SSH server running on the board using the IP address displayed on the character LCD. In your host system terminal, type the following:<br><br> <font face="courier, arial" size="3">ssh root@[IP address]</font></p>"
+ echo -e "<p>You may connect your host system to SSH server running on the board using the IP address displayed on the character LCD. In the case of Stratix10 we would need to access the UART console and type ifconfig to obtain the IP Address. In your host system terminal, type the following:<br><br> <font face="courier, arial" size="3">ssh root@[IP address].</font></p>"
  echo -e "<p>You must have SSH client installed in your host system. If SSH is not available, install the openssh package.</p>"
  echo -e "<p>When the SSH connection is established, you may find the Readme material in /home/root to obtain instructions on how to run SoC Linux example applications.</p>"
 
@@ -493,7 +485,7 @@ echo -e "<div id=\"footer\" class=\"footer-container\">"
 
 	echo -e "<div id=\"footerCopyright\" class=\"footer-copyright\">"
 	echo -e "<p align=\"center\" style=\"width:900px; font-size:9px;\">Copyright &copy; 2018 Intel Corporation. All Rights Reserved.<br/>"
-	echo -e "ALTERA, STRATIX, ARRIA, CYCLONE, HARDCOPY, MAX, MEGACORE, NIOS, QUARTUS &amp; STRATIX are Reg. U.S. Pat. &amp; Tm. Off. and Altera marks in and outside the U.S.</p></div>"
+	echo -e "INTEL, STRATIX, ARRIA, CYCLONE, HARDCOPY, MAX, MEGACORE, NIOS, QUARTUS &amp; STRATIX are Reg. U.S. Pat. &amp; Tm. Off. and Intel FPGA marks in and outside the U.S.</p></div>"
 echo -e "</div>"
 echo -e "</div>"
 echo -e "</div>"

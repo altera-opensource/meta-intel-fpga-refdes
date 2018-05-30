@@ -106,55 +106,13 @@ echo "<hr style=\"border: 1px solid; color:#06c\"><br>"
 
 if [ "$MACHINE" == "cyclone5" ]; then
 	echo -e "<span><strong><h1>$DEVKIT_NAME Features</h1></strong><br/>"
-	echo -e "Mouse over the board photo to view features.</span>"
-	echo -e "<span class=\"dev-kit-flash\">"
-	echo -e "<script type=\"text/javascript\">"
-	echo -e "AC_FL_RunContent( 'codebase','http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0','width','640','height','478','src','cyclonev-board-flash','quality','high','pluginspage','http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash','movie','../cyclonev-board-flash');"
-	echo -e "</script>"
-	echo -e "<noscript>"
-	echo -e "<object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0\" width=\"640\" height=\"478\">"
-	echo -e "<param name=\"movie\" value=\"cyclonev-board-flash.swf\" />"
-	echo -e "<param name=\"quality\" value=\"high\" />"
-	echo -e "<embed src=\"../cyclonev-board-flash.swf\" quality=\"high\" pluginspage=\"http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash\" type=\"application/x-shockwave-flash\" width=\"640\" height=\"478\"></embed>"
-	echo -e "</object>"
-	echo -e "</noscript>"
-	echo -e "</span>"
-	echo -e "<div class=\"dev-kit-flash\"></div>"
-	echo -e "</div>"
+        echo -e "<div><img src=\"cyclonev-board-image.jpg\" style=\"width:640px;height:478px;\"></div>"
 elif [ "$MACHINE" == "arria5" ]; then
 	echo -e "<span><strong><h1>$DEVKIT_NAME Features</h1></strong><br/>"
-	echo -e "Mouse over the board photo to view features.</span>"
-	echo -e "<span class=\"dev-kit-flash\">"
-	echo -e "<script type=\"text/javascript\">"
-	echo -e "AC_FL_RunContent( 'codebase','http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0','width','640','height','478','src','arriav-board-flash','quality','high','pluginspage','http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash','movie','../arriav-board-flash');"
-	echo -e "</script>"
-	echo -e "<noscript>"
-	echo -e "<object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0\" width=\"640\" height=\"478\">"
-	echo -e "<param name=\"movie\" value=\"arriav-board-flash.swf\" />"
-	echo -e "<param name=\"quality\" value=\"high\" />"
-	echo -e "<embed src=\"../arriav-board-flash.swf\" quality=\"high\" pluginspage=\"http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash\" type=\"application/x-shockwave-flash\" width=\"640\" height=\"478\"></embed>"
-	echo -e "</object>"
-	echo -e "</noscript>"
-	echo -e "</span>"
-	echo -e "<div class=\"dev-kit-flash\"></div>"
-	echo -e "</div>"
+        echo -e "<div><img src=\"arriav-board-image.jpg\" style=\"width:640px;height:478px;\"></div>"
 elif [ "$MACHINE" == "arria10" ]; then
 	echo -e "<span><strong><h1>$DEVKIT_NAME Features</h1></strong><br/>"
-	echo -e "Mouse over the board photo to view features.</span>"
-	echo -e "<span class=\"dev-kit-flash\">"
-	echo -e "<script type=\"text/javascript\">"
-	echo -e "AC_FL_RunContent( 'codebase','http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0','width','640','height','478','src','arria10-board-flash','quality','high','pluginspage','http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash','movie','../arria10-board-flash');"
-	echo -e "</script>"
-	echo -e "<noscript>"
-	echo -e "<object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0\" width=\"640\" height=\"478\">"
-	echo -e "<param name=\"movie\" value=\"arria10-board-flash.swf\" />"
-	echo -e "<param name=\"quality\" value=\"high\" />"
-	echo -e "<embed src=\"../arria10-board-flash.swf\" quality=\"high\" pluginspage=\"http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash\" type=\"application/x-shockwave-flash\" width=\"640\" height=\"478\"></embed>"
-	echo -e "</object>"
-	echo -e "</noscript>"
-	echo -e "</span>"
-	echo -e "<div class=\"dev-kit-flash\"></div>"
-	echo -e "</div>"
+        echo -e "<div><img src=\"arria10-board-image.jpg\" style=\"width:640px;height:478px;\"></div>"
 elif [ "$MACHINE" == "stratix10" ]; then
 	echo -e "<span><strong><h1>$DEVKIT_NAME Features</h1></strong><br/></span>"
         echo -e "<div><img src=\"stratix10-board-image.jpg\" style=\"width:640px;height:478px;\"></div>"
@@ -344,6 +302,8 @@ else
 	echo -e "<td align=center width=19 height=46> <img src=\"../blinkled.gif\"> </td>"
 fi
 
+fi
+
 echo -e "</tr>"
 echo -e "</table>"
 
@@ -447,8 +407,6 @@ echo -e "<FORM action=\"/cgi-bin/index.sh#interactive\" method=\"post\">"
 echo -e "</FORM>"
 
 # FPGA in user mode detection complete
-fi
-
 
  echo "<br><hr id=\"lcd\" style=\"border: 1px dotted\">"
 
@@ -471,7 +429,6 @@ fi
  echo -e "<p>You may connect your host system to SSH server running on the board using the IP address displayed on the character LCD. In the case of Stratix10 we would need to access the UART console and type ifconfig to obtain the IP Address. In your host system terminal, type the following:<br><br> <font face="courier, arial" size="3">ssh root@[IP address].</font></p>"
  echo -e "<p>You must have SSH client installed in your host system. If SSH is not available, install the openssh package.</p>"
  echo -e "<p>When the SSH connection is established, you may find the Readme material in /home/root to obtain instructions on how to run SoC Linux example applications.</p>"
-
 
 echo -e "</div>"
 

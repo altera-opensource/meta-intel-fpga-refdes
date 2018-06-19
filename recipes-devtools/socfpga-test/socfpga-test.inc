@@ -11,7 +11,8 @@ DEPENDS = "virtual/kernel"
 # This variable points to rocketboards by default. It can be overridden
 # by setting it in the shell env and by adding it to BB_WHITE_ENV
 #LINUX_TEST_REPO?="http://git.rocketboards.org/linux-test"
-LINUX_TEST_REPO?="git://at-git/linux-test"
+#LINUX_TEST_REPO?="git://at-git/linux-test"
+LINUX_TEST_REPO?="git://gitolite@at-git.intel.com/linux-test;protocol=ssh"
 LINUX_TEST_BRANCH?="master"
 LINUX_TEST_TAG?="${AUTOREV}"
 

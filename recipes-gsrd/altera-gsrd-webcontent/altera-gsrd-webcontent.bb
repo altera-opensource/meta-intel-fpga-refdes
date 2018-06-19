@@ -8,12 +8,12 @@ FILES_${PN} = "/www/pages/* \
 		"
 
 SRC_URI += "file://intel-logo.jpg "
-SRC_URI += "file://arria10-board-flash.swf "
-SRC_URI += "file://arriav-board-flash.swf "
+SRC_URI += "file://arria10-board-image.jpg "
+SRC_URI += "file://arriav-board-image.jpg "
 SRC_URI += "file://blinkled.gif "
 SRC_URI += "file://board-flash.jpg "
 SRC_URI += "file://board.jpg "
-SRC_URI += "file://cyclonev-board-flash.swf "
+SRC_URI += "file://cyclonev-board-image.jpg "
 SRC_URI += "file://favicon.ico "
 SRC_URI += "file://helper_script.js "
 SRC_URI += "file://not_found.html "
@@ -32,12 +32,12 @@ do_install() {
 	install -d ${D}/www/pages/cgi-bin
 	install -d ${D}/home/root/intelFPGA
 	install -m 0755 intel-logo.jpg ${D}/www/pages/
-	install -m 0755 arriav-board-flash.swf ${D}/www/pages/
-	install -m 0755 arria10-board-flash.swf ${D}/www/pages/
+	install -m 0755 arriav-board-image.jpg ${D}/www/pages/
+	install -m 0755 arria10-board-image.jpg ${D}/www/pages/
 	install -m 0755 blinkled.gif ${D}/www/pages/
 	install -m 0755 board-flash.jpg ${D}/www/pages/
 	install -m 0755 board.jpg ${D}/www/pages/
-	install -m 0755 cyclonev-board-flash.swf ${D}/www/pages/
+	install -m 0755 cyclonev-board-image.jpg ${D}/www/pages/
 	install -m 0755 favicon.ico ${D}/www/pages/
 	install -m 0755 helper_script.js ${D}/www/pages/
 	install -m 0755 not_found.html ${D}/www/pages/

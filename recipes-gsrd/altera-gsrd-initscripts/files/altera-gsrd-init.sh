@@ -24,6 +24,14 @@ if [ "$(cat /sys/class/fpga_manager/fpga0/state)" == "operating" ]; then
 	if [ $? != 0 ]; then
 		echo "WARNING: Failed to load Altera Sys ID module."
 	fi
+elif [ "`cat /etc/hostname`" == "stratix10" ]; then
+	/www/pages/cgi-bin/scroll_server &
+
+elif [ "`cat /etc/hostname`" == "agilex" ]; then
+	/www/pages/cgi-bin/scroll_server &
+else
+	echo "machine not found"
+
 fi
 
 # Loads the PMBUS module on Arria10

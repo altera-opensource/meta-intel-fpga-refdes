@@ -28,6 +28,9 @@ arria10)
 stratix10)
 	DEVKIT_NAME="Stratix 10 SoC Development Kit"
 	;;
+agilex)
+	DEVKIT_NAME="Stratix 10 SoC Development Kit"
+	;;
 undef)
 	DEVKIT_NAME="Unknown Development Kit"
 	exit -1
@@ -98,6 +101,16 @@ echo -e "<ul>"
         echo -e "<li><a href=\"http://www.rocketboards.org\" target=\"_blank\">Rocketboards.org</a></li> "
 echo -e "</ul>"
 echo -e "</div>"
+elif [ "$MACHINE" == "agilex" ]; then
+echo -e "<div class=\"bup-links\">"
+echo -e "<h4>Developer Resources</h4>"
+echo -e "<ul>"
+        echo -e "<li><a href=\"https://www.altera.com/products/soc/soc-quick-start-guide/agilex-dev-kit-quick-start.html\" target=\"_blank\">Stratix 10 SoC Quick Start Guide</a></li> "
+        echo -e "<li><a href=\"https://www.altera.com/products/fpga/stratix-series/agilex/support.html\" target=\"_blank\">Hardware Resources</a></li> "
+        echo -e "<li><a href=\"https://www.altera.com/products/soc/portfolio/agilex/design-tools.html\" target=\"_blank\">Software Resources</a></li> "
+        echo -e "<li><a href=\"http://www.rocketboards.org\" target=\"_blank\">Rocketboards.org</a></li> "
+echo -e "</ul>"
+echo -e "</div>"
 fi
 
 echo -e "<div class=\"bup-form\">"
@@ -105,16 +118,19 @@ echo "<hr style=\"border: 1px solid; color:#06c\"><br>"
 
 if [ "$MACHINE" == "cyclone5" ]; then
 	echo -e "<span><strong><h1>$DEVKIT_NAME Features</h1></strong><br/>"
-        echo -e "<div><img src=\"cyclonev-board-image.jpg\" style=\"width:640px;height:478px;\"></div>"
+        echo -e "<div><img src=\"../cyclonev-board-image.jpg\" style=\"width:640px;height:478px;\"></div>"
 elif [ "$MACHINE" == "arria5" ]; then
 	echo -e "<span><strong><h1>$DEVKIT_NAME Features</h1></strong><br/>"
-        echo -e "<div><img src=\"arriav-board-image.jpg\" style=\"width:640px;height:478px;\"></div>"
+        echo -e "<div><img src=\"../arriav-board-image.jpg\" style=\"width:640px;height:478px;\"></div>"
 elif [ "$MACHINE" == "arria10" ]; then
 	echo -e "<span><strong><h1>$DEVKIT_NAME Features</h1></strong><br/>"
-        echo -e "<div><img src=\"arria10-board-image.jpg\" style=\"width:640px;height:478px;\"></div>"
+        echo -e "<div><img src=\"../arria10-board-image.jpg\" style=\"width:640px;height:478px;\"></div>"
 elif [ "$MACHINE" == "stratix10" ]; then
 	echo -e "<span><strong><h1>$DEVKIT_NAME Features</h1></strong><br/></span>"
-        echo -e "<div><img src=\"stratix10-board-image.jpg\" style=\"width:640px;height:478px;\"></div>"
+        echo -e "<div><img src=\"../stratix10-board-image.jpg\" style=\"width:640px;height:478px;\"></div>"
+elif [ "$MACHINE" == "agilex" ]; then
+	echo -e "<span><strong><h1>$DEVKIT_NAME Features</h1></strong><br/></span>"
+        echo -e "<div><img src=\"../stratix10-board-image.jpg\" style=\"width:640px;height:478px;\"></div>"
 fi
 
 ##
@@ -317,7 +333,7 @@ echo -e "<FORM name=\"interactive\" action=\"/cgi-bin/index.sh#interactive\" met
 	echo -e "<P>"
 	echo -e "<strong><font size=\"2\"> LED Lightshow: </font></strong> "
 	echo -e "<INPUT type=\"text\" id=\"lightshow\" class=\"box\" size=\"22\" name=\"scroll_freq\" onChange=\"valuevalidation(this.value, 0);\" placeholder=\"Type LED Running Delay (ms)\">"
-    echo -e "<INPUT type=\"submit\" class=\"box\" name=\"scroll\" value=\"START\" onclick=\"if(validatedelay()) return this.clicked  = true; else return this.clicked = false;\">"
+	echo -e "<INPUT type=\"submit\" class=\"box\" name=\"scroll\" value=\"START\" onclick=\"if(validatedelay()) return this.clicked  = true; else return this.clicked = false;\">"
 	echo -e "<INPUT type=\"submit\" class=\"box\" name=\"scroll\" value=\"STOP\" >"
 	echo -e "</P>"
 
@@ -407,21 +423,22 @@ echo -e "</FORM>"
 
 # FPGA in user mode detection complete
 
- echo "<br><hr id=\"lcd\" style=\"border: 1px dotted\">"
+if [ "$MACHINE" == "arria10" ] || ["$MACHINE" == "cyclone5" ] || ["$MACHINE" == "arria5" ]; then
 
- echo -e "<p><br>Type in the message (maximum 16 characters) that you wish to send over to the character LCD on the development kit. <br><br></p>"
+	echo "<br><hr id=\"lcd\" style=\"border: 1px dotted\">"
 
- echo -e "<FORM action=\"/cgi-bin/index.sh#lcd\" method=\"post\">"
+	echo -e "<p><br>Type in the message (maximum 16 characters) that you wish to send over to the character LCD on the development kit. <br><br></p>"
 
+	echo -e "<FORM action=\"/cgi-bin/index.sh#lcd\" method=\"post\">"
 
-	echo -e "<P>"
-    echo -e "<strong><font size=\"2\">Send to character LCD: </font></strong> "
-	echo -e "<INPUT type=\"text\" class=\"box\" name=\"lcd_text\" maxlength=\"16\">"
-    echo -e "<INPUT type=\"submit\" class=\"box\" value=\"Send to LCD\"> "
-    echo -e "</P>"
+		echo -e "<P>"
+    		echo -e "<strong><font size=\"2\">Send to character LCD: </font></strong> "
+		echo -e "<INPUT type=\"text\" class=\"box\" name=\"lcd_text\" maxlength=\"16\">"
+    		echo -e "<INPUT type=\"submit\" class=\"box\" value=\"Send to LCD\"> "
+    		echo -e "</P>"
 
- echo -e "</form>"
-
+	echo -e "</form>"
+fi
 
  echo -e "<br> <hr style=\"border: 1px solid; color:#06c\"> <br>"
  echo -e "<span><strong><h1>Connect to Linux Console on board over SSH Connection</h1></strong><br>"

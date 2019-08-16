@@ -9,7 +9,7 @@ inherit allarch
 ALLOW_EMPTY_${PN} = "1"
 
 # Post process the lighttpd.conf file to enable cgi module, sets home page and update 404 page
-pkg_postinst_${PN}() {
+pkg_postinst_ontarget_${PN}() {
 #!/bin/sh
 sed -ir 's:#\(.*mod_cgi\"\,\):\1:' $D/etc/lighttpd.conf
 sed -ir 's:\(index-file.names *\=\).*\(,\):\1 ("\/cgi-bin\/index.sh"\2:' $D/etc/lighttpd.conf

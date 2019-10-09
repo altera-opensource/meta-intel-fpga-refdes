@@ -4,8 +4,8 @@ SECTION = "gsrd"
 LICENSE = "BSD-3-Clause"
 LIC_FILES_CHKSUM="file://${COMMON_LICENSE_DIR}/BSD-3-Clause;md5=550794465ba0ec5312d6919e203a55f9"
 PR = "r0"
-FILES_${PN} = "/www/pages/* \
-		"
+FILES_${PN} += "/www/pages/* /home/*"
+FILES_${PN}-dev = "/www/pages/* /home/*"
 
 SRC_URI += "file://intel-logo.jpg "
 SRC_URI += "file://arria10-board-image.jpg "

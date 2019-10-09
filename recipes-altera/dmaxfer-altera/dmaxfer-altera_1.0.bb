@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-2.0;md5=801f80980d171dd6425
 
 REFDES_REPO ?= "git://github.com/altera-opensource/linux-refdesigns.git"
 REFDES_PROT ?= "http"
-REFDES_BRANCH ?= "master"
+REFDES_BRANCH ?= "poky-upgrade-dev"
 SRCREV = "${AUTOREV}"
 
 FILES_${PN} = "/home/root/intelFPGA/*"

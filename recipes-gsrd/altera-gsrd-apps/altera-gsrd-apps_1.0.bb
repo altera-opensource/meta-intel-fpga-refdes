@@ -8,8 +8,11 @@ DEPENDS="ncurses"
 
 REFDES_REPO ?= "git://github.com/altera-opensource/linux-refdesigns.git"
 REFDES_PROT ?= "http"
-REFDES_BRANCH ?= "master"
+REFDES_BRANCH ?= "poky-upgrade-dev"
 SRCREV = "${AUTOREV}"
+
+INSANE_SKIP_${PN} = "ldflags"
+INSANE_SKIP_${PN}-dev = "ldflags"
 
 SRC_URI = "${REFDES_REPO};protocol=${REFDES_PROT};branch=${REFDES_BRANCH} "
 

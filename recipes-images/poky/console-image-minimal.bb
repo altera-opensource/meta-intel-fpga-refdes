@@ -1,6 +1,5 @@
 require recipes-core/images/core-image-base.bb
-
-include core-image-essential.inc
+require core-image-essential.inc
 
 IMAGE_INSTALL += "packagegroup-common-essential"
 IMAGE_INSTALL += "packagegroup-network-essential"

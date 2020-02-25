@@ -1,6 +1,4 @@
-require recipes-core/images/core-image-base.bb
 require gsrd-console-image.bb
-require core-image-essential.inc
 
 IMAGE_INSTALL += "\
 	fbgrab fbset fb-test \

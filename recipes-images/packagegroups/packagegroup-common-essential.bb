@@ -11,5 +11,4 @@ RDEPENDS_packagegroup-common-essential = "\
 	altera-gsrd-initscripts \
 	altera-gsrd-pio-interrupt \
 	i2c-tools \
-	openssh \
 	"

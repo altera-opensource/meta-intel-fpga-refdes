@@ -4,6 +4,7 @@ require core-image-essential.inc
 DEPENDS += "bash perl gcc i2c-tools"
 
 IMAGE_INSTALL += "packagegroup-common-essential"
+IMAGE_INSTALL += "packagegroup-dev-tools-essential"
 IMAGE_INSTALL += "packagegroup-network-essential"
 IMAGE_INSTALL += "packagegroup-core-ssh-openssh"
 IMAGE_INSTALL += "packagegroup-web-server-essential"

@@ -29,7 +29,7 @@ stratix10)
 	DEVKIT_NAME="Stratix 10 SoC Development Kit"
 	;;
 agilex)
-	DEVKIT_NAME="Stratix 10 SoC Development Kit"
+	DEVKIT_NAME="Agilex SoC Development Kit"
 	;;
 undef)
 	DEVKIT_NAME="Unknown Development Kit"

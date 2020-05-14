@@ -13,7 +13,12 @@ IMAGE_INSTALL += "fio fpga-overlay nfs-utils-client perl"
 export IMAGE_BASENAME = "gsrd-console-image"
 
 # NFS workaround
-ROOTFS_POSTPROCESS_COMMAND += "nfs_rootfs ;"
+ROOTFS_POSTPROCESS_COMMAND += "nfs_rootfs ; lighttpd_rootfs ;"
 nfs_rootfs(){
         cd ${IMAGE_ROOTFS}/lib/systemd/system/; sed -i '/Wants/a ConditionKernelCommandLine=!root=/dev/nfs' connman.service
 }
+
+lighttpd_rootfs(){
+	rm ${IMAGE_ROOTFS}/var/log; mkdir -p ${IMAGE_ROOTFS}/var/log; touch ${IMAGE_ROOTFS}/var/log/lighttpd
+}
+

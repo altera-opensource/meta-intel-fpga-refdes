@@ -7,4 +7,4 @@ UBOOT_ENV_SUFFIX[agilex] = "scr"
 UBOOT_ENV[agilex] = "u-boot"
 
 # Agilex
-SRC_URI_append_agilex = "file://agilex/u-boot.scr"
+SRC_URI_append_agilex += "file://agilex/u-boot.scr"

@@ -1,14 +1,23 @@
-From 484651e55c624eca5e1f61c34ff3cee9e8ab9846 Mon Sep 17 00:00:00 2001
+From 2100d6ae8b3e387925aa0058c022a2328ecbb5bc Mon Sep 17 00:00:00 2001
 From: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
 Date: Fri, 17 Jul 2020 16:36:59 +0000
 Subject: [PATCH] socfpga_stratix10_socdk: include reference design dtsi
 
+dtsi included:
+- basic ghrd
+- pcie
+- sgmii
+
 Signed-off-by: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
 ---
- .../dts/altera/socfpga_stratix10_ghrd.dtsi    | 77 +++++++++++++++++++
- .../dts/altera/socfpga_stratix10_socdk.dts    |  1 +
- 2 files changed, 78 insertions(+)
+ .../dts/altera/socfpga_stratix10_ghrd.dtsi    | 77 ++++++++++++++++
+ .../dts/altera/socfpga_stratix10_pcie.dtsi    | 51 +++++++++++
+ .../dts/altera/socfpga_stratix10_sgmii.dtsi   | 88 +++++++++++++++++++
+ .../dts/altera/socfpga_stratix10_socdk.dts    |  3 +
+ 4 files changed, 219 insertions(+)
  create mode 100644 arch/arm64/boot/dts/altera/socfpga_stratix10_ghrd.dtsi
+ create mode 100644 arch/arm64/boot/dts/altera/socfpga_stratix10_pcie.dtsi
+ create mode 100644 arch/arm64/boot/dts/altera/socfpga_stratix10_sgmii.dtsi
 
 diff --git a/arch/arm64/boot/dts/altera/socfpga_stratix10_ghrd.dtsi b/arch/arm64/boot/dts/altera/socfpga_stratix10_ghrd.dtsi
 new file mode 100644
@@ -93,15 +102,168 @@ index 000000000000..9683291232fa
 +
 +	};
 +};
+diff --git a/arch/arm64/boot/dts/altera/socfpga_stratix10_pcie.dtsi b/arch/arm64/boot/dts/altera/socfpga_stratix10_pcie.dtsi
+new file mode 100644
+index 000000000000..8dfae99a9bf9
+--- /dev/null
++++ b/arch/arm64/boot/dts/altera/socfpga_stratix10_pcie.dtsi
+@@ -0,0 +1,51 @@
++/*
++* Add this piece of dtsi fragment as #include "socfpga_stratix10_pcie.dtsi"
++* in the file socfpga_stratix10_socdk.dts. Compile it in the kernel along with
++* socfpga_stratix10.dtsi.
++*/
++
++/{
++	soc {
++		bridge@80000000 {
++		compatible = "simple-bus";
++		reg = <0x80000000 0x20200000 0xf9000000 0x100000>;
++		reg-names = "axi_h2f", "axi_h2f_lw";
++		#address-cells = <0x2>;
++		#size-cells = <0x1>;
++		ranges = <0x0 0x0 0x80000000 0x40000 0x0 0x10000000 0x90000000 0x10000000 0x0 0x20000000 0xa0000000 0x200000 0x1 0x10000 0xf9010000 0x8000 0x1 0x18000 0xf9018000 0x80 0x1 0x18080 0xf9018080 0x10>;
++
++			pcie_0_pcie_s10: pcie@200000000 {
++				compatible = "altr,pcie-root-port-2.0";
++				reg = <0x0 0x20000000 0x200000 0x0 0x10000000 0x10000000 0x1 0x10000 0x8000>;
++				reg-names = "Hip", "Txs", "Cra";
++				interrupt-parent = <&intc>;
++				interrupts = <0x0 0x14 0x4>;
++				interrupt-controller;
++				#interrupt-cells = <0x1>;
++				device_type = "pci";
++				bus-range = <0x0 0xff>;
++				ranges = <0x82000000 0x0 0x0 0x0 0x10000000 0x0 0x8000000>;
++				msi-parent = <&pcie_0_msi_irq>;
++				#address-cells = <0x3>;
++				#size-cells = <0x2>;
++				dma-coherent;
++				interrupt-map-mask = <0x0 0x0 0x0 0x7>;
++				interrupt-map = <0x0 0x0 0x0 0x1 &pcie_0_pcie_s10 0x1 0x0 0x0 0x0 0x2 &pcie_0_pcie_s10 0x2 0x0 0x0 0x0 0x3 &pcie_0_pcie_s10 0x3 0x0 0x0 0x0 0x4 &pcie_0_pcie_s10 0x4>;
++				linux,phandle = <0x36>;
++				phandle = <0x36>;
++			};
++
++			pcie_0_msi_irq: msi@10008080 {
++				compatible = "altr,msi-1.0";
++				reg = <0x1 0x18080 0x10 0x1 0x18000 0x80>;
++				reg-names = "csr", "vector_slave";
++				interrupt-parent = <&intc>;
++				interrupts = <0x0 0x13 0x4>;
++				msi-controller = <0x1>;
++				num-vectors = <0x20>;
++				linux,phandle = <0x35>;
++				phandle = <0x35>;
++			};
++		};
++	};
++};
+diff --git a/arch/arm64/boot/dts/altera/socfpga_stratix10_sgmii.dtsi b/arch/arm64/boot/dts/altera/socfpga_stratix10_sgmii.dtsi
+new file mode 100644
+index 000000000000..69f2a601af13
+--- /dev/null
++++ b/arch/arm64/boot/dts/altera/socfpga_stratix10_sgmii.dtsi
+@@ -0,0 +1,88 @@
++/*
++* Add this piece of dtsi fragment as #include "socfpga_stratix10_sgmii.dtsi"
++* in the file socfpga_stratix10_socdk.dts. Compile it in the kernel along with
++* socfpga_stratix10.dtsi.
++*/
++
++/{
++	soc {
++		clocks {
++			sgmii_1_clk_0: sgmii_1_clk_0 {
++                                compatible = "fixed-clock";
++                                #clock-cells = <0>;
++                                clock-frequency = <125000000>;  /* 125.00 MHz */
++                                clock-output-names = "sgmii_1_clk_0-out_clk";
++                        }; //end sgmii_1_clk_0 (sgmii_1_clk_0)
++
++                        sgmii_1_clk_125: sgmii_1_clk_125 {
++                                compatible = "fixed-clock";
++                                #clock-cells = <0>;
++                                clock-frequency = <125000000>;  /* 125.00 MHz */
++                                clock-output-names = "sgmii_1_clk_125-out_clk";
++                        }; //end sgmii_1_clk_125 (sgmii_1_clk_125)
++
++                        sgmii_2_clk_0: sgmii_2_clk_0 {
++                                compatible = "fixed-clock";
++                                #clock-cells = <0>;
++                                clock-frequency = <125000000>;  /* 125.00 MHz */
++                                clock-output-names = "sgmii_2_clk_0-out_clk";
++                        }; //end sgmii_2_clk_0 (sgmii_2_clk_0)
++
++                        sgmii_2_clk_125: sgmii_2_clk_125 {
++                                compatible = "fixed-clock";
++                                #clock-cells = <0>;
++                                clock-frequency = <125000000>;  /* 125.00 MHz */
++                                clock-output-names = "sgmii_2_clk_125-out_clk";
++                        }; //end sgmii_2_clk_125 (sgmii_2_clk_125)
++		};
++
++		s10_hps_bridges: bridge@80000000 {
++                        compatible = "altr,bridge-18.1", "simple-bus";
++                        reg = <0x80000000 0x60000000>,
++                                <0xf9000000 0x00100000>;
++                        reg-names = "axi_h2f", "axi_h2f_lw";
++                        //clocks = <&iopll_0 1 &clk_0 &dp_0_video_pll 3 &iopll_0 0>;
++                        //clock-names = "h2f_axi_clock", "h2f_lw_axi_clock", "f2sdram0_clock", "f2sdram2_clock";
++                        #address-cells = <2>;
++                        #size-cells = <1>;
++                        ranges = <0x00000000 0x00000000 0x80000000 0x00040000>,
++                                <0x00000001 0x00000000 0xf9010000 0x00000040>,
++                                <0x00000001 0x00000040 0xf9010040 0x00000008>,
++                                <0x00000001 0x0000080 0xf9010080 0x00000040>,
++                                <0x00000001 0x00000c0 0xf90100c0 0x00000008>;
++
++                        sgmii_1_gmii2sgmii: phy@0x100000040 {
++                                compatible = "altr,gmii-to-sgmii-2.0";
++                                reg = <0x00000001 0x00000000 0x00000040>,
++                                        <0x00000001 0x00000040 0x00000008>;
++                                reg-names = "eth_tse_control_port", "gmii_to_sgmii_adapter_avalon_slave";
++                                clocks = <&sgmii_1_clk_0 &gmac1 1 &sgmii_1_clk_125 &sgmii_1_clk_125>;
++                                clock-names = "clock_in", "emac_gtx_clk", "tse_pcs_ref_clk_clock_connection", "tse_rx_cdr_refclk";
++                        }; //end phy@0x100000040 (sgmii_1_gmii2sgmii)
++
++                        sgmii_2_gmii2sgmii: phy@0x100000c0 {
++                                compatible = "altr,gmii-to-sgmii-2.0";
++                                reg = <0x00000001 0x00000080 0x00000040>,
++                                        <0x00000001 0x000000c0 0x00000008>;
++                                reg-names = "eth_tse_control_port", "gmii_to_sgmii_adapter_avalon_slave";
++                                clocks = <&sgmii_2_clk_0 &gmac2 1 &sgmii_2_clk_125 &sgmii_2_clk_125>;
++                                clock-names = "clock_in", "emac_gtx_clk", "tse_pcs_ref_clk_clock_connection", "tse_rx_cdr_refclk";
++                        }; //end phy@0x1000000c0 (sgmii_2_gmii2sgmii)
++                };
++
++	};
++};
++
++&gmac1 {
++        altr,gmii-to-sgmii-converter = <&sgmii_1_gmii2sgmii>;
++        altr,gmii_to_sgmii_converter = <&sgmii_1_gmii2sgmii>;
++        phy-mode = "sgmii";
++        status = "okay";
++};
++
++&gmac2 {
++        altr,gmii-to-sgmii-converter = <&sgmii_2_gmii2sgmii>;
++        altr,gmii_to_sgmii_converter = <&sgmii_2_gmii2sgmii>;
++        phy-mode = "sgmii";
++        status = "okay";
++};
 diff --git a/arch/arm64/boot/dts/altera/socfpga_stratix10_socdk.dts b/arch/arm64/boot/dts/altera/socfpga_stratix10_socdk.dts
-index feadd21bc0dc..6d93931813d8 100644
+index feadd21bc0dc..51c4c5af772c 100644
 --- a/arch/arm64/boot/dts/altera/socfpga_stratix10_socdk.dts
 +++ b/arch/arm64/boot/dts/altera/socfpga_stratix10_socdk.dts
-@@ -4,6 +4,7 @@
+@@ -4,6 +4,9 @@
   */
  
  #include "socfpga_stratix10.dtsi"
 +#include "socfpga_stratix10_ghrd.dtsi"
++#include "socfpga_stratix10_pcie.dtsi"
++#include "socfpga_stratix10_sgmii.dtsi"
  
  / {
  	model = "SoCFPGA Stratix 10 SoCDK";

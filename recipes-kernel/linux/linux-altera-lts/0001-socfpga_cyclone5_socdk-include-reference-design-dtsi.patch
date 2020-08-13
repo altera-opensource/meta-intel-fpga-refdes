@@ -1,0 +1,202 @@
+From ab4fe790e8308d7e7c8a2f66cff3c39407ddf655 Mon Sep 17 00:00:00 2001
+From: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
+Date: Thu, 13 Aug 2020 13:15:46 +0800
+Subject: [PATCH] socfpga_cyclone5_socdk: include reference design dtsi
+
+Signed-off-by: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
+---
+ arch/arm/boot/dts/socfpga_cyclone5_ghrd.dtsi | 169 +++++++++++++++++++
+ arch/arm/boot/dts/socfpga_cyclone5_socdk.dts |   1 +
+ 2 files changed, 170 insertions(+)
+ create mode 100644 arch/arm/boot/dts/socfpga_cyclone5_ghrd.dtsi
+
+diff --git a/arch/arm/boot/dts/socfpga_cyclone5_ghrd.dtsi b/arch/arm/boot/dts/socfpga_cyclone5_ghrd.dtsi
+new file mode 100644
+index 000000000000..33a133e638fb
+--- /dev/null
++++ b/arch/arm/boot/dts/socfpga_cyclone5_ghrd.dtsi
+@@ -0,0 +1,169 @@
++/*
++* Add this piece of dtsi fragment as #include "socfpga_cyclone5_ghrd.dtsi"
++* in the file socfpga_cyclone5.dtsi. Compile it in the kernel along with
++* socfpga_cyclone5_socdk.dts.
++*/
++
++/ {
++
++	clocks {
++		#address-cells = <1>;
++		#size-cells = <1>;
++
++		clk_0: clk_0 {
++			compatible = "fixed-clock";
++			#clock-cells = <0>;
++			clock-frequency = <50000000>;	/* 50.00 MHz */
++			clock-output-names = "clk_0-clk";
++		}; //end clk_0 (clk_0)
++	}; //end clocks
++
++	soc {
++		ranges;
++		compatible = "ALTR,avalon", "simple-bus";
++
++		hps_0_bridges: bridge@0xc0000000 {
++			compatible = "altr,bridge-19.1", "simple-bus";
++			reg = <0xc0000000 0x20000000>,
++				<0xff200000 0x00200000>;
++			reg-names = "axi_h2f", "axi_h2f_lw";
++			clocks = <&clk_0 &clk_0 &clk_0>;
++			clock-names = "h2f_axi_clock", "h2f_lw_axi_clock", "f2h_sdram0_clock";
++			#address-cells = <2>;
++			#size-cells = <1>;
++			ranges = <0x00000000 0x00000000 0xc0000000 0x00010000>,
++				<0x00000001 0x00060000 0xff260000 0x00000008>,
++				<0x00000001 0x00070000 0xff270000 0x00000100>,
++				<0x00000001 0x00060008 0xff260008 0x00000008>,
++				<0x00000001 0x000600c0 0xff2600c0 0x00000010>,
++				<0x00000001 0x00060080 0xff260080 0x00000010>,
++				<0x00000001 0x00060040 0xff260040 0x00000020>;
++
++			jtag_uart: serial@0x100060000 {
++				compatible = "altr,juart-19.1", "altr,juart-1.0";
++				reg = <0x00000001 0x00060000 0x00000008>;
++				interrupt-parent = <&intc>;
++				interrupts = <0 42 4>;
++				clocks = <&clk_0>;
++			}; //end serial@0x100060000 (jtag_uart)
++
++			ILC: ilc@0x100070000 {
++				compatible = "altr,altera_ilc-19.1", "altr,ilc-1.0";
++				reg = <0x00000001 0x00070000 0x00000100>;
++				interrupt-parent = <&intc>;
++				interrupts = <0 40 1 0 41 1 0 42 4>;
++				interrupt-names = "dipsw_pio", "button_pio", "jtag_uart";
++				interrupt-controller;
++				#interrupt-cells = <1>;
++				clocks = <&clk_0>;
++				altr,sw-fifo-depth = <32>;	/* embeddedsw.dts.params.altr,sw-fifo-depth type NUMBER */
++			}; //end ilc@0x100070000 (ILC)
++
++			sysid_qsys: sysid@0x100060008 {
++				compatible = "altr,sysid-19.1", "altr,sysid-1.0";
++				reg = <0x00000001 0x00060008 0x00000008>;
++				clocks = <&clk_0>;
++				id = <2899645696>;	/* embeddedsw.dts.params.id type NUMBER */
++				timestamp = <1566350554>;	/* embeddedsw.dts.params.timestamp type NUMBER */
++			}; //end sysid@0x100060008 (sysid_qsys)
++
++			button_pio: gpio@0x1000600c0 {
++				compatible = "altr,pio-19.1", "altr,pio-1.0";
++				reg = <0x00000001 0x000600c0 0x00000010>;
++				interrupt-parent = <&intc>;
++				interrupts = <0 41 1>;
++				clocks = <&clk_0>;
++				altr,gpio-bank-width = <2>;	/* embeddedsw.dts.params.altr,gpio-bank-width type NUMBER */
++				altr,interrupt-type = <2>;	/* embeddedsw.dts.params.altr,interrupt-type type NUMBER */
++				altr,interrupt_type = <2>;	/* embeddedsw.dts.params.altr,interrupt_type type NUMBER */
++				edge_type = <1>;	/* embeddedsw.dts.params.edge_type type NUMBER */
++				level_trigger = <0>;	/* embeddedsw.dts.params.level_trigger type NUMBER */
++				resetvalue = <0>;	/* embeddedsw.dts.params.resetvalue type NUMBER */
++				#gpio-cells = <2>;
++				gpio-controller;
++			}; //end gpio@0x1000600c0 (button_pio)
++
++			dipsw_pio: gpio@0x100060080 {
++				compatible = "altr,pio-19.1", "altr,pio-1.0";
++				reg = <0x00000001 0x00060080 0x00000010>;
++				interrupt-parent = <&intc>;
++				interrupts = <0 40 1>;
++				clocks = <&clk_0>;
++				altr,gpio-bank-width = <4>;	/* embeddedsw.dts.params.altr,gpio-bank-width type NUMBER */
++				altr,interrupt-type = <3>;	/* embeddedsw.dts.params.altr,interrupt-type type NUMBER */
++				altr,interrupt_type = <3>;	/* embeddedsw.dts.params.altr,interrupt_type type NUMBER */
++				edge_type = <2>;	/* embeddedsw.dts.params.edge_type type NUMBER */
++				level_trigger = <0>;	/* embeddedsw.dts.params.level_trigger type NUMBER */
++				resetvalue = <0>;	/* embeddedsw.dts.params.resetvalue type NUMBER */
++				#gpio-cells = <2>;
++				gpio-controller;
++			}; //end gpio@0x100060080 (dipsw_pio)
++
++			led_pio: gpio@0x100060040 {
++				compatible = "altr,pio-19.1", "altr,pio-1.0";
++				reg = <0x00000001 0x00060040 0x00000020>;
++				clocks = <&clk_0>;
++				altr,gpio-bank-width = <4>;	/* embeddedsw.dts.params.altr,gpio-bank-width type NUMBER */
++				resetvalue = <0>;	/* embeddedsw.dts.params.resetvalue type NUMBER */
++				#gpio-cells = <2>;
++				gpio-controller;
++			}; //end gpio@0x100060040 (led_pio)
++		}; //end bridge@0xc0000000 (hps_0_bridges)
++
++
++		soc_leds: leds {
++			compatible = "gpio-leds";
++			led_fpga0: fpga0 {
++				label = "fpga_led0";
++				gpios = <&led_pio 0 1>;
++			}; //end fpga0 (led_fpga0)
++
++			led_fpga1: fpga1 {
++				label = "fpga_led1";
++				gpios = <&led_pio 1 1>;
++			}; //end fpga1 (led_fpga1)
++
++			led_fpga2: fpga2 {
++				label = "fpga_led2";
++				gpios = <&led_pio 2 1>;
++			}; //end fpga2 (led_fpga2)
++
++			led_fpga3: fpga3 {
++				label = "fpga_led3";
++				gpios = <&led_pio 3 1>;
++			}; //end fpga3 (led_fpga3)
++		}; //end leds (soc_leds)
++
++		/*fpgabridge0: fpgabridge@0 {
++			compatible = "altr,socfpga-hps2fpga-bridge";
++			label = "hps2fpga";
++			reset-names = "hps2fpga";
++			clocks = <&l4_main_clk>;
++			resets = <&rst 96>;
++		}; //end fpgabridge@0 (fpgabridge0)
++
++		fpgabridge1: fpgabridge@1 {
++			compatible = "altr,socfpga-lwhps2fpga-bridge";
++			label = "lwhps2fpga";
++			reset-names = "lwhps2fpga";
++			clocks = <&l4_main_clk>;
++			resets = <&rst 97>;
++		}; //end fpgabridge@1 (fpgabridge1)
++
++		fpgabridge2: fpgabridge@2 {
++			compatible = "altr,socfpga-fpga2hps-bridge";
++			label = "fpga2hps";
++			reset-names = "fpga2hps";
++			clocks = <&l4_main_clk>;
++			resets = <&rst 98>;
++		}; //end fpgabridge@2 (fpgabridge2)
++
++		fpgabridge3: fpgabridge@3 {
++			compatible = "altr,socfpga-fpga2sdram-bridge";
++			label = "fpga2sdram";
++			read-ports-mask = <0x0000000f>;
++			write-ports-mask = <0x0000000f>;
++			cmd-ports-mask = <0x00000001>;
++		}; //end fpgabridge@3 (fpgabridge3)*/
++	}; //end sopc@0 (sopc0)
++};
+diff --git a/arch/arm/boot/dts/socfpga_cyclone5_socdk.dts b/arch/arm/boot/dts/socfpga_cyclone5_socdk.dts
+index d52fbfeeaa71..dc14624e6911 100644
+--- a/arch/arm/boot/dts/socfpga_cyclone5_socdk.dts
++++ b/arch/arm/boot/dts/socfpga_cyclone5_socdk.dts
+@@ -4,6 +4,7 @@
+  */
+ 
+ #include "socfpga_cyclone5.dtsi"
++#include "socfpga_cyclone5_ghrd.dtsi"
+ 
+ / {
+ 	model = "Altera SOCFPGA Cyclone V SoC Development Kit";
+-- 
+2.17.1
+

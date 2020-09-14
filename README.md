@@ -21,13 +21,13 @@ which are no longer supported are removed.
 Supported Image Types
 =====================
 * console-image-minimal
-Consists of basic boot up essentials packages for Intel SoCFPGA platforms.
+        Consists of basic boot up essentials packages for Intel SoCFPGA platforms.
 
 * gsrd-console-image
-Consists of reference designs application to show case the platform capabilities.
+        Consists of reference designs application to show case the platform capabilities.
 
 * xvfb-console-image
-Based on gsrd-console-image with additional support on X virtual framebuffer and its applications.
+        Based on gsrd-console-image with additional support on X virtual framebuffer and its applications.
 
 
 Submit patches via github pull requests, Use github issues to report problems or to send comments

@@ -10,3 +10,5 @@ SRC_URI_append_cyclone5 += "file://0001-socfpga_cyclone5_socdk-include-reference
 
 # Append kernel config fragments to enable UBIFS
 SRC_URI += "file://ubifs.scc"
+SRC_URI_append_arria10 += "file://tse.scc"
+SRC_URI_append_cyclone5 += "file://tse.scc"

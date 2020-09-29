@@ -1,0 +1,245 @@
+From 6d6ce33ca3a99e7f457bcd784b03a1f973b824fe Mon Sep 17 00:00:00 2001
+From: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
+Date: Mon, 28 Sep 2020 08:58:48 +0000
+Subject: [PATCH] dtbt: update script to use python3 syntax
+
+Signed-off-by: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
+---
+ dtbt | 64 ++++++++++++++++++++++++++++++------------------------------
+ 1 file changed, 32 insertions(+), 32 deletions(-)
+
+diff --git a/dtbt b/dtbt
+index d074827..7de2344 100755
+--- a/dtbt
++++ b/dtbt
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env python
++#!/usr/bin/env python3
+ 
+ # Device Tree Overlay Manager
+ #
+@@ -59,9 +59,9 @@ def split_ovl_dir(ovl_dir):
+         if dtbo == '':
+             raise
+     except:
+-        print "Overlay directory format is not as expected: %s" % ovl_dir
+-        print "Is something other than this script applying overlays?"
+-        print "Or configfs path is incorrect: %s" % config_dto_path
++        print("Overlay directory format is not as expected: %s" % ovl_dir)
++        print("Is something other than this script applying overlays?")
++        print("Or configfs path is incorrect: %s" % config_dto_path)
+         exit(1)
+     return (num, dtbo)
+ 
+@@ -124,7 +124,7 @@ def search_file(file_name, search_path):
+ def find_dtbo_file(dtbo):
+     dtbo_full_path = search_file(dtbo, dtbo_search_path)
+     if dtbo_full_path == None:
+-        print "ERROR file not found: %s" % (dtbo)
++        print("ERROR file not found: %s" % (dtbo))
+         exit(1)
+     return dtbo_full_path
+ 
+@@ -132,7 +132,7 @@ def find_dtbo_file(dtbo):
+ def configfs_status(ovl_dir):
+     cfs_full_path = path.join(ovl_dir, "status")
+     if not path.isfile(cfs_full_path):
+-        print "ERROR file not found: %s" % (cfs_full_path)
++        print("ERROR file not found: %s" % (cfs_full_path))
+         exit(1)
+ 
+     # Read status file, removing trailing newlines, etc
+@@ -148,20 +148,20 @@ def create_new_ovl_dir(dtbo):
+     ovl_dir_full_path = path.join(config_dto_path, ovl_dir)
+ 
+     if path.exists(ovl_dir_full_path):
+-        print "ERROR already exists: %s" % (ovl_dir_full_path)
++        print("ERROR already exists: %s" % (ovl_dir_full_path))
+         exit(1)
+ 
+     try:
+         mkdir(ovl_dir_full_path)
+     except:
+-        print "ERROR creating directory: %s" % (ovl_dir_full_path)
++        print("ERROR creating directory: %s" % (ovl_dir_full_path))
+         exit(1)
+ 
+     # check that 'path', 'dtbo', 'status' files exist
+     for foo in [ 'path', 'dtbo', 'status' ]:
+         cfs_full_path = path.join(ovl_dir_full_path, foo)
+         if not path.isfile(cfs_full_path):
+-            print "ERROR file not found: %s" % (cfs_full_path)
++            print("ERROR file not found: %s" % (cfs_full_path))
+             exit(1)
+ 
+     return ovl_dir_full_path
+@@ -177,14 +177,14 @@ def configfs_apply_dtbo(dtbo):
+     try:
+         f_dtbo = open(dtbo_file_full_path, "r")
+     except:
+-        print "ERROR opening file %s" % (dtbo_file_full_path)
++        print("ERROR opening file %s" % (dtbo_file_full_path))
+         f_cfs.close()
+         exit(1)
+ 
+     try:
+         f_cfs = open(cfs_full_path, "w")
+     except:
+-        print "ERROR opening file %s" % (cfs_full_path)
++        print("ERROR opening file %s" % (cfs_full_path))
+         f_cfs.close()
+         f_dtbo.close()
+         exit(1)
+@@ -192,7 +192,7 @@ def configfs_apply_dtbo(dtbo):
+     try:
+         copyfileobj(f_dtbo, f_cfs, -1)
+     except:
+-        print "ERROR copying %s to %s" % (dtbo_file_full_path, cfs_full_path)
++        print("ERROR copying %s to %s" % (dtbo_file_full_path, cfs_full_path))
+         f_cfs.close()
+         f_dtbo.close()
+         exit(1)
+@@ -212,14 +212,14 @@ def configfs_apply_dtbo_path(dtbo):
+     try:
+         f = open(cfs_full_path, "w")
+     except:
+-        print "ERROR opening file %s" % (cfs_full_path)
++        print("ERROR opening file %s" % (cfs_full_path))
+         f.close()
+         exit(1)
+ 
+     try:
+         f.write(dtbo)
+     except:
+-        print "ERROR writing \"%s\" to %s" % (dtbo, cfs_full_path)
++        print("ERROR writing \"%s\" to %s" % (dtbo, cfs_full_path))
+         f.close()
+         exit(1)
+ 
+@@ -234,16 +234,16 @@ def apply_dtbo(dtbo, method):
+     elif method == 'dtbo':
+         status = configfs_apply_dtbo(dtbo)
+     else:
+-        print 'invalid overlay method'
++        print('invalid overlay method')
+     return status
+ 
+ def apply_dtbos(dtbos):
+     status = None
+     for dtbo in dtbos:
+-        print "Applying dtbo: %s" % dtbo
++        print("Applying dtbo: %s" % dtbo)
+         status = apply_dtbo(dtbo, 'dtbo')
+         if status != "applied":
+-            print "Overlay rejected: %s %s" % (dtbo, status)
++            print("Overlay rejected: %s %s" % (dtbo, status))
+             return status
+     return status
+ 
+@@ -253,15 +253,15 @@ def configfs_remove_dtbos(ovl_dirs):
+     ovl_dirs = sort_overlays(ovl_dirs)
+     ovl_dirs.reverse()
+     for ovl_dir in ovl_dirs:
+-        print "Removing dtbo: %s" % ovl_dir
++        print("Removing dtbo: %s" % ovl_dir)
+         ovl_dir = path.join(config_dto_path, ovl_dir)
+         if not path.isdir(ovl_dir):
+-            print "ERROR dtbo not found in configfs: %s" % ovl_dir
++            print("ERROR dtbo not found in configfs: %s" % ovl_dir)
+             exit(1)
+         try:
+             rmdir(ovl_dir)
+         except:
+-            print "ERROR removing overlay directory: %s" % ovl_dir
++            print("ERROR removing overlay directory: %s" % ovl_dir)
+             exit(1)
+ 
+ # Remove a list of overlays in reverse order of application
+@@ -270,7 +270,7 @@ def remove_dtbos(dtbos):
+     for dtbo in dtbos:
+         ovl_dir = find_overlay_dir(dtbo)
+         if ovl_dir == None:
+-            print 'Overlay not found for %s' % dtbo
++            print('Overlay not found for %s' % dtbo)
+             exit(1)
+         ovl_dirs.append(ovl_dir)
+     configfs_remove_dtbos(ovl_dirs)
+@@ -285,7 +285,7 @@ def list_overlays():
+         if path.isdir(ovl_dir_full_path):
+             (num, dtbo) = split_ovl_dir(ovl_dir)
+             status = configfs_status(ovl_dir_full_path)
+-            print "%d %s %s %s" % (num, dtbo, status, ovl_dir_full_path)
++            print("%d %s %s %s" % (num, dtbo, status, ovl_dir_full_path))
+ 
+ def print_usage(this_script):
+     usage = """\
+@@ -319,7 +319,7 @@ if len(args) == 0 or '-h' in args:
+     exit(0)
+ 
+ if '--version' in args:
+-    print script_ver
++    print(script_ver)
+     exit(0)
+ 
+ while len(args) > 0:
+@@ -327,32 +327,32 @@ while len(args) > 0:
+ 
+     if arg == '-l':
+         if action != None:
+-            print '-a, -r, -l are mutually exclusive'
++            print('-a, -r, -l are mutually exclusive')
+             exit(1)
+         action = "list"
+ 
+     elif arg in {'-m', '-p'}:
+         if len(args) < 1:
+-            print "error, need path"
++            print("error, need path")
+             exit(1)
+ 
+         if arg == '-m':
+             config_dto_path = args[0]
+-            print 'Set configfs mount point to %s' % config_dto_path
++            print('Set configfs mount point to %s' % config_dto_path)
+             
+         elif arg == '-p':
+             dtbo_search_path = args[0]
+-            print 'Set dtbo search path to %s' % dtbo_search_path
++            print('Set dtbo search path to %s' % dtbo_search_path)
+ 
+         args = args[1:]
+ 
+     elif arg in {'-a', '-r'}:
+         if action != None:
+-            print '-a, -r, -l are mutually exclusive'
++            print('-a, -r, -l are mutually exclusive')
+             exit(1)
+ 
+         if len(args) < 1:
+-            print "error, need a list of overlays"
++            print("error, need a list of overlays")
+             exit(1)
+ 
+         dtbos = args[0].split(',')
+@@ -366,15 +366,15 @@ while len(args) > 0:
+             action = "remove"
+ 
+     else:
+-        print 'unknown parameter : %s' % arg
++        print('unknown parameter : %s' % arg)
+         exit(1)
+ 
+ if not path.isdir(config_dto_path):
+-    print 'ERROR directory not found: %s' % config_dto_path
++    print('ERROR directory not found: %s' % config_dto_path)
+     exit(1)
+ 
+ if action == None:
+-    print "ERROR need to specify one of '-a', '-r', or '-l'"
++    print("ERROR need to specify one of '-a', '-r', or '-l'")
+     exit(1)
+ 
+ if action == "list":
+-- 
+2.17.1
+

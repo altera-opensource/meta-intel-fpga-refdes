@@ -1,0 +1,26 @@
+From b55b73b262a0e15e9f3ed9bd9c7638ae18e5ad5d Mon Sep 17 00:00:00 2001
+From: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
+Date: Wed, 7 Oct 2020 22:52:28 +0800
+Subject: [PATCH] remove the setting of negative length value of copyfileobj
+
+Signed-off-by: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
+---
+ dtbt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/dtbt b/dtbt
+index 7de2344..17d8dfb 100755
+--- a/dtbt
++++ b/dtbt
+@@ -190,7 +190,7 @@ def configfs_apply_dtbo(dtbo):
+         exit(1)
+ 
+     try:
+-        copyfileobj(f_dtbo, f_cfs, -1)
++        copyfileobj(f_dtbo, f_cfs)
+     except:
+         print("ERROR copying %s to %s" % (dtbo_file_full_path, cfs_full_path))
+         f_cfs.close()
+-- 
+2.17.1
+

@@ -14,7 +14,8 @@ SRCREV = "feb65a1ff248d03bc390691aa77dad190313a852"
 RPROVIDES_${PN} = "dtbt"
 
 SRC_URI = "${DTBT_REPO};protocol=${DTBT_PROT};branch=${DTBT_BRANCH} \
-	   file://0001-dtbt-update-script-to-use-python3-syntax.patch"
+	   file://0001-dtbt-update-script-to-use-python3-syntax.patch \
+	   file://0001-remove-the-setting-of-negative-length-value-of-copyf.patch"
 
 FILES_${PN} = "/sbin/dtbt"
 FILES_${PN}-dbg = ""

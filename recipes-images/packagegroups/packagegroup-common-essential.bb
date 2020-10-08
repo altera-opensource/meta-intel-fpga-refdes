@@ -7,7 +7,7 @@ inherit packagegroup
 PACKAGES = "packagegroup-common-essential"
 
 RDEPENDS_packagegroup-common-essential = "\
-	altera-gsrd-apps \
+	socfpga-gsrd-apps \
 	altera-gsrd-initscripts \
 	altera-gsrd-pio-interrupt \
 	i2c-tools \

@@ -8,7 +8,7 @@ PACKAGES = "packagegroup-web-server-essential"
 
 RDEPENDS_packagegroup-web-server-essential = "\
 	socfpga-gsrd-webcontent \
-	altera-lighttpd-conf \
+	socfpga-lighttpd-conf \
 	lighttpd \
 	lighttpd-module-cgi \
 	"

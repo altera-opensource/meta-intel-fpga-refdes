@@ -1,5 +1,5 @@
-DESCRIPTION = "Altera GSRD pio interrupt module."
-AUTHOR = "Tien Hock Loh <thloh@altera.com>"
+DESCRIPTION = "Intel SoCFPGA GSRD pio interrupt module"
+AUTHOR = "Tien Hock Loh <tien.hock.loh@intel.com>"
 SECTION = "gsrd"
 LICENSE = "GPL-2.0"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"

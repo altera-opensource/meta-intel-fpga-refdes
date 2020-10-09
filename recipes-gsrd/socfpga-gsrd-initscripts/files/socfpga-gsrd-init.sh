@@ -57,4 +57,3 @@ printf '\e[2J' > /dev/ttyLCD0
 printf "$IP" > /dev/ttyLCD0
 printf "\n" > /dev/ttyLCD0
 printf "ALTERA.COM/SOCQS" > /dev/ttyLCD0
-

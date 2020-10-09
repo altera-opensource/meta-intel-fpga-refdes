@@ -8,7 +8,7 @@ PACKAGES = "packagegroup-common-essential"
 
 RDEPENDS_packagegroup-common-essential = "\
 	socfpga-gsrd-apps \
-	altera-gsrd-initscripts \
+	socfpga-gsrd-initscripts \
 	altera-gsrd-pio-interrupt \
 	i2c-tools \
 	"

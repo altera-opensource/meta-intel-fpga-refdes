@@ -1,0 +1,10 @@
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+Description=Intel SoCFPGA GSRD initialization
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/socfpga-gsrd-init.sh -g start
+RemainAfterExit=yes

@@ -1,29 +1,31 @@
-DESCRIPTION = "Altera GSRD web content"
-AUTHOR = "Tien Hock Loh <thloh@altera.com>"
+DESCRIPTION = "Intel SoCFPGA GSRD web content"
+AUTHOR = "Tien Hock Loh <tien.hock.loh@intel.com>"
 SECTION = "gsrd"
 LICENSE = "BSD-3-Clause"
 LIC_FILES_CHKSUM="file://${COMMON_LICENSE_DIR}/BSD-3-Clause;md5=550794465ba0ec5312d6919e203a55f9"
-PR = "r0"
-FILES_${PN} = "/www/pages/* /home/*"
 
-SRC_URI += "file://intel-logo.jpg "
-SRC_URI += "file://arria10-board-image.jpg "
-SRC_URI += "file://arriav-board-image.jpg "
-SRC_URI += "file://blinkled.gif "
-SRC_URI += "file://board-flash.jpg "
-SRC_URI += "file://board.jpg "
-SRC_URI += "file://cyclonev-board-image.jpg "
-SRC_URI += "file://favicon.ico "
-SRC_URI += "file://helper_script.js "
-SRC_URI += "file://not_found.html "
-SRC_URI += "file://offled.jpg "
-SRC_URI += "file://onled.jpg "
-SRC_URI += "file://progress.js "
-SRC_URI += "file://runningled.gif "
-SRC_URI += "file://style.css "
-SRC_URI += "file://validation_script.js "
-SRC_URI += "file://stratix10-board-image.jpg "
-SRC_URI += "file://index.sh "
+PR = "r0"
+
+SRC_URI += "\
+	    file://arria10-board-image.jpg \
+	    file://arriav-board-image.jpg \
+	    file://blinkled.gif \
+	    file://board-flash.jpg \
+	    file://board.jpg \
+	    file://cyclonev-board-image.jpg \
+	    file://favicon.ico \
+	    file://helper_script.js \
+	    file://index.sh \
+	    file://intel-logo.jpg \
+	    file://not_found.html \
+	    file://offled.jpg \
+	    file://onled.jpg \
+	    file://progress.js \
+	    file://runningled.gif \
+	    file://stratix10-board-image.jpg \
+	    file://style.css \
+	    file://validation_script.js \
+	    "
 
 S = "${WORKDIR}"
 
@@ -49,3 +51,5 @@ do_install() {
 	install -m 0755 stratix10-board-image.jpg ${D}/www/pages/
 	install -m 0755 index.sh ${D}/www/pages/cgi-bin
 }
+
+FILES_${PN} = "/www/pages/* /home/*"

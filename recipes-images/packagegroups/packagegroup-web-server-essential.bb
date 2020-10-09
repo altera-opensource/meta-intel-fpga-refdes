@@ -7,7 +7,7 @@ inherit packagegroup
 PACKAGES = "packagegroup-web-server-essential"
 
 RDEPENDS_packagegroup-web-server-essential = "\
-	altera-gsrd-webcontent \
+	socfpga-gsrd-webcontent \
 	altera-lighttpd-conf \
 	lighttpd \
 	lighttpd-module-cgi \

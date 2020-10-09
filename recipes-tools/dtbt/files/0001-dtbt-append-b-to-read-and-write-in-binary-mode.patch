@@ -1,0 +1,52 @@
+From 202f8622aefe3aff4ff0b9e93fb5ee01055d4ae4 Mon Sep 17 00:00:00 2001
+From: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
+Date: Fri, 9 Oct 2020 08:37:56 +0800
+Subject: [PATCH] dtbt: append 'b' to read and write in binary mode
+
+Signed-off-by: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
+---
+ dtbt | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/dtbt b/dtbt
+index 17d8dfb..ff576fb 100755
+--- a/dtbt
++++ b/dtbt
+@@ -136,7 +136,7 @@ def configfs_status(ovl_dir):
+         exit(1)
+ 
+     # Read status file, removing trailing newlines, etc
+-    f_status = open(cfs_full_path, "r")
++    f_status = open(cfs_full_path, "rb")
+     status = f_status.read().rstrip()
+     f_status.close()
+ 
+@@ -175,14 +175,14 @@ def configfs_apply_dtbo(dtbo):
+ 
+     # copy the dtbo file to the 'dtbo' configfs file
+     try:
+-        f_dtbo = open(dtbo_file_full_path, "r")
++        f_dtbo = open(dtbo_file_full_path, "rb")
+     except:
+         print("ERROR opening file %s" % (dtbo_file_full_path))
+         f_cfs.close()
+         exit(1)
+ 
+     try:
+-        f_cfs = open(cfs_full_path, "w")
++        f_cfs = open(cfs_full_path, "wb")
+     except:
+         print("ERROR opening file %s" % (cfs_full_path))
+         f_cfs.close()
+@@ -210,7 +210,7 @@ def configfs_apply_dtbo_path(dtbo):
+ 
+     # write the name of the dtbo file to the configfs 'path' file
+     try:
+-        f = open(cfs_full_path, "w")
++        f = open(cfs_full_path, "wb")
+     except:
+         print("ERROR opening file %s" % (cfs_full_path))
+         f.close()
+-- 
+2.17.1
+

@@ -21,14 +21,14 @@ SRC_URI_append_arria10 += "\
 do_compile[deptask] = "do_deploy"
 
 do_compile_append() {
-	if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
+	if ${@bb.utils.contains("UBOOT_CONFIG", "agilex-socdk-atf", "true", "false", d)} || ${@bb.utils.contains("UBOOT_CONFIG", "stratix10-socdk-atf", "true", "false", d)} ; then
 		cp ${DEPLOY_DIR_IMAGE}/bl31.bin ${B}/${config}/bl31.bin
 		oe_runmake -C ${S} O=${B}/${config} u-boot.itb
 	fi
 }
 
 do_deploy_append() {
-	if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
+	if ${@bb.utils.contains("UBOOT_CONFIG", "agilex-socdk-atf", "true", "false", d)} || ${@bb.utils.contains("UBOOT_CONFIG", "stratix10-socdk-atf", "true", "false", d)} ; then
 		install -d ${DEPLOYDIR}
 		install -m 644 ${B}/${config}/u-boot.itb ${DEPLOYDIR}/u-boot.itb
 	fi

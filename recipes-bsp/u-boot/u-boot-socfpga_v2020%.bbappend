@@ -1,5 +1,4 @@
-DEPENDS += "u-boot-tools virtual/kernel"
-DEPENDS += "coreutils-native"
+DEPENDS += "coreutils-native u-boot-tools virtual/kernel"
 DEPENDS_append_agilex += "arm-trusted-firmware bash"
 DEPENDS_append_stratix10 += "arm-trusted-firmware bash"
 
@@ -36,10 +35,14 @@ do_compile_append() {
 }
 
 do_deploy_append() {
+	install -d ${DEPLOYDIR}
+	install -m 644 ${B}/${config}/u-boot.dtb ${DEPLOYDIR}/u-boot.dtb
+	install -m 755 ${B}/${config}/u-boot-nodtb.bin ${DEPLOYDIR}/u-boot-nodtb.bin
+
 	if ${@bb.utils.contains("UBOOT_CONFIG", "agilex-socdk-atf", "true", "false", d)} || ${@bb.utils.contains("UBOOT_CONFIG", "stratix10-socdk-atf", "true", "false", d)} ; then
-		install -d ${DEPLOYDIR}
 		install -m 644 ${B}/${config}/u-boot.itb ${DEPLOYDIR}/u-boot.itb
 	fi
+
 }
 
 do_compile_append_arria10() {

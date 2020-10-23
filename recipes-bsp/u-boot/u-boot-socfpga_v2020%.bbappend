@@ -36,11 +36,21 @@ do_compile_append() {
 
 do_deploy_append() {
 	install -d ${DEPLOYDIR}
-	install -m 644 ${B}/${config}/u-boot.dtb ${DEPLOYDIR}/u-boot.dtb
+	install -m 755 ${B}/${config}/u-boot ${DEPLOYDIR}/u-boot
 	install -m 755 ${B}/${config}/u-boot-nodtb.bin ${DEPLOYDIR}/u-boot-nodtb.bin
+	install -m 744 ${B}/${config}/u-boot.img ${DEPLOYDIR}/u-boot.img
+	install -m 644 ${B}/${config}/u-boot.dtb ${DEPLOYDIR}/u-boot.dtb
+	install -m 644 ${B}/${config}/u-boot-dtb.bin ${DEPLOYDIR}/u-boot-dtb.bin
+	install -m 644 ${B}/${config}/u-boot-dtb.img ${DEPLOYDIR}/u-boot-dtb.img
+	install -m 644 ${B}/${config}/u-boot.map ${DEPLOYDIR}/u-boot.map
+	install -m 755 ${B}/${config}/spl/u-boot-spl ${DEPLOYDIR}/u-boot-spl
+	install -m 644 ${B}/${config}/spl/u-boot-spl.dtb ${DEPLOYDIR}/u-boot-spl.dtb
+	install -m 644 ${B}/${config}/spl/u-boot-spl-dtb.bin ${DEPLOYDIR}/u-boot-spl-dtb.bin
+	install -m 644 ${B}/${config}/spl/u-boot-spl.map ${DEPLOYDIR}/u-boot-spl.map
 
 	if ${@bb.utils.contains("UBOOT_CONFIG", "agilex-socdk-atf", "true", "false", d)} || ${@bb.utils.contains("UBOOT_CONFIG", "stratix10-socdk-atf", "true", "false", d)} ; then
-		install -m 644 ${B}/${config}/u-boot.itb ${DEPLOYDIR}/u-boot.itb
+		install -m 744 ${B}/${config}/u-boot.itb ${DEPLOYDIR}/u-boot.itb
+		install -m 644 ${B}/${config}/spl/u-boot-spl-dtb.hex ${DEPLOYDIR}/u-boot-spl-dtb.hex
 	fi
 
 }
@@ -106,16 +116,24 @@ do_compile_append_arria10() {
 do_deploy_append_arria10() {
 	install -d ${DEPLOYDIR}
 	if ${@bb.utils.contains("A10_IMAGE_TYPE", "NAND", "true", "false", d)}; then
+		install -m 744 ${B}/kernel_nand.itb ${DEPLOYDIR}/kernel_nand.itb
+		install -m 744 ${B}/fit_uboot_nand.itb ${DEPLOYDIR}/fit_uboot_nand.itb
+		install -m 744 ${B}/fit_spl_fpga_nand.itb ${DEPLOYDIR}/fit_spl_fpga_nand.itb
 		install -m 644 ${WORKDIR}/socfpga_arria10_socdk_nand.dtb ${DEPLOYDIR}/socfpga_arria10_socdk_nand.dtb
-		install -m 644 ${B}/kernel_nand.itb ${DEPLOYDIR}/kernel_nand.itb
-		install -m 644 ${B}/fit_uboot_nand.itb ${DEPLOYDIR}/fit_uboot_nand.itb
-		install -m 644 ${B}/fit_spl_fpga_nand.itb ${DEPLOYDIR}/fit_spl_fpga_nand.itb
 	elif ${@bb.utils.contains("A10_IMAGE_TYPE", "QSPI", "true", "false", d)}; then
+		install -m 744 ${B}/kernel_qspi.itb ${DEPLOYDIR}/kernel_qspi.itb
+		install -m 744 ${B}/fit_uboot_qspi.itb ${DEPLOYDIR}/fit_uboot_qspi.itb
+		install -m 744 ${B}/fit_spl_fpga_qspi.itb ${DEPLOYDIR}/fit_spl_fpga_qspi.itb
 		install -m 644 ${WORKDIR}/socfpga_arria10_socdk_qspi.dtb ${DEPLOYDIR}/socfpga_arria10_socdk_qspi.dtb
-		install -m 644 ${B}/kernel_qspi.itb ${DEPLOYDIR}/kernel_qspi.itb
-		install -m 644 ${B}/fit_uboot_qspi.itb ${DEPLOYDIR}/fit_uboot_qspi.itb
-		install -m 644 ${B}/fit_spl_fpga_qspi.itb ${DEPLOYDIR}/fit_spl_fpga_qspi.itb
 	else
-		install -m 644 ${B}/*.itb ${DEPLOYDIR}/
+		install -m 744 ${B}/*.itb ${DEPLOYDIR}/
+		install -m 644 ${B}/${config}/spl/u-boot-splx4.sfp ${DEPLOYDIR}/u-boot-splx4.sfp
 	fi
+}
+
+do_deploy_append_cyclone5() {
+	install -d ${DEPLOYDIR}
+	install -m 644 ${B}/${config}/u-boot-with-spl.sfp ${DEPLOYDIR}/u-boot-with-spl.sfp
+	install -m 644 ${B}/${config}/spl/u-boot-spl.sfp ${DEPLOYDIR}/u-boot-spl.sfp
+	install -m 644 ${B}/${config}/spl/u-boot-splx4.sfp ${DEPLOYDIR}/u-boot-splx4.sfp
 }

@@ -1,7 +1,7 @@
 From 202f8622aefe3aff4ff0b9e93fb5ee01055d4ae4 Mon Sep 17 00:00:00 2001
 From: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
 Date: Fri, 9 Oct 2020 08:37:56 +0800
-Subject: [PATCH] dtbt: append 'b' to read and write in binary mode
+Subject: [PATCH 3/4] dtbt: append 'b' to read and write in binary mode
 
 Signed-off-by: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
 ---

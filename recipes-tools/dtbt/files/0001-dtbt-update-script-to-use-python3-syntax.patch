@@ -1,7 +1,7 @@
-From 6d6ce33ca3a99e7f457bcd784b03a1f973b824fe Mon Sep 17 00:00:00 2001
+From 1bb6efe106b6d91bc3617edc3dc5ae7d93ee016b Mon Sep 17 00:00:00 2001
 From: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
 Date: Mon, 28 Sep 2020 08:58:48 +0000
-Subject: [PATCH] dtbt: update script to use python3 syntax
+Subject: [PATCH 1/4] dtbt: update script to use python3 syntax
 
 Signed-off-by: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
 ---

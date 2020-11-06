@@ -1,6 +1,8 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
-DEPENDS += "arm-trusted-firmware bash coreutils-native u-boot-tools virtual/kernel"
+DEPENDS += "coreutils-native u-boot-tools virtual/kernel"
+DEPENDS_append_agilex += "arm-trusted-firmware bash"
+DEPENDS_append_stratix10 += "arm-trusted-firmware bash"
 
 inherit deploy
 
@@ -26,9 +28,10 @@ SRC_URI_append_arria10 += "\
 do_compile[deptask] = "do_deploy"
 
 do_compile_append() {
-	# Generate u-boot.itb file for ATF boot flow
-	cp ${DEPLOY_DIR_IMAGE}/bl31.bin ${B}/${config}/bl31.bin
-	oe_runmake -C ${S} O=${B}/${config} u-boot.itb
+	if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
+		cp ${DEPLOY_DIR_IMAGE}/bl31.bin ${B}/${config}/bl31.bin
+		oe_runmake -C ${S} O=${B}/${config} u-boot.itb
+	fi
 }
 
 do_deploy_append() {
@@ -36,7 +39,6 @@ do_deploy_append() {
 	install -m 755 ${B}/${config}/u-boot ${DEPLOYDIR}/u-boot
 	install -m 755 ${B}/${config}/u-boot-nodtb.bin ${DEPLOYDIR}/u-boot-nodtb.bin
 	install -m 744 ${B}/${config}/u-boot.img ${DEPLOYDIR}/u-boot.img
-	install -m 744 ${B}/${config}/u-boot.itb ${DEPLOYDIR}/u-boot.itb
 	install -m 644 ${B}/${config}/u-boot.dtb ${DEPLOYDIR}/u-boot.dtb
 	install -m 644 ${B}/${config}/u-boot-dtb.bin ${DEPLOYDIR}/u-boot-dtb.bin
 	install -m 644 ${B}/${config}/u-boot-dtb.img ${DEPLOYDIR}/u-boot-dtb.img
@@ -45,6 +47,11 @@ do_deploy_append() {
 	install -m 644 ${B}/${config}/spl/u-boot-spl.dtb ${DEPLOYDIR}/u-boot-spl.dtb
 	install -m 644 ${B}/${config}/spl/u-boot-spl-dtb.bin ${DEPLOYDIR}/u-boot-spl-dtb.bin
 	install -m 644 ${B}/${config}/spl/u-boot-spl.map ${DEPLOYDIR}/u-boot-spl.map
+
+	if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
+		install -m 744 ${B}/${config}/u-boot.itb ${DEPLOYDIR}/u-boot.itb
+		install -m 644 ${B}/${config}/spl/u-boot-spl-dtb.hex ${DEPLOYDIR}/u-boot-spl-dtb.hex
+	fi
 }
 
 do_compile_append_arria10() {

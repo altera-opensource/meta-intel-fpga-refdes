@@ -1,30 +1,19 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
 DEPENDS += "coreutils-native u-boot-tools virtual/kernel"
+DEPENDS_append_arria10 += "hw-ref-design"
 DEPENDS_append_agilex += "arm-trusted-firmware bash"
 DEPENDS_append_stratix10 += "arm-trusted-firmware bash"
 
 inherit deploy
 
-SRC_URI_append_arria10 += "\
-		file://socfpga_arria10_socdk_nand.dtb \
-		file://socfpga_arria10_socdk_qspi.dtb \
-		file://a10_ghrd/ghrd_10as066n2.core.rbf \
-		file://a10_ghrd/ghrd_10as066n2.periph.rbf \
-		file://a10_nand/ghrd_10as066n2.core.rbf \
-		file://a10_nand/ghrd_10as066n2.periph.rbf \
-		file://a10_pcie/ghrd_10as066n2.core.rbf \
-		file://a10_pcie/ghrd_10as066n2.periph.rbf \
-		file://a10_pr/ghrd_10as066n2.core.rbf \
-		file://a10_pr/ghrd_10as066n2.periph.rbf \
-		file://a10_qspi/ghrd_10as066n2.core.rbf \
-		file://a10_qspi/ghrd_10as066n2.periph.rbf \
-		file://a10_sgmii/ghrd_10as066n2.core.rbf \
-		file://a10_sgmii/ghrd_10as066n2.periph.rbf \
-		file://a10_tse/ghrd_10as066n2.core.rbf \
-		file://a10_tse/ghrd_10as066n2.periph.rbf \
-		"
+SRC_URI[a10_nand_dtb.sha256sum] = "40598ecd7a879433a7377477b80f6a8d285a54d35e08461ff48610925ce5c203"
+SRC_URI[a10_qspi_dtb.sha256sum] = "5c5bf0e4e3f6af70ae3c85a569f20e2f7d31585e571cf59cfcbb11505b2ee0fd"
 
+SRC_URI_append_arria10 += "\
+		https://releases.rocketboards.org/release/2020.11/nand/a10_nand/socfpga_arria10_socdk_nand.dtb;name=a10_nand_dtb \
+		https://releases.rocketboards.org/release/2020.11/qspi/a10_qspi/socfpga_arria10_socdk_qspi.dtb;name=a10_qspi_dtb \
+		"
 do_compile[deptask] = "do_deploy"
 
 do_compile_append() {
@@ -61,8 +50,8 @@ do_compile_append_arria10() {
 		# A10 NAND Variant
 		cp ${B}/socfpga_${MACHINE}_nand_defconfig/u-boot-nodtb.bin ${S}/u-boot-nodtb.bin
 		cp ${B}/socfpga_${MACHINE}_nand_defconfig/u-boot.dtb ${S}/u-boot.dtb
-		cp ${WORKDIR}/a10_nand/ghrd_10as066n2.core.rbf ${S}/ghrd_10as066n2.core.rbf
-		cp ${WORKDIR}/a10_nand/ghrd_10as066n2.periph.rbf ${S}/ghrd_10as066n2.periph.rbf
+		cp ${DEPLOY_DIR_IMAGE}/a10_nand/ghrd_10as066n2.core.rbf ${S}/ghrd_10as066n2.core.rbf
+		cp ${DEPLOY_DIR_IMAGE}/a10_nand/ghrd_10as066n2.periph.rbf ${S}/ghrd_10as066n2.periph.rbf
 		cp ${WORKDIR}/socfpga_arria10_socdk_nand.dtb ${S}/socfpga_arria10_socdk_nand.dtb
 		mkimage -E -f ${S}/board/altera/${MACHINE}-socdk/fit_uboot.its ${B}/fit_uboot_nand.itb
 		mkimage -E -f ${S}/board/altera/${MACHINE}-socdk/fit_spl_fpga.its ${B}/fit_spl_fpga_nand.itb
@@ -71,8 +60,8 @@ do_compile_append_arria10() {
 		# A10 QSPI Variant
 		cp ${B}/socfpga_${MACHINE}_qspi_defconfig/u-boot-nodtb.bin ${S}/u-boot-nodtb.bin
 		cp ${B}/socfpga_${MACHINE}_qspi_defconfig/u-boot.dtb ${S}/u-boot.dtb
-		cp ${WORKDIR}/a10_qspi/ghrd_10as066n2.core.rbf ${S}/ghrd_10as066n2.core.rbf
-		cp ${WORKDIR}/a10_qspi//ghrd_10as066n2.periph.rbf ${S}/ghrd_10as066n2.periph.rbf
+		cp ${DEPLOY_DIR_IMAGE}/a10_qspi/ghrd_10as066n2.core.rbf ${S}/ghrd_10as066n2.core.rbf
+		cp ${DEPLOY_DIR_IMAGE}/a10_qspi/ghrd_10as066n2.periph.rbf ${S}/ghrd_10as066n2.periph.rbf
 		cp ${WORKDIR}/socfpga_arria10_socdk_qspi.dtb ${S}/socfpga_arria10_socdk_qspi.dtb
 		mkimage -E -f ${S}/board/altera/${MACHINE}-socdk/fit_uboot.its ${B}/fit_uboot_qspi.itb
 		mkimage -E -f ${S}/board/altera/${MACHINE}-socdk/fit_spl_fpga.its ${B}/fit_spl_fpga_qspi.itb
@@ -81,32 +70,27 @@ do_compile_append_arria10() {
 		# A10 Basic GHRD
 		cp ${B}/socfpga_${MACHINE}_defconfig/u-boot-nodtb.bin ${S}/u-boot-nodtb.bin
 		cp ${B}/socfpga_${MACHINE}_defconfig/u-boot.dtb ${S}/u-boot.dtb
-		cp ${WORKDIR}/a10_ghrd/ghrd_10as066n2.core.rbf ${S}/ghrd_10as066n2.core.rbf
-		cp ${WORKDIR}/a10_ghrd/ghrd_10as066n2.periph.rbf ${S}/ghrd_10as066n2.periph.rbf
+
+		cp ${DEPLOY_DIR_IMAGE}/a10_gsrd/ghrd_10as066n2.core.rbf ${S}/ghrd_10as066n2.core.rbf
+		cp ${DEPLOY_DIR_IMAGE}/a10_gsrd/ghrd_10as066n2.periph.rbf ${S}/ghrd_10as066n2.periph.rbf
 		mkimage -E -f ${S}/board/altera/${MACHINE}-socdk/fit_uboot.its ${B}/fit_uboot.itb
 		mkimage -E -f ${S}/board/altera/${MACHINE}-socdk/fit_spl_fpga_periph_only.its ${B}/fit_spl_fpga.itb
 
 		# A10 PCIE Gen2x8 Variant
-		cp ${WORKDIR}/a10_pcie/ghrd_10as066n2.core.rbf ${S}/ghrd_10as066n2.core.rbf
-		cp ${WORKDIR}/a10_pcie/ghrd_10as066n2.periph.rbf ${S}/ghrd_10as066n2.periph.rbf
+		cp ${DEPLOY_DIR_IMAGE}/a10_pcie/ghrd_10as066n2.core.rbf ${S}/ghrd_10as066n2.core.rbf
+		cp ${DEPLOY_DIR_IMAGE}/a10_pcie/ghrd_10as066n2.periph.rbf ${S}/ghrd_10as066n2.periph.rbf
 		mkimage -E -f ${S}/board/altera/${MACHINE}-socdk/fit_uboot.its ${B}/fit_uboot_pcie.itb
 		mkimage -E -f ${S}/board/altera/${MACHINE}-socdk/fit_spl_fpga_periph_only.its ${B}/fit_spl_fpga_pcie.itb
 
 		# A10 PR Variant
-		cp ${WORKDIR}/a10_pr/ghrd_10as066n2.core.rbf ${S}/ghrd_10as066n2.core.rbf
-		cp ${WORKDIR}/a10_pr/ghrd_10as066n2.periph.rbf ${S}/ghrd_10as066n2.periph.rbf
+		cp ${DEPLOY_DIR_IMAGE}/a10_pr/ghrd_10as066n2.core.rbf ${S}/ghrd_10as066n2.core.rbf
+		cp ${DEPLOY_DIR_IMAGE}/a10_pr/ghrd_10as066n2.periph.rbf ${S}/ghrd_10as066n2.periph.rbf
 		mkimage -E -f ${S}/board/altera/${MACHINE}-socdk/fit_uboot.its ${B}/fit_uboot_pr.itb
 		mkimage -E -f ${S}/board/altera/${MACHINE}-socdk/fit_spl_fpga_periph_only.its ${B}/fit_spl_fpga_pr.itb
 
-		# A10 SGMII Variant
-		cp ${WORKDIR}/a10_sgmii/ghrd_10as066n2.core.rbf ${S}/ghrd_10as066n2.core.rbf
-		cp ${WORKDIR}/a10_sgmii/ghrd_10as066n2.periph.rbf ${S}/ghrd_10as066n2.periph.rbf
-		mkimage -E -f ${S}/board/altera/${MACHINE}-socdk/fit_uboot.its ${B}/fit_uboot_sgmii.itb
-		mkimage -E -f ${S}/board/altera/${MACHINE}-socdk/fit_spl_fpga_periph_only.its ${B}/fit_spl_fpga_sgmii.itb
-
 		# A10 TSE Variant
-		cp ${WORKDIR}/a10_tse/ghrd_10as066n2.core.rbf ${S}/ghrd_10as066n2.core.rbf
-		cp ${WORKDIR}/a10_tse/ghrd_10as066n2.periph.rbf ${S}/ghrd_10as066n2.periph.rbf
+		cp ${DEPLOY_DIR_IMAGE}/a10_tse/ghrd_10as066n2.core.rbf ${S}/ghrd_10as066n2.core.rbf
+		cp ${DEPLOY_DIR_IMAGE}/a10_tse/ghrd_10as066n2.periph.rbf ${S}/ghrd_10as066n2.periph.rbf
 		mkimage -E -f ${S}/board/altera/${MACHINE}-socdk/fit_uboot.its ${B}/fit_uboot_tse.itb
 		mkimage -E -f ${S}/board/altera/${MACHINE}-socdk/fit_spl_fpga_periph_only.its ${B}/fit_spl_fpga_tse.itb
 	fi

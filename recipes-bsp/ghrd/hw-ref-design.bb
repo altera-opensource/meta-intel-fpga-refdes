@@ -11,6 +11,12 @@ RBO_RELEASE_VER ?= "2020.11"
 GHRD_REPO ?= "https://releases.rocketboards.org/release/${RBO_RELEASE_VER}"
 A10_GHRD_CORE_RBF = "ghrd_10as066n2.core.rbf"
 A10_GHRD_PERIPH_RBF = "ghrd_10as066n2.periph.rbf"
+C5_GHRD_CORE_RBF = "soc_system.rbf"
+ARM64_GHRD_CORE_RBF = "ghrd.core.rbf"
+
+SRC_URI_cyclone5 ?= "\
+		 https://pg-arc.altera.com/tools/socfpga_refdes/hw/cv/ghrd_oobe/21.1std/801/2/soc_system.rbf;name=c5_ghrd_core \
+		 "
 
 SRC_URI_arria10 = "\
 		${GHRD_REPO}/gsrd/a10_gsrd/${A10_GHRD_CORE_RBF};name=a10_gsrd_core;downloadfilename=gsrd.${A10_GHRD_CORE_RBF} \
@@ -27,6 +33,15 @@ SRC_URI_arria10 = "\
 		${GHRD_REPO}/pr/a10_pr/${A10_GHRD_PERIPH_RBF};name=a10_pr_periph;downloadfilename=pr.${A10_GHRD_PERIPH_RBF} \
 		"
 
+SRC_URI_stratix10 ?= "\
+		${GHRD_REPO}/gsrd/stratix10_gsrd/${ARM64_GHRD_CORE_RBF};name=stratix10_gsrd_core  \
+		"
+
+SRC_URI_agilex ?= "\
+		${GHRD_REPO}/gsrd/agilex_gsrd/${ARM64_GHRD_CORE_RBF};name=agilex_gsrd_core  \
+		"
+
+SRC_URI[c5_ghrd_core.sha256sum] = "aaf2c880f95d7428a178ecf4c24c5c5a0d5ee2eb664b2894e363d834c47a184a"
 SRC_URI[a10_gsrd_core.sha256sum] = "2dbe18340e064f97f4c7cf42094665bc9d7b57a0612aed00247170fae980a2a1"
 SRC_URI[a10_gsrd_periph.sha256sum] = "6551c7961cd5f5224d78eb9df855f733a14ec047e4d3bc72d3cfc2a5052c1996"
 SRC_URI[a10_nand_core.sha256sum] = "49a9020637042807d4035a29cb4ff30ea019913ac83285af4d9eada5b1a66d48"
@@ -39,6 +54,8 @@ SRC_URI[a10_tse_core.sha256sum] = "0c8adb820d52da09cfe7f07e76add050563aae8261a79
 SRC_URI[a10_tse_periph.sha256sum] = "d1ca5da218cf326ab5150ddc32406e693e69011f06077eae9d64b56c5ec49cfd"
 SRC_URI[a10_pr_core.sha256sum] = "6f49214baedb6cc0b9ed58cd8b27003027694137f01cf198b4411da2df6e0273"
 SRC_URI[a10_pr_periph.sha256sum] = "bade42a40d27a6b8f377abd4d0054d6cd53a4bebc37a9d4a42bb7d787e6e5d09"
+SRC_URI[stratix10_gsrd_core.sha256sum] = "5d0289954cc5905ca52337fafa4f107dc1f87760096ef307fb94344a180d54b4"
+SRC_URI[agilex_gsrd_core.sha256sum] = "5d0289954cc5905ca52337fafa4f107dc1f87760096ef307fb94344a180d54b4"
 
 PV = "${RBO_RELEASE_VER}"
 
@@ -53,10 +70,23 @@ PACKAGES = "${PN}-bitstream"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
-do_install[noexec] = "1"
 do_deploy[nostamp] = "1"
 
+do_install () {
+	if ${@bb.utils.contains("MACHINE", "cyclone5", "true", "false", d)} ; then
+		install -D -m 0644 ${WORKDIR}/${C5_GHRD_CORE_RBF} ${D}/boot/${C5_GHRD_CORE_RBF}
+	fi
+
+	if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
+		install -D -m 0644 ${WORKDIR}/${ARM64_GHRD_CORE_RBF} ${D}/boot/${ARM64_GHRD_CORE_RBF}
+	fi
+}
+
 do_deploy () {
+
+	if ${@bb.utils.contains("MACHINE", "cyclone5", "true", "false", d)} ; then
+		install -D -m 0644 ${WORKDIR}/${C5_GHRD_CORE_RBF} ${DEPLOY_DIR_IMAGE}/${C5_GHRD_CORE_RBF}
+	fi
 
 	if ${@bb.utils.contains("MACHINE", "arria10", "true", "false", d)} ; then
 		if ${@bb.utils.contains("A10_IMAGE_TYPE", "NAND", "true", "false", d)}; then
@@ -80,6 +110,12 @@ do_deploy () {
 
 		fi
 	fi
+
+	if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
+                install -D -m 0644 ${WORKDIR}/${ARM64_GHRD_CORE_RBF} ${DEPLOY_DIR_IMAGE}/${ARM64_GHRD_CORE_RBF}
+        fi
+
 }
 
-addtask deploy after do_configure
+addtask install after do_configure before do_deploy
+addtask deploy after do_install

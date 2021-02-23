@@ -23,6 +23,17 @@ do_compile_append() {
 	fi
 }
 
+do_install_append() {
+	if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
+		cp ${B}/${config}/u-boot.itb ${B}/${config}/u-boot-${UBOOT_CONFIG}.itb
+		install -D -m 644 ${B}/${config}/u-boot-${UBOOT_CONFIG}.itb ${D}/boot/u-boot-${UBOOT_CONFIG}-${PV}-${PR}.itb
+		ln -sf u-boot-${UBOOT_CONFIG}-${PV}-${PR}.itb ${D}/boot/u-boot.itb-${UBOOT_CONFIG}
+		ln -sf u-boot-${UBOOT_CONFIG}-${PV}-${PR}.itb ${D}/boot/u-boot.itb
+		rm -rf  ${D}/boot/*.img*
+	fi
+
+}
+
 do_deploy_append() {
 	install -d ${DEPLOYDIR}
 	install -m 755 ${B}/${config}/u-boot ${DEPLOYDIR}/u-boot

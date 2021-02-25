@@ -21,7 +21,7 @@ do_install () {
 	install -d ${D}${systemd_unitdir}/system
 	install -d ${D}/${bindir}/
 
-	install -m 0744 ${WORKDIR}/fpga-overlay.service ${D}${systemd_unitdir}/system/
+	install -m 0644 ${WORKDIR}/fpga-overlay.service ${D}${systemd_unitdir}/system/
 	install -m 0744 ${WORKDIR}/fpga-overlay.sh ${D}/${bindir}/
 }
 

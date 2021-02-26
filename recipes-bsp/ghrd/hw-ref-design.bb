@@ -34,7 +34,10 @@ SRC_URI_arria10 ?= "\
 		"
 
 SRC_URI_stratix10 ?= "\
-		${GHRD_REPO}/gsrd/stratix10_gsrd/${ARM64_GHRD_CORE_RBF};name=stratix10_gsrd_core  \
+		${@bb.utils.contains("S10_IMAGE_TYPE", "", "", "${GHRD_REPO}/gsrd/s10_gsrd/${ARM64_GHRD_CORE_RBF};name=stratix10_gsrd_core", d)} \
+		${@bb.utils.contains("S10_IMAGE_TYPE", "pcie", "${GHRD_REPO}/pcie/s10_pcie_gen3x8/${ARM64_GHRD_CORE_RBF};name=stratix10_pcie_core", "", d)} \
+		${@bb.utils.contains("S10_IMAGE_TYPE", "sgmii", "${GHRD_REPO}/sgmii/s10_sgmii/${ARM64_GHRD_CORE_RBF};name=stratix10_sgmii_core", "", d)} \
+		${@bb.utils.contains("S10_IMAGE_TYPE", "qspi", "https://pg-arc.altera.com/tools/socfpga_refdes/mainline/98/designs/s10_soc_devkit_ghrd_qspi/ghrd.core.rbf;name=stratix10_qspi_core", "", d)} \
 		"
 
 SRC_URI_agilex ?= "\
@@ -54,7 +57,10 @@ SRC_URI[a10_tse_core.sha256sum] = "0c8adb820d52da09cfe7f07e76add050563aae8261a79
 SRC_URI[a10_tse_periph.sha256sum] = "d1ca5da218cf326ab5150ddc32406e693e69011f06077eae9d64b56c5ec49cfd"
 SRC_URI[a10_pr_core.sha256sum] = "6f49214baedb6cc0b9ed58cd8b27003027694137f01cf198b4411da2df6e0273"
 SRC_URI[a10_pr_periph.sha256sum] = "bade42a40d27a6b8f377abd4d0054d6cd53a4bebc37a9d4a42bb7d787e6e5d09"
-SRC_URI[stratix10_gsrd_core.sha256sum] = "5d0289954cc5905ca52337fafa4f107dc1f87760096ef307fb94344a180d54b4"
+SRC_URI[stratix10_gsrd_core.sha256sum] = "35fc101e4f8bafa40d4b0620e3886a0982c7cd3cab36d831a64795da16247ad6"
+SRC_URI[stratix10_pcie_core.sha256sum] = "f428d197f4e292c15853e8272190652b44a253eee6b7cc831d96127e14126d23"
+SRC_URI[stratix10_sgmii_core.sha256sum] = "a2ed1a8acf9088be44469ac8a04f62d90b1dc3c47ed0cfa58461df6aa25a376e"
+SRC_URI[stratix10_qspi_core.sha256sum] = "47e9ae722b2afd2729c37033cdbda3e984894754c730b8622b7b42e94dc3018c"
 SRC_URI[agilex_gsrd_core.sha256sum] = "5d0289954cc5905ca52337fafa4f107dc1f87760096ef307fb94344a180d54b4"
 
 PV = "${RBO_RELEASE_VER}"

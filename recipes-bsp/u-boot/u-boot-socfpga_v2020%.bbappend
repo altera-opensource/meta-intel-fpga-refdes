@@ -7,13 +7,6 @@ DEPENDS_append_stratix10 += "arm-trusted-firmware bash"
 
 inherit deploy
 
-SRC_URI[a10_nand_dtb.sha256sum] = "40598ecd7a879433a7377477b80f6a8d285a54d35e08461ff48610925ce5c203"
-SRC_URI[a10_qspi_dtb.sha256sum] = "5c5bf0e4e3f6af70ae3c85a569f20e2f7d31585e571cf59cfcbb11505b2ee0fd"
-
-SRC_URI_append_arria10 += "\
-		https://releases.rocketboards.org/release/2020.11/nand/a10_nand/socfpga_arria10_socdk_nand.dtb;name=a10_nand_dtb \
-		https://releases.rocketboards.org/release/2020.11/qspi/a10_qspi/socfpga_arria10_socdk_qspi.dtb;name=a10_qspi_dtb \
-		"
 do_compile[deptask] = "do_deploy"
 
 do_compile_append() {
@@ -63,7 +56,7 @@ do_compile_append_arria10() {
 		cp ${B}/socfpga_${MACHINE}_nand_defconfig/u-boot.dtb ${S}/u-boot.dtb
 		cp ${DEPLOY_DIR_IMAGE}/a10_nand/ghrd_10as066n2.core.rbf ${S}/ghrd_10as066n2.core.rbf
 		cp ${DEPLOY_DIR_IMAGE}/a10_nand/ghrd_10as066n2.periph.rbf ${S}/ghrd_10as066n2.periph.rbf
-		cp ${WORKDIR}/socfpga_arria10_socdk_nand.dtb ${S}/socfpga_arria10_socdk_nand.dtb
+		cp ${DEPLOY_DIR_IMAGE}/socfpga_arria10_socdk_nand.dtb ${S}/socfpga_arria10_socdk_nand.dtb
 		mkimage -E -f ${S}/board/altera/${MACHINE}-socdk/fit_uboot.its ${B}/fit_uboot_nand.itb
 		mkimage -E -f ${S}/board/altera/${MACHINE}-socdk/fit_spl_fpga.its ${B}/fit_spl_fpga_nand.itb
 		mkimage -E -f ${S}/board/altera/${MACHINE}-socdk/fit_kernel_nand.its ${B}/kernel_nand.itb
@@ -73,7 +66,7 @@ do_compile_append_arria10() {
 		cp ${B}/socfpga_${MACHINE}_qspi_defconfig/u-boot.dtb ${S}/u-boot.dtb
 		cp ${DEPLOY_DIR_IMAGE}/a10_qspi/ghrd_10as066n2.core.rbf ${S}/ghrd_10as066n2.core.rbf
 		cp ${DEPLOY_DIR_IMAGE}/a10_qspi/ghrd_10as066n2.periph.rbf ${S}/ghrd_10as066n2.periph.rbf
-		cp ${WORKDIR}/socfpga_arria10_socdk_qspi.dtb ${S}/socfpga_arria10_socdk_qspi.dtb
+		cp ${DEPLOY_DIR_IMAGE}/socfpga_arria10_socdk_qspi.dtb ${S}/socfpga_arria10_socdk_qspi.dtb
 		mkimage -E -f ${S}/board/altera/${MACHINE}-socdk/fit_uboot.its ${B}/fit_uboot_qspi.itb
 		mkimage -E -f ${S}/board/altera/${MACHINE}-socdk/fit_spl_fpga.its ${B}/fit_spl_fpga_qspi.itb
 		mkimage -E -f ${S}/board/altera/${MACHINE}-socdk/fit_kernel_qspi.its ${B}/kernel_qspi.itb
@@ -94,12 +87,10 @@ do_deploy_append_arria10() {
 		install -m 744 ${B}/kernel_nand.itb ${DEPLOYDIR}/kernel_nand.itb
 		install -m 744 ${B}/fit_uboot_nand.itb ${DEPLOYDIR}/fit_uboot_nand.itb
 		install -m 744 ${B}/fit_spl_fpga_nand.itb ${DEPLOYDIR}/fit_spl_fpga_nand.itb
-		install -m 644 ${WORKDIR}/socfpga_arria10_socdk_nand.dtb ${DEPLOYDIR}/socfpga_arria10_socdk_nand.dtb
 	elif ${@bb.utils.contains("A10_IMAGE_TYPE", "QSPI", "true", "false", d)}; then
 		install -m 744 ${B}/kernel_qspi.itb ${DEPLOYDIR}/kernel_qspi.itb
 		install -m 744 ${B}/fit_uboot_qspi.itb ${DEPLOYDIR}/fit_uboot_qspi.itb
 		install -m 744 ${B}/fit_spl_fpga_qspi.itb ${DEPLOYDIR}/fit_spl_fpga_qspi.itb
-		install -m 644 ${WORKDIR}/socfpga_arria10_socdk_qspi.dtb ${DEPLOYDIR}/socfpga_arria10_socdk_qspi.dtb
 	else
 		install -m 744 ${B}/*.itb ${DEPLOYDIR}/
 		install -m 644 ${B}/${config}/spl/u-boot-splx4.sfp ${DEPLOYDIR}/u-boot-splx4.sfp

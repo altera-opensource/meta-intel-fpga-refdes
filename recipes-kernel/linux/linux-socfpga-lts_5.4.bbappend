@@ -22,8 +22,8 @@ SRC_URI_append_arria10 += "\
 			${@bb.utils.contains("A10_IMAGE_TYPE", "NAND", "${A10_DTS_REPO}/ghrd/0001-socfpga_arria10_socdk-include-reference-design-dtsi.patch;name=a10_gsrd_dts", "", d)} \
 			${@bb.utils.contains("A10_IMAGE_TYPE", "QSPI", "${A10_DTS_REPO}/ghrd/0001-socfpga_arria10_socdk-include-reference-design-dtsi.patch;name=a10_gsrd_dts", "", d)} \
 			${@bb.utils.contains("A10_IMAGE_TYPE", "pcie", "${A10_DTS_REPO}/pcie/0001-socfpga_arria10_socdk-pcie-include-reference-design-.patch;name=a10_pcie_dts", "", d)} \
-			${@bb.utils.contains("A10_IMAGE_TYPE", "sgmii", "${A10_DTS_REPO}/sgmii/0001-socfpga_arria10_socdk-sgmii-include-reference-design.patch;name=s10_sgmii_dts", "", d)} \
-			${@bb.utils.contains("A10_IMAGE_TYPE", "tse", "${A10_DTS_REPO}/tse/0001-socfpga_arria10_socdk-tse-include-reference-design-d.patch;name=s10_tse_dts", "", d)} \
+			${@bb.utils.contains("A10_IMAGE_TYPE", "sgmii", "${A10_DTS_REPO}/sgmii/0001-socfpga_arria10_socdk-sgmii-include-reference-design.patch;name=a10_sgmii_dts", "", d)} \
+			${@bb.utils.contains("A10_IMAGE_TYPE", "tse", "${A10_DTS_REPO}/tse/0001-socfpga_arria10_socdk-tse-include-reference-design-d.patch;name=a10_tse_dts", "", d)} \
 			"
 SRC_URI_append_cyclone5 += "https://pg-arc.altera.com/tools/socfpga_refdes/c5_soc_devkit_ghrd/5.4-lts/0001-socfpga_cyclone5_socdk-include-reference-design-dtsi.patch;name=cyclone5_dts"
 
@@ -33,8 +33,9 @@ SRC_URI[s10_pcie_dts.sha256sum] = "b58d0ad88f674c4e0ea1e01860603e5be7f479499fcbd
 SRC_URI[s10_sgmii_dts.sha256sum] = "3a19f186ede5d74d4649b6fe949c8049cc1b06bf028f994e1c09f80ae9ad1a7c"
 SRC_URI[a10_gsrd_dts.sha256sum] = "8e55aa38bd9fb7b25a5c2482a0afc6d8241194e44f6c0f3510829e58e242e034"
 SRC_URI[a10_pcie_dts.sha256sum] = "1abd2b27bbcd9af296ce6c5ccb21cee98c34e634e5e7e49bf901b51a13835329"
-SRC_URI[s10_tse_dts.sha256sum] = "9915abc65271a36ac019f1f99047bb72303d0007b23f66b911a2249255ec30e0"
-SRC_URI[s10_sgmii_dts.sha256sum] = "6c1ed6765e858e44e530b389843524f3b38997aa5d266de85198ecdf3a6ee64f"
+SRC_URI[a10_sgmii_dts.sha256sum] = "6c1ed6765e858e44e530b389843524f3b38997aa5d266de85198ecdf3a6ee64f"
+SRC_URI[a10_tse_dts.sha256sum] = "9915abc65271a36ac019f1f99047bb72303d0007b23f66b911a2249255ec30e0"
+
 SRC_URI[cyclone5_dts.sha256sum] = "52f629affd6cffc11bb40bbdad62149c20d56d5392bc2646e05310ad64e39a72"
 
 # Append kernel config fragments to enable UBIFS

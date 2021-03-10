@@ -82,10 +82,12 @@ S ?= "${WORKDIR}/${MACHINE}"
 
 PROVIDES = "virtual/bitstream"
 
-FILES_${PN}-bitstream += " \
+FILES_${PN} += " \
 		 /boot \
+		 /lib/firmware \
                 "
-PACKAGES = "${PN}-bitstream"
+
+PACKAGES = "${PN}"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 

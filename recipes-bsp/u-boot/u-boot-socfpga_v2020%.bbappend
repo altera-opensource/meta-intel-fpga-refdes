@@ -50,7 +50,7 @@ do_deploy_append() {
 do_compile_append_arria10() {
 	cp ${DEPLOY_DIR_IMAGE}/Image ${S}/Image
 
-	if ${@bb.utils.contains("A10_IMAGE_TYPE", "NAND", "true", "false", d)}; then
+	if ${@bb.utils.contains("A10_IMAGE_TYPE", "nand", "true", "false", d)}; then
 		# A10 NAND Variant
 		cp ${B}/socfpga_${MACHINE}_nand_defconfig/u-boot-nodtb.bin ${S}/u-boot-nodtb.bin
 		cp ${B}/socfpga_${MACHINE}_nand_defconfig/u-boot.dtb ${S}/u-boot.dtb
@@ -60,7 +60,7 @@ do_compile_append_arria10() {
 		mkimage -E -f ${S}/board/altera/${MACHINE}-socdk/fit_uboot.its ${B}/fit_uboot_nand.itb
 		mkimage -E -f ${S}/board/altera/${MACHINE}-socdk/fit_spl_fpga.its ${B}/fit_spl_fpga_nand.itb
 		mkimage -E -f ${S}/board/altera/${MACHINE}-socdk/fit_kernel_nand.its ${B}/kernel_nand.itb
-	elif ${@bb.utils.contains("A10_IMAGE_TYPE", "QSPI", "true", "false", d)}; then
+	elif ${@bb.utils.contains("A10_IMAGE_TYPE", "qspi", "true", "false", d)}; then
 		# A10 QSPI Variant
 		cp ${B}/socfpga_${MACHINE}_qspi_defconfig/u-boot-nodtb.bin ${S}/u-boot-nodtb.bin
 		cp ${B}/socfpga_${MACHINE}_qspi_defconfig/u-boot.dtb ${S}/u-boot.dtb
@@ -83,11 +83,11 @@ do_compile_append_arria10() {
 
 do_deploy_append_arria10() {
 	install -d ${DEPLOYDIR}
-	if ${@bb.utils.contains("A10_IMAGE_TYPE", "NAND", "true", "false", d)}; then
+	if ${@bb.utils.contains("A10_IMAGE_TYPE", "nand", "true", "false", d)}; then
 		install -m 744 ${B}/kernel_nand.itb ${DEPLOYDIR}/kernel_nand.itb
 		install -m 744 ${B}/fit_uboot_nand.itb ${DEPLOYDIR}/fit_uboot_nand.itb
 		install -m 744 ${B}/fit_spl_fpga_nand.itb ${DEPLOYDIR}/fit_spl_fpga_nand.itb
-	elif ${@bb.utils.contains("A10_IMAGE_TYPE", "QSPI", "true", "false", d)}; then
+	elif ${@bb.utils.contains("A10_IMAGE_TYPE", "qspi", "true", "false", d)}; then
 		install -m 744 ${B}/kernel_qspi.itb ${DEPLOYDIR}/kernel_qspi.itb
 		install -m 744 ${B}/fit_uboot_qspi.itb ${DEPLOYDIR}/fit_uboot_qspi.itb
 		install -m 744 ${B}/fit_spl_fpga_qspi.itb ${DEPLOYDIR}/fit_spl_fpga_qspi.itb

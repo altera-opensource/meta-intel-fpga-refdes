@@ -21,12 +21,12 @@ SRC_URI_cyclone5 ?= "\
 SRC_URI_arria10 ?= "\
 		${@bb.utils.contains("A10_IMAGE_TYPE", "", "", "${GHRD_REPO}/gsrd/a10_gsrd/${A10_GHRD_CORE_RBF};name=a10_gsrd_core", d)} \
 		${@bb.utils.contains("A10_IMAGE_TYPE", "", "", "${GHRD_REPO}/gsrd/a10_gsrd/${A10_GHRD_PERIPH_RBF};name=a10_gsrd_periph", d)} \
-		${@bb.utils.contains("A10_IMAGE_TYPE", "NAND", "${GHRD_REPO}/nand/a10_nand/${A10_GHRD_CORE_RBF};name=a10_nand_core", "", d)} \
-		${@bb.utils.contains("A10_IMAGE_TYPE", "NAND", "${GHRD_REPO}/nand/a10_nand/${A10_GHRD_PERIPH_RBF};name=a10_nand_periph", "", d)} \
+		${@bb.utils.contains("A10_IMAGE_TYPE", "nand", "${GHRD_REPO}/nand/a10_nand/${A10_GHRD_CORE_RBF};name=a10_nand_core", "", d)} \
+		${@bb.utils.contains("A10_IMAGE_TYPE", "nand", "${GHRD_REPO}/nand/a10_nand/${A10_GHRD_PERIPH_RBF};name=a10_nand_periph", "", d)} \
 		${@bb.utils.contains("A10_IMAGE_TYPE", "pcie", "${GHRD_REPO}/pcie/a10_pcie_gen2x8/${A10_GHRD_CORE_RBF};name=a10_pcie_core", "", d)} \
 		${@bb.utils.contains("A10_IMAGE_TYPE", "pcie", "${GHRD_REPO}/pcie/a10_pcie_gen2x8/${A10_GHRD_PERIPH_RBF};name=a10_pcie_periph", "", d)} \
-		${@bb.utils.contains("A10_IMAGE_TYPE", "QSPI", "${GHRD_REPO}/qspi/a10_qspi/${A10_GHRD_CORE_RBF};name=a10_qspi_core", "", d)} \
-		${@bb.utils.contains("A10_IMAGE_TYPE", "QSPI", "${GHRD_REPO}/qspi/a10_qspi/${A10_GHRD_PERIPH_RBF};name=a10_qspi_periph", "", d)} \
+		${@bb.utils.contains("A10_IMAGE_TYPE", "qspi", "${GHRD_REPO}/qspi/a10_qspi/${A10_GHRD_CORE_RBF};name=a10_qspi_core", "", d)} \
+		${@bb.utils.contains("A10_IMAGE_TYPE", "qspi", "${GHRD_REPO}/qspi/a10_qspi/${A10_GHRD_PERIPH_RBF};name=a10_qspi_periph", "", d)} \
 		${@bb.utils.contains("A10_IMAGE_TYPE", "tse", "${GHRD_REPO}/tse/a10_tse/${A10_GHRD_CORE_RBF};name=a10_tse_core", "", d)} \
 		${@bb.utils.contains("A10_IMAGE_TYPE", "tse", "${GHRD_REPO}/tse/a10_tse/${A10_GHRD_PERIPH_RBF};name=a10_tse_periph", "", d)} \
 		${@bb.utils.contains("A10_IMAGE_TYPE", "pr", "${GHRD_REPO}/pr/a10_pr/${A10_GHRD_CORE_RBF};name=a10_pr_core", "", d)} \
@@ -95,10 +95,10 @@ do_deploy () {
 	fi
 
 	if ${@bb.utils.contains("MACHINE", "arria10", "true", "false", d)} ; then
-		if ${@bb.utils.contains("A10_IMAGE_TYPE", "NAND", "true", "false", d)}; then
+		if ${@bb.utils.contains("A10_IMAGE_TYPE", "nand", "true", "false", d)}; then
 			install -D -m 0644 ${WORKDIR}/${A10_GHRD_CORE_RBF} ${DEPLOY_DIR_IMAGE}/a10_nand/${A10_GHRD_CORE_RBF}
 			install -D -m 0644 ${WORKDIR}/${A10_GHRD_PERIPH_RBF} ${DEPLOY_DIR_IMAGE}/a10_nand/${A10_GHRD_PERIPH_RBF}
-		elif ${@bb.utils.contains("A10_IMAGE_TYPE", "QSPI", "true", "false", d)}; then
+		elif ${@bb.utils.contains("A10_IMAGE_TYPE", "qspi", "true", "false", d)}; then
 			install -D -m 0644 ${WORKDIR}/${A10_GHRD_CORE_RBF} ${DEPLOY_DIR_IMAGE}/a10_qspi/${A10_GHRD_CORE_RBF}
 			install -D -m 0644 ${WORKDIR}/${A10_GHRD_PERIPH_RBF} ${DEPLOY_DIR_IMAGE}/a10_qspi/${A10_GHRD_PERIPH_RBF}
 		else

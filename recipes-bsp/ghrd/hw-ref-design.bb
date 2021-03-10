@@ -18,19 +18,19 @@ SRC_URI_cyclone5 ?= "\
 		 https://pg-arc.altera.com/tools/socfpga_refdes/hw/cv/ghrd_oobe/21.1std/801/2/soc_system.rbf;name=c5_ghrd_core \
 		 "
 
-SRC_URI_arria10 = "\
-		${GHRD_REPO}/gsrd/a10_gsrd/${A10_GHRD_CORE_RBF};name=a10_gsrd_core;downloadfilename=gsrd.${A10_GHRD_CORE_RBF} \
-		${GHRD_REPO}/gsrd/a10_gsrd/${A10_GHRD_PERIPH_RBF};name=a10_gsrd_periph;downloadfilename=gsrd.${A10_GHRD_PERIPH_RBF} \
-		${GHRD_REPO}/nand/a10_nand/${A10_GHRD_CORE_RBF};name=a10_nand_core;downloadfilename=nand.${A10_GHRD_CORE_RBF} \
-		${GHRD_REPO}/nand/a10_nand/${A10_GHRD_PERIPH_RBF};name=a10_nand_periph;downloadfilename=nand.${A10_GHRD_PERIPH_RBF} \
-		${GHRD_REPO}/pcie/a10_pcie_gen2x8/${A10_GHRD_CORE_RBF};name=a10_pcie_core;downloadfilename=pcie.${A10_GHRD_CORE_RBF} \
-		${GHRD_REPO}/pcie/a10_pcie_gen2x8/${A10_GHRD_PERIPH_RBF};name=a10_pcie_periph;downloadfilename=pcie.${A10_GHRD_PERIPH_RBF} \
-		${GHRD_REPO}/qspi/a10_qspi/${A10_GHRD_CORE_RBF};name=a10_qspi_core;downloadfilename=qspi.${A10_GHRD_CORE_RBF} \
-		${GHRD_REPO}/qspi/a10_qspi/${A10_GHRD_PERIPH_RBF};name=a10_qspi_periph;downloadfilename=qspi.${A10_GHRD_PERIPH_RBF} \
-		${GHRD_REPO}/tse/a10_tse/${A10_GHRD_CORE_RBF};name=a10_tse_core;downloadfilename=tse.${A10_GHRD_CORE_RBF} \
-		${GHRD_REPO}/tse/a10_tse/${A10_GHRD_PERIPH_RBF};name=a10_tse_periph;downloadfilename=tse.${A10_GHRD_PERIPH_RBF} \
-		${GHRD_REPO}/pr/a10_pr/${A10_GHRD_CORE_RBF};name=a10_pr_core;downloadfilename=pr.${A10_GHRD_CORE_RBF} \
-		${GHRD_REPO}/pr/a10_pr/${A10_GHRD_PERIPH_RBF};name=a10_pr_periph;downloadfilename=pr.${A10_GHRD_PERIPH_RBF} \
+SRC_URI_arria10 ?= "\
+		${@bb.utils.contains("A10_IMAGE_TYPE", "", "", "${GHRD_REPO}/gsrd/a10_gsrd/${A10_GHRD_CORE_RBF};name=a10_gsrd_core", d)} \
+		${@bb.utils.contains("A10_IMAGE_TYPE", "", "", "${GHRD_REPO}/gsrd/a10_gsrd/${A10_GHRD_PERIPH_RBF};name=a10_gsrd_periph", d)} \
+		${@bb.utils.contains("A10_IMAGE_TYPE", "NAND", "${GHRD_REPO}/nand/a10_nand/${A10_GHRD_CORE_RBF};name=a10_nand_core", "", d)} \
+		${@bb.utils.contains("A10_IMAGE_TYPE", "NAND", "${GHRD_REPO}/nand/a10_nand/${A10_GHRD_PERIPH_RBF};name=a10_nand_periph", "", d)} \
+		${@bb.utils.contains("A10_IMAGE_TYPE", "pcie", "${GHRD_REPO}/pcie/a10_pcie_gen2x8/${A10_GHRD_CORE_RBF};name=a10_pcie_core", "", d)} \
+		${@bb.utils.contains("A10_IMAGE_TYPE", "pcie", "${GHRD_REPO}/pcie/a10_pcie_gen2x8/${A10_GHRD_PERIPH_RBF};name=a10_pcie_periph", "", d)} \
+		${@bb.utils.contains("A10_IMAGE_TYPE", "QSPI", "${GHRD_REPO}/qspi/a10_qspi/${A10_GHRD_CORE_RBF};name=a10_qspi_core", "", d)} \
+		${@bb.utils.contains("A10_IMAGE_TYPE", "QSPI", "${GHRD_REPO}/qspi/a10_qspi/${A10_GHRD_PERIPH_RBF};name=a10_qspi_periph", "", d)} \
+		${@bb.utils.contains("A10_IMAGE_TYPE", "tse", "${GHRD_REPO}/tse/a10_tse/${A10_GHRD_CORE_RBF};name=a10_tse_core", "", d)} \
+		${@bb.utils.contains("A10_IMAGE_TYPE", "tse", "${GHRD_REPO}/tse/a10_tse/${A10_GHRD_PERIPH_RBF};name=a10_tse_periph", "", d)} \
+		${@bb.utils.contains("A10_IMAGE_TYPE", "pr", "${GHRD_REPO}/pr/a10_pr/${A10_GHRD_CORE_RBF};name=a10_pr_core", "", d)} \
+		${@bb.utils.contains("A10_IMAGE_TYPE", "pr", "${GHRD_REPO}/pr/a10_pr/${A10_GHRD_PERIPH_RBF};name=a10_pr_periph", "", d)} \
 		"
 
 SRC_URI_stratix10 ?= "\
@@ -90,24 +90,15 @@ do_deploy () {
 
 	if ${@bb.utils.contains("MACHINE", "arria10", "true", "false", d)} ; then
 		if ${@bb.utils.contains("A10_IMAGE_TYPE", "NAND", "true", "false", d)}; then
-			install -D -m 0644 ${WORKDIR}/nand.${A10_GHRD_CORE_RBF} ${DEPLOY_DIR_IMAGE}/a10_nand/${A10_GHRD_CORE_RBF}
-			install -D -m 0644 ${WORKDIR}/nand.${A10_GHRD_PERIPH_RBF} ${DEPLOY_DIR_IMAGE}/a10_nand/${A10_GHRD_PERIPH_RBF}
+			install -D -m 0644 ${WORKDIR}/${A10_GHRD_CORE_RBF} ${DEPLOY_DIR_IMAGE}/a10_nand/${A10_GHRD_CORE_RBF}
+			install -D -m 0644 ${WORKDIR}/${A10_GHRD_PERIPH_RBF} ${DEPLOY_DIR_IMAGE}/a10_nand/${A10_GHRD_PERIPH_RBF}
 		elif ${@bb.utils.contains("A10_IMAGE_TYPE", "QSPI", "true", "false", d)}; then
-			install -D -m 0644 ${WORKDIR}/qspi.${A10_GHRD_CORE_RBF} ${DEPLOY_DIR_IMAGE}/a10_qspi/${A10_GHRD_CORE_RBF}
-			install -D -m 0644 ${WORKDIR}/qspi.${A10_GHRD_PERIPH_RBF} ${DEPLOY_DIR_IMAGE}/a10_qspi/${A10_GHRD_PERIPH_RBF}
+			install -D -m 0644 ${WORKDIR}/${A10_GHRD_CORE_RBF} ${DEPLOY_DIR_IMAGE}/a10_qspi/${A10_GHRD_CORE_RBF}
+			install -D -m 0644 ${WORKDIR}/${A10_GHRD_PERIPH_RBF} ${DEPLOY_DIR_IMAGE}/a10_qspi/${A10_GHRD_PERIPH_RBF}
 		else
-			install -D -m 0644 ${WORKDIR}/gsrd.${A10_GHRD_CORE_RBF} ${DEPLOY_DIR_IMAGE}/a10_gsrd/${A10_GHRD_CORE_RBF}
-			install -D -m 0644 ${WORKDIR}/gsrd.${A10_GHRD_PERIPH_RBF} ${DEPLOY_DIR_IMAGE}/a10_gsrd/${A10_GHRD_PERIPH_RBF}
 
-			install -D -m 0644 ${WORKDIR}/pcie.${A10_GHRD_CORE_RBF} ${DEPLOY_DIR_IMAGE}/a10_pcie/${A10_GHRD_CORE_RBF}
-			install -D -m 0644 ${WORKDIR}/pcie.${A10_GHRD_PERIPH_RBF} ${DEPLOY_DIR_IMAGE}/a10_pcie/${A10_GHRD_PERIPH_RBF}
-
-			install -D -m 0644 ${WORKDIR}/tse.${A10_GHRD_CORE_RBF} ${DEPLOY_DIR_IMAGE}/a10_tse/${A10_GHRD_CORE_RBF}
-			install -D -m 0644 ${WORKDIR}/tse.${A10_GHRD_PERIPH_RBF} ${DEPLOY_DIR_IMAGE}/a10_tse/${A10_GHRD_PERIPH_RBF}
-
-			install -D -m 0644 ${WORKDIR}/pr.${A10_GHRD_CORE_RBF} ${DEPLOY_DIR_IMAGE}/a10_pr/${A10_GHRD_CORE_RBF}
-			install -D -m 0644 ${WORKDIR}/pr.${A10_GHRD_PERIPH_RBF} ${DEPLOY_DIR_IMAGE}/a10_pr/${A10_GHRD_PERIPH_RBF}
-
+			install -D -m 0644 ${WORKDIR}/${A10_GHRD_CORE_RBF} ${DEPLOY_DIR_IMAGE}/${A10_GHRD_CORE_RBF}
+			install -D -m 0644 ${WORKDIR}/${A10_GHRD_PERIPH_RBF} ${DEPLOY_DIR_IMAGE}/${A10_GHRD_PERIPH_RBF}
 		fi
 	fi
 

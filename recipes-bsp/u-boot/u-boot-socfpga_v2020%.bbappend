@@ -78,32 +78,13 @@ do_compile_append_arria10() {
 		mkimage -E -f ${S}/board/altera/${MACHINE}-socdk/fit_spl_fpga.its ${B}/fit_spl_fpga_qspi.itb
 		mkimage -E -f ${S}/board/altera/${MACHINE}-socdk/fit_kernel_qspi.its ${B}/kernel_qspi.itb
 	else
-		# A10 Basic GHRD
 		cp ${B}/socfpga_${MACHINE}_defconfig/u-boot-nodtb.bin ${S}/u-boot-nodtb.bin
 		cp ${B}/socfpga_${MACHINE}_defconfig/u-boot.dtb ${S}/u-boot.dtb
 
-		cp ${DEPLOY_DIR_IMAGE}/a10_gsrd/ghrd_10as066n2.core.rbf ${S}/ghrd_10as066n2.core.rbf
-		cp ${DEPLOY_DIR_IMAGE}/a10_gsrd/ghrd_10as066n2.periph.rbf ${S}/ghrd_10as066n2.periph.rbf
+		cp ${DEPLOY_DIR_IMAGE}/ghrd_10as066n2.core.rbf ${S}/ghrd_10as066n2.core.rbf
+		cp ${DEPLOY_DIR_IMAGE}/ghrd_10as066n2.periph.rbf ${S}/ghrd_10as066n2.periph.rbf
 		mkimage -E -f ${S}/board/altera/${MACHINE}-socdk/fit_uboot.its ${B}/fit_uboot.itb
 		mkimage -E -f ${S}/board/altera/${MACHINE}-socdk/fit_spl_fpga_periph_only.its ${B}/fit_spl_fpga.itb
-
-		# A10 PCIE Gen2x8 Variant
-		cp ${DEPLOY_DIR_IMAGE}/a10_pcie/ghrd_10as066n2.core.rbf ${S}/ghrd_10as066n2.core.rbf
-		cp ${DEPLOY_DIR_IMAGE}/a10_pcie/ghrd_10as066n2.periph.rbf ${S}/ghrd_10as066n2.periph.rbf
-		mkimage -E -f ${S}/board/altera/${MACHINE}-socdk/fit_uboot.its ${B}/fit_uboot_pcie.itb
-		mkimage -E -f ${S}/board/altera/${MACHINE}-socdk/fit_spl_fpga_periph_only.its ${B}/fit_spl_fpga_pcie.itb
-
-		# A10 PR Variant
-		cp ${DEPLOY_DIR_IMAGE}/a10_pr/ghrd_10as066n2.core.rbf ${S}/ghrd_10as066n2.core.rbf
-		cp ${DEPLOY_DIR_IMAGE}/a10_pr/ghrd_10as066n2.periph.rbf ${S}/ghrd_10as066n2.periph.rbf
-		mkimage -E -f ${S}/board/altera/${MACHINE}-socdk/fit_uboot.its ${B}/fit_uboot_pr.itb
-		mkimage -E -f ${S}/board/altera/${MACHINE}-socdk/fit_spl_fpga_periph_only.its ${B}/fit_spl_fpga_pr.itb
-
-		# A10 TSE Variant
-		cp ${DEPLOY_DIR_IMAGE}/a10_tse/ghrd_10as066n2.core.rbf ${S}/ghrd_10as066n2.core.rbf
-		cp ${DEPLOY_DIR_IMAGE}/a10_tse/ghrd_10as066n2.periph.rbf ${S}/ghrd_10as066n2.periph.rbf
-		mkimage -E -f ${S}/board/altera/${MACHINE}-socdk/fit_uboot.its ${B}/fit_uboot_tse.itb
-		mkimage -E -f ${S}/board/altera/${MACHINE}-socdk/fit_spl_fpga_periph_only.its ${B}/fit_spl_fpga_tse.itb
 	fi
 }
 

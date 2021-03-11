@@ -19,34 +19,20 @@ SRC_URI_cyclone5 ?= "\
 		 "
 
 SRC_URI_arria10 ?= "\
-		${@bb.utils.contains("A10_IMAGE_TYPE", "", "", "${GHRD_REPO}/gsrd/a10_gsrd/${A10_GHRD_CORE_RBF};name=a10_gsrd_core", d)} \
-		${@bb.utils.contains("A10_IMAGE_TYPE", "", "", "${GHRD_REPO}/gsrd/a10_gsrd/${A10_GHRD_PERIPH_RBF};name=a10_gsrd_periph", d)} \
-		${@bb.utils.contains("A10_IMAGE_TYPE", "nand", "${GHRD_REPO}/nand/a10_nand/${A10_GHRD_CORE_RBF};name=a10_nand_core", "", d)} \
-		${@bb.utils.contains("A10_IMAGE_TYPE", "nand", "${GHRD_REPO}/nand/a10_nand/${A10_GHRD_PERIPH_RBF};name=a10_nand_periph", "", d)} \
-		${@bb.utils.contains("A10_IMAGE_TYPE", "pcie", "${GHRD_REPO}/pcie/a10_pcie_gen2x8/${A10_GHRD_CORE_RBF};name=a10_pcie_core", "", d)} \
-		${@bb.utils.contains("A10_IMAGE_TYPE", "pcie", "${GHRD_REPO}/pcie/a10_pcie_gen2x8/${A10_GHRD_PERIPH_RBF};name=a10_pcie_periph", "", d)} \
-		${@bb.utils.contains("A10_IMAGE_TYPE", "qspi", "${GHRD_REPO}/qspi/a10_qspi/${A10_GHRD_CORE_RBF};name=a10_qspi_core", "", d)} \
-		${@bb.utils.contains("A10_IMAGE_TYPE", "qspi", "${GHRD_REPO}/qspi/a10_qspi/${A10_GHRD_PERIPH_RBF};name=a10_qspi_periph", "", d)} \
-		${@bb.utils.contains("A10_IMAGE_TYPE", "tse", "${GHRD_REPO}/tse/a10_tse/${A10_GHRD_CORE_RBF};name=a10_tse_core", "", d)} \
-		${@bb.utils.contains("A10_IMAGE_TYPE", "tse", "${GHRD_REPO}/tse/a10_tse/${A10_GHRD_PERIPH_RBF};name=a10_tse_periph", "", d)} \
-		${@bb.utils.contains("A10_IMAGE_TYPE", "pr", "${GHRD_REPO}/pr/a10_pr/${A10_GHRD_CORE_RBF};name=a10_pr_core", "", d)} \
-		${@bb.utils.contains("A10_IMAGE_TYPE", "pr", "${GHRD_REPO}/pr/a10_pr/${A10_GHRD_PERIPH_RBF};name=a10_pr_periph", "", d)} \
-		${@bb.utils.contains("A10_IMAGE_TYPE", "pr", "${GHRD_REPO}/pr/a10_pr/persona0.rbf;name=a10_pr_persona0", "", d)} \
-		${@bb.utils.contains("A10_IMAGE_TYPE", "pr", "${GHRD_REPO}/pr/a10_pr/persona1.rbf;name=a10_pr_persona1", "", d)} \
+		${GHRD_REPO}/${IMAGE_TYPE}/a10_${IMAGE_TYPE}/${A10_GHRD_CORE_RBF};name=a10_${IMAGE_TYPE}_core \
+		${GHRD_REPO}/${IMAGE_TYPE}/a10_${IMAGE_TYPE}/${A10_GHRD_PERIPH_RBF};name=a10_${IMAGE_TYPE}_periph \
+		${@bb.utils.contains("IMAGE_TYPE", "pr", "${GHRD_REPO}/${IMAGE_TYPE}/a10_${IMAGE_TYPE}/persona0.rbf;name=a10_pr_persona0", "", d)} \
+		${@bb.utils.contains("IMAGE_TYPE", "pr", "${GHRD_REPO}/${IMAGE_TYPE}/a10_${IMAGE_TYPE}/persona1.rbf;name=a10_pr_persona1", "", d)} \
 		"
 
 SRC_URI_stratix10 ?= "\
-		${@bb.utils.contains("S10_IMAGE_TYPE", "", "", "${GHRD_REPO}/gsrd/s10_gsrd/${ARM64_GHRD_CORE_RBF};name=stratix10_gsrd_core", d)} \
-		${@bb.utils.contains("S10_IMAGE_TYPE", "pcie", "${GHRD_REPO}/pcie/s10_pcie_gen3x8/${ARM64_GHRD_CORE_RBF};name=stratix10_pcie_core", "", d)} \
-		${@bb.utils.contains("S10_IMAGE_TYPE", "sgmii", "${GHRD_REPO}/sgmii/s10_sgmii/${ARM64_GHRD_CORE_RBF};name=stratix10_sgmii_core", "", d)} \
-		${@bb.utils.contains("S10_IMAGE_TYPE", "qspi", "${GHRD_REPO}/qspi/s10_qspi/ghrd.core.rbf;name=stratix10_qspi_core", "", d)} \
-		${@bb.utils.contains("S10_IMAGE_TYPE", "pr", "${GHRD_REPO}/pr/s10_pr/ghrd.core.rbf;name=stratix10_pr_core", "", d)} \
-		${@bb.utils.contains("S10_IMAGE_TYPE", "pr", "${GHRD_REPO}/pr/s10_pr/persona0.rbf;name=stratix10_pr_persona0", "", d)} \
-		${@bb.utils.contains("S10_IMAGE_TYPE", "pr", "${GHRD_REPO}/pr/s10_pr/persona1.rbf;name=stratix10_pr_persona1", "", d)} \
+		${GHRD_REPO}/${IMAGE_TYPE}/s10_${IMAGE_TYPE}/${ARM64_GHRD_CORE_RBF};name=stratix10_${IMAGE_TYPE}_core \
+		${@bb.utils.contains("IMAGE_TYPE", "pr", "${GHRD_REPO}/${IMAGE_TYPE}/s10_${IMAGE_TYPE}/persona0.rbf;name=stratix10_pr_persona0", "", d)} \
+		${@bb.utils.contains("IMAGE_TYPE", "pr", "${GHRD_REPO}/${IMAGE_TYPE}/s10_${IMAGE_TYPE}/persona1.rbf;name=stratix10_pr_persona1", "", d)} \
 		"
 
 SRC_URI_agilex ?= "\
-		${GHRD_REPO}/gsrd/agilex_gsrd/${ARM64_GHRD_CORE_RBF};name=agilex_gsrd_core  \
+		${GHRD_REPO}/${IMAGE_TYPE}/agilex_${IMAGE_TYPE}/${ARM64_GHRD_CORE_RBF};name=agilex_${IMAGE_TYPE}_core  \
 		"
 
 SRC_URI[c5_ghrd_core.sha256sum] = "aaf2c880f95d7428a178ecf4c24c5c5a0d5ee2eb664b2894e363d834c47a184a"
@@ -102,7 +88,7 @@ do_install () {
 		install -D -m 0644 ${WORKDIR}/${ARM64_GHRD_CORE_RBF} ${D}/boot/${ARM64_GHRD_CORE_RBF}
 	fi
 
-	if ${@bb.utils.contains("S10_IMAGE_TYPE", "pr", "true", "false", d)} || ${@bb.utils.contains("A10_IMAGE_TYPE", "pr", "true", "false", d)}; then
+	if ${@bb.utils.contains("IMAGE_TYPE", "pr", "true", "false", d)}; then
 		install -D -m 0644 ${WORKDIR}/persona0.rbf ${D}${base_libdir}/firmware/persona0.rbf
 		install -D -m 0644 ${WORKDIR}/persona1.rbf ${D}${base_libdir}/firmware/persona1.rbf
 	fi
@@ -111,30 +97,21 @@ do_install () {
 do_deploy () {
 
 	if ${@bb.utils.contains("MACHINE", "cyclone5", "true", "false", d)} ; then
-		install -D -m 0644 ${WORKDIR}/${C5_GHRD_CORE_RBF} ${DEPLOY_DIR_IMAGE}/${C5_GHRD_CORE_RBF}
+		install -D -m 0644 ${WORKDIR}/${C5_GHRD_CORE_RBF} ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}/${C5_GHRD_CORE_RBF}
 	fi
 
 	if ${@bb.utils.contains("MACHINE", "arria10", "true", "false", d)} ; then
-		if ${@bb.utils.contains("A10_IMAGE_TYPE", "nand", "true", "false", d)}; then
-			install -D -m 0644 ${WORKDIR}/${A10_GHRD_CORE_RBF} ${DEPLOY_DIR_IMAGE}/a10_nand/${A10_GHRD_CORE_RBF}
-			install -D -m 0644 ${WORKDIR}/${A10_GHRD_PERIPH_RBF} ${DEPLOY_DIR_IMAGE}/a10_nand/${A10_GHRD_PERIPH_RBF}
-		elif ${@bb.utils.contains("A10_IMAGE_TYPE", "qspi", "true", "false", d)}; then
-			install -D -m 0644 ${WORKDIR}/${A10_GHRD_CORE_RBF} ${DEPLOY_DIR_IMAGE}/a10_qspi/${A10_GHRD_CORE_RBF}
-			install -D -m 0644 ${WORKDIR}/${A10_GHRD_PERIPH_RBF} ${DEPLOY_DIR_IMAGE}/a10_qspi/${A10_GHRD_PERIPH_RBF}
-		else
-
-			install -D -m 0644 ${WORKDIR}/${A10_GHRD_CORE_RBF} ${DEPLOY_DIR_IMAGE}/${A10_GHRD_CORE_RBF}
-			install -D -m 0644 ${WORKDIR}/${A10_GHRD_PERIPH_RBF} ${DEPLOY_DIR_IMAGE}/${A10_GHRD_PERIPH_RBF}
-		fi
+		install -D -m 0644 ${WORKDIR}/${A10_GHRD_CORE_RBF} ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}/${A10_GHRD_CORE_RBF}
+		install -D -m 0644 ${WORKDIR}/${A10_GHRD_PERIPH_RBF} ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}/${A10_GHRD_PERIPH_RBF}
 	fi
 
 	if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
-                install -D -m 0644 ${WORKDIR}/${ARM64_GHRD_CORE_RBF} ${DEPLOY_DIR_IMAGE}/${ARM64_GHRD_CORE_RBF}
+                install -D -m 0644 ${WORKDIR}/${ARM64_GHRD_CORE_RBF} ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}/${ARM64_GHRD_CORE_RBF}
         fi
 
-	if ${@bb.utils.contains("S10_IMAGE_TYPE", "pr", "true", "false", d)} || ${@bb.utils.contains("A10_IMAGE_TYPE", "pr", "true", "false", d)}; then
-		install -D -m 0644 ${WORKDIR}/persona0.rbf ${DEPLOY_DIR_IMAGE}/persona0.rbf
-		install -D -m 0644 ${WORKDIR}/persona1.rbf ${DEPLOY_DIR_IMAGE}/persona1.rbf
+	if ${@bb.utils.contains("IMAGE_TYPE", "pr", "true", "false", d)}; then
+		install -D -m 0644 ${WORKDIR}/persona0.rbf ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}/persona0.rbf
+		install -D -m 0644 ${WORKDIR}/persona1.rbf ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}/persona1.rbf
 	fi
 
 }

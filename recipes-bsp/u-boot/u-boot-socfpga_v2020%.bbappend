@@ -50,47 +50,33 @@ do_deploy_append() {
 do_compile_append_arria10() {
 	cp ${DEPLOY_DIR_IMAGE}/Image ${S}/Image
 
-	if ${@bb.utils.contains("A10_IMAGE_TYPE", "nand", "true", "false", d)}; then
+	if ${@bb.utils.contains("IMAGE_TYPE", "nand", "true", "false", d)} || ${@bb.utils.contains("IMAGE_TYPE", "qspi", "true", "false", d)}; then
 		# A10 NAND Variant
-		cp ${B}/socfpga_${MACHINE}_nand_defconfig/u-boot-nodtb.bin ${S}/u-boot-nodtb.bin
-		cp ${B}/socfpga_${MACHINE}_nand_defconfig/u-boot.dtb ${S}/u-boot.dtb
-		cp ${DEPLOY_DIR_IMAGE}/a10_nand/ghrd_10as066n2.core.rbf ${S}/ghrd_10as066n2.core.rbf
-		cp ${DEPLOY_DIR_IMAGE}/a10_nand/ghrd_10as066n2.periph.rbf ${S}/ghrd_10as066n2.periph.rbf
-		cp ${DEPLOY_DIR_IMAGE}/socfpga_arria10_socdk_nand.dtb ${S}/socfpga_arria10_socdk_nand.dtb
-		mkimage -E -f ${S}/board/altera/${MACHINE}-socdk/fit_uboot.its ${B}/fit_uboot_nand.itb
-		mkimage -E -f ${S}/board/altera/${MACHINE}-socdk/fit_spl_fpga.its ${B}/fit_spl_fpga_nand.itb
-		mkimage -E -f ${S}/board/altera/${MACHINE}-socdk/fit_kernel_nand.its ${B}/kernel_nand.itb
-	elif ${@bb.utils.contains("A10_IMAGE_TYPE", "qspi", "true", "false", d)}; then
-		# A10 QSPI Variant
-		cp ${B}/socfpga_${MACHINE}_qspi_defconfig/u-boot-nodtb.bin ${S}/u-boot-nodtb.bin
-		cp ${B}/socfpga_${MACHINE}_qspi_defconfig/u-boot.dtb ${S}/u-boot.dtb
-		cp ${DEPLOY_DIR_IMAGE}/a10_qspi/ghrd_10as066n2.core.rbf ${S}/ghrd_10as066n2.core.rbf
-		cp ${DEPLOY_DIR_IMAGE}/a10_qspi/ghrd_10as066n2.periph.rbf ${S}/ghrd_10as066n2.periph.rbf
-		cp ${DEPLOY_DIR_IMAGE}/socfpga_arria10_socdk_qspi.dtb ${S}/socfpga_arria10_socdk_qspi.dtb
-		mkimage -E -f ${S}/board/altera/${MACHINE}-socdk/fit_uboot.its ${B}/fit_uboot_qspi.itb
-		mkimage -E -f ${S}/board/altera/${MACHINE}-socdk/fit_spl_fpga.its ${B}/fit_spl_fpga_qspi.itb
-		mkimage -E -f ${S}/board/altera/${MACHINE}-socdk/fit_kernel_qspi.its ${B}/kernel_qspi.itb
+		cp ${B}/socfpga_${MACHINE}_${IMAGE_TYPE}_defconfig/u-boot-nodtb.bin ${S}/u-boot-nodtb.bin
+		cp ${B}/socfpga_${MACHINE}_${IMAGE_TYPE}_defconfig/u-boot.dtb ${S}/u-boot.dtb
+		cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}/ghrd_10as066n2.core.rbf ${S}/ghrd_10as066n2.core.rbf
+		cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}/ghrd_10as066n2.periph.rbf ${S}/ghrd_10as066n2.periph.rbf
+		cp ${DEPLOY_DIR_IMAGE}/socfpga_arria10_socdk_${IMAGE_TYPE}.dtb ${S}/socfpga_arria10_socdk_${IMAGE_TYPE}.dtb
+		mkimage -E -f ${S}/board/altera/${MACHINE}-socdk/fit_uboot.its ${B}/fit_uboot_${IMAGE_TYPE}.itb
+		mkimage -E -f ${S}/board/altera/${MACHINE}-socdk/fit_spl_fpga.its ${B}/fit_spl_fpga_${IMAGE_TYPE}.itb
+		mkimage -E -f ${S}/board/altera/${MACHINE}-socdk/fit_kernel_${IMAGE_TYPE}.its ${B}/kernel_${IMAGE_TYPE}.itb
 	else
 		cp ${B}/socfpga_${MACHINE}_defconfig/u-boot-nodtb.bin ${S}/u-boot-nodtb.bin
 		cp ${B}/socfpga_${MACHINE}_defconfig/u-boot.dtb ${S}/u-boot.dtb
 
-		cp ${DEPLOY_DIR_IMAGE}/ghrd_10as066n2.core.rbf ${S}/ghrd_10as066n2.core.rbf
-		cp ${DEPLOY_DIR_IMAGE}/ghrd_10as066n2.periph.rbf ${S}/ghrd_10as066n2.periph.rbf
-		mkimage -E -f ${S}/board/altera/${MACHINE}-socdk/fit_uboot.its ${B}/fit_uboot.itb
-		mkimage -E -f ${S}/board/altera/${MACHINE}-socdk/fit_spl_fpga_periph_only.its ${B}/fit_spl_fpga.itb
+		cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}/ghrd_10as066n2.core.rbf ${S}/ghrd_10as066n2.core.rbf
+		cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}/ghrd_10as066n2.periph.rbf ${S}/ghrd_10as066n2.periph.rbf
+		mkimage -E -f ${S}/board/altera/${MACHINE}-socdk/fit_uboot.its ${B}/fit_uboot_${IMAGE_TYPE}.itb
+		mkimage -E -f ${S}/board/altera/${MACHINE}-socdk/fit_spl_fpga_periph_only.its ${B}/fit_spl_fpga_${IMAGE_TYPE}.itb
 	fi
 }
 
 do_deploy_append_arria10() {
 	install -d ${DEPLOYDIR}
-	if ${@bb.utils.contains("A10_IMAGE_TYPE", "nand", "true", "false", d)}; then
-		install -m 744 ${B}/kernel_nand.itb ${DEPLOYDIR}/kernel_nand.itb
-		install -m 744 ${B}/fit_uboot_nand.itb ${DEPLOYDIR}/fit_uboot_nand.itb
-		install -m 744 ${B}/fit_spl_fpga_nand.itb ${DEPLOYDIR}/fit_spl_fpga_nand.itb
-	elif ${@bb.utils.contains("A10_IMAGE_TYPE", "qspi", "true", "false", d)}; then
-		install -m 744 ${B}/kernel_qspi.itb ${DEPLOYDIR}/kernel_qspi.itb
-		install -m 744 ${B}/fit_uboot_qspi.itb ${DEPLOYDIR}/fit_uboot_qspi.itb
-		install -m 744 ${B}/fit_spl_fpga_qspi.itb ${DEPLOYDIR}/fit_spl_fpga_qspi.itb
+	if ${@bb.utils.contains("IMAGE_TYPE", "nand", "true", "false", d)} || ${@bb.utils.contains("IMAGE_TYPE", "qspi", "true", "false", d)}; then
+		install -m 744 ${B}/kernel_${IMAGE_TYPE}.itb ${DEPLOYDIR}/kernel_${IMAGE_TYPE}.itb
+		install -m 744 ${B}/fit_uboot_${IMAGE_TYPE}.itb ${DEPLOYDIR}/fit_uboot_${IMAGE_TYPE}.itb
+		install -m 744 ${B}/fit_spl_fpga_${IMAGE_TYPE}.itb ${DEPLOYDIR}/fit_spl_fpga_${IMAGE_TYPE}.itb
 	else
 		install -m 744 ${B}/*.itb ${DEPLOYDIR}/
 		install -m 644 ${B}/${config}/spl/u-boot-splx4.sfp ${DEPLOYDIR}/u-boot-splx4.sfp

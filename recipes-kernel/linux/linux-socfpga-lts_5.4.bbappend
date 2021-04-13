@@ -3,32 +3,31 @@
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/linux-socfpga-lts:"
 
-S10_DTS_REPO = "https://pg-arc.altera.com/tools/socfpga_refdes/s10_soc_devkit_ghrd/socfpga-5.4.13-lts_files"
-A10_DTS_REPO = "https://pg-arc.altera.com/tools/socfpga_refdes/a10_soc_devkit_ghrd/5.4-lts"
+DTS_REPO ?= "https://releases.rocketboards.org/release/dts-source"
 
 SRC_URI_append_agilex += "\
-			 ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "https://releases.rocketboards.org/release/2020.11/gsrd/agilex_gsrd/0001-socfpga_agilex_socdk-include-reference-design-dtsi.patch;name=agilex_dts", "", d)} \
+			 ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "${DTS_REPO}/agilex/gsrd/0001-socfpga_agilex_socdk-include-reference-design-dtsi.patch;name=agilex_dts", "", d)} \
 			 "
 
 #rename ghrd folder to gsrd folder internally
 SRC_URI_append_stratix10 += "\
-			 ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "${S10_DTS_REPO}/ghrd/0001-socfpga_stratix10_socdk-include-reference-design-dts.patch;name=s10_gsrd_dts", "", d)} \
-			 ${@bb.utils.contains("IMAGE_TYPE", "pr", "${S10_DTS_REPO}/ghrd/0001-socfpga_stratix10_socdk-include-reference-design-dts.patch;name=s10_gsrd_dts", "", d)} \
-			 ${@bb.utils.contains("IMAGE_TYPE", "pr", "https://pg-arc.altera.com/tools/socfpga_refdes/s10_soc_devkit_ghrd/5.4-lts/pr/0001-enable-PR-from-Linux-Device-Tree-for-Base-Persona0-a.patch;name=s10_pr_dts", "", d)} \
-			 ${@bb.utils.contains("IMAGE_TYPE", "pcie", "${S10_DTS_REPO}/pcie/0001-socfpga_stratix10_socdk-pcie-include-reference-desig.patch;name=s10_pcie_dts", "", d)} \
-			 ${@bb.utils.contains("IMAGE_TYPE", "sgmii", "${S10_DTS_REPO}/sgmii/0001-socfpga_stratix10_socdk-sgmii-include-reference-desi.patch;name=s10_sgmii_dts", "", d)} \
+			 ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "${DTS_REPO}/stratix10/gsrd/0001-socfpga_stratix10_socdk-include-reference-design-dts.patch;name=s10_gsrd_dts", "", d)} \
+			 ${@bb.utils.contains("IMAGE_TYPE", "pr", "${DTS_REPO}/stratix10/pr/0001-socfpga_stratix10_socdk-include-reference-design-dts.patch;name=s10_gsrd_dts", "", d)} \
+			 ${@bb.utils.contains("IMAGE_TYPE", "pr", "${DTS_REPO}/stratix10/pr/0001-enable-PR-from-Linux-Device-Tree-for-Base-Persona0-a.patch;name=s10_pr_dts", "", d)} \
+			 ${@bb.utils.contains("IMAGE_TYPE", "pcie", "${DTS_REPO}/stratix10/pcie/0001-socfpga_stratix10_socdk-pcie-include-reference-desig.patch;name=s10_pcie_dts", "", d)} \
+			 ${@bb.utils.contains("IMAGE_TYPE", "sgmii", "${DTS_REPO}/stratix10/sgmii/0001-socfpga_stratix10_socdk-sgmii-include-reference-desi.patch;name=s10_sgmii_dts", "", d)} \
 			 "
 SRC_URI_append_arria10 += "\
-			${@bb.utils.contains("IMAGE_TYPE", "gsrd", "${A10_DTS_REPO}/ghrd/0001-socfpga_arria10_socdk-include-reference-design-dtsi.patch;name=a10_gsrd_dts", "", d)} \
-			${@bb.utils.contains("IMAGE_TYPE", "pr", "https://pg-arc.altera.com/tools/socfpga_refdes/a10_soc_devkit_ghrd/5.4-lts/pr/0001-boot-dts-a10-add-Arria10-PR-overlays.patch;name=a10_pr_dts", "", d)} \
-			${@bb.utils.contains("IMAGE_TYPE", "nand", "${A10_DTS_REPO}/ghrd/0001-socfpga_arria10_socdk-include-reference-design-dtsi.patch;name=a10_gsrd_dts", "", d)} \
-			${@bb.utils.contains("IMAGE_TYPE", "qspi", "${A10_DTS_REPO}/ghrd/0001-socfpga_arria10_socdk-include-reference-design-dtsi.patch;name=a10_gsrd_dts", "", d)} \
-			${@bb.utils.contains("IMAGE_TYPE", "pcie", "${A10_DTS_REPO}/pcie/0001-socfpga_arria10_socdk-pcie-include-reference-design-.patch;name=a10_pcie_dts", "", d)} \
-			${@bb.utils.contains("IMAGE_TYPE", "sgmii", "${A10_DTS_REPO}/sgmii/0001-socfpga_arria10_socdk-sgmii-include-reference-design.patch;name=a10_sgmii_dts", "", d)} \
-			${@bb.utils.contains("IMAGE_TYPE", "tse", "${A10_DTS_REPO}/tse/0001-socfpga_arria10_socdk-tse-include-reference-design-d.patch;name=a10_tse_dts", "", d)} \
+			${@bb.utils.contains("IMAGE_TYPE", "gsrd", "${DTS_REPO}/arria10/gsrd/0001-socfpga_arria10_socdk-include-reference-design-dtsi.patch;name=a10_gsrd_dts", "", d)} \
+			${@bb.utils.contains("IMAGE_TYPE", "pr", "${DTS_REPO}/arria10/pr/0001-boot-dts-a10-add-Arria10-PR-overlays.patch;name=a10_pr_dts", "", d)} \
+			${@bb.utils.contains("IMAGE_TYPE", "nand", "${DTS_REPO}/arria10/nand/0001-socfpga_arria10_socdk-include-reference-design-dtsi.patch;name=a10_gsrd_dts", "", d)} \
+			${@bb.utils.contains("IMAGE_TYPE", "qspi", "${DTS_REPO}/arria10/qspi/0001-socfpga_arria10_socdk-include-reference-design-dtsi.patch;name=a10_gsrd_dts", "", d)} \
+			${@bb.utils.contains("IMAGE_TYPE", "pcie", "${DTS_REPO}/arria10/pcie/0001-socfpga_arria10_socdk-pcie-include-reference-design-.patch;name=a10_pcie_dts", "", d)} \
+			${@bb.utils.contains("IMAGE_TYPE", "sgmii", "${DTS_REPO}/arria10/sgmii/0001-socfpga_arria10_socdk-sgmii-include-reference-design.patch;name=a10_sgmii_dts", "", d)} \
+			${@bb.utils.contains("IMAGE_TYPE", "tse", "${DTS_REPO}/arria10/tse/0001-socfpga_arria10_socdk-tse-include-reference-design-d.patch;name=a10_tse_dts", "", d)} \
 			"
 
-SRC_URI_append_cyclone5 += "https://pg-arc.altera.com/tools/socfpga_refdes/c5_soc_devkit_ghrd/5.4-lts/0001-socfpga_cyclone5_socdk-include-reference-design-dtsi.patch;name=cyclone5_dts"
+SRC_URI_append_cyclone5 += "${DTS_REPO}/cyclone5/gsrd/0001-socfpga_cyclone5_socdk-include-reference-design-dtsi.patch;name=cyclone5_dts"
 
 SRC_URI[agilex_dts.sha256sum] = "c8ea92c0b3e4e65ab23ee8f50ce25aaa39d51c01f1af8cafda3ab50c725afcee"
 

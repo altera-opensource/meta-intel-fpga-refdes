@@ -49,18 +49,18 @@ SRC_URI += "file://ubifs.scc"
 SRC_URI_append_arria10 += "file://tse.scc"
 SRC_URI_append_cyclone5 += "file://tse.scc"
 
-do_install_append_arria10() {
+do_install_append_stratix10() {
+
 	if ${@bb.utils.contains("IMAGE_TYPE", "pr", "true", "false", d)} ; then
-		install -D -m 0644 ${D}/boot/fpga_region.dtb ${D}/boot/fpga_static_region.dtbo
+		install -D -m 0644 ${D}/boot/base.dtb ${D}/boot/base.dtbo
 		install -D -m 0644 ${D}/boot/persona1.dtb ${D}/boot/persona1.dtbo
 		install -D -m 0644 ${D}/boot/persona0.dtb ${D}/boot/persona0.dtbo
 	fi
 }
 
-do_install_append_stratix10() {
-
+do_install_append_arria10() {
 	if ${@bb.utils.contains("IMAGE_TYPE", "pr", "true", "false", d)} ; then
-		install -D -m 0644 ${D}/boot/base.dtb ${D}/boot/base.dtbo
+		install -D -m 0644 ${D}/boot/fpga_region.dtb ${D}/boot/fpga_static_region.dtbo
 		install -D -m 0644 ${D}/boot/persona1.dtb ${D}/boot/persona1.dtbo
 		install -D -m 0644 ${D}/boot/persona0.dtb ${D}/boot/persona0.dtbo
 	fi

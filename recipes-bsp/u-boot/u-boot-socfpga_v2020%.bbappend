@@ -1,9 +1,9 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
 DEPENDS += "coreutils-native u-boot-tools virtual/kernel"
-DEPENDS_append_arria10 += "hw-ref-design"
 DEPENDS_append_agilex += "arm-trusted-firmware bash"
 DEPENDS_append_stratix10 += "arm-trusted-firmware bash"
+DEPENDS_append_arria10 += "hw-ref-design"
 
 inherit deploy
 
@@ -24,7 +24,6 @@ do_install_append() {
 		ln -sf u-boot-${UBOOT_CONFIG}-${PV}-${PR}.itb ${D}/boot/u-boot.itb
 		rm -rf  ${D}/boot/*.img*
 	fi
-
 }
 
 do_deploy_append() {
@@ -63,7 +62,6 @@ do_compile_append_arria10() {
 	else
 		cp ${B}/socfpga_${MACHINE}_defconfig/u-boot-nodtb.bin ${S}/u-boot-nodtb.bin
 		cp ${B}/socfpga_${MACHINE}_defconfig/u-boot.dtb ${S}/u-boot.dtb
-
 		cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}/ghrd_10as066n2.core.rbf ${S}/ghrd_10as066n2.core.rbf
 		cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}/ghrd_10as066n2.periph.rbf ${S}/ghrd_10as066n2.periph.rbf
 		mkimage -E -f ${S}/board/altera/${MACHINE}-socdk/fit_uboot.its ${B}/fit_uboot_${IMAGE_TYPE}.itb

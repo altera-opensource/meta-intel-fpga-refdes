@@ -9,21 +9,13 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 SCRIPT_REPO ?= "https://releases.rocketboards.org/release/uboot-script"
 
-SRC_URI_agilex = "\
-	  ${SCRIPT_REPO}/agilex/u-boot.txt;name=agilex_scr \
-	  "
+SRC_URI_agilex = "${SCRIPT_REPO}/agilex/u-boot.txt;name=agilex_scr"
 
-SRC_URI_stratix10 = "\
-          ${SCRIPT_REPO}/stratix10/u-boot.txt;name=stratix10_scr \
-          "
+SRC_URI_stratix10 = "${SCRIPT_REPO}/stratix10/u-boot.txt;name=stratix10_scr"
 
-SRC_URI_arria10 = "\
-	  ${SCRIPT_REPO}/arria10/u-boot.txt;name=arria10_scr \
-	  "
+SRC_URI_arria10 = "${SCRIPT_REPO}/arria10/u-boot.txt;name=arria10_scr"
 
-SRC_URI_cyclone5 = "\
-	  ${SCRIPT_REPO}/cyclone5/u-boot.txt;name=cyclone5_scr \
-	  "
+SRC_URI_cyclone5 = "${SCRIPT_REPO}/cyclone5/u-boot.txt;name=cyclone5_scr"
 
 SRC_URI[agilex_scr.sha256sum] = "ea9475878de5b42d943e0c394f064bc3e2907a8b8a577b7ebc9706e7c97aefa5"
 SRC_URI[stratix10_scr.sha256sum] = "ea9475878de5b42d943e0c394f064bc3e2907a8b8a577b7ebc9706e7c97aefa5"
@@ -60,7 +52,6 @@ do_deploy() {
 		install -m 0644 ${WORKDIR}/u-boot.scr ${DEPLOYDIR}/u-boot-socfpga-${MACHINE}-${PV}-${PR}.scr
 		ln -sf u-boot-socfpga-${MACHINE}-${PV}-${PR}.scr ${DEPLOYDIR}/u-boot.scr
 	fi
-
 }
 
 addtask do_deploy after do_compile before do_build

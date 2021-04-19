@@ -34,12 +34,12 @@ do_compile_stratix10() {
 }
 
 do_compile_cyclone5() {
-        mkimage -A arm -O linux -T script -C none -a 0 -e 0 -n "Cyclone5 Script" -d "${WORKDIR}/cyclone5/u-boot.txt" ${WORKDIR}/u-boot.scr
+        mkimage -A arm -O linux -T script -C none -a 0 -e 0 -n "Cyclone5 Script" -d "${WORKDIR}/u-boot.txt" ${WORKDIR}/u-boot.scr
 }
 
 # U-boot script for Arria10 PR variant
 do_compile_arria10() {
-        mkimage -A arm -O linux -T script -C none -a 0 -e 0 -n "Arria10 Script" -d "${WORKDIR}/arria10/u-boot.txt" ${WORKDIR}/boot.scr
+        mkimage -A arm -O linux -T script -C none -a 0 -e 0 -n "Arria10 Script" -d "${WORKDIR}/u-boot.txt" ${WORKDIR}/boot.scr
 }
 
 do_deploy() {

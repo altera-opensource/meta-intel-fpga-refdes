@@ -96,21 +96,21 @@ do_install () {
 
 do_deploy () {
 	if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
-		install -D -m 0644 ${WORKDIR}/${ARM64_GHRD_CORE_RBF} ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}/${ARM64_GHRD_CORE_RBF}
+		install -D -m 0644 ${WORKDIR}/${ARM64_GHRD_CORE_RBF} ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/${ARM64_GHRD_CORE_RBF}
 	fi
 
 	if ${@bb.utils.contains("MACHINE", "arria10", "true", "false", d)} ; then
-		install -D -m 0644 ${WORKDIR}/${A10_GHRD_CORE_RBF} ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}/${A10_GHRD_CORE_RBF}
-		install -D -m 0644 ${WORKDIR}/${A10_GHRD_PERIPH_RBF} ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}/${A10_GHRD_PERIPH_RBF}
+		install -D -m 0644 ${WORKDIR}/${A10_GHRD_CORE_RBF} ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/${A10_GHRD_CORE_RBF}
+		install -D -m 0644 ${WORKDIR}/${A10_GHRD_PERIPH_RBF} ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/${A10_GHRD_PERIPH_RBF}
 	fi
 
 	if ${@bb.utils.contains("MACHINE", "cyclone5", "true", "false", d)} ; then
-		install -D -m 0644 ${WORKDIR}/${C5_GHRD_CORE_RBF} ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}/${C5_GHRD_CORE_RBF}
+		install -D -m 0644 ${WORKDIR}/${C5_GHRD_CORE_RBF} ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/${C5_GHRD_CORE_RBF}
 	fi
 
 	if ${@bb.utils.contains("IMAGE_TYPE", "pr", "true", "false", d)}; then
-		install -D -m 0644 ${WORKDIR}/persona0.rbf ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}/persona0.rbf
-		install -D -m 0644 ${WORKDIR}/persona1.rbf ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}/persona1.rbf
+		install -D -m 0644 ${WORKDIR}/persona0.rbf ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/persona0.rbf
+		install -D -m 0644 ${WORKDIR}/persona1.rbf ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/persona1.rbf
 	fi
 }
 

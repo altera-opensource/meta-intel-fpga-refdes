@@ -60,8 +60,8 @@ SRC_URI[a10_pr_core.sha256sum] = "7bee9452d0081368cb3ee35b59eef26aabedc1f5e60130
 SRC_URI[a10_pr_periph.sha256sum] = "b9d4f61fcd409bc0784e2db1ac6e6faaaa4db3b0c0e57cc681738ee65fe1d53f"
 SRC_URI[a10_pr_persona0.sha256sum] = "db1ec6d490ac77b2703fe9a9898627deb3f47f630ac0a9bbd818592d985affaf"
 SRC_URI[a10_pr_persona1.sha256sum] = "f5f3ac468b85e2211724ced77b9c5ad702c3492f5c7926a4bd82c44fa2a26c68"
-SRC_URI[a10_sgmii_persona0.sha256sum] = "c2b79d1be633ac8b4b0245ada0b597ca45893dd3617b14056e82e6a6fdf98781"
-SRC_URI[a10_sgmii_persona1.sha256sum] = "17daaa0d808c8ab76f3351db5daab030297333156cd19b1123ec90c6c3cb5b1c"
+SRC_URI[a10_sgmii_core.sha256sum] = "c2b79d1be633ac8b4b0245ada0b597ca45893dd3617b14056e82e6a6fdf98781"
+SRC_URI[a10_sgmii_periph.sha256sum] = "17daaa0d808c8ab76f3351db5daab030297333156cd19b1123ec90c6c3cb5b1c"
 
 SRC_URI[c5_gsrd_core.sha256sum] = "4a1a3e390de8a9a529a941173eaa953797bc680bc898240cedbc4465e77b5087"
 

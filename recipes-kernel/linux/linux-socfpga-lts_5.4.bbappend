@@ -15,7 +15,7 @@ SRC_URI_append_agilex += "\
 SRC_URI_append_stratix10 += "\
 			 ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "${DTS_REPO}/stratix10/gsrd/0001-socfpga_stratix10_socdk-include-reference-design-dts.patch;name=s10_gsrd_dts", "", d)} \
 			 ${@bb.utils.contains("IMAGE_TYPE", "pr", "${DTS_REPO}/stratix10/pr/0001-socfpga_stratix10_socdk-include-reference-design-dts.patch;name=s10_gsrd_dts", "", d)} \
-			 ${@bb.utils.contains("IMAGE_TYPE", "pr", "${DTS_REPO}/stratix10/pr/0001-enable-PR-from-Linux-Device-Tree-for-Base-Persona0-a.patch;name=s10_pr_dts", "", d)} \
+			 ${@bb.utils.contains("IMAGE_TYPE", "pr", "${DTS_REPO}/stratix10/pr/0001-dts-arm64-altera-enable-FPGA-PR-DTBs-for-Stratix10.patch;name=s10_pr_dts", "", d)} \
 			 ${@bb.utils.contains("IMAGE_TYPE", "pcie", "${DTS_REPO}/stratix10/pcie/0001-socfpga_stratix10_socdk-pcie-include-reference-desig.patch;name=s10_pcie_dts", "", d)} \
 			 ${@bb.utils.contains("IMAGE_TYPE", "sgmii", "${DTS_REPO}/stratix10/sgmii/0001-socfpga_stratix10_socdk-sgmii-include-reference-desi.patch;name=s10_sgmii_dts", "", d)} \
 			 "
@@ -35,7 +35,7 @@ SRC_URI[agilex_gsrd_dts.sha256sum] = "c8ea92c0b3e4e65ab23ee8f50ce25aaa39d51c01f1
 SRC_URI[agilex_pr_dts.sha256sum] = "86ac18cc37c41c96a74865a514cce1b83d6a1e726c54ecb1ba3a45b2ea22b86e"
 
 SRC_URI[s10_gsrd_dts.sha256sum] = "3fd509458e90bc231a09073e22ddde53a5b2132eb4a5c8b2eab2d4aae651294b"
-SRC_URI[s10_pr_dts.sha256sum] = "3cf86ecfb476a935bb1949e8d0ca7638e59ad08210d9fd9ab9327a8b62be8e66"
+SRC_URI[s10_pr_dts.sha256sum] = "34603f525ac9d06a0f52721f379c0dca369f8e5621e983b31cf5c1b5157155ba"
 SRC_URI[s10_pcie_dts.sha256sum] = "b58d0ad88f674c4e0ea1e01860603e5be7f479499fcbda1ad9a7c282ab98266d"
 SRC_URI[s10_sgmii_dts.sha256sum] = "3a19f186ede5d74d4649b6fe949c8049cc1b06bf028f994e1c09f80ae9ad1a7c"
 

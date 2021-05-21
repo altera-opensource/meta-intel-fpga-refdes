@@ -6,7 +6,7 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/linux-socfpga-lts:"
 DTS_REPO ?= "https://releases.rocketboards.org/release/dts-source"
 
 SRC_URI_append_agilex += "\
-			 ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "${DTS_REPO}/agilex/gsrd/0001-socfpga_agilex_socdk-include-reference-design-dtsi.patch;name=agilex_dts", "", d)} \
+			 ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "${DTS_REPO}/agilex/gsrd/0001-socfpga_agilex_socdk-include-reference-design-dtsi.patch;name=agilex_gsrd_dts", "", d)} \
 			 "
 
 #rename ghrd folder to gsrd folder internally
@@ -29,7 +29,7 @@ SRC_URI_append_arria10 += "\
 
 SRC_URI_append_cyclone5 += "${DTS_REPO}/cyclone5/gsrd/0001-socfpga_cyclone5_socdk-include-reference-design-dtsi.patch;name=cyclone5_dts"
 
-SRC_URI[agilex_dts.sha256sum] = "c8ea92c0b3e4e65ab23ee8f50ce25aaa39d51c01f1af8cafda3ab50c725afcee"
+SRC_URI[agilex_gsrd_dts.sha256sum] = "c8ea92c0b3e4e65ab23ee8f50ce25aaa39d51c01f1af8cafda3ab50c725afcee"
 
 SRC_URI[s10_gsrd_dts.sha256sum] = "3fd509458e90bc231a09073e22ddde53a5b2132eb4a5c8b2eab2d4aae651294b"
 SRC_URI[s10_pr_dts.sha256sum] = "3cf86ecfb476a935bb1949e8d0ca7638e59ad08210d9fd9ab9327a8b62be8e66"

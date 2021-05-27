@@ -21,7 +21,7 @@ SRC_URI_append_stratix10 += "\
 			 "
 SRC_URI_append_arria10 += "\
 			${@bb.utils.contains("IMAGE_TYPE", "gsrd", "${DTS_REPO}/arria10/gsrd/0001-socfpga_arria10_socdk-include-reference-design-dtsi.patch;name=a10_gsrd_dts", "", d)} \
-			${@bb.utils.contains("IMAGE_TYPE", "pr", "${DTS_REPO}/arria10/pr/0001-boot-dts-a10-add-Arria10-PR-overlays.patch;name=a10_pr_dts", "", d)} \
+			${@bb.utils.contains("IMAGE_TYPE", "pr", "${DTS_REPO}/arria10/pr/0001-dts-arm-enable-FPGA-PR-DTBs-for-Arria10.patch;name=a10_pr_dts", "", d)} \
 			${@bb.utils.contains("IMAGE_TYPE", "nand", "${DTS_REPO}/arria10/nand/0001-socfpga_arria10_socdk-include-reference-design-dtsi.patch;name=a10_gsrd_dts", "", d)} \
 			${@bb.utils.contains("IMAGE_TYPE", "qspi", "${DTS_REPO}/arria10/qspi/0001-socfpga_arria10_socdk-include-reference-design-dtsi.patch;name=a10_gsrd_dts", "", d)} \
 			${@bb.utils.contains("IMAGE_TYPE", "pcie", "${DTS_REPO}/arria10/pcie/0001-socfpga_arria10_socdk-pcie-include-reference-design-.patch;name=a10_pcie_dts", "", d)} \
@@ -40,7 +40,7 @@ SRC_URI[s10_pcie_dts.sha256sum] = "b58d0ad88f674c4e0ea1e01860603e5be7f479499fcbd
 SRC_URI[s10_sgmii_dts.sha256sum] = "3a19f186ede5d74d4649b6fe949c8049cc1b06bf028f994e1c09f80ae9ad1a7c"
 
 SRC_URI[a10_gsrd_dts.sha256sum] = "8e55aa38bd9fb7b25a5c2482a0afc6d8241194e44f6c0f3510829e58e242e034"
-SRC_URI[a10_pr_dts.sha256sum] = "dc1d42938791e200cd3089a670257d2bbb2c2469e330ec1493b0aaa27fbea04f"
+SRC_URI[a10_pr_dts.sha256sum] = "46e6de6e81bb15ad410fc55a173819798771de4b995a2652a6f176a0edc9956d"
 SRC_URI[a10_pcie_dts.sha256sum] = "1abd2b27bbcd9af296ce6c5ccb21cee98c34e634e5e7e49bf901b51a13835329"
 SRC_URI[a10_sgmii_dts.sha256sum] = "6c1ed6765e858e44e530b389843524f3b38997aa5d266de85198ecdf3a6ee64f"
 SRC_URI[a10_tse_dts.sha256sum] = "9915abc65271a36ac019f1f99047bb72303d0007b23f66b911a2249255ec30e0"

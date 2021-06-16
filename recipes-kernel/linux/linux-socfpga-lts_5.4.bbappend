@@ -51,6 +51,8 @@ SRC_URI[cyclone5_dts.sha256sum] = "52f629affd6cffc11bb40bbdad62149c20d56d5392bc2
 
 # Append kernel config fragments to enable UBIFS
 SRC_URI += "file://ubifs.scc"
+SRC_URI_append_agilex += "file://sgmii.scc"
+SRC_URI_append_stratix10 += "file://sgmii.scc"
 SRC_URI_append_arria10 += "file://tse.scc"
 SRC_URI_append_cyclone5 += "file://tse.scc"
 

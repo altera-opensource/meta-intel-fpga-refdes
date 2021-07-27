@@ -50,7 +50,7 @@ SRC_URI[a10_tse_dts.sha256sum] = "9915abc65271a36ac019f1f99047bb72303d0007b23f66
 SRC_URI[cyclone5_dts.sha256sum] = "52f629affd6cffc11bb40bbdad62149c20d56d5392bc2646e05310ad64e39a72"
 
 # Append kernel config fragments to enable UBIFS
-SRC_URI += "file://ubifs.scc"
+SRC_URI += "file://ubifs.scc file://proto.scc"
 SRC_URI_append_agilex += "file://sgmii.scc"
 SRC_URI_append_stratix10 += "file://sgmii.scc"
 SRC_URI_append_arria10 += "file://tse.scc"

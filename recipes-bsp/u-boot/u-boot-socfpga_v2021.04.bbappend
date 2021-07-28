@@ -9,7 +9,7 @@ inherit deploy
 
 do_compile[deptask] = "do_deploy"
 
-do_configure_append() {
+do_compile_prepend() {
 	if ${@bb.utils.contains("MACHINE", "n5x", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
 		cp ${DEPLOY_DIR_IMAGE}/bl31.bin ${B}/${config}/bl31.bin
 		cp ${DEPLOY_DIR_IMAGE}/Image ${B}/${config}/Image

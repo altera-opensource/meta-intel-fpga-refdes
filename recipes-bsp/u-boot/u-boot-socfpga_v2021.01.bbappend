@@ -1,6 +1,5 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
-DEPENDS += "coreutils-native u-boot-tools virtual/kernel"
 DEPENDS_append_n5x += "arm-trusted-firmware bash"
 DEPENDS_append_agilex += "arm-trusted-firmware bash"
 DEPENDS_append_stratix10 += "arm-trusted-firmware bash"

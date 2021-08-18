@@ -2,6 +2,8 @@ SUMMARY = "Intel SoCFPGA Golden Hardware Reference Design (GHRD)"
 DESCRIPTION = "Prebuilt FPGA bitstream for SOC Development Kit"
 SECTION = "bsp"
 
+FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+
 inherit deploy
 
 LICENSE = "Proprietary"
@@ -25,6 +27,7 @@ SRC_URI_stratix10 ?= "\
 		"
 
 SRC_URI_arria10 ?= "\
+		${GHRD_REPO}/${IMAGE_TYPE}/a10_${IMAGE_TYPE}/hps.xml \
 		${GHRD_REPO}/${IMAGE_TYPE}/a10_${IMAGE_TYPE}/${A10_GHRD_CORE_RBF};name=a10_${IMAGE_TYPE}_core \
 		${GHRD_REPO}/${IMAGE_TYPE}/a10_${IMAGE_TYPE}/${A10_GHRD_PERIPH_RBF};name=a10_${IMAGE_TYPE}_periph \
 		${@bb.utils.contains("IMAGE_TYPE", "pr", "${GHRD_REPO}/${IMAGE_TYPE}/a10_${IMAGE_TYPE}/persona0.rbf;name=a10_pr_persona0", "", d)} \
@@ -103,6 +106,7 @@ do_deploy () {
 	fi
 
 	if ${@bb.utils.contains("MACHINE", "arria10", "true", "false", d)} ; then
+		install -D -m 0644 ${WORKDIR}/hps.xml ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/hps.xml
 		install -D -m 0644 ${WORKDIR}/${A10_GHRD_CORE_RBF} ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/${A10_GHRD_CORE_RBF}
 		install -D -m 0644 ${WORKDIR}/${A10_GHRD_PERIPH_RBF} ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/${A10_GHRD_PERIPH_RBF}
 	fi

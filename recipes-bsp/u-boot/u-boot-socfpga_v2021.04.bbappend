@@ -57,8 +57,8 @@ do_deploy_append() {
 }
 
 do_compile_prepend_arria10() {
-	cp -r ${WORKDIR}/hps_isw_handoff/ ${S}
-	.${S}/arch/arm/mach-socfpga/qts-filter-a10.sh ${S}/hps_isw_handoff/hps.xml ${S}/arch/arm/dts/socfpga_arria10_socdk_sdmmc_handoff.h
+	cp -r ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/hps.xml ${S}/.
+	${S}/arch/arm/mach-socfpga/qts-filter-a10.sh ${S}/hps.xml ${S}/arch/arm/dts/socfpga_arria10_socdk_sdmmc_handoff.h
 }
 
 do_compile_append_arria10() {

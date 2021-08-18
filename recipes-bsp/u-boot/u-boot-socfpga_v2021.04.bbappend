@@ -12,8 +12,11 @@ do_compile[deptask] = "do_deploy"
 do_compile_prepend() {
 	if ${@bb.utils.contains("MACHINE", "n5x", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
 		cp ${DEPLOY_DIR_IMAGE}/bl31.bin ${B}/${config}/bl31.bin
+		cp ${DEPLOY_DIR_IMAGE}/bl31.bin ${S}/bl31.bin
 		cp ${DEPLOY_DIR_IMAGE}/Image ${B}/${config}/Image
+		cp ${DEPLOY_DIR_IMAGE}/Image ${S}/Image
 		cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk.dtb ${B}/${config}/linux.dtb
+		cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk.dtb ${S}/linux.dtb
 	fi
 }
 

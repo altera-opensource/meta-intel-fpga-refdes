@@ -27,7 +27,7 @@ SRC_URI_stratix10 ?= "\
 		"
 
 SRC_URI_arria10 ?= "\
-		${GHRD_REPO}/${IMAGE_TYPE}/a10_${IMAGE_TYPE}/hps.xml \
+		${GHRD_REPO}/${IMAGE_TYPE}/a10_${IMAGE_TYPE}/hps.xml;name=a10_${IMAGE_TYPE}_handoff_xml \
 		${GHRD_REPO}/${IMAGE_TYPE}/a10_${IMAGE_TYPE}/${A10_GHRD_CORE_RBF};name=a10_${IMAGE_TYPE}_core \
 		${GHRD_REPO}/${IMAGE_TYPE}/a10_${IMAGE_TYPE}/${A10_GHRD_PERIPH_RBF};name=a10_${IMAGE_TYPE}_periph \
 		${@bb.utils.contains("IMAGE_TYPE", "pr", "${GHRD_REPO}/${IMAGE_TYPE}/a10_${IMAGE_TYPE}/persona0.rbf;name=a10_pr_persona0", "", d)} \
@@ -67,6 +67,14 @@ SRC_URI[a10_sgmii_core.sha256sum] = "c2b79d1be633ac8b4b0245ada0b597ca45893dd3617
 SRC_URI[a10_sgmii_periph.sha256sum] = "17daaa0d808c8ab76f3351db5daab030297333156cd19b1123ec90c6c3cb5b1c"
 
 SRC_URI[c5_gsrd_core.sha256sum] = "4a1a3e390de8a9a529a941173eaa953797bc680bc898240cedbc4465e77b5087"
+
+SRC_URI[a10_gsrd_handoff_xml.sha256sum] = "0f70cec794743823f1c3cd31dd56032b17bc096e3f444102fda3e4d994d58aa1"
+SRC_URI[a10_nand_handoff_xml.sha256sum] = "1548c28a4dba9fcf13cf4933853703b57c77ca1bbc0d08b2d0666bd98e35a0b1"
+SRC_URI[a10_pcie_handoff_xml.sha256sum] = "c2af0ddcabd4222e0c803f4550210301fa424b2f060318c2adfd6a6ced005941"
+SRC_URI[a10_pr_handoff_xml.sha256sum] = "35f5650cb488ee8a24648419917aa9ac9156195e91126eb80521fe6312f7079f"
+SRC_URI[a10_qspi_handoff_xml.sha256sum] = "f6436f13e5a1849ab8a4493e1a7d95038b19fa4ac380d1cad0563d2cd54fa061"
+SRC_URI[a10_sgmii_handoff_xml.sha256sum] = "5a00ab66bb1590aff8cedcb5ebbfe316cdff30dcbfc9e2966141392939d1fecb"
+SRC_URI[a10_tse_handoff_xml.sha256sum] = "26f7a2574e8560e57d110f435f0756918e2ce90f06807b17f0f77bf4e7efcafc"
 
 PV = "${RBO_RELEASE_VER}"
 

@@ -1,8 +1,8 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
-DEPENDS_append_n5x += "arm-trusted-firmware bash"
-DEPENDS_append_agilex += "arm-trusted-firmware bash"
-DEPENDS_append_stratix10 += "arm-trusted-firmware bash"
+DEPENDS_append_n5x += "arm-trusted-firmware bash u-boot-socfpga-scr"
+DEPENDS_append_agilex += "arm-trusted-firmware bash u-boot-socfpga-scr"
+DEPENDS_append_stratix10 += "arm-trusted-firmware bash u-boot-socfpga-scr"
 DEPENDS_append_arria10 += "hw-ref-design"
 
 inherit deploy
@@ -17,6 +17,8 @@ do_compile_prepend() {
 		cp ${DEPLOY_DIR_IMAGE}/Image ${S}/Image
 		cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk.dtb ${B}/${config}/linux.dtb
 		cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk.dtb ${S}/linux.dtb
+		cp ${DEPLOY_DIR_IMAGE}/u-boot.txt ${B}/${config}/u-boot.txt
+		cp ${DEPLOY_DIR_IMAGE}/u-boot.txt ${S}/u-boot.txt
 	fi
 }
 
@@ -53,6 +55,8 @@ do_deploy_append() {
 		install -m 744 ${B}/${config}/kernel.fit.fit ${DEPLOYDIR}/kernel.fit.fit
 		install -m 744 ${B}/${config}/kernel.fit.itb ${DEPLOYDIR}/kernel.fit.itb
 		install -m 744 ${B}/${config}/kernel.itb ${DEPLOYDIR}/kernel.itb
+
+		install -m 744 ${B}/${config}/u-boot.scr ${DEPLOYDIR}/u-boot.scr
 	fi
 }
 

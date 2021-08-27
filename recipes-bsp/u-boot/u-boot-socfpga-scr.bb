@@ -56,6 +56,7 @@ do_deploy() {
 		install -m 0644 ${WORKDIR}/boot.scr ${DEPLOYDIR}/u-boot-socfpga-${MACHINE}-${PV}-${PR}.scr
 		ln -sf u-boot-socfpga-${MACHINE}-${PV}-${PR}.scr ${DEPLOYDIR}/boot.scr
 	else
+		install -m 0755 ${WORKDIR}/u-boot.txt ${DEPLOYDIR}/u-boot.txt
 		install -m 0644 ${WORKDIR}/u-boot.scr ${DEPLOYDIR}/u-boot-socfpga-${MACHINE}-${PV}-${PR}.scr
 		ln -sf u-boot-socfpga-${MACHINE}-${PV}-${PR}.scr ${DEPLOYDIR}/u-boot.scr
 	fi

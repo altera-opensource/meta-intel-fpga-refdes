@@ -36,10 +36,10 @@ SRC_URI[agilex_gsrd_dts.sha256sum] = "c8ea92c0b3e4e65ab23ee8f50ce25aaa39d51c01f1
 SRC_URI[agilex_pr_dts.sha256sum] = "86ac18cc37c41c96a74865a514cce1b83d6a1e726c54ecb1ba3a45b2ea22b86e"
 SRC_URI[agilex_sgmii_dts.sha256sum] = "8e79c13f188d09c93425830cddcdbecb39d63a0538a2a75e6d21c0af0b2f336c"
 
-SRC_URI[s10_gsrd_dts.sha256sum] = "3fd509458e90bc231a09073e22ddde53a5b2132eb4a5c8b2eab2d4aae651294b"
-SRC_URI[s10_pr_dts.sha256sum] = "34603f525ac9d06a0f52721f379c0dca369f8e5621e983b31cf5c1b5157155ba"
-SRC_URI[s10_pcie_dts.sha256sum] = "b58d0ad88f674c4e0ea1e01860603e5be7f479499fcbda1ad9a7c282ab98266d"
-SRC_URI[s10_sgmii_dts.sha256sum] = "3a19f186ede5d74d4649b6fe949c8049cc1b06bf028f994e1c09f80ae9ad1a7c"
+SRC_URI[s10_gsrd_dts.sha256sum] = "e23bf00aae0bcbd8d77ad335f6da610fee4de7ab4a07d43e4eecf8005236649f"
+SRC_URI[s10_pr_dts.sha256sum] = "104e86208cc9f28acbafcf3e35c365ba3bef2865ce854ce11a504b3fe4d71b7b"
+SRC_URI[s10_pcie_dts.sha256sum] = "4feee2b82ee18bf5bcfa7ca4dd62f520a49cb7ae1471a6d493c52c5b017012d5"
+SRC_URI[s10_sgmii_dts.sha256sum] = "fbea77621c504f04ce005193d38383695087efc5bd8c647defd6a69e636d9a2b"
 
 SRC_URI[a10_gsrd_dts.sha256sum] = "8e55aa38bd9fb7b25a5c2482a0afc6d8241194e44f6c0f3510829e58e242e034"
 SRC_URI[a10_pr_dts.sha256sum] = "46e6de6e81bb15ad410fc55a173819798771de4b995a2652a6f176a0edc9956d"

@@ -1,15 +1,15 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
-DEPENDS_append_n5x += "arm-trusted-firmware bash u-boot-socfpga-scr"
-DEPENDS_append_agilex += "arm-trusted-firmware bash u-boot-socfpga-scr"
-DEPENDS_append_stratix10 += "arm-trusted-firmware bash u-boot-socfpga-scr"
-DEPENDS_append_arria10 += "hw-ref-design"
+DEPENDS:append:n5x += "arm-trusted-firmware bash u-boot-socfpga-scr"
+DEPENDS:append:agilex += "arm-trusted-firmware bash u-boot-socfpga-scr"
+DEPENDS:append:stratix10 += "arm-trusted-firmware bash u-boot-socfpga-scr"
+DEPENDS:append:arria10 += "hw-ref-design"
 
 inherit deploy
 
 do_compile[deptask] = "do_deploy"
 
-do_compile_prepend() {
+do_compile:prepend() {
 	if ${@bb.utils.contains("MACHINE", "n5x", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
 		cp ${DEPLOY_DIR_IMAGE}/bl31.bin ${B}/${config}/bl31.bin
 		cp ${DEPLOY_DIR_IMAGE}/bl31.bin ${S}/bl31.bin
@@ -22,7 +22,7 @@ do_compile_prepend() {
 	fi
 }
 
-do_install_append() {
+do_install:append() {
 	if ${@bb.utils.contains("MACHINE", "n5x", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
 		cp ${B}/${config}/u-boot.itb ${B}/${config}/u-boot-${UBOOT_CONFIG}.itb
 		install -D -m 644 ${B}/${config}/u-boot-${UBOOT_CONFIG}.itb ${D}/boot/u-boot-${UBOOT_CONFIG}-${PV}-${PR}.itb
@@ -32,7 +32,7 @@ do_install_append() {
 	fi
 }
 
-do_deploy_append() {
+do_deploy:append() {
 	install -d ${DEPLOYDIR}
 	install -m 755 ${B}/${config}/u-boot ${DEPLOYDIR}/u-boot
 	install -m 755 ${B}/${config}/u-boot-nodtb.bin ${DEPLOYDIR}/u-boot-nodtb.bin
@@ -60,12 +60,12 @@ do_deploy_append() {
 	fi
 }
 
-do_compile_prepend_arria10() {
+do_compile:prepend:arria10() {
 	cp -r ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/hps.xml ${S}/.
 	${S}/arch/arm/mach-socfpga/qts-filter-a10.sh ${S}/hps.xml ${S}/arch/arm/dts/socfpga_arria10_socdk_sdmmc_handoff.h
 }
 
-do_compile_append_arria10() {
+do_compile:append:arria10() {
 	cp ${DEPLOY_DIR_IMAGE}/Image ${S}/Image
 
 	if ${@bb.utils.contains("IMAGE_TYPE", "nand", "true", "false", d)} || ${@bb.utils.contains("IMAGE_TYPE", "qspi", "true", "false", d)}; then
@@ -88,7 +88,7 @@ do_compile_append_arria10() {
 	fi
 }
 
-do_deploy_append_arria10() {
+do_deploy:append:arria10() {
 	install -d ${DEPLOYDIR}
 	if ${@bb.utils.contains("IMAGE_TYPE", "nand", "true", "false", d)} || ${@bb.utils.contains("IMAGE_TYPE", "qspi", "true", "false", d)}; then
 		install -m 744 ${B}/kernel_${IMAGE_TYPE}.itb ${DEPLOYDIR}/kernel_${IMAGE_TYPE}.itb
@@ -100,7 +100,7 @@ do_deploy_append_arria10() {
 	fi
 }
 
-do_deploy_append_cyclone5() {
+do_deploy:append:cyclone5() {
 	install -d ${DEPLOYDIR}
 	install -m 644 ${B}/${config}/u-boot-with-spl.sfp ${DEPLOYDIR}/u-boot-with-spl.sfp
 	install -m 644 ${B}/${config}/spl/u-boot-spl.sfp ${DEPLOYDIR}/u-boot-spl.sfp

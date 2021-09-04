@@ -6,7 +6,7 @@ inherit packagegroup
 
 PACKAGES = "packagegroup-dev-tools-essential"
 
-RDEPENDS_packagegroup-dev-tools-essential = "\
+RDEPENDS:packagegroup-dev-tools-essential = "\
 	bash \
 	devmem2 \
 	e2fsprogs \

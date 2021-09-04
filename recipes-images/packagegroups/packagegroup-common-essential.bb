@@ -6,7 +6,7 @@ inherit packagegroup
 
 PACKAGES = "packagegroup-common-essential"
 
-RDEPENDS_packagegroup-common-essential = "\
+RDEPENDS:packagegroup-common-essential = "\
 	socfpga-gsrd-apps \
 	socfpga-gsrd-initscripts \
 	socfpga-gsrd-pio-interrupt \

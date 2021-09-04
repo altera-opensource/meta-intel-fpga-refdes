@@ -66,7 +66,7 @@ SRC_URI[a10_pr_persona1.sha256sum] = "f5f3ac468b85e2211724ced77b9c5ad702c3492f5c
 SRC_URI[a10_sgmii_core.sha256sum] = "c2b79d1be633ac8b4b0245ada0b597ca45893dd3617b14056e82e6a6fdf98781"
 SRC_URI[a10_sgmii_periph.sha256sum] = "17daaa0d808c8ab76f3351db5daab030297333156cd19b1123ec90c6c3cb5b1c"
 
-SRC_URI[c5_gsrd_core.sha256sum] = "4a1a3e390de8a9a529a941173eaa953797bc680bc898240cedbc4465e77b5087"
+SRC_URI[c5_gsrd_core.sha256sum] = "3d07ec43264e7a667bccef6465f3e2d60cc05744a114d54812955964847c4f1e"
 
 SRC_URI[a10_gsrd_handoff_xml.sha256sum] = "0f70cec794743823f1c3cd31dd56032b17bc096e3f444102fda3e4d994d58aa1"
 SRC_URI[a10_nand_handoff_xml.sha256sum] = "1548c28a4dba9fcf13cf4933853703b57c77ca1bbc0d08b2d0666bd98e35a0b1"

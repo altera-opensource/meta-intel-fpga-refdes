@@ -15,7 +15,7 @@ do_compile() {
 	:
 }
 
-do_install () {
+do_install() {
 	install -d ${D}${systemd_unitdir}/system
 	install -d ${D}/${bindir}/
 
@@ -25,6 +25,6 @@ do_install () {
 
 NATIVE_SYSTEMD_SUPPORT = "1"
 SYSTEMD_PACKAGES = "${PN}"
-SYSTEMD_SERVICE_${PN} = "socfpga-gsrd.service"
+SYSTEMD_SERVICE:${PN} = "socfpga-gsrd.service"
 
-FILES_${PN} += "${base_libdir}/systemd"
+FILES:${PN} += "${base_libdir}/systemd"

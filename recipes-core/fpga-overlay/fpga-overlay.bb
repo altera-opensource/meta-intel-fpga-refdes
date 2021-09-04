@@ -3,7 +3,7 @@ AUTHOR = "Tien Hock Loh <tien.hock.loh@intel.com>"
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-2.0-only;md5=801f80980d171dd6425610833a22dbe6"
 
-RDEPENDS_${PN} = "dtbt"
+RDEPENDS:${PN} = "dtbt"
 
 inherit allarch systemd
 
@@ -27,6 +27,6 @@ do_install () {
 
 NATIVE_SYSTEMD_SUPPORT = "1"
 SYSTEMD_PACKAGES = "${PN}"
-SYSTEMD_SERVICE_${PN} = "fpga-overlay.service"
+SYSTEMD_SERVICE:${PN} = "fpga-overlay.service"
 
-FILES_${PN} += "${base_libdir}/systemd"
+FILES:${PN} += "${base_libdir}/systemd"

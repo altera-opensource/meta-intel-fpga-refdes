@@ -4,27 +4,27 @@ SECTION = "gsrd"
 LICENSE = "BSD-3-Clause"
 LIC_FILES_CHKSUM="file://${COMMON_LICENSE_DIR}/BSD-3-Clause;md5=550794465ba0ec5312d6919e203a55f9"
 
-S="${WORKDIR}/git"
+S = "${WORKDIR}/git"
 
-DEPENDS="ncurses"
+DEPENDS = "ncurses"
 
 REFDES_REPO ?= "git://github.com/altera-opensource/linux-refdesigns.git"
 REFDES_PROT ?= "http"
 REFDES_BRANCH ?= "master"
 
-INSANE_SKIP_${PN} = "ldflags"
-INSANE_SKIP_${PN}-dev = "ldflags"
+INSANE_SKIP:${PN} = "ldflags"
+INSANE_SKIP:${PN}-dev = "ldflags"
 
 SRC_URI = "${REFDES_REPO};protocol=${REFDES_PROT};branch=${REFDES_BRANCH}"
 
 SRCREV = "${AUTOREV}"
 
-FILES_${PN} = "/www/pages/* \
+FILES:${PN} = "/www/pages/* \
 	       /home/root/intelFPGA/* \
 	       /home/root/README \
 	      "
 
-FILES_${PN}-dbg = "/www/pages/cgi-bin/.debug/ /usr /home/root/intelFPGA/.debug"
+FILES:${PN}-dbg = "/www/pages/cgi-bin/.debug/ /usr /home/root/intelFPGA/.debug"
 
 do_compile() {
 	echo "Compiling GSRD Reference Applications"

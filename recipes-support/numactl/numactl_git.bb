@@ -28,11 +28,11 @@ do_install() {
     rm -r ${D}${mandir}/man2
 }
 
-do_compile_ptest() {
+do_compile:ptest() {
     oe_runmake test
 }
 
-do_install_ptest() {
+do_install:ptest() {
     #install tests binaries
     local test_binaries="distance ftok mbind_mig_pages migrate_pages move_pages \
     mynode    nodemap node-parse pagesize prefered randmap realloc_test \
@@ -53,4 +53,4 @@ do_install_ptest() {
     install -m 0755 ${B}/.libs/numactl ${D}${PTEST_PATH}/
 }
 
-RDEPENDS_${PN}-ptest = "bash"
+RDEPENDS:${PN}-ptest = "bash"

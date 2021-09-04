@@ -9,15 +9,11 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 SCRIPT_REPO ?= "https://releases.rocketboards.org/release/uboot-script"
 
-SRC_URI_n5x = "${SCRIPT_REPO}/n5x/u-boot.txt;name=n5x_scr"
-
-SRC_URI_agilex = "${SCRIPT_REPO}/agilex/u-boot.txt;name=agilex_scr"
-
-SRC_URI_stratix10 = "${SCRIPT_REPO}/stratix10/u-boot.txt;name=stratix10_scr"
-
-SRC_URI_arria10 = "${SCRIPT_REPO}/arria10/u-boot.txt;name=arria10_scr"
-
-SRC_URI_cyclone5 = "${SCRIPT_REPO}/cyclone5/u-boot.txt;name=cyclone5_scr"
+SRC_URI:n5x = "${SCRIPT_REPO}/n5x/u-boot.txt;name=n5x_scr"
+SRC_URI:agilex = "${SCRIPT_REPO}/agilex/u-boot.txt;name=agilex_scr"
+SRC_URI:stratix10 = "${SCRIPT_REPO}/stratix10/u-boot.txt;name=stratix10_scr"
+SRC_URI:arria10 = "${SCRIPT_REPO}/arria10/u-boot.txt;name=arria10_scr"
+SRC_URI:cyclone5 = "${SCRIPT_REPO}/cyclone5/u-boot.txt;name=cyclone5_scr"
 
 SRC_URI[n5x_scr.sha256sum] = "ac4419a6226574df2e11206e59cc4eadf34b08b107c1237b002717548ffaa311"
 SRC_URI[agilex_scr.sha256sum] = "ea9475878de5b42d943e0c394f064bc3e2907a8b8a577b7ebc9706e7c97aefa5"
@@ -28,24 +24,24 @@ SRC_URI[cyclone5_scr.sha256sum] = "687d5205c1ec54809d0de263d0a0abd33e05cdbe859dc
 do_configure[noexec] = "1"
 do_install[noexec] = "1"
 
-do_compile_n5x() {
+do_compile:n5x() {
 	mkimage -A arm -O linux -T script -C none -a 0 -e 0 -n "N5X Script" -d "${WORKDIR}/u-boot.txt" ${WORKDIR}/u-boot.scr
 }
 
-do_compile_agilex() {
+do_compile:agilex() {
 	mkimage -A arm -O linux -T script -C none -a 0 -e 0 -n "Agilex Script" -d "${WORKDIR}/u-boot.txt" ${WORKDIR}/u-boot.scr
 }
 
-do_compile_stratix10() {
+do_compile:stratix10() {
         mkimage -A arm -O linux -T script -C none -a 0 -e 0 -n "Stratix10 Script" -d "${WORKDIR}/u-boot.txt" ${WORKDIR}/u-boot.scr
 }
 
-do_compile_cyclone5() {
+do_compile:cyclone5() {
         mkimage -A arm -O linux -T script -C none -a 0 -e 0 -n "Cyclone5 Script" -d "${WORKDIR}/u-boot.txt" ${WORKDIR}/u-boot.scr
 }
 
 # U-boot script for Arria10 PR variant
-do_compile_arria10() {
+do_compile:arria10() {
         mkimage -A arm -O linux -T script -C none -a 0 -e 0 -n "Arria10 Script" -d "${WORKDIR}/u-boot.txt" ${WORKDIR}/boot.scr
 }
 

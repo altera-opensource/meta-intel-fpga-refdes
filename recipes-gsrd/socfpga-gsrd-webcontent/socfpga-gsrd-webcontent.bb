@@ -52,4 +52,4 @@ do_install() {
 	install -m 0755 index.sh ${D}/www/pages/cgi-bin
 }
 
-FILES_${PN} = "/www/pages/* /home/*"
+FILES:${PN} = "/www/pages/* /home/*"

@@ -11,14 +11,14 @@ DTBT_PROT ?= "https"
 DTBT_BRANCH ?= "master"
 SRCREV = "d04e096df01dac54296be577c5a39c89a83c446b"
 
-RPROVIDES_${PN} = "dtbt"
+RPROVIDES:${PN} = "dtbt"
 
 SRC_URI = "${DTBT_REPO};protocol=${DTBT_PROT};branch=${DTBT_BRANCH}"
 
-FILES_${PN} = "/sbin/dtbt"
-FILES_${PN}-dbg = ""
+FILES:${PN} = "/sbin/dtbt"
+FILES:${PN}-dbg = ""
 
-RDEPENDS_${PN} = "python3"
+RDEPENDS:${PN}="python3"
 
 PR = "r5"
 
@@ -27,8 +27,6 @@ do_compile() {
 }
 
 do_install() {
-	cd ${S}
-        ls -l
         install -d ${D}/sbin
         install -m 0755 dtbt ${D}/sbin/dtbt
 }

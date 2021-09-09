@@ -43,12 +43,17 @@ RETRY_COUNT=1
 while [ $RETRY_COUNT -le ${CONST_IP_CHECK_RETRIES} ]
 do
 	IP=`ip -o -4 addr show eth0 | awk '{print $4}' | cut -d/ -f 1`
-	IP_CHECK=`echo $IP | sed 's/\(\([0-9]\{1,3\}\)\.\)\{3\}\([0-9]\{1,3\}\)//g'`
-	if [ "$IP_CHECK" != "" ]; then
+	if [ "$IP" == "" ]; then
 		IP="No IP obtained"
 		sleep 1
 	else
-		RETRY_COUNT=$((${CONST_IP_CHECK_RETRIES} + 1))
+		IP_CHECK=`echo $IP | sed 's/\(\([0-9]\{1,3\}\)\.\)\{3\}\([0-9]\{1,3\}\)//g'`
+		if [ "$IP_CHECK" != "" ]; then
+			IP="No IP obtained"
+			sleep 1
+		else
+			RETRY_COUNT=$((${CONST_IP_CHECK_RETRIES} + 1))
+		fi
 	fi
 	RETRY_COUNT=$((${RETRY_COUNT} + 1))
 done

@@ -9,7 +9,7 @@ REMOTE_DBG_PROT ?= "https"
 SRC_URI = "${REMOTE_DBG_REPO};protocol=${REMOTE_DBG_PROT}"
 
 SRCREV = "${AUTOREV}"
-PV_append = "+git${SRCPV}"
+PV:append = "+git${SRCPV}"
 
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
@@ -22,4 +22,4 @@ do_install() {
 	install -m 0755 ${B}/etherlink ${D}${bindir}
 }
 
-FILES_${PN} = "/usr/bin/etherlink"
+FILES:${PN} = "/usr/bin/etherlink"

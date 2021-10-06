@@ -7,9 +7,9 @@ DEPENDS = "u-boot-mkimage-native"
 inherit deploy nopackages
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
-GSRD_RELEASE = "2021.11"
+RBO_RELEASE_VER ?= "2021.11"
 
-SCRIPT_REPO ?= "https://releases.rocketboards.org/release/${GSRD_RELEASE}/uboot-script"
+SCRIPT_REPO ?= "https://releases.rocketboards.org/release/${RBO_RELEASE_VER}/uboot-script"
 
 SRC_URI:agilex = "${SCRIPT_REPO}/agilex/u-boot.txt;name=agilex_scr"
 SRC_URI:stratix10 = "${SCRIPT_REPO}/stratix10/u-boot.txt;name=stratix10_scr"

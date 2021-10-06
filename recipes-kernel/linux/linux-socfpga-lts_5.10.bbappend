@@ -3,7 +3,9 @@
 
 FILESEXTRAPATHS:prepend := "${THISDIR}/linux-socfpga-lts:"
 
-DTS_REPO ?= "https://releases.rocketboards.org/release/dts-source"
+GSRD_RELEASE = "2021.11"
+
+DTS_REPO ?= "https://releases.rocketboards.org/release/${GSRD_RELEASE}/dts-source"
 
 SRC_URI:append:agilex += "\
 			 ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "${DTS_REPO}/agilex/gsrd/0001-socfpga_agilex_socdk-include-reference-design-dtsi.patch;name=agilex_gsrd_dts", "", d)} \

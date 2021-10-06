@@ -3,12 +3,13 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=ffdc9513cf50bcd13342db84911931b8"
 
 inherit pkgconfig cmake
 
-REMOTE_DBG_REPO ?= "git://gitlab.devtools.intel.com/psg-opensource/remote-debug-for-intel-fpga.git"
+REMOTE_DBG_REPO ?= "git://github.com/altera-opensource/remote-debug-for-intel-fpga.git"
 REMOTE_DBG_PROT ?= "https"
+REMOTE_DBG_BRANCH ?= "master"
 
-SRC_URI = "${REMOTE_DBG_REPO};protocol=${REMOTE_DBG_PROT}"
+SRC_URI = "${REMOTE_DBG_REPO};protocol=${REMOTE_DBG_PROT};branch=${REMOTE_DBG_BRANCH}"
 
-SRCREV = "${AUTOREV}"
+SRCREV = "c52c8f37d7ff31fad2ad2bdac0f2202139a30e30"
 PV:append = "+git${SRCPV}"
 
 S = "${WORKDIR}/git"

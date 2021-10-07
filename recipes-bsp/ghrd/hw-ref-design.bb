@@ -42,6 +42,7 @@ SRC_URI_cyclone5 ?= "\
 
 SRC_URI[agilex_gsrd_core.sha256sum] = "5c76e498172bef11a3c7187e2bf49de5cb5d9334d78b6d0e3bc2925a2e74e37d"
 SRC_URI[agilex_qspi_core.sha256sum] = "5c76e498172bef11a3c7187e2bf49de5cb5d9334d78b6d0e3bc2925a2e74e37d"
+SRC_URI[agilex_sgmii_core.sha256sum] = "653d97fefb07d2668682bd4205309fa91c8981d2e60e4d984e51382f9e25659b"
 SRC_URI[agilex_pr_core.sha256sum] = "fb3d8804868ff39f3e814ba638d9408e90b206dd669a12753f07a5a564582732"
 SRC_URI[agilex_pr_persona0.sha256sum] = "8a818091281aba9b0606b74c6bf779a26878cf1cc0badc4f23e12f6def3c2e00"
 SRC_URI[agilex_pr_persona1.sha256sum] = "606987c012a250ea94c00d2284fbe4b95c42975e83569aec53f2e149c48d1db4"

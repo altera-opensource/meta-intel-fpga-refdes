@@ -18,6 +18,8 @@ C5_GHRD_CORE_RBF = "soc_system.rbf"
 
 SRC_URI_agilex ?= "\
 		${GHRD_REPO}/${IMAGE_TYPE}/agilex_${IMAGE_TYPE}/${ARM64_GHRD_CORE_RBF};name=agilex_${IMAGE_TYPE}_core \
+		${@bb.utils.contains("IMAGE_TYPE", "pr", "${GHRD_REPO}/${IMAGE_TYPE}/agilex_${IMAGE_TYPE}/persona0.rbf;name=agilex_pr_persona0", "", d)} \
+		${@bb.utils.contains("IMAGE_TYPE", "pr", "${GHRD_REPO}/${IMAGE_TYPE}/agilex_${IMAGE_TYPE}/persona1.rbf;name=agilex_pr_persona1", "", d)} \
 		"
 
 SRC_URI_stratix10 ?= "\
@@ -41,6 +43,8 @@ SRC_URI_cyclone5 ?= "\
 SRC_URI[agilex_gsrd_core.sha256sum] = "5c76e498172bef11a3c7187e2bf49de5cb5d9334d78b6d0e3bc2925a2e74e37d"
 SRC_URI[agilex_qspi_core.sha256sum] = "5c76e498172bef11a3c7187e2bf49de5cb5d9334d78b6d0e3bc2925a2e74e37d"
 SRC_URI[agilex_pr_core.sha256sum] = "fb3d8804868ff39f3e814ba638d9408e90b206dd669a12753f07a5a564582732"
+SRC_URI[agilex_pr_persona0.sha256sum] = "8a818091281aba9b0606b74c6bf779a26878cf1cc0badc4f23e12f6def3c2e00"
+SRC_URI[agilex_pr_persona1.sha256sum] = "606987c012a250ea94c00d2284fbe4b95c42975e83569aec53f2e149c48d1db4"
 
 SRC_URI[stratix10_gsrd_core.sha256sum] = "83d5b08ec29ea75902dd1cfa06bbf2be4b8fbb2a8848bf51c1219ed13a03591f"
 SRC_URI[stratix10_pcie_core.sha256sum] = "01140a8ca98f6aed35adab9a07f48f4799f8f5afe65f8bd17f9bfd1ca83888da"

@@ -14,13 +14,7 @@ SRC_URI:append:agilex += "\
 			 ${@bb.utils.contains("IMAGE_TYPE", "sgmii", "${DTS_REPO}/agilex/sgmii/0001-dts-arm64-intel-enable-Agilex-SGMII-support.patch;name=agilex_sgmii_dts", "", d)} \
 			 "
 
-SRC_URI:append:stratix10 += "\
-			 ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "${DTS_REPO}/stratix10/gsrd/0001-socfpga_stratix10_socdk-include-reference-design-dts.patch;name=s10_gsrd_dts", "", d)} \
-			 ${@bb.utils.contains("IMAGE_TYPE", "pr", "${DTS_REPO}/stratix10/pr/0001-socfpga_stratix10_socdk-include-reference-design-dts.patch;name=s10_gsrd_dts", "", d)} \
-			 ${@bb.utils.contains("IMAGE_TYPE", "pr", "${DTS_REPO}/stratix10/pr/0001-dts-arm64-altera-enable-FPGA-PR-DTBs-for-Stratix10.patch;name=s10_pr_dts", "", d)} \
-			 ${@bb.utils.contains("IMAGE_TYPE", "pcie", "${DTS_REPO}/stratix10/pcie/0001-socfpga_stratix10_socdk-pcie-include-reference-desig.patch;name=s10_pcie_dts", "", d)} \
-			 ${@bb.utils.contains("IMAGE_TYPE", "sgmii", "${DTS_REPO}/stratix10/sgmii/0001-socfpga_stratix10_socdk-sgmii-include-reference-desi.patch;name=s10_sgmii_dts", "", d)} \
-			 "
+SRC_URI:append:stratix10 += "${DTS_REPO}/stratix10/combined/0001-socfpga_stratix10_socdk-include-combined-reference-d.patch;name=s10_combined_dts"
 
 SRC_URI:append:arria10 += "\
 			${@bb.utils.contains("IMAGE_TYPE", "gsrd", "${DTS_REPO}/arria10/gsrd/0001-socfpga_arria10_socdk-include-reference-design-dtsi.patch;name=a10_gsrd_dts", "", d)} \
@@ -38,10 +32,7 @@ SRC_URI[agilex_gsrd_dts.sha256sum] = "c8ea92c0b3e4e65ab23ee8f50ce25aaa39d51c01f1
 SRC_URI[agilex_pr_dts.sha256sum] = "ae178279ba565061efdfae314ee5978c03a1cbf3f0034cd9472bf670aee119b7"
 SRC_URI[agilex_sgmii_dts.sha256sum] = "8e79c13f188d09c93425830cddcdbecb39d63a0538a2a75e6d21c0af0b2f336c"
 
-SRC_URI[s10_gsrd_dts.sha256sum] = "e23bf00aae0bcbd8d77ad335f6da610fee4de7ab4a07d43e4eecf8005236649f"
-SRC_URI[s10_pcie_dts.sha256sum] = "4feee2b82ee18bf5bcfa7ca4dd62f520a49cb7ae1471a6d493c52c5b017012d5"
-SRC_URI[s10_pr_dts.sha256sum] = "34603f525ac9d06a0f52721f379c0dca369f8e5621e983b31cf5c1b5157155ba"
-SRC_URI[s10_sgmii_dts.sha256sum] = "fbea77621c504f04ce005193d38383695087efc5bd8c647defd6a69e636d9a2b"
+SRC_URI[s10_combined_dts.sha256sum] = "14ccbe50102de204af6211a227b403e0b1c7cd174d6ac756fd954e2e779bafe5"
 
 SRC_URI[a10_gsrd_dts.sha256sum] = "8e55aa38bd9fb7b25a5c2482a0afc6d8241194e44f6c0f3510829e58e242e034"
 SRC_URI[a10_pcie_dts.sha256sum] = "1abd2b27bbcd9af296ce6c5ccb21cee98c34e634e5e7e49bf901b51a13835329"

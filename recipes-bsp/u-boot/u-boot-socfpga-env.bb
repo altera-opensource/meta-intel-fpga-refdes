@@ -7,7 +7,7 @@ DEPENDS = "u-boot-mkenvimage-native"
 inherit deploy nopackages
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
-ENV_REPO = "https://psg-png-arc.png.intel.com/p/psg/swip/etools/socfpga_refdes/uboot-env"
+ENV_REPO = "https://releases.rocketboards.org/release/uboot-env"
 
 SRC_URI_agilex = "\
 			 ${@bb.utils.contains("UBOOT_CONFIG", "agilex-socdk", "${ENV_REPO}/agilex-socdk/u-boot-env.txt;name=agilex-socdk-env", "", d)} \
@@ -33,21 +33,21 @@ SRC_URI_n5x = "\
 			 ${@bb.utils.contains("UBOOT_CONFIG", "n5x-socdk-atf", "${ENV_REPO}/n5x-socdk-atf/u-boot-env.txt;name=n5x-socdk-atf-env", "", d)} \
 			 "
 
-SRC_URI[agilex-socdk-env.sha256sum] = "aa7042f2304dbfeaa0d0dac6b717fc55e8d289896858b808c03d257f53b3e8ae"
-SRC_URI[agilex-socdk-atf-env.sha256sum] = "713558574cf796b2bf774457e8d4e55ff2b949e18f4e59b68340bb1ae1b9bcc0"
-SRC_URI[agilex-socdk-qspi-env.sha256sum] = "389ec3cf5f15ba75cf6afeae0c8e1f2ea79b4a9d6fabdcbf636c85318fa9addc"
-SRC_URI[agilex-socdk-qspi-atf-env.sha256sum] = "6b09921f4877a03dec2a1ec71743cac90a58a71b771ed028c079f7331ce311ee"
+SRC_URI[agilex-socdk-env.sha256sum] = "4d8f41266272f003015f00eaac6c7727d7105149dd156db1dc04086b002d208b"
+SRC_URI[agilex-socdk-atf-env.sha256sum] = "cc52aa9dfeda8f0ad88738a0651c345511fea6f4810981d8da36a2bb3cf2cd63"
+SRC_URI[agilex-socdk-qspi-env.sha256sum] = "209a4a8dff2fe2be67e5b3baa8e7e5589d86dee24d134fc79be45102327049f6"
+SRC_URI[agilex-socdk-qspi-atf-env.sha256sum] = "90a6a4f39d5fc520cd0c814cec6aa828add0b22e304f6257b6dd4d1a9920ad8e"
 
-SRC_URI[stratix10-socdk-env.sha256sum] = "460f3bdebeff681b56040faa0786191b0489897848c991b00e18cbcc956012f4"
-SRC_URI[stratix10-socdk-atf-env.sha256sum] = "c7c0f05d931831118bdd870e69c999149f896e8e9384479be5da64709c7725ab"
-SRC_URI[stratix10-socdk-qspi-env.sha256sum] = "94a0a6c7c9e1e2a74f10a249a6ee79f38881f6272da8db85c0dc2d18262d14e2"
-SRC_URI[stratix10-socdk-qspi-atf-env.sha256sum] = "031132593a9137dcac43fb0f36acf5a29d61a775c17f88211ca2ab23caf4b7cf"
+SRC_URI[stratix10-socdk-env.sha256sum] = "4370fbb52270bf55aad96c543f7a7bca5faf4771acf87993bd49a5d553f78a6c"
+SRC_URI[stratix10-socdk-atf-env.sha256sum] = "087da6df03e571ea85b5c307cbfb37a069ce88c291bb380e1657654565342ec6"
+SRC_URI[stratix10-socdk-qspi-env.sha256sum] = "0cde0badecb4dc4d87b7ab6b72cda6aaef8ce4973795a10384c90073bb06a6ff"
+SRC_URI[stratix10-socdk-qspi-atf-env.sha256sum] = "777c5201f7ec3c69f4d40dd83127161a7fcc94d3b754c5a978bab8b473493eba"
 
-SRC_URI[arria10-socdk-env.sha256sum] = "f055937cc3ab7a60f180191ea1db78c99a647c894b81618921fc2e025ab40f8b"
-SRC_URI[arria10-socdk-qspi-env.sha256sum] = "ec4b14d7bb6a524221055818bc6fab696ea7208903c92719105632880d05b0d3"
-SRC_URI[arria10-socdk-nand-env.sha256sum] = "e07442cc22a06c16d236e8364b6778095aea2a29016e154378d04c2fc9f63498"
+SRC_URI[arria10-socdk-env.sha256sum] = "f2984505cb0c42dc375dcbc771423a6d6a0c4de6025368a20083cc34791c2cdc"
+SRC_URI[arria10-socdk-qspi-env.sha256sum] = "b978a433399697db0e01323a7d6a8fad4afd8a90624cfcb85955c079ecab8700"
+SRC_URI[arria10-socdk-nand-env.sha256sum] = "2a513277445fb424298dc26de5970469e5abed428cf7e27089a46163b5238351"
 
-SRC_URI[n5x-socdk-atf-env.sha256sum] = "ac09342632b753afae4f20a1c5581379dbf7d9f0fe525733a90158a55b0d8363"
+SRC_URI[n5x-socdk-atf-env.sha256sum] = "28686b6eb12ba42d065131e34a0e9a4a4752a7d16aa24f468adebfe6e68b1630"
 
 do_configure[noexec] = "1"
 do_install[noexec] = "1"

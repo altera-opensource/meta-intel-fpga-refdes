@@ -11,6 +11,8 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Proprietary;md5=0557f9d92cf58f2
 
 RBO_RELEASE_VER ?= "2021.04"
 GHRD_REPO ?= "https://releases.rocketboards.org/release/${RBO_RELEASE_VER}"
+IMAGE_TYPE ?= "gsrd"
+
 ARM64_GHRD_CORE_RBF = "ghrd.core.rbf"
 A10_GHRD_CORE_RBF = "ghrd_10as066n2.core.rbf"
 A10_GHRD_PERIPH_RBF = "ghrd_10as066n2.periph.rbf"

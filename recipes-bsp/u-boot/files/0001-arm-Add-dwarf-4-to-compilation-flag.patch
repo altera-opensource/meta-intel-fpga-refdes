@@ -1,0 +1,33 @@
+From 1eee35018c7794f38d27d640d024db6a55580c25 Mon Sep 17 00:00:00 2001
+From: Yau Wai Gan <yau.wai.gan@intel.com>
+Date: Fri, 15 Oct 2021 11:05:23 +0800
+Subject: [PATCH] arm: Add dwarf-4 to compilation flag
+
+GCC 11 by default compile with dwarf-5, this makes the generated executable
+not working on ARM DS debugger that does not support dwarf-5. This patch add
+dwarf-4 flag to ensure the compiled executable works on such debugger, based on
+suggestion from GCC [1].
+
+[1] https://gcc.gnu.org/gcc-11/changes.html
+
+Signed-off-by: Yau Wai Gan <yau.wai.gan@intel.com>
+---
+ arch/arm/config.mk | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/arch/arm/config.mk b/arch/arm/config.mk
+index 16c63e1266..3d1d99c6ee 100644
+--- a/arch/arm/config.mk
++++ b/arch/arm/config.mk
+@@ -32,7 +32,7 @@ LLVM_RELFLAGS		:= $(call cc-option,-mllvm,) \
+ 			$(call cc-option,-mno-movt,)
+ PLATFORM_RELFLAGS	+= $(LLVM_RELFLAGS)
+ 
+-PLATFORM_CPPFLAGS += -D__ARM__
++PLATFORM_CPPFLAGS += -D__ARM__ -gdwarf-4
+ 
+ ifdef CONFIG_ARM64
+ PLATFORM_ELFFLAGS += -B aarch64 -O elf64-littleaarch64
+-- 
+2.13.0
+

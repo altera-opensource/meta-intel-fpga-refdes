@@ -5,6 +5,8 @@ DEPENDS:append:agilex += "arm-trusted-firmware bash u-boot-socfpga-scr"
 DEPENDS:append:stratix10 += "arm-trusted-firmware bash u-boot-socfpga-scr"
 DEPENDS:append:arria10 += "hw-ref-design"
 
+SRC_URI += "file://0001-arm-Add-dwarf-4-to-compilation-flag.patch"
+
 inherit deploy
 
 do_compile[deptask] = "do_deploy"

@@ -1,8 +1,5 @@
 # Image Root Filesystem Configuration
 
-DISTRO_FEATURES:append += "systemd"
-VIRTUAL-RUNTIME_init_manager = "systemd"
-
 IMAGE_FSTYPES += "jffs2 tar.gz ubifs"
 
 IMAGE_ROOTFS_SIZE ?= "8192"

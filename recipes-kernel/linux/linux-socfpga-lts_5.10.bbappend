@@ -50,7 +50,7 @@ SRC_URI:append:arria10 += "file://tse.scc"
 SRC_URI:append:cyclone5 += "file://tse.scc"
 
 do_install:append() {
-	if ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} || ${@bb.utils.contains("IMAGE_TYPE", "pr", "true", "false", d)} ; then
+	if ${@bb.utils.contains("IMAGE_TYPE", "pr", "true", "false", d)} ; then
 		install -D -m 0644 ${D}/boot/fpga_static_region.dtb ${D}/boot/fpga_static_region.dtbo
 		install -D -m 0644 ${D}/boot/persona1.dtb ${D}/boot/persona1.dtbo
 		install -D -m 0644 ${D}/boot/persona0.dtb ${D}/boot/persona0.dtbo

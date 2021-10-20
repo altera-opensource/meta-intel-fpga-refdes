@@ -1,9 +1,9 @@
 FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
-DEPENDS:append:n5x += "arm-trusted-firmware bash u-boot-socfpga-scr"
 DEPENDS:append:agilex += "arm-trusted-firmware bash u-boot-socfpga-scr"
 DEPENDS:append:stratix10 += "arm-trusted-firmware bash u-boot-socfpga-scr"
 DEPENDS:append:arria10 += "hw-ref-design"
+DEPENDS:append:n5x += "arm-trusted-firmware bash u-boot-socfpga-scr"
 
 SRC_URI += "file://0001-arm-Add-dwarf-4-to-compilation-flag.patch"
 
@@ -11,54 +11,81 @@ inherit deploy
 
 do_compile[deptask] = "do_deploy"
 
+COMPILE_PREPEND_FILES:agilex = "bl31.bin Image linux.dtp u-boot.txt"
+COMPILE_PREPEND_FILES:stratix10 = "bl31.bin Image linux.dtp u-boot.txt"
+COMPILE_PREPEND_FILES:n5x = "bl31.bin Image linux.dtp u-boot.txt"
+
 do_compile:prepend() {
-	if ${@bb.utils.contains("MACHINE", "n5x", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
-		cp ${DEPLOY_DIR_IMAGE}/bl31.bin ${B}/${config}/bl31.bin
-		cp ${DEPLOY_DIR_IMAGE}/bl31.bin ${S}/bl31.bin
-		cp ${DEPLOY_DIR_IMAGE}/Image ${B}/${config}/Image
-		cp ${DEPLOY_DIR_IMAGE}/Image ${S}/Image
-		cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk.dtb ${B}/${config}/linux.dtb
-		cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk.dtb ${S}/linux.dtb
-		cp ${DEPLOY_DIR_IMAGE}/u-boot.txt ${B}/${config}/u-boot.txt
-		cp ${DEPLOY_DIR_IMAGE}/u-boot.txt ${S}/u-boot.txt
+	if [ -n ${COMPILE_PREPEND_FILES} ]; then
+		if [ -n "${UBOOT_CONFIG}" ]; then
+			for config in ${UBOOT_MACHINE}; do
+				i=$(expr $i + 1);
+				for type in ${UBOOT_CONFIG}; do
+					j=$(expr $j + 1);
+					if [ $j -eq $i ]; then
+						for file in ${COMPILE_PREPEND_FILES}; do
+							if [ "${file}" == "linux.dtb" ]; then
+								cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk.dtb ${B}/${type}/linux.dtb
+								cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk.dtb ${S}/linux.dtb
+							else
+								cp ${DEPLOY_DIR_IMAGE}/${file} ${B}/${type}/${file}
+								cp ${DEPLOY_DIR_IMAGE}/${file} ${S}/${file}
+							fi
+						done
+					fi
+				done
+				unset j
+			done
+			unset i
+		else
+			for file in ${COMPILE_PREPEND_FILES}; do
+				if [ "${file}" == "linux.dtb" ]; then
+					cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk.dtb ${B}/${config}/linux.dtb
+					cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk.dtb ${S}/linux.dtb
+				else
+					cp ${DEPLOY_DIR_IMAGE}/${file} ${B}/${config}/${file}
+					cp ${DEPLOY_DIR_IMAGE}/${file} ${S}/${file}
+				fi
+			done
+		fi
 	fi
 }
 
 do_install:append() {
 	if ${@bb.utils.contains("MACHINE", "n5x", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
-		cp ${B}/${config}/u-boot.itb ${B}/${config}/u-boot-${UBOOT_CONFIG}.itb
-		install -D -m 644 ${B}/${config}/u-boot-${UBOOT_CONFIG}.itb ${D}/boot/u-boot-${UBOOT_CONFIG}-${PV}-${PR}.itb
-		ln -sf u-boot-${UBOOT_CONFIG}-${PV}-${PR}.itb ${D}/boot/u-boot.itb-${UBOOT_CONFIG}
-		ln -sf u-boot-${UBOOT_CONFIG}-${PV}-${PR}.itb ${D}/boot/u-boot.itb
-		rm -rf  ${D}/boot/*.img*
+		if [ -n "${UBOOT_CONFIG}" ]; then
+			for config in ${UBOOT_MACHINE}; do
+				i=$(expr $i + 1);
+				for type in ${UBOOT_CONFIG}; do
+					j=$(expr $j + 1);
+					if [ $j -eq $i ]; then
+						cp ${B}/${config}/u-boot.itb ${B}/${config}/u-boot-${type}.itb
+						install -D -m 644 ${B}/${config}/u-boot-${type}.itb ${D}/boot/u-boot-${type}-${PV}-${PR}.itb
+						ln -sf u-boot-${type}-${PV}-${PR}.itb ${D}/boot/u-boot.itb-${type}
+						ln -sf u-boot-${type}-${PV}-${PR}.itb ${D}/boot/u-boot.itb
+						rm -rf  ${D}/boot/*.img*
+					fi
+				done
+				unset j
+			done
+			unset i
+	        else
+			cp ${B}/u-boot.itb ${B}/u-boot-${UBOOT_CONFIG}.itb
+			install -D -m 644 ${B}/u-boot-${config}.itb ${D}/boot/u-boot-${UBOOT_CONFIG}-${PV}-${PR}.itb
+			ln -sf u-boot-${UBOOT_CONFIG}-${PV}-${PR}.itb ${D}/boot/u-boot.itb-${UBOOT_CONFIG}
+			ln -sf u-boot-${UBOOT_CONFIG}-${PV}-${PR}.itb ${D}/boot/u-boot.itb
+			rm -rf  ${D}/boot/*.img*
+		fi
 	fi
 }
 
 do_deploy:append() {
-	install -d ${DEPLOYDIR}
-	install -m 755 ${B}/${config}/u-boot ${DEPLOYDIR}/u-boot
-	install -m 755 ${B}/${config}/u-boot-nodtb.bin ${DEPLOYDIR}/u-boot-nodtb.bin
-	install -m 744 ${B}/${config}/u-boot.img ${DEPLOYDIR}/u-boot.img
-	install -m 644 ${B}/${config}/u-boot.dtb ${DEPLOYDIR}/u-boot.dtb
-	install -m 644 ${B}/${config}/u-boot-dtb.bin ${DEPLOYDIR}/u-boot-dtb.bin
-	install -m 644 ${B}/${config}/u-boot-dtb.img ${DEPLOYDIR}/u-boot-dtb.img
-	install -m 644 ${B}/${config}/u-boot.map ${DEPLOYDIR}/u-boot.map
-	install -m 755 ${B}/${config}/spl/u-boot-spl ${DEPLOYDIR}/u-boot-spl
-	install -m 644 ${B}/${config}/spl/u-boot-spl.dtb ${DEPLOYDIR}/u-boot-spl.dtb
-	install -m 644 ${B}/${config}/spl/u-boot-spl-dtb.bin ${DEPLOYDIR}/u-boot-spl-dtb.bin
-	install -m 644 ${B}/${config}/spl/u-boot-spl.map ${DEPLOYDIR}/u-boot-spl.map
-
 	if ${@bb.utils.contains("MACHINE", "n5x", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
-		install -m 744 ${B}/${config}/u-boot.fit.fit ${DEPLOYDIR}/u-boot.fit.fit
-		install -m 744 ${B}/${config}/u-boot.fit.itb ${DEPLOYDIR}/u-boot.fit.itb
-		install -m 744 ${B}/${config}/u-boot.itb ${DEPLOYDIR}/u-boot.itb
-		install -m 644 ${B}/${config}/spl/u-boot-spl-dtb.hex ${DEPLOYDIR}/u-boot-spl-dtb.hex
-
-		install -m 744 ${B}/${config}/kernel.fit.fit ${DEPLOYDIR}/kernel.fit.fit
-		install -m 744 ${B}/${config}/kernel.fit.itb ${DEPLOYDIR}/kernel.fit.itb
-		install -m 744 ${B}/${config}/kernel.itb ${DEPLOYDIR}/kernel.itb
-
-		install -m 744 ${B}/${config}/u-boot.scr ${DEPLOYDIR}/u-boot.scr
+		if [ -n "${UBOOT_CONFIG}" ]; then
+			install -m 744 ${B}/${config}/kernel.itb ${DEPLOYDIR}/kernel.itb
+		else
+			install -m 744 ${B}/kernel.itb ${DEPLOYDIR}/kernel.itb
+		fi
 	fi
 }
 

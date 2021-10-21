@@ -16,7 +16,7 @@ COMPILE_PREPEND_FILES:stratix10 = "bl31.bin Image linux.dtb u-boot.txt"
 COMPILE_PREPEND_FILES:n5x = "bl31.bin Image linux.dtb u-boot.txt"
 
 do_compile:prepend() {
-	if [ -n ${COMPILE_PREPEND_FILES} ]; then
+	if [ -n "${COMPILE_PREPEND_FILES}" ]; then
 		if [ -n "${UBOOT_CONFIG}" ]; then
 			for config in ${UBOOT_MACHINE}; do
 				i=$(expr $i + 1);

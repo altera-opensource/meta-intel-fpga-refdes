@@ -1,55 +1,12 @@
 FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
-DEPENDS:append:agilex += "arm-trusted-firmware bash u-boot-socfpga-scr"
-DEPENDS:append:stratix10 += "arm-trusted-firmware bash u-boot-socfpga-scr"
 DEPENDS:append:arria10 += "hw-ref-design"
-DEPENDS:append:n5x += "arm-trusted-firmware bash u-boot-socfpga-scr"
 
 SRC_URI += "file://0001-arm-Add-dwarf-4-to-compilation-flag.patch"
 
 inherit deploy
 
 do_compile[deptask] = "do_deploy"
-
-COMPILE_PREPEND_FILES:agilex = "bl31.bin Image linux.dtb u-boot.txt"
-COMPILE_PREPEND_FILES:stratix10 = "bl31.bin Image linux.dtb u-boot.txt"
-COMPILE_PREPEND_FILES:n5x = "bl31.bin Image linux.dtb u-boot.txt"
-
-do_compile:prepend() {
-	if [ -n "${COMPILE_PREPEND_FILES}" ]; then
-		if [ -n "${UBOOT_CONFIG}" ]; then
-			for config in ${UBOOT_MACHINE}; do
-				i=$(expr $i + 1);
-				for type in ${UBOOT_CONFIG}; do
-					j=$(expr $j + 1);
-					if [ $j -eq $i ]; then
-						for file in ${COMPILE_PREPEND_FILES}; do
-							if [ "${file}" == "linux.dtb" ]; then
-								cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk.dtb ${B}/${type}/linux.dtb
-								cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk.dtb ${S}/linux.dtb
-							else
-								cp ${DEPLOY_DIR_IMAGE}/${file} ${B}/${type}/${file}
-								cp ${DEPLOY_DIR_IMAGE}/${file} ${S}/${file}
-							fi
-						done
-					fi
-				done
-				unset j
-			done
-			unset i
-		else
-			for file in ${COMPILE_PREPEND_FILES}; do
-				if [ "${file}" == "linux.dtb" ]; then
-					cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk.dtb ${B}/${config}/linux.dtb
-					cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk.dtb ${S}/linux.dtb
-				else
-					cp ${DEPLOY_DIR_IMAGE}/${file} ${B}/${config}/${file}
-					cp ${DEPLOY_DIR_IMAGE}/${file} ${S}/${file}
-				fi
-			done
-		fi
-	fi
-}
 
 do_install:append() {
 	if ${@bb.utils.contains("MACHINE", "n5x", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
@@ -75,16 +32,6 @@ do_install:append() {
 			ln -sf u-boot-${UBOOT_CONFIG}-${PV}-${PR}.itb ${D}/boot/u-boot.itb-${UBOOT_CONFIG}
 			ln -sf u-boot-${UBOOT_CONFIG}-${PV}-${PR}.itb ${D}/boot/u-boot.itb
 			rm -rf  ${D}/boot/*.img*
-		fi
-	fi
-}
-
-do_deploy:append() {
-	if ${@bb.utils.contains("MACHINE", "n5x", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
-		if [ -n "${UBOOT_CONFIG}" ]; then
-			install -m 744 ${B}/${config}/kernel.itb ${DEPLOYDIR}/kernel.itb
-		else
-			install -m 744 ${B}/kernel.itb ${DEPLOYDIR}/kernel.itb
 		fi
 	fi
 }

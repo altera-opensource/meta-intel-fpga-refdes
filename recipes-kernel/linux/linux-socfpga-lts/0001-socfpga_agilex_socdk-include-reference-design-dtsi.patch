@@ -1,0 +1,112 @@
+From 162f3094918af32d4899aac037b8bea60ae002a2 Mon Sep 17 00:00:00 2001
+From: "Chew, Chiau Ee" <chiau.ee.chew@intel.com>
+Date: Wed, 24 Feb 2021 18:47:38 +0800
+Subject: [PATCH] socfpga_agilex_socdk: include reference design dtsi
+
+Signed-off-by: Chew, Chiau Ee <chiau.ee.chew@intel.com>
+---
+ .../boot/dts/intel/socfpga_agilex_ghrd.dtsi   | 79 +++++++++++++++++++
+ .../boot/dts/intel/socfpga_agilex_socdk.dts   |  1 +
+ 2 files changed, 80 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/intel/socfpga_agilex_ghrd.dtsi
+
+diff --git a/arch/arm64/boot/dts/intel/socfpga_agilex_ghrd.dtsi b/arch/arm64/boot/dts/intel/socfpga_agilex_ghrd.dtsi
+new file mode 100644
+index 000000000000..4d6f84bc58ec
+--- /dev/null
++++ b/arch/arm64/boot/dts/intel/socfpga_agilex_ghrd.dtsi
+@@ -0,0 +1,79 @@
++/*
++* Add this piece of dtsi fragment as #include "socfpga_agilex_ghrd.dtsi"
++* in the file socfpga_agilex_socdk.dts. Compile it in the kernel along with
++* socfpga_agilex.dtsi.
++*/
++
++/{
++	soc {
++
++		led_pio: gpio@1080 {
++				compatible = "altr,pio-1.0";
++				reg = <0xf9001080 0x8>;
++				altr,gpio-bank-width = <4>;
++				#gpio-cells = <2>;
++				gpio-controller;
++				resetvalue = <0>;
++		};
++
++		button_pio: gpio@1060 {
++				compatible = "altr,pio-1.0";
++				reg = <0xf9001060 0x10>;
++				interrupt-parent = <&intc>;	
++				interrupts = <0 18 4>;
++				altr,gpio-bank-width = <4>;
++				altr,interrupt-type = <2>;      
++                                altr,interrupt_type = <2>;
++				#gpio-cells = <2>;
++				gpio-controller;
++		};
++
++		dipsw_pio: gpio@1070 {
++				compatible = "altr,pio-1.0";
++				reg = <0xf9001070 0x10>;
++				interrupt-parent = <&intc>;	
++				interrupts = <0 17 4>;
++				altr,gpio-bank-width = <4>;
++				altr,interrupt-type = <3>;      
++                                altr,interrupt_type = <3>;
++				#gpio-cells = <2>;
++				gpio-controller;
++		};
++
++		trigger_pio: gpio@1040 {
++				compatible = "altr,pio-1.0";
++				reg = <0xf9001040 0x20>;
++				altr,gpio-bank-width = <4>;
++				#gpio-cells = <2>;
++				gpio-controller;
++				resetvalue = <0>;
++		};
++
++		soc_leds: leds {
++			compatible = "gpio-leds";
++
++			led_fpga0: fpga0 {
++					label = "fpga_led0";
++					gpios = <&led_pio 0 1>;
++			}; //end fpga0 (led_fpga0)
++
++			led_fpga1: fpga1 {
++					label = "fpga_led1";
++					gpios = <&led_pio 1 1>;
++			}; //end fpga1 (led_fpga1)
++
++			led_fpga2: fpga2 {
++					label = "fpga_led2";
++					gpios = <&led_pio 2 1>;
++			}; //end fpga2 (led_fpga2)
++
++			led_fpga3: fpga3 {
++					label = "fpga_led3";
++					gpios = <&led_pio 3 1>;
++			}; //end fpga3 (led_fpga3)
++		};
++
++	};
++};
++
++
+diff --git a/arch/arm64/boot/dts/intel/socfpga_agilex_socdk.dts b/arch/arm64/boot/dts/intel/socfpga_agilex_socdk.dts
+index 96c50d48289d..4eda05f96c7f 100644
+--- a/arch/arm64/boot/dts/intel/socfpga_agilex_socdk.dts
++++ b/arch/arm64/boot/dts/intel/socfpga_agilex_socdk.dts
+@@ -3,6 +3,7 @@
+  * Copyright (C) 2019, Intel Corporation
+  */
+ #include "socfpga_agilex.dtsi"
++#include "socfpga_agilex_ghrd.dtsi"
+ 
+ / {
+ 	model = "SoCFPGA Agilex SoCDK";
+-- 
+2.17.1
+

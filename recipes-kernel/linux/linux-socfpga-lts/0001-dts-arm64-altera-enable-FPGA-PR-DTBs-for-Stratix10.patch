@@ -1,0 +1,164 @@
+From 13383d35b78f9c8e0171335fb7296338bc657975 Mon Sep 17 00:00:00 2001
+From: "Chew, Chiau Ee" <chiau.ee.chew@intel.com>
+Date: Thu, 20 May 2021 17:52:17 +0800
+Subject: [PATCH] dts/arm64/altera: enable FPGA PR DTBs for Stratix10
+
+This is to enable fpga_static_region and persona0/1 DTBs
+for Stratix10 FPGA Partial Reconfiguration with Linux.
+
+Signed-off-by: Chew, Chiau Ee <chiau.ee.chew@intel.com>
+---
+ arch/arm64/boot/dts/altera/Makefile           |  3 ++
+ .../boot/dts/altera/fpga_static_region.dts    | 44 +++++++++++++++++++
+ arch/arm64/boot/dts/altera/persona0.dts       | 34 ++++++++++++++
+ arch/arm64/boot/dts/altera/persona1.dts       | 34 ++++++++++++++
+ 4 files changed, 115 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/altera/fpga_static_region.dts
+ create mode 100644 arch/arm64/boot/dts/altera/persona0.dts
+ create mode 100644 arch/arm64/boot/dts/altera/persona1.dts
+
+diff --git a/arch/arm64/boot/dts/altera/Makefile b/arch/arm64/boot/dts/altera/Makefile
+index 08e5fc1b5199..1506cf97c942 100644
+--- a/arch/arm64/boot/dts/altera/Makefile
++++ b/arch/arm64/boot/dts/altera/Makefile
+@@ -1,4 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ dtb-$(CONFIG_ARCH_STRATIX10) += socfpga_stratix10_socdk.dtb \
+ 				socfpga_stratix10_socdk_nand.dtb
++dtb-$(CONFIG_ARCH_STRATIX10) += fpga_static_region.dtb
++dtb-$(CONFIG_ARCH_STRATIX10) += persona0.dtb
++dtb-$(CONFIG_ARCH_STRATIX10) += persona1.dtb
+ dtb-$(CONFIG_ARCH_STRATIX10SWVP) += stratix10_swvp.dtb
+diff --git a/arch/arm64/boot/dts/altera/fpga_static_region.dts b/arch/arm64/boot/dts/altera/fpga_static_region.dts
+new file mode 100644
+index 000000000000..459134745d8b
+--- /dev/null
++++ b/arch/arm64/boot/dts/altera/fpga_static_region.dts
+@@ -0,0 +1,44 @@
++/dts-v1/;
++/plugin/;
++/ {
++	fragment@0 {
++		target-path = "/soc/base_fpga_region";
++		#address-cells = <1>;
++		#size-cells = <1>;
++		__overlay__ {
++			#address-cells = <1>;
++			#size-cells = <1>;
++
++			ranges = <0x00000000 0xF9000000 0x00200000>;
++
++			external-fpga-config;
++
++			clocks = <&clk_0>;
++			clock-names = "fpga_clock";
++
++			clk_0: clk_0 {
++				compatible = "fixed-clock";
++				#clock-cells = <0>;
++				clock-frequency = <100000000>;
++				clock-output-names = "clk_0-clk";
++			};
++
++			fpga_pr_region0 {
++				compatible = "fpga-region";
++				fpga-bridges = <&freeze_controller_0>;
++				ranges;
++				#address-cells = <1>;
++				#size-cells = <1>;
++			};
++
++			freeze_controller_0: freeze_controller@0x0450 {
++				compatible = "altr,freeze_controller-16.1", "altr,freeze-bridge-controller";
++				reg = <0x00000450 0x00000010>;
++				interrupt-parent = <&intc>;
++				/*interrupts = <0 21 4>;*/
++				clocks = <&clk_0>;
++			};
++
++		};
++	};
++};
+diff --git a/arch/arm64/boot/dts/altera/persona0.dts b/arch/arm64/boot/dts/altera/persona0.dts
+new file mode 100644
+index 000000000000..0739815a4564
+--- /dev/null
++++ b/arch/arm64/boot/dts/altera/persona0.dts
+@@ -0,0 +1,34 @@
++/dts-v1/;
++/plugin/;
++/ {
++	fragment@1 {
++		target-path = "/soc/base_fpga_region/fpga_pr_region0";
++		#address-cells = <1>;
++		#size-cells = <1>;
++		__overlay__ {
++			partial-fpga-config;
++			firmware-name = "persona0.rbf";
++			#address-cells = <1>;
++			#size-cells = <1>;
++
++			region-unfreeze-timeout-us = <5000>;
++			region-freeze-timeout-us = <5000>;
++			config-complete-timeout-us = <2000000>;
++
++			pr_region_0_pr_clk_100: pr_region_0_pr_clk_100 {
++				compatible = "fixed-clock";
++				#clock-cells = <0>;
++				clock-frequency = <100000000>;	/* 100.00 MHz */
++				clock-output-names = "pr_region_0_pr_clk_100-clk";
++			};
++
++			pr_region_0_pr_sysid_qsys_0: sysid@0x0800 {
++				compatible = "altr,sysid-16.1", "altr,sysid-1.0";
++				reg = <0x00000800 0x00000008>;
++				clocks = <&pr_region_0_pr_clk_100>;
++				id = <3405707982>;	/* embeddedsw.dts.params.id type NUMBER */
++				timestamp = <0>;	/* embeddedsw.dts.params.timestamp type NUMBER */
++			};
++		};
++	};
++};
+diff --git a/arch/arm64/boot/dts/altera/persona1.dts b/arch/arm64/boot/dts/altera/persona1.dts
+new file mode 100644
+index 000000000000..93ec87050cf8
+--- /dev/null
++++ b/arch/arm64/boot/dts/altera/persona1.dts
+@@ -0,0 +1,34 @@
++/dts-v1/;
++/plugin/;
++/ {
++	fragment@1 {
++		target-path = "/soc/base_fpga_region/fpga_pr_region0";
++		#address-cells = <1>;
++		#size-cells = <1>;
++		__overlay__ {
++			partial-fpga-config;
++			firmware-name = "persona1.rbf";
++			#address-cells = <1>;
++			#size-cells = <1>;
++
++			region-unfreeze-timeout-us = <5000>;
++			region-freeze-timeout-us = <5000>;
++			config-complete-timeout-us = <2000000>;
++
++			pr_region_0_pr_clk_100: pr_region_0_pr_clk_100 {
++				compatible = "fixed-clock";
++				#clock-cells = <0>;
++				clock-frequency = <100000000>;	/* 100.00 MHz */
++				clock-output-names = "pr_region_0_pr_clk_100-clk";
++			};
++
++			pr_region_0_pr_sysid_qsys_0: sysid@0x0900 {
++				compatible = "altr,sysid-16.1", "altr,sysid-1.0";
++				reg = <0x00000900 0x00000008>;
++				clocks = <&pr_region_0_pr_clk_100>;
++				id = <3405707982>;	/* embeddedsw.dts.params.id type NUMBER */
++				timestamp = <0>;	/* embeddedsw.dts.params.timestamp type NUMBER */
++			};
++		};
++	};
++};
+-- 
+2.17.1
+

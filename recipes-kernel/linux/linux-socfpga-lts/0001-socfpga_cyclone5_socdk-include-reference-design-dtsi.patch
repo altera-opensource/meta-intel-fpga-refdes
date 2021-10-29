@@ -1,0 +1,146 @@
+From e341131487b53b81a5fa134bb58116f2b33dee1a Mon Sep 17 00:00:00 2001
+From: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
+Date: Wed, 14 Oct 2020 11:28:17 +0800
+Subject: [PATCH] socfpga_cyclone5_socdk: include reference design dtsi
+
+Signed-off-by: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
+---
+ arch/arm/boot/dts/socfpga_cyclone5_ghrd.dtsi | 113 +++++++++++++++++++
+ arch/arm/boot/dts/socfpga_cyclone5_socdk.dts |   1 +
+ 2 files changed, 114 insertions(+)
+ create mode 100644 arch/arm/boot/dts/socfpga_cyclone5_ghrd.dtsi
+
+diff --git a/arch/arm/boot/dts/socfpga_cyclone5_ghrd.dtsi b/arch/arm/boot/dts/socfpga_cyclone5_ghrd.dtsi
+new file mode 100644
+index 000000000000..640fd036db70
+--- /dev/null
++++ b/arch/arm/boot/dts/socfpga_cyclone5_ghrd.dtsi
+@@ -0,0 +1,113 @@
++/*
++* Add this piece of dtsi fragment as #include "socfpga_cyclone5_ghrd.dtsi"
++* in the file socfpga_cyclone5_socdk.dts. Compile it in the kernel along with
++* socfpga_cyclone5.dtsi
++*/
++
++/ {
++	soc {
++		clkmgr@ffd04000 {
++			clocks {
++				clk_0: clk_0 {
++					compatible = "fixed-clock";
++					#clock-cells = <0>;
++					clock-frequency = <50000000>;	// 50.00 MHz
++					clock-output-names = "clk_0-clk";
++				};
++			};
++		};
++
++		led_pio: gpio@0x100060040 {
++			compatible = "altr,pio-1.0";
++			reg = <0xff260040 0x00000020>;
++			clocks = <&clk_0>;
++			altr,gpio-bank-width = <4>;
++			resetvalue = <0>;
++			#gpio-cells = <2>;
++			gpio-controller;
++		};
++
++		jtag_uart: serial@0x100060000 {
++			compatible = "altr,juart-1.0";
++			reg = <0xff260000 0x00000008>;
++			interrupt-parent = <&intc>;
++			interrupts = <0 42 4>;
++			clocks = <&clk_0>;
++		};
++
++		ILC: ilc@0x100070000 {
++			compatible = "altr,altera_ilc-19.1", "altr,ilc-1.0";
++			reg = <0xff270000 0x00000100>;
++			interrupt-parent = <&intc>;
++			interrupts = <0 40 1 0 41 1 0 42 4>;
++			interrupt-names = "dipsw_pio", "button_pio", "jtag_uart";
++			interrupt-controller;
++			#interrupt-cells = <1>;
++			clocks = <&clk_0>;
++			altr,sw-fifo-depth = <32>;
++		};
++
++		sysid_qsys: sysid@0x100060008 {
++			compatible = "altr,sysid-19.1", "altr,sysid-1.0";
++			reg = <0xff260008 0x00000008>;
++			clocks = <&clk_0>;
++			id = <2899645696>;
++			timestamp = <1566350554>;
++		};
++
++		button_pio: gpio@0x1000600c0 {
++			compatible = "altr,pio-1.0";
++			reg = <0xff2600c0 0x00000010>;
++			interrupt-parent = <&intc>;
++			interrupts = <0 41 1>;
++			//clocks = <&clk_0>;
++			altr,gpio-bank-width = <2>;
++			altr,interrupt-type = <2>;
++			altr,interrupt_type = <2>;
++			edge_type = <1>;
++			level_trigger = <0>;
++			resetvalue = <0>;
++			#gpio-cells = <2>;
++			gpio-controller;
++		};
++
++		dipsw_pio: gpio@0x100060080 {
++			compatible = "altr,pio-1.0";
++			reg = <0xff260080 0x00000010>;
++			interrupt-parent = <&intc>;
++			interrupts = <0 40 1>;
++			//clocks = <&clk_0>;
++			altr,gpio-bank-width = <4>;
++			altr,interrupt-type = <3>;
++			altr,interrupt_type = <3>;
++			edge_type = <2>;
++			level_trigger = <0>;
++			resetvalue = <0>;
++			#gpio-cells = <2>;
++			gpio-controller;
++		};
++
++		soc_leds: leds {
++			compatible = "gpio-leds";
++			led_fpga0: fpga0 {
++				label = "fpga_led0";
++				gpios = <&led_pio 0 1>;
++			};
++
++			led_fpga1: fpga1 {
++				label = "fpga_led1";
++				gpios = <&led_pio 1 1>;
++			};
++
++			led_fpga2: fpga2 {
++				label = "fpga_led2";
++				gpios = <&led_pio 2 1>;
++			};
++
++			led_fpga3: fpga3 {
++				label = "fpga_led3";
++				gpios = <&led_pio 3 1>;
++			};
++		};
++	}; //end soc
++};
+diff --git a/arch/arm/boot/dts/socfpga_cyclone5_socdk.dts b/arch/arm/boot/dts/socfpga_cyclone5_socdk.dts
+index d52fbfeeaa71..dc14624e6911 100644
+--- a/arch/arm/boot/dts/socfpga_cyclone5_socdk.dts
++++ b/arch/arm/boot/dts/socfpga_cyclone5_socdk.dts
+@@ -4,6 +4,7 @@
+  */
+ 
+ #include "socfpga_cyclone5.dtsi"
++#include "socfpga_cyclone5_ghrd.dtsi"
+ 
+ / {
+ 	model = "Altera SOCFPGA Cyclone V SoC Development Kit";
+-- 
+2.17.1
+

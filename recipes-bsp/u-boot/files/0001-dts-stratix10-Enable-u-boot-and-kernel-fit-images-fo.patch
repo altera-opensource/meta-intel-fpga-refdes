@@ -1,0 +1,284 @@
+From d93f7cc0d2f9c2e4ebd6481c74fc2e48a4ffd504 Mon Sep 17 00:00:00 2001
+From: Yau Wai Gan <yau.wai.gan@intel.com>
+Date: Tue, 12 Oct 2021 15:50:28 +0800
+Subject: [PATCH] dts: stratix10: Enable u-boot and kernel fit images for
+ unified boot
+
+This binman node definition build u-boot and kernel FIT image that support
+booting from SD and NAND flash within single image. The kernel FIT image
+contains FPGA bitstream as well.
+
+Signed-off-by: Yau Wai Gan <yau.wai.gan@intel.com>
+---
+ arch/arm/dts/socfpga_stratix10-u-boot.dtsi     |   2 +-
+ arch/arm/dts/socfpga_stratix10_fit-u-boot.dtsi | 245 +++++++++++++++++++++++++
+ 2 files changed, 246 insertions(+), 1 deletion(-)
+ create mode 100644 arch/arm/dts/socfpga_stratix10_fit-u-boot.dtsi
+
+diff --git a/arch/arm/dts/socfpga_stratix10-u-boot.dtsi b/arch/arm/dts/socfpga_stratix10-u-boot.dtsi
+index 577cbf9770..cb19dd65d5 100644
+--- a/arch/arm/dts/socfpga_stratix10-u-boot.dtsi
++++ b/arch/arm/dts/socfpga_stratix10-u-boot.dtsi
+@@ -6,7 +6,7 @@
+  */
+ 
+ #include "socfpga_soc64_u-boot.dtsi"
+-#include "socfpga_soc64_fit-u-boot.dtsi"
++#include "socfpga_stratix10_fit-u-boot.dtsi"
+ 
+ &socfpga_secreg {
+ 	i_ccu_noc_registers@f7000000 {
+diff --git a/arch/arm/dts/socfpga_stratix10_fit-u-boot.dtsi b/arch/arm/dts/socfpga_stratix10_fit-u-boot.dtsi
+new file mode 100644
+index 0000000000..103c47a38f
+--- /dev/null
++++ b/arch/arm/dts/socfpga_stratix10_fit-u-boot.dtsi
+@@ -0,0 +1,245 @@
++// SPDX-License-Identifier: GPL-2.0+
++/*
++ * U-Boot additions
++ *
++ * Copyright (C) 2020 Intel Corporation <www.intel.com>
++ */
++
++#if defined(CONFIG_FIT)
++
++/ {
++	binman: binman {
++		multiple-images;
++	};
++};
++
++&binman {
++	u-boot-script {
++		filename = "boot.scr.uimg";
++		fit {
++			description = "FIT image for u-boot script";
++			#address-cells = <1>;
++
++			images {
++				script {
++					description = "U-Boot script";
++					type = "script";
++					compression = "none";
++					data: blob-ext {
++						filename = "uboot.txt";
++					};
++
++					hash {
++						algo = "crc32";
++					};
++				};
++			};
++		};
++	};
++
++	u-boot {
++		filename = "u-boot.itb";
++		fit {
++			fit,external-offset = <CONFIG_FIT_EXTERNAL_OFFSET>;
++			description = "FIT with firmware and bootloader";
++			#address-cells = <1>;
++
++			images {
++				uboot {
++					description = "U-Boot SoC64";
++					type = "standalone";
++					os = "U-Boot";
++					arch = "arm64";
++					compression = "none";
++					load = <0x00200000>;
++					uboot_blob: blob-ext {
++						filename = "u-boot-nodtb.bin";
++					};
++					hash {
++						algo = "crc32";
++					};
++				};
++
++				atf {
++					description = "ARM Trusted Firmware";
++					type = "firmware";
++					os = "arm-trusted-firmware";
++					arch = "arm64";
++					compression = "none";
++					load = <0x00001000>;
++					entry = <0x00001000>;
++					atf_blob: blob-ext {
++						filename = "bl31.bin";
++					};
++					hash {
++						algo = "crc32";
++					};
++				};
++
++				fdt-0 {
++					description = "socfpga_socdk";
++					type = "flat_dt";
++					compression = "none";
++					uboot_fdt_blob_0: blob-ext {
++						filename = "arch/arm/dts/socfpga_stratix10_socdk.dtb";
++					};
++					hash {
++						algo = "crc32";
++					};
++				};
++
++				fdt-1 {
++					description = "socfpga_socdk_nand";
++					type = "flat_dt";
++					compression = "none";
++					uboot_fdt_blob_1: blob-ext {
++						filename = "arch/arm/dts/socfpga_stratix10_socdk_nand.dtb";
++					};
++					hash {
++						algo = "crc32";
++					};
++				};
++			};
++
++			configurations {
++				default = "board-0";
++				
++				board-0 {
++					description = "board_0";
++					firmware = "atf";
++					loadables = "uboot";
++					fdt = "fdt-0";					
++					signature {
++						algo = "crc32";
++						key-name-hint = "dev";
++						sign-images = "atf", "uboot", "fdt-0";						
++					};
++				};
++
++				board-1 {
++					description = "board_1";
++					firmware = "atf";
++					loadables = "uboot";
++					fdt = "fdt-1";					
++					signature {
++						algo = "crc32";
++						key-name-hint = "dev";
++						sign-images = "atf", "uboot", "fdt-1";						
++					};
++				};
++
++
++			};
++		};
++	};
++
++	kernel {
++		filename = "kernel.itb";
++		fit {
++			description = "FIT with Linux kernel image and FDT blob";
++			#address-cells = <1>;
++
++			images {
++				kernel {
++					description = "Linux Kernel";
++					type = "kernel";
++					arch = "arm64";
++					os = "linux";
++					compression = "none";
++					load = <0x4000000>;
++					entry = <0x4000000>;
++					kernel_blob: blob-ext {
++						filename = "Image";
++					};
++					hash {
++						algo = "crc32";
++					};
++				};
++
++				fdt-0 {
++					description = "socfpga_socdk";
++					type = "flat_dt";
++					arch = "arm64";
++					compression = "none";
++					kernel_fdt_blob_0: blob-ext {
++						filename = "socfpga_stratix10_socdk.dtb";
++					};
++					hash {
++						algo = "crc32";
++					};
++				};
++
++				fdt-1 {
++					description = "socfpga_socdk_nand";
++					type = "flat_dt";
++					arch = "arm64";
++					compression = "none";
++					kernel_fdt_blob_1: blob-ext {
++						filename = "socfpga_stratix10_socdk_nand.dtb";						
++					};
++					hash {
++						algo = "crc32";
++					};
++				};
++
++				fpga-0 {
++					description = "FPGA bitstream for GHRD";
++					type = "fpga";
++					arch = "arm64";
++					compression = "none";
++					load = <0x6000000>;
++					kernel_fpga_blob_0: blob-ext {
++						filename = "ghrd.core.rbf";
++					};
++					hash {
++						algo = "crc32";
++					};
++				};
++
++				fpga-1 {
++					description = "FPGA bitstream for NAND";
++					type = "fpga";
++					arch = "arm64";
++					compression = "none";
++					load = <0x7000000>;
++					kernel_fpga_blob_1: blob-ext {
++						filename = "nand.core.rbf";
++					};
++					hash {
++						algo = "crc32";
++					};
++				};
++			};
++
++			configurations {
++				default = "board-0";
++
++				board-0 {
++					description = "board_0";
++					kernel = "kernel";
++					fdt = "fdt-0";
++					fpga = "fpga-0";
++					signature {
++						algo = "crc32";
++						key-name-hint = "dev";
++						sign-images = "fdt-0", "kernel", "fpga-0";
++					};
++				};
++
++				board-1 {
++					description = "board_1";
++					kernel = "kernel";
++					fdt = "fdt-1";
++					fpga = "fpga-1";
++					signature {
++						algo = "crc32";
++						key-name-hint = "dev";
++						sign-images = "fdt-1", "kernel", "fpga-1";
++					};
++				};
++			};
++		};
++	};
++};
++
++#endif
+-- 
+2.13.0
+

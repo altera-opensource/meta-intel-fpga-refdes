@@ -11,7 +11,7 @@ SRC_URI:append:agilex += "\
 			 "
 
 SRC_URI:append:stratix10 += "\
-			 ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://0001-socfpga_stratix10_socdk-include-reference-design-dts.patch", "", d)} \
+			 ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://0001-socfpga_stratix10_socdk-include-combined-golden-hard.patch", "", d)} \
 			 ${@bb.utils.contains("IMAGE_TYPE", "pr", "file://0001-socfpga_stratix10_socdk-include-reference-design-dts.patch", "", d)} \
 			 ${@bb.utils.contains("IMAGE_TYPE", "pr", "file://0001-dts-arm64-altera-enable-FPGA-PR-DTBs-for-Stratix10.patch", "", d)} \
 			 ${@bb.utils.contains("IMAGE_TYPE", "pcie", "file://0001-socfpga_stratix10_socdk-pcie-include-reference-desig.patch", "", d)} \
@@ -38,7 +38,7 @@ SRC_URI:append:arria10 += "file://tse.scc"
 SRC_URI:append:cyclone5 += "file://tse.scc"
 
 do_install:append() {
-	if ${@bb.utils.contains("IMAGE_TYPE", "pr", "true", "false", d)} ; then
+	if ${@bb.utils.contains("IMAGE_TYPE", "pr", "true", "false", d)} || ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "true", "false", d)} ; then
 		install -D -m 0644 ${D}/boot/fpga_static_region.dtb ${D}/boot/fpga_static_region.dtbo
 		install -D -m 0644 ${D}/boot/persona1.dtb ${D}/boot/persona1.dtbo
 		install -D -m 0644 ${D}/boot/persona0.dtb ${D}/boot/persona0.dtbo

@@ -6,6 +6,8 @@ DEPENDS:append:arria10 += "hw-ref-design"
 DEPENDS:append:n5x += "arm-trusted-firmware bash u-boot-socfpga-scr"
 
 SRC_URI += "file://0001-arm-Add-dwarf-4-to-compilation-flag.patch"
+SRC_URI:append:agilex ?= "${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://0001-dts-agilex-Enable-u-boot-and-kernel-fit-images-for-u.patch", "", d)}"
+SRC_URI:append:stratix10 ?= "${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://0001-dts-stratix10-Enable-u-boot-and-kernel-fit-images-fo.patch", "", d)}"
 
 inherit deploy
 
@@ -25,8 +27,33 @@ do_compile:prepend() {
 					if [ $j -eq $i ]; then
 						for file in ${COMPILE_PREPEND_FILES}; do
 							if [ "${file}" == "linux.dtb" ]; then
-								cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk.dtb ${B}/${type}/linux.dtb
-								cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk.dtb ${S}/linux.dtb
+								if [ "${IMAGE_TYPE}" == "gsrd" ]; then
+									cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk.dtb ${B}/${type}/socfpga_${MACHINE}_socdk.dtb
+									cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk.dtb ${S}/socfpga_${MACHINE}_socdk.dtb
+									cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk_nand.dtb ${B}/${type}/socfpga_${MACHINE}_socdk_nand.dtb
+									cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk_nand.dtb ${S}/socfpga_${MACHINE}_socdk_nand.dtb
+									cp ${DEPLOY_DIR_IMAGE}/ghrd.core.rbf ${B}/${type}/ghrd.core.rbf
+									cp ${DEPLOY_DIR_IMAGE}/ghrd.core.rbf ${S}/ghrd.core.rbf
+									cp ${DEPLOY_DIR_IMAGE}/nand.core.rbf ${B}/${type}/nand.core.rbf
+									cp ${DEPLOY_DIR_IMAGE}/nand.core.rbf ${S}/nand.core.rbf
+									if [ "${MACHINE}" == "agilex" ]; then
+										cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk_nand.dtb ${B}/${type}/socfpga_${MACHINE}_socdk_pr.dtb
+										cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk_nand.dtb ${S}/socfpga_${MACHINE}_socdk_pr.dtb
+										cp ${DEPLOY_DIR_IMAGE}/ghrd_pr.core.rbf ${B}/${type}/ghrd_pr.core.rbf
+										cp ${DEPLOY_DIR_IMAGE}/ghrd_pr.core.rbf ${S}/ghrd_pr.core.rbf
+									fi
+								else
+									cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk.dtb ${B}/${type}/linux.dtb
+									cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk.dtb ${S}/linux.dtb
+								fi
+							elif [ "${file}" == "u-boot.txt" ]; then
+								if [ "${IMAGE_TYPE}" == "gsrd" ]; then
+									cp ${DEPLOY_DIR_IMAGE}/u-boot.txt ${B}/${type}/uboot.txt
+									cp ${DEPLOY_DIR_IMAGE}/u-boot.txt ${S}/uboot.txt
+								else 
+									cp ${DEPLOY_DIR_IMAGE}/u-boot.txt ${B}/${type}/u-boot.txt
+									cp ${DEPLOY_DIR_IMAGE}/u-boot.txt ${S}/u-boot.txt
+								fi
 							else
 								cp ${DEPLOY_DIR_IMAGE}/${file} ${B}/${type}/${file}
 								cp ${DEPLOY_DIR_IMAGE}/${file} ${S}/${file}
@@ -40,10 +67,35 @@ do_compile:prepend() {
 		else
 			for file in ${COMPILE_PREPEND_FILES}; do
 				if [ "${file}" == "linux.dtb" ]; then
-					cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk.dtb ${B}/${config}/linux.dtb
-					cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk.dtb ${S}/linux.dtb
+					if [ "${IMAGE_TYPE}" == "gsrd" ]; then
+						cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk.dtb ${B}/${type}/socfpga_${MACHINE}_socdk.dtb
+						cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk.dtb ${S}/socfpga_${MACHINE}_socdk.dtb
+						cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk_nand.dtb ${B}/${type}/socfpga_${MACHINE}_socdk_nand.dtb
+						cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk_nand.dtb ${S}/socfpga_${MACHINE}_socdk_nand.dtb
+						cp ${DEPLOY_DIR_IMAGE}/ghrd.core.rbf ${B}/${type}/ghrd.core.rbf
+						cp ${DEPLOY_DIR_IMAGE}/ghrd.core.rbf ${S}/ghrd.core.rbf
+						cp ${DEPLOY_DIR_IMAGE}/nand.core.rbf ${B}/${type}/nand.core.rbf
+						cp ${DEPLOY_DIR_IMAGE}/nand.core.rbf ${S}/nand.core.rbf
+						if [ "${MACHINE}" == "agilex" ]; then
+							cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk_nand.dtb ${B}/${type}/socfpga_${MACHINE}_socdk_pr.dtb
+							cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk_nand.dtb ${S}/socfpga_${MACHINE}_socdk_pr.dtb
+							cp ${DEPLOY_DIR_IMAGE}/ghrd_pr.core.rbf ${B}/${type}/ghrd_pr.core.rbf
+							cp ${DEPLOY_DIR_IMAGE}/ghrd_pr.core.rbf ${S}/ghrd_pr.core.rbf
+						fi
+					else
+						cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk.dtb ${B}/${type}/linux.dtb
+						cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk.dtb ${S}/linux.dtb
+					fi
+				elif [ "${file}" == "u-boot.txt" ]; then
+					if [ "${IMAGE_TYPE}" == "gsrd" ]; then
+						cp ${DEPLOY_DIR_IMAGE}/u-boot.txt ${B}/${type}/uboot.txt
+						cp ${DEPLOY_DIR_IMAGE}/u-boot.txt ${S}/uboot.txt
+					else
+						cp ${DEPLOY_DIR_IMAGE}/u-boot.txt ${B}/${type}/u-boot.txt
+						cp ${DEPLOY_DIR_IMAGE}/u-boot.txt ${S}/u-boot.txt
+					fi
 				else
-					cp ${DEPLOY_DIR_IMAGE}/${file} ${B}/${config}/${file}
+					cp ${DEPLOY_DIR_IMAGE}/${file} ${B}/${type}/${file}
 					cp ${DEPLOY_DIR_IMAGE}/${file} ${S}/${file}
 				fi
 			done

@@ -43,4 +43,11 @@ do_install:append() {
 		install -D -m 0644 ${D}/boot/persona1.dtb ${D}/boot/persona1.dtbo
 		install -D -m 0644 ${D}/boot/persona0.dtb ${D}/boot/persona0.dtbo
 	fi
+	if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
+		if ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "true", "false", d)} ; then
+			install -D -m 0644 ${D}/boot/fpga_static_region.dtb ${D}/boot/fpga_static_region.dtbo
+			install -D -m 0644 ${D}/boot/persona1.dtb ${D}/boot/persona1.dtbo
+			install -D -m 0644 ${D}/boot/persona0.dtb ${D}/boot/persona0.dtbo
+		fi
+	fi
 }

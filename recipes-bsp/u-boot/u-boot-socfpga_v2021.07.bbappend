@@ -6,7 +6,10 @@ DEPENDS:append:arria10 += "hw-ref-design"
 DEPENDS:append:n5x += "arm-trusted-firmware bash u-boot-socfpga-scr"
 
 SRC_URI += "file://0001-arm-Add-dwarf-4-to-compilation-flag.patch"
-SRC_URI:append:agilex += "${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://0001-dts-agilex-Enable-u-boot-and-kernel-fit-images-for-u.patch", "", d)}"
+SRC_URI:append:agilex += "\
+			${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://0001-dts-agilex-Enable-u-boot-and-kernel-fit-images-for-u.patch", "", d)} \
+			${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://socfpga_agilex_socdk_pr.dtb", "", d)} \
+			"
 SRC_URI:append:stratix10 += "${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://0001-dts-stratix10-Enable-u-boot-and-kernel-fit-images-fo.patch", "", d)}"
 
 inherit deploy
@@ -38,8 +41,8 @@ do_compile:prepend() {
 										cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/nand.core.rbf ${B}/${config}/nand.core.rbf
 										cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/nand.core.rbf ${S}/nand.core.rbf
 										if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} ; then
-											cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk_pr.dtb ${B}/${config}/socfpga_${MACHINE}_socdk_pr.dtb
-											cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk_pr.dtb ${S}/socfpga_${MACHINE}_socdk_pr.dtb
+											cp ${WORKDIR}/socfpga_${MACHINE}_socdk_pr.dtb ${B}/${config}/socfpga_${MACHINE}_socdk_pr.dtb
+											cp ${WORKDIR}/socfpga_${MACHINE}_socdk_pr.dtb ${S}/socfpga_${MACHINE}_socdk_pr.dtb
 											cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd_pr.core.rbf ${B}/${config}/ghrd_pr.core.rbf
 											cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd_pr.core.rbf ${S}/ghrd_pr.core.rbf
 										fi
@@ -88,8 +91,8 @@ do_compile:prepend() {
 							cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/nand.core.rbf ${B}/${config}/nand.core.rbf
 							cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/nand.core.rbf ${S}/nand.core.rbf
 							if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} ; then
-								cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk_pr.dtb ${B}/${config}/socfpga_${MACHINE}_socdk_pr.dtb
-								cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk_pr.dtb ${S}/socfpga_${MACHINE}_socdk_pr.dtb
+								cp ${WORKDIR}/socfpga_${MACHINE}_socdk_pr.dtb ${B}/${config}/socfpga_${MACHINE}_socdk_pr.dtb
+								cp ${WORKDIR}/socfpga_${MACHINE}_socdk_pr.dtb ${S}/socfpga_${MACHINE}_socdk_pr.dtb
 								cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd_pr.core.rbf ${B}/${config}/ghrd_pr.core.rbf
 								cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd_pr.core.rbf ${S}/ghrd_pr.core.rbf
 							fi

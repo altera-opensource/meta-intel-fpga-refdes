@@ -4,7 +4,7 @@
 FILESEXTRAPATHS:prepend := "${THISDIR}/linux-socfpga-lts:"
 
 SRC_URI:append:agilex += "\
-			 ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://0001-socfpga_agilex_socdk-include-reference-design-dtsi.patch", "", d)} \
+			 ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://0001-dts-arm64-intel-enable-Agilex-SGMII-support.patch", "", d)} \
 			 ${@bb.utils.contains("IMAGE_TYPE", "pr", "file://0001-socfpga_agilex_socdk-include-reference-design-dtsi.patch", "", d)} \
 			 ${@bb.utils.contains("IMAGE_TYPE", "pr", "file://0001-dts-arm64-intel-enable-FPGA-PR-DTBs-for-Agilex.patch", "", d)} \
 			 ${@bb.utils.contains("IMAGE_TYPE", "sgmii", "file://0001-dts-arm64-intel-enable-Agilex-SGMII-support.patch", "", d)} \

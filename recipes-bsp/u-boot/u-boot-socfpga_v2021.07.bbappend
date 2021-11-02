@@ -27,8 +27,8 @@ do_compile:prepend() {
 					if [ $j -eq $i ]; then
 						for file in ${COMPILE_PREPEND_FILES}; do
 							if [ "${file}" == "linux.dtb" ]; then
-								if [[ "${MACHINE}" == "agilex" || "${MACHINE}" == "stratix10" ]]; then
-									if [ "${IMAGE_TYPE}" == "gsrd" ]; then
+								if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
+									if ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "true", "false", d)} ; then
 										cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk.dtb ${B}/${config}/socfpga_${MACHINE}_socdk.dtb
 										cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk.dtb ${S}/socfpga_${MACHINE}_socdk.dtb
 										cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk_nand.dtb ${B}/${config}/socfpga_${MACHINE}_socdk_nand.dtb
@@ -37,7 +37,7 @@ do_compile:prepend() {
 										cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd.core.rbf ${S}/ghrd.core.rbf
 										cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/nand.core.rbf ${B}/${config}/nand.core.rbf
 										cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/nand.core.rbf ${S}/nand.core.rbf
-										if [ "${MACHINE}" == "agilex" ]; then
+										if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} ; then
 											cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk_pr.dtb ${B}/${config}/socfpga_${MACHINE}_socdk_pr.dtb
 											cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk_pr.dtb ${S}/socfpga_${MACHINE}_socdk_pr.dtb
 											cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd_pr.core.rbf ${B}/${config}/ghrd_pr.core.rbf
@@ -52,8 +52,8 @@ do_compile:prepend() {
 									cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk.dtb ${S}/linux.dtb
 								fi
 							elif [ "${file}" == "u-boot.txt" ]; then
-								if [[ "${MACHINE}" == "agilex" || "${MACHINE}" == "stratix10" ]]; then
-									if [ "${IMAGE_TYPE}" == "gsrd" ]; then
+								if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
+									if ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "true", "false", d)} ; then
 										cp ${DEPLOY_DIR_IMAGE}/u-boot.txt ${B}/${config}/uboot.txt
 										cp ${DEPLOY_DIR_IMAGE}/u-boot.txt ${S}/uboot.txt
 									else
@@ -77,8 +77,8 @@ do_compile:prepend() {
 		else
 			for file in ${COMPILE_PREPEND_FILES}; do
 				if [ "${file}" == "linux.dtb" ]; then
-					if [[ "${MACHINE}" == "agilex" || "${MACHINE}" == "stratix10" ]]; then
-						if [ "${IMAGE_TYPE}" == "gsrd" ]; then
+					if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
+							if ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "true", "false", d)} ; then
 							cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk.dtb ${B}/${config}/socfpga_${MACHINE}_socdk.dtb
 							cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk.dtb ${S}/socfpga_${MACHINE}_socdk.dtb
 							cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk_nand.dtb ${B}/${config}/socfpga_${MACHINE}_socdk_nand.dtb
@@ -87,7 +87,7 @@ do_compile:prepend() {
 							cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd.core.rbf ${S}/ghrd.core.rbf
 							cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/nand.core.rbf ${B}/${config}/nand.core.rbf
 							cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/nand.core.rbf ${S}/nand.core.rbf
-							if [ "${MACHINE}" == "agilex" ]; then
+							if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} ; then
 								cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk_pr.dtb ${B}/${config}/socfpga_${MACHINE}_socdk_pr.dtb
 								cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk_pr.dtb ${S}/socfpga_${MACHINE}_socdk_pr.dtb
 								cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd_pr.core.rbf ${B}/${config}/ghrd_pr.core.rbf
@@ -102,8 +102,8 @@ do_compile:prepend() {
 						cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk.dtb ${S}/linux.dtb
 					fi
 				elif [ "${file}" == "u-boot.txt" ]; then
-					if [[ "${MACHINE}" == "agilex" || "${MACHINE}" == "stratix10" ]]; then
-						if [ "${IMAGE_TYPE}" == "gsrd" ]; then
+					if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
+							if ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "true", "false", d)} ; then
 							cp ${DEPLOY_DIR_IMAGE}/u-boot.txt ${B}/${config}/uboot.txt
 							cp ${DEPLOY_DIR_IMAGE}/u-boot.txt ${S}/uboot.txt
 						else
@@ -155,15 +155,15 @@ do_deploy:append() {
 	if ${@bb.utils.contains("MACHINE", "n5x", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
 		if [ -n "${UBOOT_CONFIG}" ]; then
 			install -m 744 ${B}/${config}/kernel.itb ${DEPLOYDIR}/kernel.itb
-			if [[ "${MACHINE}" == "agilex" || "${MACHINE}" == "stratix10" ]]; then
-				if [ "${IMAGE_TYPE}" == "gsrd" ]; then
+			if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
+					if ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "true", "false", d)} ; then
 					install -m 744 ${B}/${config}/boot.scr.uimg ${DEPLOYDIR}/boot.scr.uimg
 				fi
 			fi
 		else
 			install -m 744 ${B}/kernel.itb ${DEPLOYDIR}/kernel.itb
-			if [[ "${MACHINE}" == "agilex" || "${MACHINE}" == "stratix10" ]]; then
-				if [ "${IMAGE_TYPE}" == "gsrd" ]; then
+			if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
+					if ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "true", "false", d)} ; then
 					install -m 744 ${B}/${config}/boot.scr.uimg ${DEPLOYDIR}/boot.scr.uimg
 				fi
 			fi

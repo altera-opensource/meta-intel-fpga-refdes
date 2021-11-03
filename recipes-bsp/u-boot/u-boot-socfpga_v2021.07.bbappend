@@ -29,7 +29,7 @@ do_compile:prepend() {
 					j=$(expr $j + 1);
 					if [ $j -eq $i ]; then
 						for file in ${COMPILE_PREPEND_FILES}; do
-							if [ "${file}" == "linux.dtb" ]; then
+							if [ "${file}" = "linux.dtb" ]; then
 								if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
 									if ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "true", "false", d)} ; then
 										cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk.dtb ${B}/${config}/socfpga_${MACHINE}_socdk.dtb
@@ -54,7 +54,7 @@ do_compile:prepend() {
 									cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk.dtb ${B}/${config}/linux.dtb
 									cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk.dtb ${S}/linux.dtb
 								fi
-							elif [ "${file}" == "u-boot.txt" ]; then
+							elif [ "${file}" = "u-boot.txt" ]; then
 								if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
 									if ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "true", "false", d)} ; then
 										cp ${DEPLOY_DIR_IMAGE}/u-boot.txt ${B}/${config}/uboot.txt
@@ -79,7 +79,7 @@ do_compile:prepend() {
 			unset i
 		else
 			for file in ${COMPILE_PREPEND_FILES}; do
-				if [ "${file}" == "linux.dtb" ]; then
+				if [ "${file}" = "linux.dtb" ]; then
 					if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
 							if ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "true", "false", d)} ; then
 							cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk.dtb ${B}/${config}/socfpga_${MACHINE}_socdk.dtb
@@ -104,7 +104,7 @@ do_compile:prepend() {
 						cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk.dtb ${B}/${config}/linux.dtb
 						cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk.dtb ${S}/linux.dtb
 					fi
-				elif [ "${file}" == "u-boot.txt" ]; then
+				elif [ "${file}" = "u-boot.txt" ]; then
 					if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
 							if ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "true", "false", d)} ; then
 							cp ${DEPLOY_DIR_IMAGE}/u-boot.txt ${B}/${config}/uboot.txt

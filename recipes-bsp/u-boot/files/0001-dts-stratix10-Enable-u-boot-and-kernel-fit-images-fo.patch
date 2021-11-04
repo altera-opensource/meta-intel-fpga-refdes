@@ -182,8 +182,8 @@ index 0000000000..103c47a38f
 +					arch = "arm64";
 +					os = "linux";
 +					compression = "none";
-+					load = <0x4000000>;
-+					entry = <0x4000000>;
++					load = <0x6000000>;
++					entry = <0x6000000>;
 +					kernel_blob: blob-ext {
 +						filename = "Image";
 +					};
@@ -223,7 +223,7 @@ index 0000000000..103c47a38f
 +					type = "fpga";
 +					arch = "arm64";
 +					compression = "none";
-+					load = <0x6000000>;
++					load = <0xA000000>;
 +					kernel_fpga_blob_0: blob-ext {
 +						filename = "ghrd.core.rbf";
 +					};
@@ -237,7 +237,7 @@ index 0000000000..103c47a38f
 +					type = "fpga";
 +					arch = "arm64";
 +					compression = "none";
-+					load = <0x7000000>;
++					load = <0xA000000>;
 +					kernel_fpga_blob_1: blob-ext {
 +						filename = "nand.core.rbf";
 +					};

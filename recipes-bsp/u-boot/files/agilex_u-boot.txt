@@ -1,0 +1,5 @@
+setexpr.b reg *0xFFD120DC;
+if itest $reg -eq 3;
+then bridge enable;
+else load mmc 0:1 $loadaddr ghrd.core.rbf; dcache flush; fpga load 0 $loadaddr $filesize; bridge enable;
+fi

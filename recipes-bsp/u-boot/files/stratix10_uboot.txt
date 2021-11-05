@@ -1,0 +1,26 @@
+echo "Trying to boot Linux from device ${target}";
+
+if test ${target} = "mmc0"; then
+	if test -e ${devtype} ${devnum}:${distro_bootpart} /${bootfile}; then
+		echo "Found kernel in mmc0";		
+		mmc rescan;
+		fatload ${devtype} ${devnum}:${distro_bootpart} ${loadaddr} ${bootfile};
+		setenv bootargs "earlycon panic=-1 root=${mmcroot} rw rootwait";		
+		bootm ${loadaddr}#board-${board_id};
+		exit;
+	fi
+fi
+
+if test ${target} = "qspi"; then
+	sf probe;
+	sf read ${loadaddr} ${qspibootimageaddr} ${bootimagesize};
+	setenv bootargs "earlycon root=/dev/mtdblock1 rw rootfstype=jffs2 rootwait";
+	bootm ${loadaddr}#board-${board_id};
+fi
+
+if test ${target} = "nand"; then
+	ubi part root;
+	ubi readvol ${loadaddr} kernel;
+	setenv bootargs "earlycon panic=-1 root=${nandroot} rw rootwait rootfstype=ubifs ubi.mtd=1";
+	bootm ${loadaddr}#board-${board_id};
+fi

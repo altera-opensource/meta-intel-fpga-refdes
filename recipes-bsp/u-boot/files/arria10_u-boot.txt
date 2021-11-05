@@ -1,0 +1,4 @@
+bridge enable;
+setexpr.b reg *0xFFD05028;
+setexpr reg \| 2;
+mw.b 0xFFD05028 ${reg};

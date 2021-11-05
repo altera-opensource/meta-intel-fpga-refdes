@@ -4,7 +4,7 @@
 FILESEXTRAPATHS:prepend := "${THISDIR}/linux-socfpga-lts:"
 
 SRC_URI:append:agilex += "\
-			 ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://0001-dts-arm64-intel-enable-Agilex-SGMII-support.patch", "", d)} \
+			 ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://0001-socfpga_agilex_socdk-include-reference-design-dtsi.patch", "", d)} \
 			 ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://agilex_pr_fpga_static_region.dtb", "", d)} \
 			 ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://agilex_pr_persona0.dtb", "", d)} \
 			 ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://agilex_pr_persona1.dtb", "", d)} \
@@ -14,6 +14,7 @@ SRC_URI:append:agilex += "\
 			 "
 
 SRC_URI:append:stratix10 += "\
+			 ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://0001-socfpga_stratix10_socdk-include-reference-design-dts.patch", "", d)} \
 			 ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://stratix10_pr_fpga_static_region.dtb", "", d)} \
 			 ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://stratix10_pr_persona0.dtb", "", d)} \
 			 ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://stratix10_pr_persona1.dtb", "", d)} \

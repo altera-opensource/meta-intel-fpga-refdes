@@ -1,0 +1,151 @@
+// SPDX-License-Identifier: GPL-2.0
+/*
+ * Copyright (C) 2019 Intel Corporation
+ *
+ */
+
+/dts-v1/;
+
+/ {
+	description = "FIT image with kernel, DTB and FPGA core binary";
+	#address-cells = <1>;
+
+	images {
+		kernel {
+			description = "Linux Kernel";
+			type = "kernel";
+			arch = "arm64";
+			os = "linux";
+			compression = "none";
+			load = <0x6000000>;
+			entry = <0x6000000>;
+			kernel_blob: blob-ext {
+				filename = "Image";
+			};
+			hash {
+				algo = "crc32";
+			};
+		};
+
+		fdt-0 {
+			description = "socfpga_socdk";
+			type = "flat_dt";
+			arch = "arm64";
+			compression = "none";
+			kernel_fdt_blob_0: blob-ext {
+				filename = "socfpga_stratix10_socdk.dtb";
+			};
+			hash {
+				algo = "crc32";
+			};
+		};
+
+		fdt-1 {
+			description = "socfpga_socdk_nand";
+			type = "flat_dt";
+			arch = "arm64";
+			compression = "none";
+			kernel_fdt_blob_1: blob-ext {
+				filename = "socfpga_stratix10_socdk_nand.dtb";						
+			};
+			hash {
+				algo = "crc32";
+			};
+		};
+
+		fdt-2 {
+			description = "socfpga_socdk_pr";
+			type = "flat_dt";
+			arch = "arm64";
+			compression = "none";
+			kernel_fdt_blob_2: blob-ext {
+				filename = "socfpga_agilex_socdk_pr.dtb";						
+			};
+			hash {
+				algo = "crc32";
+			};
+		};
+
+		fpga-0 {
+			description = "FPGA bitstream for GHRD";
+			type = "fpga";
+			arch = "arm64";
+			compression = "none";
+			load = <0xA000000>;
+			kernel_fpga_blob_0: blob-ext {
+				filename = "ghrd.core.rbf";
+			};
+			hash {
+				algo = "crc32";
+			};
+		};
+
+		fpga-1 {
+			description = "FPGA bitstream for NAND";
+			type = "fpga";
+			arch = "arm64";
+			compression = "none";
+			load = <0xA000000>;
+			kernel_fpga_blob_1: blob-ext {
+				filename = "nand.core.rbf";
+			};
+			hash {
+				algo = "crc32";
+			};
+		};
+
+		fpga-2 {
+			description = "FPGA bitstream for PR";
+			type = "fpga";
+			arch = "arm64";
+			compression = "none";
+			load = <0xA000000>;
+			kernel_fpga_blob_2: blob-ext {
+				filename = "ghrd_pr.core.rbf";
+			};
+			hash {
+				algo = "crc32";
+			};
+		};
+	};
+
+	configurations {
+		default = "board-0";
+
+		board-0 {
+			description = "board_0";
+			kernel = "kernel";
+			fdt = "fdt-0";
+			fpga = "fpga-0";
+			signature {
+				algo = "crc32";
+				key-name-hint = "dev";
+				sign-images = "fdt-0", "kernel", "fpga-0";
+			};
+		};
+
+		board-1 {
+			description = "board_1";
+			kernel = "kernel";
+			fdt = "fdt-1";
+			fpga = "fpga-1";
+			signature {
+				algo = "crc32";
+				key-name-hint = "dev";
+				sign-images = "fdt-1", "kernel", "fpga-1";
+			};
+		};
+
+		board-2 {
+			description = "board_2";
+			kernel = "kernel";
+			fdt = "fdt-2";
+			fpga = "fpga-2";
+			signature {
+				algo = "crc32";
+				key-name-hint = "dev";
+				sign-images = "fdt-2", "kernel", "fpga-2";
+			};
+		};
+	};
+};

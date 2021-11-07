@@ -27,7 +27,7 @@ do_compile:prepend() {
 							if [ "${file}" = "linux.dtb" ]; then
 								if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
 									if ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "false", "true", d)} ; then
-
+										:
 									else
 										cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk.dtb ${B}/${config}/linux.dtb
 										cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk.dtb ${S}/linux.dtb
@@ -39,7 +39,7 @@ do_compile:prepend() {
 							elif [ "${file}" = "u-boot.txt" ]; then
 								if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
 									if ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "false", "true", d)} ; then
-
+										:
 									else
 										cp ${DEPLOY_DIR_IMAGE}/u-boot.txt ${B}/${config}/u-boot.txt
 										cp ${DEPLOY_DIR_IMAGE}/u-boot.txt ${S}/u-boot.txt
@@ -63,7 +63,7 @@ do_compile:prepend() {
 				if [ "${file}" = "linux.dtb" ]; then
 					if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
 						if ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "false", "true", d)} ; then
-
+							:
 						else
 							cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk.dtb ${B}/${config}/linux.dtb
 							cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk.dtb ${S}/linux.dtb
@@ -75,7 +75,7 @@ do_compile:prepend() {
 				elif [ "${file}" = "u-boot.txt" ]; then
 					if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
 						if ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "false", "true", d)} ; then
-
+							:
 						else
 							cp ${DEPLOY_DIR_IMAGE}/u-boot.txt ${B}/${config}/u-boot.txt
 							cp ${DEPLOY_DIR_IMAGE}/u-boot.txt ${S}/u-boot.txt
@@ -132,7 +132,7 @@ do_deploy:append() {
 
 	if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
 		if ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "false", "true", d)} ; then
-
+			:
 		else
 			if [ -n "${UBOOT_CONFIG}" ]; then
 				install -m 744 ${B}/${config}/kernel.itb ${DEPLOYDIR}/kernel.itb

@@ -3,7 +3,7 @@
 
 FILESEXTRAPATHS:prepend := "${THISDIR}/linux-socfpga-lts:"
 
-DEPENDS:"u-boot-mkimage-native"
+DEPENDS = "u-boot-mkimage-native"
 
 SRC_URI:append:agilex += "\
 			 ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://0001-socfpga_agilex_socdk-include-reference-design-dtsi.patch", "", d)} \
@@ -74,6 +74,7 @@ do_compile:append() {
 							cp ${WORKDIR}/socfpga_${MACHINE}_socdk_pr.dtb ${S}/socfpga_${MACHINE}_socdk_pr.dtb
 						fi
 					fi
+				fi
 			elif [ "${file}" = "core.rbf" ]; then
 				if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
 					if ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "true", "false", d)} ; then

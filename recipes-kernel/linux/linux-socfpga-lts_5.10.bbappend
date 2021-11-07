@@ -54,73 +54,33 @@ SRC_URI:append:cyclone5 += "file://tse.scc"
 
 inherit deploy
 
-do_compile[deptask] = "do_deploy"
-
-COMPILE_PREPEND_FILES:agilex = "Image linux.dtb core.rbf kernel.its"
-COMPILE_PREPEND_FILES:stratix10 = "Image linux.dtb core.rbf kernel.its"
-
-do_compile:append() {
-	if [ -n "${COMPILE_PREPEND_FILES}" ]; then
-		for file in ${COMPILE_PREPEND_FILES}; do
-			if [ "${file}" = "linux.dtb" ]; then
-				if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
-					if ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "true", "false", d)} ; then
-						cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk.dtb ${B}/socfpga_${MACHINE}_socdk.dtb
-						cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk.dtb ${S}/socfpga_${MACHINE}_socdk.dtb
-						cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk_nand.dtb ${B}/socfpga_${MACHINE}_socdk_nand.dtb
-						cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk_nand.dtb ${S}/socfpga_${MACHINE}_socdk_nand.dtb
-						if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} ; then
-							cp ${WORKDIR}/socfpga_${MACHINE}_socdk_pr.dtb ${B}/socfpga_${MACHINE}_socdk_pr.dtb
-							cp ${WORKDIR}/socfpga_${MACHINE}_socdk_pr.dtb ${S}/socfpga_${MACHINE}_socdk_pr.dtb
-						fi
-					fi
-				fi
-			elif [ "${file}" = "core.rbf" ]; then
-				if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
-					if ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "true", "false", d)} ; then
-						cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd.core.rbf ${B}/ghrd.core.rbf
-						cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd.core.rbf ${S}/ghrd.core.rbf
-						cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/nand.core.rbf ${B}/nand.core.rbf
-						cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/nand.core.rbf ${S}/nand.core.rbf
-						if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} ; then
-							cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd_pr.core.rbf ${B}/ghrd_pr.core.rbf
-							cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd_pr.core.rbf ${S}/ghrd_pr.core.rbf
-						fi
-					fi
-				fi
-			elif [ "${file}" = "kernel.its" ]; then
-				if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
-					if ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "true", "false", d)} ; then
-						cp ${WORKDIR}/fit_kernel_${MACHINE}.its ${B}/fit_kernel_${MACHINE}.its
-						cp ${WORKDIR}/fit_kernel_${MACHINE}.its ${S}/fit_kernel_${MACHINE}.its
-					fi
-				fi
-			else
-				if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
-					if ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "true", "false", d)} ; then
-						cp ${DEPLOY_DIR_IMAGE}/${file} ${B}/${file}
-						cp ${DEPLOY_DIR_IMAGE}/${file} ${S}/${file}
-					fi
-				fi
-			fi
-		done
-	fi
-	
-	if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
-		if ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "true", "false", d)} ; then
-			mkimage -E -f ${B}/fit_kernel_${MACHINE}.its ${B}/kernel.itb
-		fi
-	fi
-}
+LINUXDEPLOYDIR = "${WORKDIR}/deploy-${PN}"
 
 do_deploy:append() {
 	if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
 		if ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "true", "false", d)} ; then
+			# linux.dtb
+			cp ${LINUXDEPLOYDIR}/socfpga_${MACHINE}_socdk.dtb ${B}/socfpga_${MACHINE}_socdk.dtb
+			cp ${LINUXDEPLOYDIR}/socfpga_${MACHINE}_socdk_nand.dtb ${B}/socfpga_${MACHINE}_socdk_nand.dtb
+			if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} ; then
+				cp ${WORKDIR}/socfpga_${MACHINE}_socdk_pr.dtb ${B}/socfpga_${MACHINE}_socdk_pr.dtb
+			fi
+			# core.rbf
+			cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd.core.rbf ${B}/ghrd.core.rbf
+			cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/nand.core.rbf ${B}/nand.core.rbf
+			if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} ; then
+				cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd_pr.core.rbf ${B}/ghrd_pr.core.rbf
+			fi
+			# kernel.its
+			cp ${WORKDIR}/fit_kernel_${MACHINE}.its ${B}/fit_kernel_${MACHINE}.its
+			# Image
+			cp ${LINUXDEPLOYDIR}/Image ${B}/Image
+			# Generate kernel.itb
+			mkimage -f ${B}/fit_kernel_${MACHINE}.its ${B}/kernel.itb
 			install -m 744 ${B}/kernel.itb ${DEPLOYDIR}/kernel.itb
 		fi
 	fi
 }
-
 
 do_install:append() {
 	if ${@bb.utils.contains("IMAGE_TYPE", "pr", "true", "false", d)} ; then

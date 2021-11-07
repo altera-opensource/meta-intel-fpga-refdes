@@ -3,8 +3,7 @@
 
 FILESEXTRAPATHS:prepend := "${THISDIR}/linux-socfpga-lts:"
 
-DEPENDS:append:agilex += "bash u-boot-socfpga-scr u-boot-mkimage-native"
-DEPENDS:append:stratix10 += "bash u-boot-socfpga-scr u-boot-mkimage-native"
+DEPENDS:"u-boot-mkimage-native"
 
 SRC_URI:append:agilex += "\
 			 ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://0001-socfpga_agilex_socdk-include-reference-design-dtsi.patch", "", d)} \

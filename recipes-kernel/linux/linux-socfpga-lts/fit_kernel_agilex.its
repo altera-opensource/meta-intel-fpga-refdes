@@ -13,6 +13,7 @@
 	images {
 		kernel {
 			description = "Linux Kernel";
+			data = /incbin/("./Image");
 			type = "kernel";
 			arch = "arm64";
 			os = "linux";
@@ -29,11 +30,12 @@
 
 		fdt-0 {
 			description = "socfpga_socdk";
+			data = /incbin/("./socfpga_agilex_socdk.dtb");
 			type = "flat_dt";
 			arch = "arm64";
 			compression = "none";
 			kernel_fdt_blob_0: blob-ext {
-				filename = "socfpga_stratix10_socdk.dtb";
+				filename = "socfpga_agilex_socdk.dtb";
 			};
 			hash {
 				algo = "crc32";
@@ -42,11 +44,12 @@
 
 		fdt-1 {
 			description = "socfpga_socdk_nand";
+			data = /incbin/("./socfpga_agilex_socdk_nand.dtb");
 			type = "flat_dt";
 			arch = "arm64";
 			compression = "none";
 			kernel_fdt_blob_1: blob-ext {
-				filename = "socfpga_stratix10_socdk_nand.dtb";						
+				filename = "socfpga_agilex_socdk_nand.dtb";						
 			};
 			hash {
 				algo = "crc32";
@@ -55,6 +58,7 @@
 
 		fdt-2 {
 			description = "socfpga_socdk_pr";
+			data = /incbin/("./socfpga_agilex_socdk_pr.dtb");
 			type = "flat_dt";
 			arch = "arm64";
 			compression = "none";
@@ -68,6 +72,7 @@
 
 		fpga-0 {
 			description = "FPGA bitstream for GHRD";
+			data = /incbin/("./ghrd.core.rbf");
 			type = "fpga";
 			arch = "arm64";
 			compression = "none";
@@ -82,6 +87,7 @@
 
 		fpga-1 {
 			description = "FPGA bitstream for NAND";
+			data = /incbin/("./nand.core.rbf");
 			type = "fpga";
 			arch = "arm64";
 			compression = "none";
@@ -96,6 +102,7 @@
 
 		fpga-2 {
 			description = "FPGA bitstream for PR";
+			data = /incbin/("./ghrd_pr.core.rbf");
 			type = "fpga";
 			arch = "arm64";
 			compression = "none";

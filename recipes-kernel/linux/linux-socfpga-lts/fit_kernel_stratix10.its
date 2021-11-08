@@ -13,6 +13,7 @@
 	images {
 		kernel {
 			description = "Linux Kernel";
+			data = /incbin/("./Image");
 			type = "kernel";
 			arch = "arm64";
 			os = "linux";
@@ -29,6 +30,7 @@
 
 		fdt-0 {
 			description = "socfpga_socdk";
+			data = /incbin/("./socfpga_stratix10_socdk.dtb");
 			type = "flat_dt";
 			arch = "arm64";
 			compression = "none";
@@ -42,6 +44,7 @@
 
 		fdt-1 {
 			description = "socfpga_socdk_nand";
+			data = /incbin/("./socfpga_stratix10_socdk_nand.dtb");
 			type = "flat_dt";
 			arch = "arm64";
 			compression = "none";
@@ -55,6 +58,7 @@
 
 		fpga-0 {
 			description = "FPGA bitstream for GHRD";
+			data = /incbin/("./ghrd.core.rbf");
 			type = "fpga";
 			arch = "arm64";
 			compression = "none";
@@ -69,6 +73,7 @@
 
 		fpga-1 {
 			description = "FPGA bitstream for NAND";
+			data = /incbin/("./nand.core.rbf");
 			type = "fpga";
 			arch = "arm64";
 			compression = "none";

@@ -52,9 +52,14 @@ do_deploy() {
 	if ${@bb.utils.contains("MACHINE", "arria10", "true", "false", d)}; then
 		install -m 0644 ${WORKDIR}/boot.scr ${DEPLOYDIR}/boot.scr
 	else
-		if ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "true", "false", d)} ; then
-			install -m 0755 ${WORKDIR}/${MACHINE}_uboot.txt ${DEPLOYDIR}/uboot.txt
-			install -m 0644 ${WORKDIR}/boot.scr ${DEPLOYDIR}/boot.scr
+		if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
+			if ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "true", "false", d)} ; then
+				install -m 0755 ${WORKDIR}/${MACHINE}_uboot.txt ${DEPLOYDIR}/uboot.txt
+				install -m 0644 ${WORKDIR}/boot.scr ${DEPLOYDIR}/boot.scr
+			else
+				install -m 0755 ${WORKDIR}/${MACHINE}_u-boot.txt ${DEPLOYDIR}/u-boot.txt
+				install -m 0644 ${WORKDIR}/u-boot.scr ${DEPLOYDIR}/u-boot.scr
+			fi
 		else
 			install -m 0755 ${WORKDIR}/${MACHINE}_u-boot.txt ${DEPLOYDIR}/u-boot.txt
 			install -m 0644 ${WORKDIR}/u-boot.scr ${DEPLOYDIR}/u-boot.scr

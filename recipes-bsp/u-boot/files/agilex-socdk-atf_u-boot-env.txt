@@ -1,0 +1,37 @@
+baudrate=115200
+bootargs=earlycon panic=-1
+bootcmd=run fatscript; run mmcfitload; run mmcfitboot
+bootdelay=5
+bootfile=kernel.itb
+bootimagesize=0x01F00000
+fatscript=if fatload mmc 0:1 ${scriptaddr} ${scriptfile};then source ${scriptaddr}:script; fi
+fdt_addr=8000000
+fdtimage=socfpga_agilex_socdk.dtb
+fdtimagesize=0x00010000
+linux_qspi_enable=if sf probe; then echo Enabling QSPI at Linux DTB...;fdt addr ${fdt_addr}; fdt resize;fdt set /soc/spi@ff8d2000 status okay;if fdt set /soc/clocks/qspi-clk clock-frequency ${qspi_clock}; then else fdt set /soc/clkmgr/clocks/qspi_clk clock-frequency ${qspi_clock}; fi; fi
+loadaddr=0x2000000
+mmcboot=setenv bootargs earlycon panic=-1 root=${mmcroot} rw rootwait;booti ${loadaddr} - ${fdt_addr}
+mmcfitboot=setenv bootargs earlycon panic=-1 root=${mmcroot} rw rootwait;bootm ${loadaddr}
+mmcfitload=mmc rescan;load mmc 0:1 ${loadaddr} ${bootfile}
+mmcload=mmc rescan;load mmc 0:1 ${loadaddr} ${bootfile};load mmc 0:1 ${fdt_addr} ${fdtimage}
+mmcroot=/dev/mmcblk0p2
+mtdids=nor0=ff705000.spi.0
+mtdparts=
+nandboot=setenv bootargs earlycon panic=-1 root=${nandroot} rw rootwait rootfstype=jffs2; booti ${loadaddr} - ${fdt_addr}
+nandfitboot=setenv bootargs earlycon panic=-1 root=${nandroot} rw rootwait rootfstype=jffs2; bootm ${loadaddr}
+nandfitload=nand read ${loadaddr} kernel
+nandload=nand read ${loadaddr} kernel; nand read ${fdt_addr} dtb
+nandroot=/dev/mtdblock5
+qspiboot=setenv bootargs earlycon root=/dev/mtdblock1 rw rootfstype=jffs2 rootwait;booti ${loadaddr} - ${fdt_addr}
+qspibootimageaddr=0x020E0000
+qspifdtaddr=0x020D0000
+qspifitboot=setenv bootargs earlycon root=/dev/mtdblock1 rw rootfstype=jffs2 rootwait;bootm ${loadaddr}
+qspifitload=sf read ${loadaddr} ${qspibootimageaddr} ${bootimagesize}
+qspiload=sf read ${loadaddr} ${qspibootimageaddr} ${bootimagesize};sf read ${fdt_addr} ${qspifdtaddr} ${fdtimagesize}
+rsu_status=rsu dtb; rsu display_dcmf_version; rsu display_dcmf_status; rsu display_max_retry
+scriptaddr=0x02100000
+scriptfile=u-boot.scr
+smc_fid_rd=0xC2000007
+smc_fid_upd=0xC2000009
+smc_fid_wr=0xC2000008
+socfpga_legacy_reset_compat=1

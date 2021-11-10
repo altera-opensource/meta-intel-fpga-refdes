@@ -1,0 +1,23 @@
+baudrate=115200
+bootargs=console=ttyS0,115200 
+bootcmd=bridge enable; run qspiload; run qspiboot
+bootdelay=5
+bootm_size=0xa000000
+fdt_addr_r=0x02000000
+fdtfile=socfpga_arria10_socdk_qspi.dtb
+fitimagesize=0x5F0000
+kernel_addr_r=0x01000000
+kernelfit_addr=0x1200000
+loadaddr=0x01000000
+nandboot=setenv bootargs console=ttyS0,115200 root=${nandroot} rw rootfstype=${nandrootfstype}; bootm ${scriptaddr}
+nandload=nand read ${scriptaddr} ${kernelfit_addr}
+nandroot=/dev/mtdblock1
+nandrootfstype=jffs2
+pxefile_addr_r=0x02200000
+qspiboot=setenv bootargs console=ttyS0,115200 root=${qspiroot} rw rootfstype=${qspirootfstype}; bootm ${scriptaddr}
+qspiload=sf probe; sf read ${scriptaddr} ${kernelfit_addr}
+qspiroot=/dev/mtdblock1
+qspirootfstype=jffs2
+ramdisk_addr_r=0x02300000
+scriptaddr=0x02100000
+socfpga_legacy_reset_compat=1

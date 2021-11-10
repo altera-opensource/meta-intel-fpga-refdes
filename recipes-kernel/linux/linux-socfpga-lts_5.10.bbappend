@@ -18,15 +18,11 @@ SRC_URI:append:agilex += "\
 			 "
 
 SRC_URI:append:stratix10 += "\
-			 ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://0001-socfpga_stratix10_socdk-include-reference-design-dts.patch", "", d)} \
+			 ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://0001-socfpga_stratix10_socdk-include-ghrd-combined-dtsi.patch", "", d)} \
 			 ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://fit_kernel_stratix10.its", "", d)} \
 			 ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://stratix10_pr_fpga_static_region.dtb", "", d)} \
 			 ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://stratix10_pr_persona0.dtb", "", d)} \
 			 ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://stratix10_pr_persona1.dtb", "", d)} \
-			 ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://socfpga_stratix10_ghrd.dtbo", "", d)} \
-			 ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://socfpga_stratix10_pcie.dtbo", "", d)} \
-			 ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://socfpga_stratix10_qse.dtbo", "", d)} \
-			 ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://socfpga_stratix10_sgmii.dtbo", "", d)} \
 			 ${@bb.utils.contains("IMAGE_TYPE", "pr", "file://0001-socfpga_stratix10_socdk-include-reference-design-dts.patch", "", d)} \
 			 ${@bb.utils.contains("IMAGE_TYPE", "pr", "file://0001-dts-arm64-altera-enable-FPGA-PR-DTBs-for-Stratix10.patch", "", d)} \
 			 ${@bb.utils.contains("IMAGE_TYPE", "pcie", "file://0001-socfpga_stratix10_socdk-pcie-include-reference-desig.patch", "", d)} \
@@ -93,12 +89,6 @@ do_install:append() {
 			install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_fpga_static_region.dtb ${D}/boot/fpga_static_region.dtbo
 			install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_persona1.dtb ${D}/boot/persona1.dtbo
 			install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_persona0.dtb ${D}/boot/persona0.dtbo
-			if ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
-				install -D -m 0644 ${WORKDIR}/socfpga_stratix10_ghrd.dtbo ${D}/boot/socfpga_stratix10_ghrd.dtbo
-				install -D -m 0644 ${WORKDIR}/socfpga_stratix10_pcie.dtbo ${D}/boot/socfpga_stratix10_pcie.dtbo
-				install -D -m 0644 ${WORKDIR}/socfpga_stratix10_qse.dtbo ${D}/boot/socfpga_stratix10_qse.dtbo
-				install -D -m 0644 ${WORKDIR}/socfpga_stratix10_sgmii.dtbo ${D}/boot/socfpga_stratix10_sgmii.dtbo
-			fi
 		fi
 	fi
 }

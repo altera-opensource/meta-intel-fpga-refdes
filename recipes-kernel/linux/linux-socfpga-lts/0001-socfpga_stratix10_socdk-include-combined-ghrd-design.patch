@@ -1,22 +1,51 @@
-From 2000aea8015cb788669dfafcdde1b536b8c2952a Mon Sep 17 00:00:00 2001
+From 779618aad711039c812cf2cefcb1ce5fba9f712b Mon Sep 17 00:00:00 2001
 From: "Teoh, Ji Sheng" <ji.sheng.teoh@intel.com>
-Date: Wed, 10 Nov 2021 21:09:09 +0000
-Subject: [PATCH] socfpga_stratix10_socdk: include ghrd combined dtsi
+Date: Thu, 11 Nov 2021 19:10:12 +0000
+Subject: [PATCH] socfpga_stratix10_socdk: include combined ghrd design
 
 Signed-off-by: Teoh, Ji Sheng <ji.sheng.teoh@intel.com>
 ---
- ...socfpga_stratix10_qse_pcie_sgmii_ghrd.dtsi | 284 ++++++++++++++++++
+ .../boot/dts/altera/socfpga_stratix10.dtsi    |   3 +
+ ...socfpga_stratix10_qse_pcie_sgmii_ghrd.dtsi | 278 ++++++++++++++++++
  .../dts/altera/socfpga_stratix10_socdk.dts    |   2 +-
  .../altera/socfpga_stratix10_socdk_nand.dts   |   1 +
- 3 files changed, 286 insertions(+), 1 deletion(-)
+ 4 files changed, 283 insertions(+), 1 deletion(-)
  create mode 100644 arch/arm64/boot/dts/altera/socfpga_stratix10_qse_pcie_sgmii_ghrd.dtsi
 
+diff --git a/arch/arm64/boot/dts/altera/socfpga_stratix10.dtsi b/arch/arm64/boot/dts/altera/socfpga_stratix10.dtsi
+index 0f893984c256..e962762f992c 100644
+--- a/arch/arm64/boot/dts/altera/socfpga_stratix10.dtsi
++++ b/arch/arm64/boot/dts/altera/socfpga_stratix10.dtsi
+@@ -145,6 +145,7 @@
+ 			mac-address = [00 00 00 00 00 00];
+ 			resets = <&rst EMAC0_RESET>, <&rst EMAC0_OCP_RESET>;
+ 			reset-names = "stmmaceth", "stmmaceth-ocp";
++			#clock-cells = <1>;
+ 			clocks = <&clkmgr STRATIX10_EMAC0_CLK>, <&clkmgr STRATIX10_EMAC_PTP_CLK>;
+ 			clock-names = "stmmaceth", "ptp_ref";
+ 			tx-fifo-depth = <16384>;
+@@ -163,6 +164,7 @@
+ 			mac-address = [00 00 00 00 00 00];
+ 			resets = <&rst EMAC1_RESET>, <&rst EMAC1_OCP_RESET>;
+ 			reset-names = "stmmaceth", "stmmaceth-ocp";
++			#clock-cells = <1>;
+ 			clocks = <&clkmgr STRATIX10_EMAC1_CLK>, <&clkmgr STRATIX10_EMAC_PTP_CLK>;
+ 			clock-names = "stmmaceth", "ptp_ref";
+ 			tx-fifo-depth = <16384>;
+@@ -181,6 +183,7 @@
+ 			mac-address = [00 00 00 00 00 00];
+ 			resets = <&rst EMAC2_RESET>, <&rst EMAC2_OCP_RESET>;
+ 			reset-names = "stmmaceth", "stmmaceth-ocp";
++			#clock-cells = <1>;
+ 			clocks = <&clkmgr STRATIX10_EMAC2_CLK>, <&clkmgr STRATIX10_EMAC_PTP_CLK>;
+ 			clock-names = "stmmaceth", "ptp_ref";
+ 			tx-fifo-depth = <16384>;
 diff --git a/arch/arm64/boot/dts/altera/socfpga_stratix10_qse_pcie_sgmii_ghrd.dtsi b/arch/arm64/boot/dts/altera/socfpga_stratix10_qse_pcie_sgmii_ghrd.dtsi
 new file mode 100644
-index 000000000000..24eb369e4042
+index 000000000000..42d1259b3226
 --- /dev/null
 +++ b/arch/arm64/boot/dts/altera/socfpga_stratix10_qse_pcie_sgmii_ghrd.dtsi
-@@ -0,0 +1,284 @@
+@@ -0,0 +1,278 @@
 +/*
 +* Add this piece of dtsi fragment as #include "socfpga_stratix10_qse.dtsi"
 +* in the file socfpga_stratix10_socdk.dts. Compile it in the kernel along with
@@ -25,7 +54,7 @@ index 000000000000..24eb369e4042
 +
 +/{
 +	soc {
-+		led_pio: gpio@1080 {
++		led_pio: gpio@f9001080 {
 +				compatible = "altr,pio-1.0";
 +				reg = <0xf9001080 0x8>;
 +				altr,gpio-bank-width = <4>;
@@ -34,31 +63,29 @@ index 000000000000..24eb369e4042
 +				resetvalue = <0>;
 +		};
 +
-+		button_pio: gpio@1060 {
++		button_pio: gpio@f9001060 {
 +				compatible = "altr,pio-1.0";
 +				reg = <0xf9001060 0x10>;
 +				interrupt-parent = <&intc>;
 +				interrupts = <0 18 4>;
 +				altr,gpio-bank-width = <4>;
 +				altr,interrupt-type = <2>;
-+                                altr,interrupt_type = <2>;
 +				#gpio-cells = <2>;
 +				gpio-controller;
 +		};
 +
-+		dipsw_pio: gpio@1070 {
++		dipsw_pio: gpio@f9001070 {
 +				compatible = "altr,pio-1.0";
 +				reg = <0xf9001070 0x10>;
 +				interrupt-parent = <&intc>;
 +				interrupts = <0 17 4>;
 +				altr,gpio-bank-width = <4>;
 +				altr,interrupt-type = <3>;
-+                                altr,interrupt_type = <3>;
 +				#gpio-cells = <2>;
 +				gpio-controller;
 +		};
 +
-+		trigger_pio: gpio@1040 {
++		trigger_pio: gpio@f9001040 {
 +				compatible = "altr,pio-1.0";
 +				reg = <0xf9001040 0x20>;
 +				altr,gpio-bank-width = <4>;
@@ -100,32 +127,32 @@ index 000000000000..24eb369e4042
 +			};
 +
 +			sgmii_1_clk_0: sgmii_1_clk_0 {
-+                                compatible = "fixed-clock";
-+                                #clock-cells = <0>;
-+                                clock-frequency = <125000000>;  /* 125.00 MHz */
-+                                clock-output-names = "sgmii_1_clk_0-out_clk";
-+                        }; //end sgmii_1_clk_0 (sgmii_1_clk_0)
++				compatible = "fixed-clock";
++				#clock-cells = <0>;
++				clock-frequency = <125000000>;	/* 125.00 MHz */
++				clock-output-names = "sgmii_1_clk_0-out_clk";
++			}; //end sgmii_1_clk_0 (sgmii_1_clk_0)
 +
-+                        sgmii_1_clk_125: sgmii_1_clk_125 {
-+                                compatible = "fixed-clock";
-+                                #clock-cells = <0>;
-+                                clock-frequency = <125000000>;  /* 125.00 MHz */
-+                                clock-output-names = "sgmii_1_clk_125-out_clk";
-+                        }; //end sgmii_1_clk_125 (sgmii_1_clk_125)
++			sgmii_1_clk_125: sgmii_1_clk_125 {
++				compatible = "fixed-clock";
++				#clock-cells = <0>;
++				clock-frequency = <125000000>;	/* 125.00 MHz */
++				clock-output-names = "sgmii_1_clk_125-out_clk";
++			}; //end sgmii_1_clk_125 (sgmii_1_clk_125)
 +
-+                        sgmii_2_clk_0: sgmii_2_clk_0 {
-+                                compatible = "fixed-clock";
-+                                #clock-cells = <0>;
-+                                clock-frequency = <125000000>;  /* 125.00 MHz */
-+                                clock-output-names = "sgmii_2_clk_0-out_clk";
-+                        }; //end sgmii_2_clk_0 (sgmii_2_clk_0)
++			sgmii_2_clk_0: sgmii_2_clk_0 {
++				compatible = "fixed-clock";
++				#clock-cells = <0>;
++				clock-frequency = <125000000>;	/* 125.00 MHz */
++				clock-output-names = "sgmii_2_clk_0-out_clk";
++			}; //end sgmii_2_clk_0 (sgmii_2_clk_0)
 +
-+                        sgmii_2_clk_125: sgmii_2_clk_125 {
-+                                compatible = "fixed-clock";
-+                                #clock-cells = <0>;
-+                                clock-frequency = <125000000>;  /* 125.00 MHz */
-+                                clock-output-names = "sgmii_2_clk_125-out_clk";
-+                        }; //end sgmii_2_clk_125 (sgmii_2_clk_125)
++			sgmii_2_clk_125: sgmii_2_clk_125 {
++				compatible = "fixed-clock";
++				#clock-cells = <0>;
++				clock-frequency = <125000000>;	/* 125.00 MHz */
++				clock-output-names = "sgmii_2_clk_125-out_clk";
++			}; //end sgmii_2_clk_125 (sgmii_2_clk_125)
 +		};
 +
 +		i2c0: i2c@ffc02800 {
@@ -161,25 +188,25 @@ index 000000000000..24eb369e4042
 +				<0x00000001 0x00003080 0xf9003080 0x00000040>,
 +				<0x00000001 0x000030c0 0xf90030c0 0x00000008>;
 +
-+                        sgmii_1_gmii2sgmii: phy@0x100000040 {
-+                                compatible = "altr,gmii-to-sgmii-2.0";
-+                                reg = <0x00000001 0x00003000 0x00000040>,
++			sgmii_1_gmii2sgmii: sgmii1@0x100003000 {
++				compatible = "altr,gmii-to-sgmii-2.0";
++				reg = <0x00000001 0x00003000 0x00000040>,
 +				      <0x00000001 0x00003040 0x00000008>;
-+                                reg-names = "eth_tse_control_port", "gmii_to_sgmii_adapter_avalon_slave";
-+                                clocks = <&sgmii_1_clk_0 &gmac1 1 &sgmii_1_clk_125 &sgmii_1_clk_125>;
-+                                clock-names = "clock_in", "emac_gtx_clk", "tse_pcs_ref_clk_clock_connection", "tse_rx_cdr_refclk";
-+                        }; //end phy@0x100000040 (sgmii_1_gmii2sgmii)
++				reg-names = "eth_tse_control_port", "gmii_to_sgmii_adapter_avalon_slave";
++				clocks = <&sgmii_1_clk_0 &gmac1 1 &sgmii_1_clk_125 &sgmii_1_clk_125>;
++				clock-names = "clock_in", "emac_gtx_clk", "tse_pcs_ref_clk_clock_connection", "tse_rx_cdr_refclk";
++			};
 +
-+                        sgmii_2_gmii2sgmii: phy@0x100000c0 {
-+                                compatible = "altr,gmii-to-sgmii-2.0";
-+                                reg = <0x00000001 0x00003080 0x00000040>,
-+                                        <0x00000001 0x000030c0 0x00000008>;
-+                                reg-names = "eth_tse_control_port", "gmii_to_sgmii_adapter_avalon_slave";
-+                                clocks = <&sgmii_2_clk_0 &gmac2 1 &sgmii_2_clk_125 &sgmii_2_clk_125>;
-+                                clock-names = "clock_in", "emac_gtx_clk", "tse_pcs_ref_clk_clock_connection", "tse_rx_cdr_refclk";
-+                        }; //end phy@0x1000000c0 (sgmii_2_gmii2sgmii)
++			sgmii_2_gmii2sgmii: sgmii2@100003080 {
++				compatible = "altr,gmii-to-sgmii-2.0";
++				reg = <0x00000001 0x00003080 0x00000040>,
++					<0x00000001 0x000030c0 0x00000008>;
++				reg-names = "eth_tse_control_port", "gmii_to_sgmii_adapter_avalon_slave";
++				clocks = <&sgmii_2_clk_0 &gmac2 1 &sgmii_2_clk_125 &sgmii_2_clk_125>;
++				clock-names = "clock_in", "emac_gtx_clk", "tse_pcs_ref_clk_clock_connection", "tse_rx_cdr_refclk";
++			};
 +
-+			qse_0_qse: ethernet@0x100020000 {
++			qse_0_qse: ethernet@100020000 {
 +				compatible = "altr,qse-msgdma-2.0";
 +				reg-names = "control_port", "xcvr_ctrl", "tod_ctrl",
 +						"tx_csr", "tx_pref", "rx_csr", "rx_pref",
@@ -215,7 +242,7 @@ index 000000000000..24eb369e4042
 +				status = "okay";
 +			};
 +
-+			pcie_0_pcie_s10: pcie@200000000 {
++			pcie_0_pcie_s10: pcie@20000000 {
 +				compatible = "altr,pcie-root-port-2.0";
 +				reg = <0x0 0x20000000 0x200000 0x0 0x10000000 0x10000000 0x1 0x10000 0x8000>;
 +				reg-names = "Hip", "Txs", "Cra";
@@ -261,26 +288,24 @@ index 000000000000..24eb369e4042
 +				rate-select0-gpio = <&sfp_ctrl_pio 2 GPIO_ACTIVE_HIGH>;
 +			};
 +
-+			sfp_ctrl_pio: gpio@300 {
++			sfp_ctrl_pio: gpio@100000300 {
 +				compatible = "altr,pio-1.0";
 +				reg = <0x00000001 0x00000300 0x10>;
 +				interrupt-parent = <&intc>;
 +				interrupts = <0 23 4>;
 +				altr,gpio-bank-width = <4>;
 +				altr,interrupt-type = <2>;
-+				altr,interrupt_type = <2>;
 +				#gpio-cells = <2>;
 +				gpio-controller;
 +			};
 +
-+			mge_10g_status_pio: gpio@310 {
++			mge_10g_status_pio: gpio@100000310 {
 +				compatible = "altr,pio-1.0";
 +				reg = <0x00000001 0x00000310 0x10>;
 +				interrupt-parent = <&intc>;
 +				interrupts = <0 24 4>;
 +				altr,gpio-bank-width = <4>;
 +				altr,interrupt-type = <2>;
-+				altr,interrupt_type = <2>;
 +				#gpio-cells = <2>;
 +				gpio-controller;
 +			};
@@ -289,17 +314,15 @@ index 000000000000..24eb369e4042
 +};
 +
 +&gmac1 {
-+        altr,gmii-to-sgmii-converter = <&sgmii_1_gmii2sgmii>;
-+        altr,gmii_to_sgmii_converter = <&sgmii_1_gmii2sgmii>;
-+        phy-mode = "sgmii";
-+        status = "okay";
++	altr,gmii-to-sgmii-converter = <&sgmii_1_gmii2sgmii>;
++	phy-mode = "sgmii";
++	status = "okay";
 +};
 +
 +&gmac2 {
-+        altr,gmii-to-sgmii-converter = <&sgmii_2_gmii2sgmii>;
-+        altr,gmii_to_sgmii_converter = <&sgmii_2_gmii2sgmii>;
-+        phy-mode = "sgmii";
-+        status = "okay";
++	altr,gmii-to-sgmii-converter = <&sgmii_2_gmii2sgmii>;
++	phy-mode = "sgmii";
++	status = "okay";
 +};
 diff --git a/arch/arm64/boot/dts/altera/socfpga_stratix10_socdk.dts b/arch/arm64/boot/dts/altera/socfpga_stratix10_socdk.dts
 index 4019f176a23f..0df18c0c7674 100644

@@ -18,7 +18,7 @@ SRC_URI:append:agilex += "\
 			 "
 
 SRC_URI:append:stratix10 += "\
-			 ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://0001-socfpga_stratix10_socdk-include-ghrd-combined-dtsi.patch", "", d)} \
+			 ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://0001-socfpga_stratix10_socdk-include-combined-ghrd-design.patch", "", d)} \
 			 ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://fit_kernel_stratix10.its", "", d)} \
 			 ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://stratix10_pr_fpga_static_region.dtb", "", d)} \
 			 ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://stratix10_pr_persona0.dtb", "", d)} \

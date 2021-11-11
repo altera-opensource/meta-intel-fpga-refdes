@@ -9,7 +9,7 @@ IMAGE_INSTALL += "packagegroup-network-essential"
 IMAGE_INSTALL += "packagegroup-core-ssh-openssh"
 IMAGE_INSTALL += "packagegroup-web-server-essential"
 IMAGE_INSTALL += "fio fpga-overlay nfs-utils-client perl"
-IMAGE_INSTALL += "remote-debug-app"
+IMAGE_INSTALL += "remote-debug-app fpgaconfig"
 
 export IMAGE_BASENAME = "gsrd-console-image"
 

@@ -6,27 +6,20 @@ FILESEXTRAPATHS:prepend := "${THISDIR}/linux-socfpga-lts:"
 DEPENDS = "u-boot-mkimage-native"
 
 SRC_URI:append:agilex += "\
-			 ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://0001-socfpga_agilex_socdk-include-combined-ghrd-design.patch", "", d)} \
-			 ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://socfpga_agilex_socdk_pr.dtb", "", d)} \
-			 ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://fit_kernel_agilex.its", "", d)} \
-			 ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://agilex_pr_fpga_static_region.dtb", "", d)} \
-			 ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://agilex_pr_persona0.dtb", "", d)} \
-			 ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://agilex_pr_persona1.dtb", "", d)} \
-			 ${@bb.utils.contains("IMAGE_TYPE", "pr", "file://0001-socfpga_agilex_socdk-include-reference-design-dtsi.patch", "", d)} \
-			 ${@bb.utils.contains("IMAGE_TYPE", "pr", "file://0001-dts-arm64-intel-enable-FPGA-PR-DTBs-for-Agilex.patch", "", d)} \
-			 ${@bb.utils.contains("IMAGE_TYPE", "sgmii", "file://0001-dts-arm64-intel-enable-Agilex-SGMII-support.patch", "", d)} \
+			 file://0001-socfpga_agilex_socdk-include-combined-ghrd-design.patch \
+			 file://socfpga_agilex_socdk_pr.dtb \
+			 file://fit_kernel_agilex.its \
+			 file://agilex_pr_fpga_static_region.dtb \
+			 file://agilex_pr_persona0.dtb \
+			 file://agilex_pr_persona1.dtb \
 			 "
 
 SRC_URI:append:stratix10 += "\
-			 ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://0001-socfpga_stratix10_socdk-include-combined-ghrd-design.patch", "", d)} \
-			 ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://fit_kernel_stratix10.its", "", d)} \
-			 ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://stratix10_pr_fpga_static_region.dtb", "", d)} \
-			 ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://stratix10_pr_persona0.dtb", "", d)} \
-			 ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://stratix10_pr_persona1.dtb", "", d)} \
-			 ${@bb.utils.contains("IMAGE_TYPE", "pr", "file://0001-socfpga_stratix10_socdk-include-reference-design-dts.patch", "", d)} \
-			 ${@bb.utils.contains("IMAGE_TYPE", "pr", "file://0001-dts-arm64-altera-enable-FPGA-PR-DTBs-for-Stratix10.patch", "", d)} \
-			 ${@bb.utils.contains("IMAGE_TYPE", "pcie", "file://0001-socfpga_stratix10_socdk-pcie-include-reference-desig.patch", "", d)} \
-			 ${@bb.utils.contains("IMAGE_TYPE", "sgmii", "file://0001-socfpga_stratix10_socdk-sgmii-include-reference-desi.patch", "", d)} \
+			 file://0001-socfpga_stratix10_socdk-include-combined-ghrd-design.patch \
+			 file://fit_kernel_stratix10.its \
+			 file://stratix10_pr_fpga_static_region.dtb \
+			 file://stratix10_pr_persona0.dtb \
+			 file://stratix10_pr_persona1.dtb \
 			 "
 
 SRC_URI:append:arria10 += "\
@@ -54,27 +47,25 @@ LINUXDEPLOYDIR = "${WORKDIR}/deploy-${PN}"
 
 do_deploy:append() {
 	if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
-		if ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "true", "false", d)} ; then
-			# linux.dtb
-			cp ${LINUXDEPLOYDIR}/socfpga_${MACHINE}_socdk.dtb ${B}/socfpga_${MACHINE}_socdk.dtb
-			cp ${LINUXDEPLOYDIR}/socfpga_${MACHINE}_socdk_nand.dtb ${B}/socfpga_${MACHINE}_socdk_nand.dtb
-			if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} ; then
-				cp ${WORKDIR}/socfpga_${MACHINE}_socdk_pr.dtb ${B}/socfpga_${MACHINE}_socdk_pr.dtb
-			fi
-			# core.rbf
-			cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd.core.rbf ${B}/ghrd.core.rbf
-			cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/nand.core.rbf ${B}/nand.core.rbf
-			if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} ; then
-				cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd_pr.core.rbf ${B}/ghrd_pr.core.rbf
-			fi
-			# kernel.its
-			cp ${WORKDIR}/fit_kernel_${MACHINE}.its ${B}/fit_kernel_${MACHINE}.its
-			# Image
-			cp ${LINUXDEPLOYDIR}/Image ${B}/Image
-			# Generate kernel.itb
-			mkimage -f ${B}/fit_kernel_${MACHINE}.its ${B}/kernel.itb
-			install -m 744 ${B}/kernel.itb ${DEPLOYDIR}/kernel.itb
+		# linux.dtb
+		cp ${LINUXDEPLOYDIR}/socfpga_${MACHINE}_socdk.dtb ${B}/socfpga_${MACHINE}_socdk.dtb
+		cp ${LINUXDEPLOYDIR}/socfpga_${MACHINE}_socdk_nand.dtb ${B}/socfpga_${MACHINE}_socdk_nand.dtb
+		if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} ; then
+			cp ${WORKDIR}/socfpga_${MACHINE}_socdk_pr.dtb ${B}/socfpga_${MACHINE}_socdk_pr.dtb
 		fi
+		# core.rbf
+		cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd.core.rbf ${B}/ghrd.core.rbf
+		cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/nand.core.rbf ${B}/nand.core.rbf
+		if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} ; then
+			cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd_pr.core.rbf ${B}/ghrd_pr.core.rbf
+		fi
+		# kernel.its
+		cp ${WORKDIR}/fit_kernel_${MACHINE}.its ${B}/fit_kernel_${MACHINE}.its
+		# Image
+		cp ${LINUXDEPLOYDIR}/Image ${B}/Image
+		# Generate kernel.itb
+		mkimage -f ${B}/fit_kernel_${MACHINE}.its ${B}/kernel.itb
+		install -m 744 ${B}/kernel.itb ${DEPLOYDIR}/kernel.itb
 	fi
 }
 
@@ -85,10 +76,8 @@ do_install:append() {
 		install -D -m 0644 ${D}/boot/persona0.dtb ${D}/boot/persona0.dtbo
 	fi
 	if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
-		if ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "true", "false", d)} ; then
-			install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_fpga_static_region.dtb ${D}/boot/fpga_static_region.dtbo
-			install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_persona1.dtb ${D}/boot/persona1.dtbo
-			install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_persona0.dtb ${D}/boot/persona0.dtbo
-		fi
+		install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_fpga_static_region.dtb ${D}/boot/fpga_static_region.dtbo
+		install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_persona1.dtb ${D}/boot/persona1.dtbo
+		install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_persona0.dtb ${D}/boot/persona0.dtbo
 	fi
 }

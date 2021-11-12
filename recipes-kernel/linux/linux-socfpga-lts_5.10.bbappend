@@ -6,7 +6,7 @@ FILESEXTRAPATHS:prepend := "${THISDIR}/linux-socfpga-lts:"
 DEPENDS = "u-boot-mkimage-native"
 
 SRC_URI:append:agilex += "\
-			 ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://0001-socfpga_agilex_socdk-include-reference-design-dtsi.patch", "", d)} \
+			 ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://0001-socfpga_agilex_socdk-include-combined-ghrd-design.patch", "", d)} \
 			 ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://socfpga_agilex_socdk_pr.dtb", "", d)} \
 			 ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://fit_kernel_agilex.its", "", d)} \
 			 ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://agilex_pr_fpga_static_region.dtb", "", d)} \

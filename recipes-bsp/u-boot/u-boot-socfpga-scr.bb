@@ -9,8 +9,8 @@ DEPENDS = "u-boot-mkimage-native"
 inherit deploy nopackages
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
-SRC_URI:agilex = "${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://agilex_uboot.txt", "file://agilex_u-boot.txt", d)}"
-SRC_URI:stratix10 = "${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://stratix10_uboot.txt", "file://stratix10_u-boot.txt", d)}"
+SRC_URI:agilex = "file://agilex_uboot.txt"
+SRC_URI:stratix10 = "file://stratix10_uboot.txt"
 SRC_URI:arria10 = "file://arria10_u-boot.txt"
 SRC_URI:cyclone5 = "file://cyclone5_u-boot.txt"
 SRC_URI:n5x = "file://n5x_u-boot.txt"
@@ -23,19 +23,11 @@ do_compile:n5x() {
 }
 
 do_compile:agilex() {
-	if ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "true", "false", d)} ; then
-		mkimage -A arm -O linux -T script -C none -a 0 -e 0 -n "Agilex Script" -d "${WORKDIR}/${MACHINE}_uboot.txt" ${WORKDIR}/boot.scr
-	else
-		mkimage -A arm -O linux -T script -C none -a 0 -e 0 -n "Agilex Script" -d "${WORKDIR}/${MACHINE}_u-boot.txt" ${WORKDIR}/boot.scr
-	fi
+	mkimage -A arm -O linux -T script -C none -a 0 -e 0 -n "Agilex Script" -d "${WORKDIR}/${MACHINE}_uboot.txt" ${WORKDIR}/boot.scr
 }
 
 do_compile:stratix10() {
-	if ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "true", "false", d)} ; then
-		mkimage -A arm -O linux -T script -C none -a 0 -e 0 -n "Stratix10 Script" -d "${WORKDIR}/${MACHINE}_uboot.txt" ${WORKDIR}/boot.scr
-	else
-		mkimage -A arm -O linux -T script -C none -a 0 -e 0 -n "Stratix10 Script" -d "${WORKDIR}/${MACHINE}_u-boot.txt" ${WORKDIR}/boot.scr
-	fi
+	mkimage -A arm -O linux -T script -C none -a 0 -e 0 -n "Stratix10 Script" -d "${WORKDIR}/${MACHINE}_uboot.txt" ${WORKDIR}/boot.scr
 }
 
 do_compile:cyclone5() {
@@ -49,20 +41,10 @@ do_compile:arria10() {
 do_deploy() {
 	install -d ${DEPLOYDIR}
 
-	if ${@bb.utils.contains("MACHINE", "arria10", "true", "false", d)}; then
+	if ${@bb.utils.contains("MACHINE", "arria10", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)}; then
 		install -m 0644 ${WORKDIR}/boot.scr ${DEPLOYDIR}/boot.scr
 	else
-		if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
-			install -m 0644 ${WORKDIR}/boot.scr ${DEPLOYDIR}/boot.scr
-			if ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "true", "false", d)} ; then
-				install -m 0755 ${WORKDIR}/${MACHINE}_uboot.txt ${DEPLOYDIR}/uboot.txt
-			else
-				install -m 0755 ${WORKDIR}/${MACHINE}_u-boot.txt ${DEPLOYDIR}/u-boot.txt
-			fi
-		else
-			install -m 0755 ${WORKDIR}/${MACHINE}_u-boot.txt ${DEPLOYDIR}/u-boot.txt
-			install -m 0644 ${WORKDIR}/u-boot.scr ${DEPLOYDIR}/u-boot.scr
-		fi
+		install -m 0644 ${WORKDIR}/u-boot.scr ${DEPLOYDIR}/u-boot.scr
 	fi
 }
 

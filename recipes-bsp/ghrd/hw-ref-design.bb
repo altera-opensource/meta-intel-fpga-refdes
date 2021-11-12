@@ -18,21 +18,17 @@ C5_GHRD_CORE_RBF = "soc_system.rbf"
 
 SRC_URI:agilex ?= "\
 		file://${MACHINE}_${IMAGE_TYPE}_${ARM64_GHRD_CORE_RBF} \
-		${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://${MACHINE}_nand_${ARM64_GHRD_CORE_RBF}", "", d)} \
-		${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://${MACHINE}_pr_${ARM64_GHRD_CORE_RBF}", "", d)} \
-		${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://${MACHINE}_pr_persona0.rbf", "", d)} \
-		${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://${MACHINE}_pr_persona1.rbf", "", d)} \
-		${@bb.utils.contains("IMAGE_TYPE", "pr", "file://${MACHINE}_${IMAGE_TYPE}_persona0.rbf", "", d)} \
-		${@bb.utils.contains("IMAGE_TYPE", "pr", "file://${MACHINE}_${IMAGE_TYPE}_persona1.rbf", "", d)} \
+		file://${MACHINE}_nand_${ARM64_GHRD_CORE_RBF} \
+		file://${MACHINE}_pr_${ARM64_GHRD_CORE_RBF} \
+		file://${MACHINE}_pr_persona0.rbf \
+		file://${MACHINE}_pr_persona1.rbf \
 		"
 
 SRC_URI:stratix10 ?= "\
 		file://${MACHINE}_${IMAGE_TYPE}_${ARM64_GHRD_CORE_RBF} \
-		${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://${MACHINE}_nand_${ARM64_GHRD_CORE_RBF}", "", d)} \
-		${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://${MACHINE}_pr_persona0.rbf", "", d)} \
-		${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://${MACHINE}_pr_persona1.rbf", "", d)} \
-		${@bb.utils.contains("IMAGE_TYPE", "pr", "file://${MACHINE}_${IMAGE_TYPE}_persona0.rbf", "", d)} \
-		${@bb.utils.contains("IMAGE_TYPE", "pr", "file://${MACHINE}_${IMAGE_TYPE}_persona1.rbf", "", d)} \
+		file://${MACHINE}_nand_${ARM64_GHRD_CORE_RBF}\
+		file://${MACHINE}_pr_persona0.rbf \
+		file://${MACHINE}_pr_persona1.rbf \
 		"
 
 SRC_URI:arria10 ?= "\
@@ -63,21 +59,17 @@ do_deploy[nostamp] = "1"
 do_install () {
 	if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} ; then
 		install -D -m 0644 ${WORKDIR}/${MACHINE}_${IMAGE_TYPE}_${ARM64_GHRD_CORE_RBF} ${D}/boot/${ARM64_GHRD_CORE_RBF}
-		if ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "true", "false", d)} ; then
-			install -D -m 0644 ${WORKDIR}/${MACHINE}_nand_${ARM64_GHRD_CORE_RBF} ${D}/boot/nand.core.rbf
-			install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_${ARM64_GHRD_CORE_RBF} ${D}/boot/ghrd_pr.core.rbf
-			install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_persona0.rbf ${D}${base_libdir}/firmware/persona0.rbf
-			install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_persona1.rbf ${D}${base_libdir}/firmware/persona1.rbf
-		fi
+		install -D -m 0644 ${WORKDIR}/${MACHINE}_nand_${ARM64_GHRD_CORE_RBF} ${D}/boot/nand.core.rbf
+		install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_${ARM64_GHRD_CORE_RBF} ${D}/boot/ghrd_pr.core.rbf
+		install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_persona0.rbf ${D}${base_libdir}/firmware/persona0.rbf
+		install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_persona1.rbf ${D}${base_libdir}/firmware/persona1.rbf
 	fi
 
 	if ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
 		install -D -m 0644 ${WORKDIR}/${MACHINE}_${IMAGE_TYPE}_${ARM64_GHRD_CORE_RBF} ${D}/boot/${ARM64_GHRD_CORE_RBF}
-		if ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "true", "false", d)} ; then
-			install -D -m 0644 ${WORKDIR}/${MACHINE}_nand_${ARM64_GHRD_CORE_RBF} ${D}/boot/nand.core.rbf
-			install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_persona0.rbf ${D}${base_libdir}/firmware/persona0.rbf
-			install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_persona1.rbf ${D}${base_libdir}/firmware/persona1.rbf
-		fi
+		install -D -m 0644 ${WORKDIR}/${MACHINE}_nand_${ARM64_GHRD_CORE_RBF} ${D}/boot/nand.core.rbf
+		install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_persona0.rbf ${D}${base_libdir}/firmware/persona0.rbf
+		install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_persona1.rbf ${D}${base_libdir}/firmware/persona1.rbf
 	fi
 
 	if ${@bb.utils.contains("MACHINE", "cyclone5", "true", "false", d)} ; then
@@ -93,21 +85,17 @@ do_install () {
 do_deploy () {
 	if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} ; then
 		install -D -m 0644 ${WORKDIR}/${MACHINE}_${IMAGE_TYPE}_${ARM64_GHRD_CORE_RBF} ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/${ARM64_GHRD_CORE_RBF}
-		if ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "true", "false", d)} ; then
-			install -D -m 0644 ${WORKDIR}/${MACHINE}_nand_${ARM64_GHRD_CORE_RBF} ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/nand.core.rbf
-			install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_${ARM64_GHRD_CORE_RBF} ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd_pr.core.rbf
-			install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_persona0.rbf ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/persona0.rbf
-			install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_persona1.rbf ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/persona1.rbf
-		fi
+		install -D -m 0644 ${WORKDIR}/${MACHINE}_nand_${ARM64_GHRD_CORE_RBF} ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/nand.core.rbf
+		install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_${ARM64_GHRD_CORE_RBF} ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd_pr.core.rbf
+		install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_persona0.rbf ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/persona0.rbf
+		install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_persona1.rbf ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/persona1.rbf
 	fi
 
 	if ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
 		install -D -m 0644 ${WORKDIR}/${MACHINE}_${IMAGE_TYPE}_${ARM64_GHRD_CORE_RBF} ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/${ARM64_GHRD_CORE_RBF}
-		if ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "true", "false", d)} ; then
-			install -D -m 0644 ${WORKDIR}/${MACHINE}_nand_${ARM64_GHRD_CORE_RBF} ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/nand.core.rbf
-			install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_persona0.rbf ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/persona0.rbf
-			install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_persona1.rbf ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/persona1.rbf
-		fi
+		install -D -m 0644 ${WORKDIR}/${MACHINE}_nand_${ARM64_GHRD_CORE_RBF} ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/nand.core.rbf
+		install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_persona0.rbf ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/persona0.rbf
+		install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_persona1.rbf ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/persona1.rbf
 	fi
 
 	if ${@bb.utils.contains("MACHINE", "arria10", "true", "false", d)} ; then

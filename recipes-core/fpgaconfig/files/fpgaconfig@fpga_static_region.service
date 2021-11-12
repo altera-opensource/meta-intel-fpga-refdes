@@ -21,5 +21,6 @@ Description=Applying Altera base device tree overlay
 
 [Service]
 Type=simple
+RemainAfterExit=yes
 ExecStart=/usr/bin/fpgaconfig.sh fpga_static_region.dtbo start
 ExecStop=/usr/bin/fpgaconfig.sh fpga_static_region.dtbo stop

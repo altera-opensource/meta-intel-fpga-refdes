@@ -21,6 +21,7 @@ Description=Applying Altera base device tree overlay
 
 [Service]
 Type=simple
+RemainAfterExit=yes
 ExecStart=/usr/bin/fpgaconfig.sh persona1.dtbo start
 ExecStop=/usr/bin/fpgaconfig.sh persona1.dtbo stop
 

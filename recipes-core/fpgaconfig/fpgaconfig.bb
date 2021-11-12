@@ -27,9 +27,5 @@ do_install () {
 
 NATIVE_SYSTEMD_SUPPORT = "1"
 SYSTEMD_PACKAGES = "${PN}"
-SYSTEMD_SERVICE:${PN} = "fpgaconfig@fpga_static_region.service \
-					fpgaconfig@persona0.service \
-					fpgaconfig@persona1.service \
-					"
 
 FILES:${PN} += "${base_libdir}/systemd"

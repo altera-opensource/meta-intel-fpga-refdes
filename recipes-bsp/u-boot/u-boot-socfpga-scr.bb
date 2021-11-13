@@ -46,6 +46,11 @@ do_deploy() {
 	else
 		install -m 0644 ${WORKDIR}/u-boot.scr ${DEPLOYDIR}/u-boot.scr
 	fi
+
+	if ${@bb.utils.contains("MACHINE", "n5x", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "cyclone5", "true", "false", d)}; then
+		install -m 0755 ${WORKDIR}/${MACHINE}_u-boot.txt ${DEPLOYDIR}/u-boot.txt
+		install -m 0644 ${WORKDIR}/u-boot.scr ${DEPLOYDIR}/u-boot.scr
+	fi
 }
 
 addtask do_deploy after do_compile before do_build

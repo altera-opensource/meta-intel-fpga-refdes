@@ -3,7 +3,7 @@
 
 FILESEXTRAPATHS:prepend := "${THISDIR}/linux-socfpga-lts:"
 
-DEPENDS = "u-boot-mkimage-native"
+DEPENDS = "u-boot-mkimage-native dtc-native"
 
 SRC_URI:append:agilex += "\
 			 file://0001-socfpga_agilex_socdk-include-combined-ghrd-design.patch \

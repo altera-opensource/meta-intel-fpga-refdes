@@ -4,13 +4,13 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
 
 FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
-DEPENDS = "u-boot-mkimage-native"
+DEPENDS = "u-boot-mkimage-native dtc-native"
 
 inherit deploy nopackages
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
-SRC_URI:agilex = "file://agilex_uboot.txt"
-SRC_URI:stratix10 = "file://stratix10_uboot.txt"
+SRC_URI:agilex = "file://uboot.txt file://uboot_script.its"
+SRC_URI:stratix10 = "file://uboot.txt file://uboot_script.its"
 SRC_URI:arria10 = "file://arria10_u-boot.txt"
 SRC_URI:cyclone5 = "file://cyclone5_u-boot.txt"
 SRC_URI:n5x = "file://n5x_u-boot.txt"
@@ -23,11 +23,11 @@ do_compile:n5x() {
 }
 
 do_compile:agilex() {
-	mkimage -A arm -O linux -T script -C none -a 0 -e 0 -n "Agilex Script" -d "${WORKDIR}/${MACHINE}_uboot.txt" ${WORKDIR}/boot.scr
+	mkimage -f "${WORKDIR}/uboot_script.its" ${WORKDIR}/boot.scr.uimg
 }
 
 do_compile:stratix10() {
-	mkimage -A arm -O linux -T script -C none -a 0 -e 0 -n "Stratix10 Script" -d "${WORKDIR}/${MACHINE}_uboot.txt" ${WORKDIR}/boot.scr
+	mkimage -f "${WORKDIR}/uboot_script.its" ${WORKDIR}/boot.scr.uimg
 }
 
 do_compile:cyclone5() {
@@ -41,15 +41,15 @@ do_compile:arria10() {
 do_deploy() {
 	install -d ${DEPLOYDIR}
 
-	if ${@bb.utils.contains("MACHINE", "arria10", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)}; then
+	if ${@bb.utils.contains("MACHINE", "arria10", "true", "false", d)}; then
 		install -m 0644 ${WORKDIR}/boot.scr ${DEPLOYDIR}/boot.scr
-	else
-		install -m 0644 ${WORKDIR}/u-boot.scr ${DEPLOYDIR}/u-boot.scr
-	fi
-
-	if ${@bb.utils.contains("MACHINE", "n5x", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "cyclone5", "true", "false", d)}; then
+	elif ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)}; then
+		install -m 0644 ${WORKDIR}/boot.scr.uimg ${DEPLOYDIR}/boot.scr.uimg
+	elif ${@bb.utils.contains("MACHINE", "n5x", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "cyclone5", "true", "false", d)}; then
 		install -m 0755 ${WORKDIR}/${MACHINE}_u-boot.txt ${DEPLOYDIR}/u-boot.txt
 		install -m 0644 ${WORKDIR}/u-boot.scr ${DEPLOYDIR}/u-boot.scr
+	else
+		:
 	fi
 }
 

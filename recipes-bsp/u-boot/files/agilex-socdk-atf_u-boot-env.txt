@@ -1,37 +1,56 @@
-baudrate=115200
 bootargs=earlycon panic=-1
-bootcmd=run fatscript; run mmcfitload; run mmcfitboot
+bootcmd=run distro_bootcmd
 bootdelay=5
+baudrate=115200
 bootfile=kernel.itb
-bootimagesize=0x01F00000
-fatscript=if fatload mmc 0:1 ${scriptaddr} ${scriptfile};then source ${scriptaddr}:script; fi
-fdt_addr=8000000
-fdtimage=socfpga_agilex_socdk.dtb
-fdtimagesize=0x00010000
-linux_qspi_enable=if sf probe; then echo Enabling QSPI at Linux DTB...;fdt addr ${fdt_addr}; fdt resize;fdt set /soc/spi@ff8d2000 status okay;if fdt set /soc/clocks/qspi-clk clock-frequency ${qspi_clock}; then else fdt set /soc/clkmgr/clocks/qspi_clk clock-frequency ${qspi_clock}; fi; fi
 loadaddr=0x2000000
-mmcboot=setenv bootargs earlycon panic=-1 root=${mmcroot} rw rootwait;booti ${loadaddr} - ${fdt_addr}
-mmcfitboot=setenv bootargs earlycon panic=-1 root=${mmcroot} rw rootwait;bootm ${loadaddr}
-mmcfitload=mmc rescan;load mmc 0:1 ${loadaddr} ${bootfile}
-mmcload=mmc rescan;load mmc 0:1 ${loadaddr} ${bootfile};load mmc 0:1 ${fdt_addr} ${fdtimage}
+arch=arm
+cpu=armv8
+board=agilex-socdk
+board_name=agilex-socdk
+vendor=intel
+soc=socfpga
+kernel_addr_r=0x2000000
+fdt_addr_r=0x6000000
+qspiscriptaddr=0x02110000
+scriptsize=0x00010000
+qspibootimageaddr=0x02120000
+bootimagesize=0x03200000
+loadaddr=0x2000000
+bootfile=kernel.itb
 mmcroot=/dev/mmcblk0p2
-mtdids=nor0=ff705000.spi.0
-mtdparts=
-nandboot=setenv bootargs earlycon panic=-1 root=${nandroot} rw rootwait rootfstype=jffs2; booti ${loadaddr} - ${fdt_addr}
-nandfitboot=setenv bootargs earlycon panic=-1 root=${nandroot} rw rootwait rootfstype=jffs2; bootm ${loadaddr}
-nandfitload=nand read ${loadaddr} kernel
-nandload=nand read ${loadaddr} kernel; nand read ${fdt_addr} dtb
-nandroot=/dev/mtdblock5
-qspiboot=setenv bootargs earlycon root=/dev/mtdblock1 rw rootfstype=jffs2 rootwait;booti ${loadaddr} - ${fdt_addr}
-qspibootimageaddr=0x020E0000
-qspifdtaddr=0x020D0000
-qspifitboot=setenv bootargs earlycon root=/dev/mtdblock1 rw rootfstype=jffs2 rootwait;bootm ${loadaddr}
-qspifitload=sf read ${loadaddr} ${qspibootimageaddr} ${bootimagesize}
-qspiload=sf read ${loadaddr} ${qspibootimageaddr} ${bootimagesize};sf read ${fdt_addr} ${qspifdtaddr} ${fdtimagesize}
-rsu_status=rsu dtb; rsu display_dcmf_version; rsu display_dcmf_status; rsu display_max_retry
-scriptaddr=0x02100000
-scriptfile=u-boot.scr
-smc_fid_rd=0xC2000007
-smc_fid_upd=0xC2000009
-smc_fid_wr=0xC2000008
+mtdids=nand0=ffb90000.nand.0
+mtdparts=mtdparts=ffb90000.nand.0:2m(u-boot),-(root)
+linux_qspi_enable=if sf probe; then echo Enabling QSPI at Linux DTB...;fdt addr ${fdt_addr}; fdt resize;fdt set /soc/spi@ff8d2000 status okay;if fdt set /soc/clocks/qspi-clk clock-frequency ${qspi_clock}; then else fdt set /soc/clkmgr/clocks/qspi_clk clock-frequency ${qspi_clock}; fi; fi
+scriptaddr=0x05FF0000
+scriptfile=boot.scr
+nandroot=ubi0:rootfs
 socfpga_legacy_reset_compat=1
+rsu_status=rsu dtb; rsu display_dcmf_version; rsu display_dcmf_status; rsu display_max_retry
+smc_fid_rd=0xC2000007
+smc_fid_wr=0xC2000008
+smc_fid_upd=0xC2000009
+ mmc_boot=if mmc dev ${devnum}; then devtype=mmc; run scan_dev_for_boot_part; fi
+boot_net_usb_start=usb start
+usb_boot=usb start; if usb dev ${devnum}; then devtype=usb; run scan_dev_for_boot_part; fi
+ubifs_boot=env exists bootubipart || env set bootubipart UBI; env exists bootubivol || env set bootubivol boot; if ubi part ${bootubipart} && ubifsmount ubi${devnum}:${bootubivol}; then devtype=ubi; run scan_dev_for_boot; fi
+boot_efi_bootmgr=if fdt addr ${fdt_addr_r}; then bootefi bootmgr ${fdt_addr_r};else bootefi bootmgr;fi
+boot_efi_binary=load ${devtype} ${devnum}:${distro_bootpart} ${kernel_addr_r} efi/boot/bootaa64.efi; if fdt addr ${fdt_addr_r}; then bootefi ${kernel_addr_r} ${fdt_addr_r};else bootefi ${kernel_addr_r} ${fdtcontroladdr};fi
+load_efi_dtb=load ${devtype} ${devnum}:${distro_bootpart} ${fdt_addr_r} ${prefix}${efi_fdtfile}
+efi_dtb_prefixes=/ /dtb/ /dtb/current/
+scan_dev_for_efi=setenv efi_fdtfile ${fdtfile}; for prefix in ${efi_dtb_prefixes}; do if test -e ${devtype} ${devnum}:${distro_bootpart} ${prefix}${efi_fdtfile}; then run load_efi_dtb; fi;done;run boot_efi_bootmgr;if test -e ${devtype} ${devnum}:${distro_bootpart} efi/boot/bootaa64.efi; then echo Found EFI removable media binary efi/boot/bootaa64.efi; run boot_efi_binary; echo EFI LOAD FAILED: continuing...; fi; setenv efi_fdtfile
+boot_prefixes=/ /boot/
+boot_scripts=boot.scr.uimg boot.scr
+boot_script_dhcp=boot.scr.uimg
+boot_targets=mmc0 qspi nand 
+boot_syslinux_conf=extlinux/extlinux.conf
+boot_extlinux=sysboot ${devtype} ${devnum}:${distro_bootpart} any ${scriptaddr} ${prefix}${boot_syslinux_conf}
+scan_dev_for_extlinux=if test -e ${devtype} ${devnum}:${distro_bootpart} ${prefix}${boot_syslinux_conf}; then echo Found ${prefix}${boot_syslinux_conf}; run boot_extlinux; echo SCRIPT FAILED: continuing...; fi
+boot_a_script=load ${devtype} ${devnum}:${distro_bootpart} ${scriptaddr} ${prefix}${script}; source ${scriptaddr}
+scan_dev_for_scripts=for script in ${boot_scripts}; do if test -e ${devtype} ${devnum}:${distro_bootpart} ${prefix}${script}; then echo Found U-Boot script ${prefix}${script}; run boot_a_script; echo SCRIPT FAILED: continuing...; fi; done
+scan_dev_for_boot=echo Scanning ${devtype} ${devnum}:${distro_bootpart}...; for prefix in ${boot_prefixes}; do run scan_dev_for_extlinux; run scan_dev_for_scripts; done;run scan_dev_for_efi;
+scan_dev_for_boot_part=part list ${devtype} ${devnum} -bootable devplist; env exists devplist || setenv devplist 1; for distro_bootpart in ${devplist}; do if fstype ${devtype} ${devnum}:${distro_bootpart} bootfstype; then run scan_dev_for_boot; fi; done; setenv devplist
+bootcmd_mmc0=devnum=0; run mmc_boot
+bootcmd_qspi=sf probe && sf read ${scriptaddr} ${qspiscriptaddr} ${scriptsize} && echo QSPI: Trying to boot script at ${scriptaddr} && source ${scriptaddr}; echo QSPI: SCRIPT FAILED: continuing...;
+bootcmd_nand=ubi part root && ubi readvol ${scriptaddr} script && echo NAND: Trying to boot script at ${scriptaddr} && source ${scriptaddr}; echo NAND: SCRIPT FAILED: continuing...;
+distro_bootcmd=for target in ${boot_targets}; do run bootcmd_${target}; done

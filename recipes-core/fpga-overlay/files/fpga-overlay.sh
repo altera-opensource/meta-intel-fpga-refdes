@@ -19,7 +19,3 @@ if [ ! -e /sys/kernel/config/device-tree/overlays ]; then
         echo "Error: Device Tree Overlay not supported"
         exit -1
 fi
-
-if [ -e /boot/fpga_static_region.dtbo ]; then
-        dtbt -p /boot -a fpga_static_region.dtbo
-fi

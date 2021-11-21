@@ -12,6 +12,7 @@ SRC_URI:append:agilex += "\
 			 file://agilex_pr_fpga_static_region.dtb \
 			 file://agilex_pr_persona0.dtb \
 			 file://agilex_pr_persona1.dtb \
+			 file://0001-arm64-dts-agilex-stratix10-Update-QSPI-rootfs-partit.patch \
 			 "
 
 SRC_URI:append:stratix10 += "\
@@ -20,6 +21,7 @@ SRC_URI:append:stratix10 += "\
 			 file://stratix10_pr_fpga_static_region.dtb \
 			 file://stratix10_pr_persona0.dtb \
 			 file://stratix10_pr_persona1.dtb \
+			 file://0001-arm64-dts-agilex-stratix10-Update-QSPI-rootfs-partit.patch \
 			 "
 
 SRC_URI:append:arria10 += "\

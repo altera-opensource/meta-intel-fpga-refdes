@@ -1,0 +1,76 @@
+From a195f4aabbf1afdb299198f8f5a2c374b3a72c4c Mon Sep 17 00:00:00 2001
+From: Yau Wai Gan <yau.wai.gan@intel.com>
+Date: Mon, 25 Oct 2021 17:56:14 +0800
+Subject: [PATCH] arm64: dts: agilex/stratix10: Update QSPI rootfs partition
+
+In order to support larger kernel FIT image to be stored on
+QSPI flash, the rootfs partition starting offset is adjusted.
+The final rootfs partition is resized from 192MB to 172MB.
+
+Signed-off-by: Yau Wai Gan <yau.wai.gan@intel.com>
+---
+ arch/arm64/boot/dts/altera/socfpga_stratix10_socdk.dts      | 4 ++--
+ arch/arm64/boot/dts/altera/socfpga_stratix10_socdk_nand.dts | 4 ++--
+ arch/arm64/boot/dts/intel/socfpga_agilex_socdk.dts          | 4 ++--
+ 3 files changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/altera/socfpga_stratix10_socdk.dts b/arch/arm64/boot/dts/altera/socfpga_stratix10_socdk.dts
+index 5203cb0eeedc..feb23ecc0047 100644
+--- a/arch/arm64/boot/dts/altera/socfpga_stratix10_socdk.dts
++++ b/arch/arm64/boot/dts/altera/socfpga_stratix10_socdk.dts
+@@ -180,12 +180,12 @@
+ 
+ 			qspi_boot: partition@0 {
+ 				label = "Boot and fpga data";
+-				reg = <0x0 0x03FE0000>;
++				reg = <0x0 0x05320000>;
+ 			};
+ 
+ 			qspi_rootfs: partition@5320000 {
+ 				label = "Root Filesystem - JFFS2";
+-				reg = <0x03FE0000 0x0C020000>;
++				reg = <0x05320000 0x0ACE0000>;
+ 			};
+ 		};
+ 	};
+diff --git a/arch/arm64/boot/dts/altera/socfpga_stratix10_socdk_nand.dts b/arch/arm64/boot/dts/altera/socfpga_stratix10_socdk_nand.dts
+index c07966740e14..8a6e9d38e06f 100644
+--- a/arch/arm64/boot/dts/altera/socfpga_stratix10_socdk_nand.dts
++++ b/arch/arm64/boot/dts/altera/socfpga_stratix10_socdk_nand.dts
+@@ -212,12 +212,12 @@
+ 
+ 			qspi_boot: partition@0 {
+ 				label = "Boot and fpga data";
+-				reg = <0x0 0x03FE0000>;
++				reg = <0x0 0x05320000>;
+ 			};
+ 
+ 			qspi_rootfs: partition@5320000 {
+ 				label = "Root Filesystem - JFFS2";
+-				reg = <0x03FE0000 0x0C020000>;
++				reg = <0x05320000 0x0ACE0000>;
+ 			};
+ 		};
+ 	};
+diff --git a/arch/arm64/boot/dts/intel/socfpga_agilex_socdk.dts b/arch/arm64/boot/dts/intel/socfpga_agilex_socdk.dts
+index 510c12fc9599..939263e0bbaa 100644
+--- a/arch/arm64/boot/dts/intel/socfpga_agilex_socdk.dts
++++ b/arch/arm64/boot/dts/intel/socfpga_agilex_socdk.dts
+@@ -130,12 +130,12 @@
+ 
+ 			qspi_boot: partition@0 {
+ 				label = "Boot and fpga data";
+-				reg = <0x0 0x03FE0000>;
++				reg = <0x0 0x05320000>;
+ 			};
+ 
+ 			qspi_rootfs: partition@5320000 {
+ 				label = "Root Filesystem - JFFS2";
+-				reg = <0x03FE0000 0x0C020000>;
++				reg = <0x05320000 0x0ACE0000>;
+ 			};
+ 		};
+ 	};
+-- 
+2.26.2
+

@@ -13,11 +13,11 @@
 	images {
 		kernel {
 			description = "Linux Kernel";
-			data = /incbin/("./Image");
+			data = /incbin/("./Image.lzma");
 			type = "kernel";
 			arch = "arm64";
 			os = "linux";
-			compression = "none";
+			compression = "lzma";
 			load = <0x6000000>;
 			entry = <0x6000000>;
 			hash {

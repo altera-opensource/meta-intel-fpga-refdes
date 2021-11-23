@@ -17,7 +17,7 @@ A10_GHRD_PERIPH_RBF = "ghrd_10as066n2.periph.rbf"
 C5_GHRD_CORE_RBF = "soc_system.rbf"
 
 SRC_URI:agilex ?= "\
-		file://${MACHINE}_${IMAGE_TYPE}_${ARM64_GHRD_CORE_RBF} \
+		file://${MACHINE}_gsrd_${ARM64_GHRD_CORE_RBF} \
 		file://${MACHINE}_nand_${ARM64_GHRD_CORE_RBF} \
 		file://${MACHINE}_pr_${ARM64_GHRD_CORE_RBF} \
 		file://${MACHINE}_pr_persona0.rbf \
@@ -25,7 +25,7 @@ SRC_URI:agilex ?= "\
 		"
 
 SRC_URI:stratix10 ?= "\
-		file://${MACHINE}_${IMAGE_TYPE}_${ARM64_GHRD_CORE_RBF} \
+		file://${MACHINE}_gsrd_${ARM64_GHRD_CORE_RBF} \
 		file://${MACHINE}_nand_${ARM64_GHRD_CORE_RBF}\
 		file://${MACHINE}_pr_persona0.rbf \
 		file://${MACHINE}_pr_persona1.rbf \
@@ -58,7 +58,7 @@ do_deploy[nostamp] = "1"
 
 do_install () {
 	if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} ; then
-		install -D -m 0644 ${WORKDIR}/${MACHINE}_${IMAGE_TYPE}_${ARM64_GHRD_CORE_RBF} ${D}/boot/${ARM64_GHRD_CORE_RBF}
+		install -D -m 0644 ${WORKDIR}/${MACHINE}_gsrd_${ARM64_GHRD_CORE_RBF} ${D}/boot/${ARM64_GHRD_CORE_RBF}
 		install -D -m 0644 ${WORKDIR}/${MACHINE}_nand_${ARM64_GHRD_CORE_RBF} ${D}/boot/nand.core.rbf
 		install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_${ARM64_GHRD_CORE_RBF} ${D}/boot/ghrd_pr.core.rbf
 		install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_persona0.rbf ${D}${base_libdir}/firmware/persona0.rbf
@@ -66,7 +66,7 @@ do_install () {
 	fi
 
 	if ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
-		install -D -m 0644 ${WORKDIR}/${MACHINE}_${IMAGE_TYPE}_${ARM64_GHRD_CORE_RBF} ${D}/boot/${ARM64_GHRD_CORE_RBF}
+		install -D -m 0644 ${WORKDIR}/${MACHINE}_gsrd_${ARM64_GHRD_CORE_RBF} ${D}/boot/${ARM64_GHRD_CORE_RBF}
 		install -D -m 0644 ${WORKDIR}/${MACHINE}_nand_${ARM64_GHRD_CORE_RBF} ${D}/boot/nand.core.rbf
 		install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_persona0.rbf ${D}${base_libdir}/firmware/persona0.rbf
 		install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_persona1.rbf ${D}${base_libdir}/firmware/persona1.rbf
@@ -84,7 +84,7 @@ do_install () {
 
 do_deploy () {
 	if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} ; then
-		install -D -m 0644 ${WORKDIR}/${MACHINE}_${IMAGE_TYPE}_${ARM64_GHRD_CORE_RBF} ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/${ARM64_GHRD_CORE_RBF}
+		install -D -m 0644 ${WORKDIR}/${MACHINE}_gsrd_${ARM64_GHRD_CORE_RBF} ${DEPLOY_DIR_IMAGE}/${MACHINE}_gsrd_ghrd/${ARM64_GHRD_CORE_RBF}
 		install -D -m 0644 ${WORKDIR}/${MACHINE}_nand_${ARM64_GHRD_CORE_RBF} ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/nand.core.rbf
 		install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_${ARM64_GHRD_CORE_RBF} ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd_pr.core.rbf
 		install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_persona0.rbf ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/persona0.rbf
@@ -92,7 +92,7 @@ do_deploy () {
 	fi
 
 	if ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
-		install -D -m 0644 ${WORKDIR}/${MACHINE}_${IMAGE_TYPE}_${ARM64_GHRD_CORE_RBF} ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/${ARM64_GHRD_CORE_RBF}
+		install -D -m 0644 ${WORKDIR}/${MACHINE}_gsrd_${ARM64_GHRD_CORE_RBF} ${DEPLOY_DIR_IMAGE}/${MACHINE}_gsrd_ghrd/${ARM64_GHRD_CORE_RBF}
 		install -D -m 0644 ${WORKDIR}/${MACHINE}_nand_${ARM64_GHRD_CORE_RBF} ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/nand.core.rbf
 		install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_persona0.rbf ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/persona0.rbf
 		install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_persona1.rbf ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/persona1.rbf

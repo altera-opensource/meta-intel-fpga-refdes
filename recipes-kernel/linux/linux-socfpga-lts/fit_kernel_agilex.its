@@ -47,7 +47,7 @@
 			};
 		};
 
-		fdt-2 {
+		fdt-3 {
 			description = "socfpga_socdk_pr";
 			data = /incbin/("./socfpga_agilex_socdk_pr.dtb");
 			type = "flat_dt";
@@ -82,7 +82,7 @@
 			};
 		};
 
-		fpga-2 {
+		fpga-3 {
 			description = "FPGA bitstream for PR";
 			data = /incbin/("./ghrd_pr.core.rbf");
 			type = "fpga";
@@ -122,15 +122,15 @@
 			};
 		};
 
-		board-2 {
-			description = "board_2";
+		board-3 {
+			description = "board_3";
 			kernel = "kernel";
-			fdt = "fdt-2";
-			fpga = "fpga-2";
+			fdt = "fdt-3";
+			fpga = "fpga-3";
 			signature {
 				algo = "crc32";
 				key-name-hint = "dev";
-				sign-images = "fdt-2", "kernel", "fpga-2";
+				sign-images = "fdt-3", "kernel", "fpga-3";
 			};
 		};
 	};

@@ -9,7 +9,7 @@ REMOTE_DBG_BRANCH ?= "master"
 
 SRC_URI = "${REMOTE_DBG_REPO};protocol=${REMOTE_DBG_PROT};branch=${REMOTE_DBG_BRANCH}"
 
-SRCREV = "c52c8f37d7ff31fad2ad2bdac0f2202139a30e30"
+SRCREV = "${AUTOREV}"
 PV:append = "+git${SRCPV}"
 
 S = "${WORKDIR}/git"

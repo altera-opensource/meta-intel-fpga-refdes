@@ -13,7 +13,7 @@ SRCREV = "${AUTOREV}"
 PV:append = "+git${SRCPV}"
 
 S = "${WORKDIR}/git"
-B = "${WORKDIR}/build"
+B = "${WORKDIR}/git"
 
 # Specify any options you want to pass to cmake using EXTRA_OECMAKE:
 EXTRA_OECMAKE = ' -DCROSS_COMPILE="${TARGET_PREFIX}"'

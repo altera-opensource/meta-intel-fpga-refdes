@@ -9,6 +9,4 @@ PACKAGES = "packagegroup-network-essential"
 RDEPENDS:packagegroup-network-essential = "\
 	connman \
 	net-tools \
-	iproute2 \
-	linuxptp \
 	"

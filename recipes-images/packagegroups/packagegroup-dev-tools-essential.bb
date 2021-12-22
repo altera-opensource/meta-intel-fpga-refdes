@@ -16,6 +16,7 @@ RDEPENDS:packagegroup-dev-tools-essential = "\
 	git \
 	iperf3 \
 	linuxptp \
+	iproute2-tc \
 	openssh-sftp-server \
 	pciutils \
 	tcpdump \

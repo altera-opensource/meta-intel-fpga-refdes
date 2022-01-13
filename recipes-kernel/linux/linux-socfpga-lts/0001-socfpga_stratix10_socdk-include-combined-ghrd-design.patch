@@ -1,4 +1,4 @@
-From 4fb8dc8d375188eb0892e8710b157dd338b2478d Mon Sep 17 00:00:00 2001
+From 315fe5caf8ce9171c34d8705b54c04898c4bd8ce Mon Sep 17 00:00:00 2001
 From: "Teoh, Ji Sheng" <ji.sheng.teoh@intel.com>
 Date: Thu, 11 Nov 2021 19:10:12 +0000
 Subject: [PATCH] socfpga_stratix10_socdk: include combined ghrd design
@@ -328,7 +328,7 @@ index 000000000000..42d1259b3226
 +};
 diff --git a/arch/arm64/boot/dts/altera/socfpga_stratix10_qse_pcie_sgmii_ghrd_nand.dtsi b/arch/arm64/boot/dts/altera/socfpga_stratix10_qse_pcie_sgmii_ghrd_nand.dtsi
 new file mode 100644
-index 000000000000..6d27f1f3ce56
+index 000000000000..e0a07cc8e67c
 --- /dev/null
 +++ b/arch/arm64/boot/dts/altera/socfpga_stratix10_qse_pcie_sgmii_ghrd_nand.dtsi
 @@ -0,0 +1,278 @@
@@ -479,7 +479,7 @@ index 000000000000..6d27f1f3ce56
 +				reg = <0x00000001 0x00003000 0x00000040>,
 +				      <0x00000001 0x00003040 0x00000008>;
 +				reg-names = "eth_tse_control_port", "gmii_to_sgmii_adapter_avalon_slave";
-+				clocks = <&sgmii_1_clk_0 &gmac1 1 &sgmii_1_clk_125 &sgmii_1_clk_125>;
++				clocks = <&sgmii_1_clk_0 &gmac0 1 &sgmii_1_clk_125 &sgmii_1_clk_125>;
 +				clock-names = "clock_in", "emac_gtx_clk", "tse_pcs_ref_clk_clock_connection", "tse_rx_cdr_refclk";
 +			};
 +
@@ -488,7 +488,7 @@ index 000000000000..6d27f1f3ce56
 +				reg = <0x00000001 0x00003080 0x00000040>,
 +					<0x00000001 0x000030c0 0x00000008>;
 +				reg-names = "eth_tse_control_port", "gmii_to_sgmii_adapter_avalon_slave";
-+				clocks = <&sgmii_2_clk_0 &gmac2 1 &sgmii_2_clk_125 &sgmii_2_clk_125>;
++				clocks = <&sgmii_2_clk_0 &gmac1 1 &sgmii_2_clk_125 &sgmii_2_clk_125>;
 +				clock-names = "clock_in", "emac_gtx_clk", "tse_pcs_ref_clk_clock_connection", "tse_rx_cdr_refclk";
 +			};
 +

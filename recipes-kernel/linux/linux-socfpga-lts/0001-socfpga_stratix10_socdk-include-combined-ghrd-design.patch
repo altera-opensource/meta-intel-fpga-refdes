@@ -1,4 +1,4 @@
-From 315fe5caf8ce9171c34d8705b54c04898c4bd8ce Mon Sep 17 00:00:00 2001
+From 1aa89dfb8b84f2329f3edafdb829e6ab27f9c257 Mon Sep 17 00:00:00 2001
 From: "Teoh, Ji Sheng" <ji.sheng.teoh@intel.com>
 Date: Thu, 11 Nov 2021 19:10:12 +0000
 Subject: [PATCH] socfpga_stratix10_socdk: include combined ghrd design
@@ -6,11 +6,11 @@ Subject: [PATCH] socfpga_stratix10_socdk: include combined ghrd design
 Signed-off-by: Teoh, Ji Sheng <ji.sheng.teoh@intel.com>
 ---
  .../boot/dts/altera/socfpga_stratix10.dtsi    |   3 +
- ...socfpga_stratix10_qse_pcie_sgmii_ghrd.dtsi | 278 ++++++++++++++++++
- ...ga_stratix10_qse_pcie_sgmii_ghrd_nand.dtsi | 278 ++++++++++++++++++
+ ...socfpga_stratix10_qse_pcie_sgmii_ghrd.dtsi | 245 ++++++++++++++++++
+ ...ga_stratix10_qse_pcie_sgmii_ghrd_nand.dtsi | 245 ++++++++++++++++++
  .../dts/altera/socfpga_stratix10_socdk.dts    |   2 +-
  .../altera/socfpga_stratix10_socdk_nand.dts   |   1 +
- 5 files changed, 561 insertions(+), 1 deletion(-)
+ 5 files changed, 495 insertions(+), 1 deletion(-)
  create mode 100644 arch/arm64/boot/dts/altera/socfpga_stratix10_qse_pcie_sgmii_ghrd.dtsi
  create mode 100644 arch/arm64/boot/dts/altera/socfpga_stratix10_qse_pcie_sgmii_ghrd_nand.dtsi
 
@@ -44,10 +44,10 @@ index 1410956e56f4..60cdd9419751 100644
  			tx-fifo-depth = <16384>;
 diff --git a/arch/arm64/boot/dts/altera/socfpga_stratix10_qse_pcie_sgmii_ghrd.dtsi b/arch/arm64/boot/dts/altera/socfpga_stratix10_qse_pcie_sgmii_ghrd.dtsi
 new file mode 100644
-index 000000000000..42d1259b3226
+index 000000000000..7b3894e46762
 --- /dev/null
 +++ b/arch/arm64/boot/dts/altera/socfpga_stratix10_qse_pcie_sgmii_ghrd.dtsi
-@@ -0,0 +1,278 @@
+@@ -0,0 +1,245 @@
 +/*
 +* Add this piece of dtsi fragment as #include "socfpga_stratix10_qse.dtsi"
 +* in the file socfpga_stratix10_socdk.dts. Compile it in the kernel along with
@@ -244,39 +244,6 @@ index 000000000000..42d1259b3226
 +				status = "okay";
 +			};
 +
-+			pcie_0_pcie_s10: pcie@20000000 {
-+				compatible = "altr,pcie-root-port-2.0";
-+				reg = <0x0 0x20000000 0x200000 0x0 0x10000000 0x10000000 0x1 0x10000 0x8000>;
-+				reg-names = "Hip", "Txs", "Cra";
-+				interrupt-parent = <&intc>;
-+				interrupts = <0x0 0x14 0x4>;
-+				interrupt-controller;
-+				#interrupt-cells = <0x1>;
-+				device_type = "pci";
-+				bus-range = <0x0 0xff>;
-+				ranges = <0x82000000 0x0 0x0 0x0 0x10000000 0x0 0x8000000>;
-+				msi-parent = <&pcie_0_msi_irq>;
-+				#address-cells = <0x3>;
-+				#size-cells = <0x2>;
-+				dma-coherent;
-+				interrupt-map-mask = <0x0 0x0 0x0 0x7>;
-+				interrupt-map = <0x0 0x0 0x0 0x1 &pcie_0_pcie_s10 0x1 0x0 0x0 0x0 0x2 &pcie_0_pcie_s10 0x2 0x0 0x0 0x0 0x3 &pcie_0_pcie_s10 0x3 0x0 0x0 0x0 0x4 &pcie_0_pcie_s10 0x4>;
-+				linux,phandle = <0x36>;
-+				phandle = <0x36>;
-+			};
-+
-+			pcie_0_msi_irq: msi@10008080 {
-+				compatible = "altr,msi-1.0";
-+				reg = <0x1 0x18080 0x10 0x1 0x18000 0x80>;
-+				reg-names = "csr", "vector_slave";
-+				interrupt-parent = <&intc>;
-+				interrupts = <0x0 0x13 0x4>;
-+				msi-controller = <0x1>;
-+				num-vectors = <0x20>;
-+				linux,phandle = <0x35>;
-+				phandle = <0x35>;
-+			};
-+
 +			sfp_eth0: sfp-eth0 {
 +				compatible = "sff,sfp";
 +				i2c-bus = <&i2c0>;
@@ -328,10 +295,10 @@ index 000000000000..42d1259b3226
 +};
 diff --git a/arch/arm64/boot/dts/altera/socfpga_stratix10_qse_pcie_sgmii_ghrd_nand.dtsi b/arch/arm64/boot/dts/altera/socfpga_stratix10_qse_pcie_sgmii_ghrd_nand.dtsi
 new file mode 100644
-index 000000000000..e0a07cc8e67c
+index 000000000000..1fc639b36c4c
 --- /dev/null
 +++ b/arch/arm64/boot/dts/altera/socfpga_stratix10_qse_pcie_sgmii_ghrd_nand.dtsi
-@@ -0,0 +1,278 @@
+@@ -0,0 +1,245 @@
 +/*
 +* Add this piece of dtsi fragment as #include "socfpga_stratix10_qse.dtsi"
 +* in the file socfpga_stratix10_socdk.dts. Compile it in the kernel along with
@@ -526,39 +493,6 @@ index 000000000000..e0a07cc8e67c
 +				altr,rx-pma-delay-fns = <0x3E97>;
 +				altr,has-ptp;
 +				status = "okay";
-+			};
-+
-+			pcie_0_pcie_s10: pcie@20000000 {
-+				compatible = "altr,pcie-root-port-2.0";
-+				reg = <0x0 0x20000000 0x200000 0x0 0x10000000 0x10000000 0x1 0x10000 0x8000>;
-+				reg-names = "Hip", "Txs", "Cra";
-+				interrupt-parent = <&intc>;
-+				interrupts = <0x0 0x14 0x4>;
-+				interrupt-controller;
-+				#interrupt-cells = <0x1>;
-+				device_type = "pci";
-+				bus-range = <0x0 0xff>;
-+				ranges = <0x82000000 0x0 0x0 0x0 0x10000000 0x0 0x8000000>;
-+				msi-parent = <&pcie_0_msi_irq>;
-+				#address-cells = <0x3>;
-+				#size-cells = <0x2>;
-+				dma-coherent;
-+				interrupt-map-mask = <0x0 0x0 0x0 0x7>;
-+				interrupt-map = <0x0 0x0 0x0 0x1 &pcie_0_pcie_s10 0x1 0x0 0x0 0x0 0x2 &pcie_0_pcie_s10 0x2 0x0 0x0 0x0 0x3 &pcie_0_pcie_s10 0x3 0x0 0x0 0x0 0x4 &pcie_0_pcie_s10 0x4>;
-+				linux,phandle = <0x36>;
-+				phandle = <0x36>;
-+			};
-+
-+			pcie_0_msi_irq: msi@10008080 {
-+				compatible = "altr,msi-1.0";
-+				reg = <0x1 0x18080 0x10 0x1 0x18000 0x80>;
-+				reg-names = "csr", "vector_slave";
-+				interrupt-parent = <&intc>;
-+				interrupts = <0x0 0x13 0x4>;
-+				msi-controller = <0x1>;
-+				num-vectors = <0x20>;
-+				linux,phandle = <0x35>;
-+				phandle = <0x35>;
 +			};
 +
 +			sfp_eth0: sfp-eth0 {

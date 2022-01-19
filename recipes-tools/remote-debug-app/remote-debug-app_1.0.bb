@@ -5,7 +5,7 @@ inherit pkgconfig cmake
 
 REMOTE_DBG_REPO ?= "git://github.com/altera-opensource/remote-debug-for-intel-fpga.git"
 REMOTE_DBG_PROT ?= "https"
-REMOTE_DBG_BRANCH ?= "master"
+REMOTE_DBG_BRANCH ?= "main"
 
 SRC_URI = "${REMOTE_DBG_REPO};protocol=${REMOTE_DBG_PROT};branch=${REMOTE_DBG_BRANCH}"
 

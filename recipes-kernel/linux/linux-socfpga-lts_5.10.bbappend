@@ -53,20 +53,28 @@ do_deploy:append() {
 		if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} ; then
 			cp ${WORKDIR}/socfpga_${MACHINE}_socdk_pr.dtb ${B}/socfpga_${MACHINE}_socdk_pr.dtb
 		fi
+
 		# core.rbf
 		cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd.core.rbf ${B}/ghrd.core.rbf
 		cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/nand.core.rbf ${B}/nand.core.rbf
 		if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} ; then
 			cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd_pr.core.rbf ${B}/ghrd_pr.core.rbf
 		fi
+
 		# kernel.its
 		cp ${WORKDIR}/fit_kernel_${MACHINE}.its ${B}/fit_kernel_${MACHINE}.its
+
 		# Image
 		cp ${LINUXDEPLOYDIR}/Image ${B}/Image
+
 		# Compress Image to lzma format
 		xz --format=lzma ${B}/Image
+
 		# Generate kernel.itb
 		mkimage -f ${B}/fit_kernel_${MACHINE}.its ${B}/kernel.itb
+
+		# Deploy kernel.its and kernel.itb
+		install -m 744 ${B}/fit_kernel_${MACHINE}.its ${DEPLOYDIR}/fit_kernel_${MACHINE}.its
 		install -m 744 ${B}/kernel.itb ${DEPLOYDIR}/kernel.itb
 	fi
 }

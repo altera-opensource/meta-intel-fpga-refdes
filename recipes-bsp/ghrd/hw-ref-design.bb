@@ -50,7 +50,7 @@ SRC_URI[agilex_pr_core.sha256sum] = "073a52b9cdeca7752a77ffccad02ae27df0b666b9f3
 SRC_URI[agilex_pr_persona0.sha256sum] = "4f945871e57ab264fe3836385829b3016fb7917e4dee6e5a3a5f2c5469a68771"
 SRC_URI[agilex_pr_persona1.sha256sum] = "8257fccc4ce6514eb45c40b390513361d44d1c547252065ff7ed3b7212c4e4a3"
 
-SRC_URI[stratix10_gsrd_core.sha256sum] = "1309d705729b5f47fa4bdef7757399f178ea553ba753fcc5e9e7e4d965f41db3"
+SRC_URI[stratix10_gsrd_core.sha256sum] = "ea26a77ebc1b3141193de6dd32e22f332785e05c956de85118c3790392141d3c"
 SRC_URI[stratix10_nand_core.sha256sum] = "d782c05085f8f13cb792b687fd002773e0897e4d7ecf5451994b1823d62cdc92"
 SRC_URI[stratix10_pr_persona0.sha256sum] = "60af20604f8756b251d3bff23ceaf8c4edec6d37cf4558ed763e1e311ab4c81e"
 SRC_URI[stratix10_pr_persona1.sha256sum] = "c555e432574431ec0d2596fe7dc3f4ace86899add91599023d26127a9d78293b"

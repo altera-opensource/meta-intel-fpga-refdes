@@ -6,9 +6,7 @@ Subject: [PATCH] arm: Add dwarf-4 to compilation flag
 GCC 11 by default compile with dwarf-5, this makes the generated executable
 not working on ARM DS debugger that does not support dwarf-5. This patch add
 dwarf-4 flag to ensure the compiled executable works on such debugger, based on
-suggestion from GCC [1].
-
-[1] https://gcc.gnu.org/gcc-11/changes.html
+suggestion from GCC.
 
 Signed-off-by: Yau Wai Gan <yau.wai.gan@intel.com>
 ---

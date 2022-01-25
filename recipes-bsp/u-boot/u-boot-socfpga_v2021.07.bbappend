@@ -5,7 +5,10 @@ DEPENDS:append:stratix10 += "arm-trusted-firmware bash u-boot-socfpga-scr"
 DEPENDS:append:arria10 += "hw-ref-design"
 DEPENDS:append:n5x += "arm-trusted-firmware bash u-boot-socfpga-scr"
 
-SRC_URI += "file://0001-arm-Add-dwarf-4-to-compilation-flag.patch"
+SRC_URI += "\
+             file://0001-arm-Add-dwarf-4-to-compilation-flag.patch \
+             file://0001-arm-agilex-add-patch-to-enable-board-3-PR-configurat.patch \
+           "
 
 inherit deploy
 

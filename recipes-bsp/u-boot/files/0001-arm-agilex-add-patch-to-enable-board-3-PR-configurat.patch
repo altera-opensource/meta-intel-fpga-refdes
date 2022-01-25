@@ -1,0 +1,36 @@
+From 50193efa262e710c79acba171aff2ffc05bfe1c9 Mon Sep 17 00:00:00 2001
+From: "Teoh, Ji Sheng" <ji.sheng.teoh@intel.com>
+Date: Tue, 25 Jan 2022 18:45:55 +0000
+Subject: [PATCH] arm: agilex: add patch to enable board-3 PR configuration
+
+Signed-off-by: Teoh, Ji Sheng <ji.sheng.teoh@intel.com>
+---
+ arch/arm/dts/socfpga_agilex_socdk-u-boot.dtsi | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/arch/arm/dts/socfpga_agilex_socdk-u-boot.dtsi b/arch/arm/dts/socfpga_agilex_socdk-u-boot.dtsi
+index 6efe2f0952..b12b460214 100644
+--- a/arch/arm/dts/socfpga_agilex_socdk-u-boot.dtsi
++++ b/arch/arm/dts/socfpga_agilex_socdk-u-boot.dtsi
+@@ -96,6 +96,18 @@
+ 			sign-images = "atf", "uboot", "fdt-1";
+ 		};
+ 	};
++
++	board-3 {
++		description = "board_3";
++		firmware = "atf";
++		loadables = "uboot";
++		fdt = "fdt-0";
++		signature {
++			algo = "crc32";
++			key-name-hint = "dev";
++			sign-images = "atf", "uboot", "fdt-0";
++		};
++	};
+ };
+ 
+ &binman {
+-- 
+2.17.1
+

@@ -20,4 +20,5 @@ RDEPENDS:packagegroup-dev-tools-essential = "\
 	openssh-sftp-server \
 	pciutils \
 	tcpdump \
+	perf \
 	"

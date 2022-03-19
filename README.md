@@ -38,5 +38,5 @@ Contribution
 ============
 Submit patches via github pull requests, Use github issues to report problems or to send comments
 
-Maintainer(s): Rebecca Chang Swee Fun <rebecca.swee.fun.chang@intel.com>
+Maintainer(s): Teoh, Ji Sheng <ji.sheng.teoh@intel.com>
 

@@ -5,7 +5,7 @@ FILESEXTRAPATHS:prepend := "${THISDIR}/linux-socfpga-lts:"
 
 DEPENDS = "u-boot-mkimage-native dtc-native"
 
-SRC_URI:append:agilex += "\
+SRC_URI:append:agilex = " \
 			 file://0001-socfpga_agilex_socdk-include-combined-ghrd-design.patch \
 			 file://socfpga_agilex_socdk_pr.dtb \
 			 file://fit_kernel_agilex.its \
@@ -14,7 +14,7 @@ SRC_URI:append:agilex += "\
 			 file://agilex_pr_persona1.dtb \
 			 "
 
-SRC_URI:append:stratix10 += "\
+SRC_URI:append:stratix10 = " \
 			 file://0001-socfpga_stratix10_socdk-include-combined-ghrd-design.patch \
 			 file://fit_kernel_stratix10.its \
 			 file://stratix10_pr_fpga_static_region.dtb \
@@ -22,7 +22,7 @@ SRC_URI:append:stratix10 += "\
 			 file://stratix10_pr_persona1.dtb \
 			 "
 
-SRC_URI:append:arria10 += "\
+SRC_URI:append:arria10 = " \
 			${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://0001-socfpga_arria10_socdk-include-reference-design-dtsi.patch", "", d)} \
 			${@bb.utils.contains("IMAGE_TYPE", "pr", "file://0001-dts-arm-enable-FPGA-PR-DTBs-for-Arria10.patch", "", d)} \
 			${@bb.utils.contains("IMAGE_TYPE", "nand", "file://0001-socfpga_arria10_socdk-include-reference-design-dtsi.patch", "", d)} \
@@ -32,14 +32,14 @@ SRC_URI:append:arria10 += "\
 			${@bb.utils.contains("IMAGE_TYPE", "tse", "file://0001-socfpga_arria10_socdk-tse-include-reference-design-d.patch", "", d)} \
 			"
 
-SRC_URI:append:cyclone5 += "file://0001-socfpga_cyclone5_socdk-include-reference-design-dtsi.patch"
+SRC_URI:append:cyclone5 = " file://0001-socfpga_cyclone5_socdk-include-reference-design-dtsi.patch"
 
 # Append GSRD specific kernel config fragments
-SRC_URI += "file://ubifs.scc"
-SRC_URI:append:agilex += "file://sgmii.scc"
-SRC_URI:append:stratix10 += "file://sgmii.scc"
-SRC_URI:append:arria10 += "file://tse.scc"
-SRC_URI:append:cyclone5 += "file://tse.scc"
+SRC_URI:append = " file://ubifs.scc"
+SRC_URI:append:agilex = " file://sgmii.scc"
+SRC_URI:append:stratix10 = " file://sgmii.scc"
+SRC_URI:append:arria10 = " file://tse.scc"
+SRC_URI:append:cyclone5 = " file://tse.scc"
 
 inherit deploy
 

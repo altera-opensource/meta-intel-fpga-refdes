@@ -1,6 +1,6 @@
 require gsrd-console-image.bb
 
-IMAGE_INSTALL += "\
+IMAGE_INSTALL:append = " \
 	fbgrab fbset fb-test \
 	imagemagick \
 	packagegroup-core-x11-base \

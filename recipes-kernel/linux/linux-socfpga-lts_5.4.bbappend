@@ -7,14 +7,14 @@ RBO_RELEASE_VER ?= "2021.11"
 
 DTS_REPO ?= "https://releases.rocketboards.org/release/${RBO_RELEASE_VER}/dts-source"
 
-SRC_URI:append:agilex += "\
+SRC_URI:append:agilex = " \
 			 ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "${DTS_REPO}/agilex/gsrd/0001-socfpga_agilex_socdk-include-reference-design-dtsi.patch;name=agilex_gsrd_dts", "", d)} \
 			 ${@bb.utils.contains("IMAGE_TYPE", "pr", "${DTS_REPO}/agilex/pr/0001-socfpga_agilex_socdk-include-reference-design-dtsi.patch;name=agilex_gsrd_dts", "", d)} \
 			 ${@bb.utils.contains("IMAGE_TYPE", "pr", "${DTS_REPO}/agilex/pr/0001-dts-arm64-intel-enable-FPGA-PR-DTBs-for-Agilex.patch;name=agilex_pr_dts", "", d)} \
 			 ${@bb.utils.contains("IMAGE_TYPE", "sgmii", "${DTS_REPO}/agilex/sgmii/0001-dts-arm64-intel-enable-Agilex-SGMII-support.patch;name=agilex_sgmii_dts", "", d)} \
 			 "
 
-SRC_URI:append:stratix10 += "\
+SRC_URI:append:stratix10 = " \
 			 ${@bb.utils.contains("IMAGE_TYPE", "gsrd", "${DTS_REPO}/stratix10/gsrd/0001-socfpga_stratix10_socdk-include-reference-design-dts.patch;name=s10_gsrd_dts", "", d)} \
 			 ${@bb.utils.contains("IMAGE_TYPE", "pr", "${DTS_REPO}/stratix10/pr/0001-socfpga_stratix10_socdk-include-reference-design-dts.patch;name=s10_gsrd_dts", "", d)} \
 			 ${@bb.utils.contains("IMAGE_TYPE", "pr", "${DTS_REPO}/stratix10/pr/0001-dts-arm64-altera-enable-FPGA-PR-DTBs-for-Stratix10.patch;name=s10_pr_dts", "", d)} \
@@ -22,7 +22,7 @@ SRC_URI:append:stratix10 += "\
 			 ${@bb.utils.contains("IMAGE_TYPE", "sgmii", "${DTS_REPO}/stratix10/sgmii/0001-socfpga_stratix10_socdk-sgmii-include-reference-desi.patch;name=s10_sgmii_dts", "", d)} \
 			 "
 
-SRC_URI:append:arria10 += "\
+SRC_URI:append:arria10 = " \
 			${@bb.utils.contains("IMAGE_TYPE", "gsrd", "${DTS_REPO}/arria10/gsrd/0001-socfpga_arria10_socdk-include-reference-design-dtsi.patch;name=a10_gsrd_dts", "", d)} \
 			${@bb.utils.contains("IMAGE_TYPE", "pr", "${DTS_REPO}/arria10/pr/0001-dts-arm-enable-FPGA-PR-DTBs-for-Arria10.patch;name=a10_pr_dts", "", d)} \
 			${@bb.utils.contains("IMAGE_TYPE", "nand", "${DTS_REPO}/arria10/nand/0001-socfpga_arria10_socdk-include-reference-design-dtsi.patch;name=a10_gsrd_dts", "", d)} \
@@ -32,7 +32,7 @@ SRC_URI:append:arria10 += "\
 			${@bb.utils.contains("IMAGE_TYPE", "tse", "${DTS_REPO}/arria10/tse/0001-socfpga_arria10_socdk-tse-include-reference-design-d.patch;name=a10_tse_dts", "", d)} \
 			"
 
-SRC_URI:append:cyclone5 += "${DTS_REPO}/cyclone5/gsrd/0001-socfpga_cyclone5_socdk-include-reference-design-dtsi.patch;name=cyclone5_dts"
+SRC_URI:append:cyclone5 = " ${DTS_REPO}/cyclone5/gsrd/0001-socfpga_cyclone5_socdk-include-reference-design-dtsi.patch;name=cyclone5_dts"
 
 SRC_URI[agilex_gsrd_dts.sha256sum] = "c8ea92c0b3e4e65ab23ee8f50ce25aaa39d51c01f1af8cafda3ab50c725afcee"
 SRC_URI[agilex_pr_dts.sha256sum] = "86ac18cc37c41c96a74865a514cce1b83d6a1e726c54ecb1ba3a45b2ea22b86e"
@@ -52,11 +52,11 @@ SRC_URI[a10_tse_dts.sha256sum] = "9915abc65271a36ac019f1f99047bb72303d0007b23f66
 SRC_URI[cyclone5_dts.sha256sum] = "52f629affd6cffc11bb40bbdad62149c20d56d5392bc2646e05310ad64e39a72"
 
 # Append GSRD specific kernel config fragments
-SRC_URI += "file://ubifs.scc"
-SRC_URI:append:agilex += "file://sgmii.scc"
-SRC_URI:append:stratix10 += "file://sgmii.scc"
-SRC_URI:append:arria10 += "file://tse.scc"
-SRC_URI:append:cyclone5 += "file://tse.scc"
+SRC_URI:append = " file://ubifs.scc"
+SRC_URI:append:agilex = " file://sgmii.scc"
+SRC_URI:append:stratix10 = " file://sgmii.scc"
+SRC_URI:append:arria10 = " file://tse.scc"
+SRC_URI:append:cyclone5 = " file://tse.scc"
 
 do_install:append() {
 	if ${@bb.utils.contains("IMAGE_TYPE", "pr", "true", "false", d)} ; then

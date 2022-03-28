@@ -85,7 +85,7 @@ S ?= "${WORKDIR}/${MACHINE}"
 
 PROVIDES = "virtual/bitstream"
 
-FILES:${PN} += " \
+FILES:${PN} = " \
 		/boot \
 		/lib/firmware \
 		"

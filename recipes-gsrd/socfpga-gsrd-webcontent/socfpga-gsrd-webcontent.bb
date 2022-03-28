@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM="file://${COMMON_LICENSE_DIR}/BSD-3-Clause;md5=550794465ba0ec53
 
 PR = "r0"
 
-SRC_URI += "\
+SRC_URI:append = " \
 	    file://arria10-board-image.jpg \
 	    file://arriav-board-image.jpg \
 	    file://blinkled.gif \

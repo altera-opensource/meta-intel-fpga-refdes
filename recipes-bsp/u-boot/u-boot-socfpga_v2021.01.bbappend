@@ -1,9 +1,9 @@
 FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
-DEPENDS:append:n5x += "arm-trusted-firmware bash"
-DEPENDS:append:agilex += "arm-trusted-firmware bash"
-DEPENDS:append:stratix10 += "arm-trusted-firmware bash"
-DEPENDS:append:arria10 += "hw-ref-design"
+DEPENDS:append:n5x = " arm-trusted-firmware bash"
+DEPENDS:append:agilex = " arm-trusted-firmware bash"
+DEPENDS:append:stratix10 = " arm-trusted-firmware bash"
+DEPENDS:append:arria10 = " hw-ref-design"
 
 inherit deploy
 

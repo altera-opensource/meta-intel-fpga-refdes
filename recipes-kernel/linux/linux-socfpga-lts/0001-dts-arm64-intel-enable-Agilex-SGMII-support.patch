@@ -5,6 +5,8 @@ Subject: [PATCH] dts/arm64/intel: enable Agilex SGMII support
 
 This is to enable device tree to support Agilex SGMII..
 
+Upstream-Status: Pending
+
 Signed-off-by: Chew, Chiau Ee <chiau.ee.chew@intel.com>
 ---
  .../boot/dts/intel/socfpga_agilex_sgmii.dtsi  | 56 +++++++++++++++++++

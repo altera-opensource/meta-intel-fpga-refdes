@@ -11,6 +11,8 @@ are typically added locally and aren't checked by lintian.
 
 Closes: #981407
 
+Upstream-Status: Pending
+
 Signed-off-by: Michael Biebl <biebl@debian.org>
 Signed-off-by: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
 ---

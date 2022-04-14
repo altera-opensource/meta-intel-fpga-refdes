@@ -7,6 +7,8 @@ In order to support larger kernel FIT image to be stored on
 QSPI flash, the rootfs partition starting offset is adjusted.
 The final rootfs partition is resized from 192MB to 172MB.
 
+Upstream-Status: Pending
+
 Signed-off-by: Yau Wai Gan <yau.wai.gan@intel.com>
 ---
  arch/arm64/boot/dts/altera/socfpga_stratix10_socdk.dts      | 4 ++--

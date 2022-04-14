@@ -3,6 +3,8 @@ From: "Teoh, Ji Sheng" <ji.sheng.teoh@intel.com>
 Date: Thu, 11 Nov 2021 19:10:12 +0000
 Subject: [PATCH] socfpga_stratix10_socdk: include combined ghrd design
 
+Upstream-Status: Pending
+
 Signed-off-by: Teoh, Ji Sheng <ji.sheng.teoh@intel.com>
 ---
  .../boot/dts/altera/socfpga_stratix10.dtsi    |   3 +

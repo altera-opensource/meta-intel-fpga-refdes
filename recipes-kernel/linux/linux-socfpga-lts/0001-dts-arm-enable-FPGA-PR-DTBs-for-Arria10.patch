@@ -6,6 +6,8 @@ Subject: [PATCH] dts/arm: enable FPGA PR DTBs for Arria10
 This is to enable fpga_static_region and persona0/1 DTBs
 for Arria10 FPGA Partial Reconfiguration with Linux.
 
+Upstream-Status: Pending
+
 Signed-off-by: Chew, Chiau Ee <chiau.ee.chew@intel.com>
 ---
  arch/arm/boot/dts/Makefile               |   5 +-

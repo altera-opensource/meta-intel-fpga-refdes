@@ -3,6 +3,8 @@ From: "Chew, Chiau Ee" <chiau.ee.chew@intel.com>
 Date: Wed, 24 Feb 2021 18:47:38 +0800
 Subject: [PATCH] socfpga_agilex_socdk: include reference design dtsi
 
+Upstream-Status: Pending
+
 Signed-off-by: Chew, Chiau Ee <chiau.ee.chew@intel.com>
 ---
  .../boot/dts/intel/socfpga_agilex_ghrd.dtsi   | 79 +++++++++++++++++++

@@ -3,6 +3,8 @@ From: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
 Date: Wed, 14 Oct 2020 11:28:17 +0800
 Subject: [PATCH] socfpga_cyclone5_socdk: include reference design dtsi
 
+Upstream-Status: Pending
+
 Signed-off-by: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
 ---
  arch/arm/boot/dts/socfpga_cyclone5_ghrd.dtsi | 113 +++++++++++++++++++

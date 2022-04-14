@@ -6,6 +6,8 @@ Subject: [PATCH] dts/arm64/altera: enable FPGA PR DTBs for Stratix10
 This is to enable fpga_static_region and persona0/1 DTBs
 for Stratix10 FPGA Partial Reconfiguration with Linux.
 
+Upstream-Status: Pending
+
 Signed-off-by: Chew, Chiau Ee <chiau.ee.chew@intel.com>
 ---
  arch/arm64/boot/dts/altera/Makefile           |  3 ++

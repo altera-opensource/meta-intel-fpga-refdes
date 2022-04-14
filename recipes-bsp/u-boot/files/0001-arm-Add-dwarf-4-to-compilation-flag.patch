@@ -8,6 +8,8 @@ not working on ARM DS debugger that does not support dwarf-5. This patch add
 dwarf-4 flag to ensure the compiled executable works on such debugger, based on
 suggestion from GCC.
 
+Upstream-Status: Pending
+
 Signed-off-by: Yau Wai Gan <yau.wai.gan@intel.com>
 ---
  arch/arm/config.mk | 2 +-

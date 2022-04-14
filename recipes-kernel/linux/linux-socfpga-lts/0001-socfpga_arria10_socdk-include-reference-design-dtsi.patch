@@ -3,6 +3,8 @@ From: "Chew, Chiau Ee" <chiau.ee.chew@intel.com>
 Date: Thu, 25 Feb 2021 18:37:41 +0800
 Subject: [PATCH] socfpga_arria10_socdk: include reference design dtsi
 
+Upstream-Status: Pending
+
 Signed-off-by: Chew, Chiau Ee <chiau.ee.chew@intel.com>
 ---
  arch/arm/boot/dts/socfpga_arria10_ghrd.dtsi  | 155 +++++++++++++++++++

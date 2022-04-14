@@ -3,6 +3,8 @@ From: "Chew, Chiau Ee" <chiau.ee.chew@intel.com>
 Date: Mon, 8 Mar 2021 23:46:02 +0800
 Subject: [PATCH] boot/dts/a10: add Arria10 PR overlays
 
+Upstream-Status: Pending
+
 Signed-off-by: Chew, Chiau Ee <chiau.ee.chew@intel.com>
 ---
  arch/arm/boot/dts/Makefile        |   5 +-

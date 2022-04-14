@@ -6,6 +6,8 @@ Subject: [PATCH 1/2] dts/arm64/intel: enable FPGA PR DTBs for Agilex
 This is to enable fpga_static_region and persona0/1 DTBs
 for Agilex FPGA Partial Reconfiguration with Linux.
 
+Upstream-Status: Pending
+
 Signed-off-by: Chew, Chiau Ee <chiau.ee.chew@intel.com>
 ---
  arch/arm64/boot/dts/intel/Makefile            |  3 ++

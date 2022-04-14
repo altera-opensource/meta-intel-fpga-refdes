@@ -3,6 +3,8 @@ From: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
 Date: Fri, 27 Aug 2021 19:40:14 +0800
 Subject: [PATCH] socfpga_stratix10_socdk: pcie: include reference design dtsi
 
+Upstream-Status: Pending
+
 Signed-off-by: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
 ---
  .../dts/altera/socfpga_stratix10_pcie.dtsi    | 53 +++++++++++++++++++

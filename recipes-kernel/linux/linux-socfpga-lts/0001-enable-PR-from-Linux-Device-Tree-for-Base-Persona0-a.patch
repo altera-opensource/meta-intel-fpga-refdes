@@ -3,6 +3,8 @@ From: Chew, Chiau Ee <chiau.ee.chew@intel.com>
 Date: Sun, 1 Nov 2020 18:42:32 -0800
 Subject: [PATCH] enable PR from Linux Device Tree for Base, Persona0 and Persona1
 
+Upstream-Status: Pending
+
 Signed-off-by: Chew, Chiau Ee <chiau.ee.chew@intel.com>
 ---
  arch/arm64/boot/dts/altera/Makefile     |    3 ++

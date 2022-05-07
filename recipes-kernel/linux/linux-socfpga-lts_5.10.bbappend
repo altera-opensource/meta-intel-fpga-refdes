@@ -12,6 +12,7 @@ SRC_URI:append:agilex = " \
 			 file://agilex_pr_fpga_static_region.dtb \
 			 file://agilex_pr_persona0.dtb \
 			 file://agilex_pr_persona1.dtb \
+			 file://socfpga_agilex_vanilla.dtb \
 			 "
 
 SRC_URI:append:stratix10 = " \
@@ -52,6 +53,7 @@ do_deploy:append() {
 		cp ${LINUXDEPLOYDIR}/socfpga_${MACHINE}_socdk_nand.dtb ${B}/socfpga_${MACHINE}_socdk_nand.dtb
 		if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} ; then
 			cp ${WORKDIR}/socfpga_${MACHINE}_socdk_pr.dtb ${B}/socfpga_${MACHINE}_socdk_pr.dtb
+			cp ${WORKDIR}/socfpga_agilex_vanilla.dtb ${B}/socfpga_agilex_vanilla.dtb
 		fi
 
 		# core.rbf

@@ -26,8 +26,8 @@
 		};
 
 		fdt-0 {
-			description = "socfpga_socdk";
-			data = /incbin/("./socfpga_stratix10_socdk.dtb");
+			description = "socfpga_socdk_vanilla";
+			data = /incbin/("./socfpga_stratix10_vanilla.dtb");
 			type = "flat_dt";
 			arch = "arm64";
 			compression = "none";
@@ -47,9 +47,20 @@
 			};
 		};
 
-		fpga-0 {
-			description = "FPGA bitstream for GHRD";
-			data = /incbin/("./ghrd.core.rbf");
+		fdt-4 {
+			description = "socfpga_socdk_combined";
+			data = /incbin/("./socfpga_stratix10_socdk.dtb");
+			type = "flat_dt";
+			arch = "arm64";
+			compression = "none";
+			hash {
+				algo = "crc32";
+			};
+		};
+
+		fpga-1 {
+			description = "FPGA bitstream for NAND";
+			data = /incbin/("./nand.core.rbf");
 			type = "fpga";
 			arch = "arm64";
 			compression = "none";
@@ -59,9 +70,9 @@
 			};
 		};
 
-		fpga-1 {
-			description = "FPGA bitstream for NAND";
-			data = /incbin/("./nand.core.rbf");
+		fpga-4 {
+			description = "FPGA bitstream for GHRD";
+			data = /incbin/("./ghrd.core.rbf");
 			type = "fpga";
 			arch = "arm64";
 			compression = "none";
@@ -79,11 +90,10 @@
 			description = "board_0";
 			kernel = "kernel";
 			fdt = "fdt-0";
-			fpga = "fpga-0";
 			signature {
 				algo = "crc32";
 				key-name-hint = "dev";
-				sign-images = "fdt-0", "kernel", "fpga-0";
+				sign-images = "fdt-0", "kernel";
 			};
 		};
 
@@ -96,6 +106,18 @@
 				algo = "crc32";
 				key-name-hint = "dev";
 				sign-images = "fdt-1", "kernel", "fpga-1";
+			};
+		};
+
+		board-4 {
+			description = "board_0";
+			kernel = "kernel";
+			fdt = "fdt-4";
+			fpga = "fpga-4";
+			signature {
+				algo = "crc32";
+				key-name-hint = "dev";
+				sign-images = "fdt-4", "kernel", "fpga-4";
 			};
 		};
 	};

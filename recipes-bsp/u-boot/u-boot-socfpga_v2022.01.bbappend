@@ -7,7 +7,7 @@ DEPENDS:append:n5x = " arm-trusted-firmware bash u-boot-socfpga-scr"
 
 SRC_URI:append = " \
              file://0001-arm-Add-dwarf-4-to-compilation-flag.patch \
-             file://0001-arm-agilex-add-patch-to-enable-board-3-PR-configurat.patch \
+             file://0001-arm-agilex-add-board-configuration.patch \
            "
 
 inherit deploy

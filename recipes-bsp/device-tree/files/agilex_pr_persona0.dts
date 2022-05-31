@@ -1,0 +1,34 @@
+/dts-v1/;
+/plugin/;
+/ {
+	fragment@1 {
+		target-path = "/soc/base_fpga_region/fpga_pr_region0";
+		#address-cells = <1>;
+		#size-cells = <1>;
+		__overlay__ {
+			partial-fpga-config;
+			firmware-name = "persona0.rbf";
+			#address-cells = <1>;
+			#size-cells = <1>;
+
+			region-unfreeze-timeout-us = <5000>;
+			region-freeze-timeout-us = <5000>;
+			config-complete-timeout-us = <2000000>;
+
+			pr_region_0_pr_clk_100: pr_region_0_pr_clk_100 {
+				compatible = "fixed-clock";
+				#clock-cells = <0>;
+				clock-frequency = <100000000>;	/* 100.00 MHz */
+				clock-output-names = "pr_region_0_pr_clk_100-clk";
+			};
+
+			pr_region_0_pr_sysid_qsys_0: sysid@0x0800 {
+				compatible = "altr,sysid-16.1", "altr,sysid-1.0";
+				reg = <0x00000800 0x00000008>;
+				clocks = <&pr_region_0_pr_clk_100>;
+				id = <3405707982>;	/* embeddedsw.dts.params.id type NUMBER */
+				timestamp = <0>;	/* embeddedsw.dts.params.timestamp type NUMBER */
+			};
+		};
+	};
+};

@@ -6,22 +6,11 @@ FILESEXTRAPATHS:prepend := "${THISDIR}/linux-socfpga-lts:"
 DEPENDS = "u-boot-mkimage-native dtc-native"
 
 SRC_URI:append:agilex = " \
-			 file://0001-socfpga_agilex_socdk-include-combined-ghrd-design.patch \
-			 file://socfpga_agilex_socdk_pr.dtb \
 			 file://fit_kernel_agilex.its \
-			 file://agilex_pr_fpga_static_region.dtb \
-			 file://agilex_pr_persona0.dtb \
-			 file://agilex_pr_persona1.dtb \
-			 file://socfpga_agilex_vanilla.dtb \
 			 "
 
 SRC_URI:append:stratix10 = " \
-			 file://0001-socfpga_stratix10_socdk-include-combined-ghrd-design.patch \
 			 file://fit_kernel_stratix10.its \
-			 file://stratix10_pr_fpga_static_region.dtb \
-			 file://stratix10_pr_persona0.dtb \
-			 file://stratix10_pr_persona1.dtb \
-			 file://socfpga_stratix10_vanilla.dtb \
 			 "
 
 SRC_URI:append:arria10 = " \
@@ -46,15 +35,16 @@ SRC_URI:append:cyclone5 = " file://tse.scc"
 inherit deploy
 
 LINUXDEPLOYDIR = "${WORKDIR}/deploy-${PN}"
+DTBDEPLOYDIR = "${DEPLOY_DIR_IMAGE}/devicetree"
 
 do_deploy:append() {
 	if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
 		# linux.dtb
-		cp ${LINUXDEPLOYDIR}/socfpga_${MACHINE}_socdk.dtb ${B}/socfpga_${MACHINE}_socdk.dtb
-		cp ${LINUXDEPLOYDIR}/socfpga_${MACHINE}_socdk_nand.dtb ${B}/socfpga_${MACHINE}_socdk_nand.dtb
-		cp ${WORKDIR}/socfpga_${MACHINE}_vanilla.dtb ${B}/socfpga_${MACHINE}_vanilla.dtb
+		cp ${DTBDEPLOYDIR}/socfpga_${MACHINE}_socdk.dtb ${B}/socfpga_${MACHINE}_socdk.dtb
+		cp ${DTBDEPLOYDIR}/socfpga_${MACHINE}_socdk_nand.dtb ${B}/socfpga_${MACHINE}_socdk_nand.dtb
+		cp ${DTBDEPLOYDIR}/socfpga_${MACHINE}_vanilla.dtb ${B}/socfpga_${MACHINE}_vanilla.dtb
 		if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} ; then
-			cp ${WORKDIR}/socfpga_${MACHINE}_socdk_pr.dtb ${B}/socfpga_${MACHINE}_socdk_pr.dtb
+			cp ${DTBDEPLOYDIR}/socfpga_${MACHINE}_socdk_pr.dtb ${B}/socfpga_${MACHINE}_socdk_pr.dtb
 		fi
 
 		# core.rbf
@@ -89,8 +79,8 @@ do_install:append() {
 		install -D -m 0644 ${D}/boot/persona0.dtb ${D}/boot/persona0.dtbo
 	fi
 	if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
-		install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_fpga_static_region.dtb ${D}/boot/fpga_static_region.dtbo
-		install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_persona1.dtb ${D}/boot/persona1.dtbo
-		install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_persona0.dtb ${D}/boot/persona0.dtbo
+		install -D -m 0644 ${DTBDEPLOYDIR}/${MACHINE}_pr_fpga_static_region.dtbo ${D}/boot/fpga_static_region.dtbo
+		install -D -m 0644 ${DTBDEPLOYDIR}/${MACHINE}_pr_persona1.dtbo ${D}/boot/persona1.dtbo
+		install -D -m 0644 ${DTBDEPLOYDIR}/${MACHINE}_pr_persona0.dtbo ${D}/boot/persona0.dtbo
 	fi
 }

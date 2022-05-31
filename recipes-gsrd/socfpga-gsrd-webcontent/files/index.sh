@@ -42,7 +42,7 @@ echo ""
 echo -e "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \".w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">"
 echo -e "<html xmlns=\".w3.org/1999/xhtml\" xmlns:mso=\"urn:schemas-microsoft-com:office:office\" xmlns:msdt=\"uuid:C2F41010-65B3-11d1-A29F-00AA00C14882\">"
 echo -e "<head>"
-echo -e "<title>Board Update Portal: $DEVKIT_NAME</title>"
+echo -e "<title>Board Web Server: $DEVKIT_NAME</title>"
 echo -e "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">"
 echo -e "<link rel=\"stylesheet\" media=\"all\" type=\"text/css\" href=\"../style.css\" />"
 echo -e "<script src=\"../progress.js\" type=\"text/javascript\"></script>"
@@ -62,7 +62,7 @@ echo -e "</head>"
 echo -e "<body class=\"body-container\" onload=\"start()\">"
 echo -e "<div class=\"bup-header\">"
 echo -e "<img src=\"../intel-logo.jpg\" alt=\"Intel Logo\" style=\"float:left; padding:15px 0px 15px 10px;\"/>"
-echo -e "<div class=\"bup-header-right\"><span>Board Update Portal</span><br/>"
+echo -e "<div class=\"bup-header-right\"><span>Board Web Server</span><br/>"
 echo -e $DEVKIT_NAME
 echo -e "</div>"
 echo -e "</div>"
@@ -70,7 +70,7 @@ echo -e "<div class=\"bup-content\">"
 echo -e "<div class=\"bup-form\">"
 echo -e "<span><strong><h1>Overview</h1></strong><br/>"
 echo -e "</span>"
-echo -e "<p>This Board Update Portal web page is being served by the web server application running on the Hard Processor System (HPS) of your development board. This web page provides links to useful information on Intel FPGA<sup>®</sup> website. Please refer to the side bar for the reference links. You can use this web page to interact with your board by blinking the LEDs and writing text messages to LCD on the board. For Stratix 10 there would be no LCD therefore users would have to use the JTAG UART"
+echo -e "<p>This Board Web Server web page is being served by the web server application running on the Hard Processor System (HPS) of your development board. This web page provides links to useful information on Intel FPGA<sup>®</sup> website. Please refer to the side bar for the reference links. You can use this web page to interact with your board by blinking the LEDs and writing text messages to LCD on the board. For Stratix 10 there would be no LCD therefore users would have to use the JTAG UART"
 echo -e "</div>"
 
 if [ "$MACHINE" == "cyclone5" ] || [ "$MACHINE" == "arria5" ]; then
@@ -105,7 +105,7 @@ elif [ "$MACHINE" == "agilex" ]; then
 echo -e "<div class=\"bup-links\">"
 echo -e "<h4>Developer Resources</h4>"
 echo -e "<ul>"
-        echo -e "<li><a href=\"https://www.altera.com/products/soc/soc-quick-start-guide/agilex-dev-kit-quick-start.html\" target=\"_blank\">Stratix 10 SoC Quick Start Guide</a></li> "
+        echo -e "<li><a href=\"https://www.altera.com/products/soc/soc-quick-start-guide/agilex-dev-kit-quick-start.html\" target=\"_blank\">Agilex SoC Quick Start Guide</a></li> "
         echo -e "<li><a href=\"https://www.altera.com/products/fpga/stratix-series/agilex/support.html\" target=\"_blank\">Hardware Resources</a></li> "
         echo -e "<li><a href=\"https://www.altera.com/products/soc/portfolio/agilex/design-tools.html\" target=\"_blank\">Software Resources</a></li> "
         echo -e "<li><a href=\"http://www.rocketboards.org\" target=\"_blank\">Rocketboards.org</a></li> "
@@ -130,7 +130,7 @@ elif [ "$MACHINE" == "stratix10" ]; then
         echo -e "<div><img src=\"../stratix10-board-image.jpg\" style=\"width:640px;height:478px;\"></div>"
 elif [ "$MACHINE" == "agilex" ]; then
 	echo -e "<span><strong><h1>$DEVKIT_NAME Features</h1></strong><br/></span>"
-        echo -e "<div><img src=\"../stratix10-board-image.jpg\" style=\"width:640px;height:478px;\"></div>"
+        echo -e "<div><img src=\"../agilex-board-image.jpg\" style=\"width:640px;height:478px;\"></div>"
 fi
 
 ##

@@ -7,6 +7,8 @@ This patch adds the following two configuration:
 board-3: PR design
 board-4: Combined GHRD design
 
+Upstream-Status: Pending
+
 Signed-off-by: Teoh, Ji Sheng <ji.sheng.teoh@intel.com>
 ---
  arch/arm/dts/socfpga_agilex_socdk-u-boot.dtsi | 24 +++++++++++++++++++

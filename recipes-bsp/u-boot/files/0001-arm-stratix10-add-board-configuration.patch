@@ -6,6 +6,8 @@ Subject: [PATCH] arm: stratix10: add board configuration
 This patch adds the following configuration:
 board-4: Combined GHRD design
 
+Upstream-Status: Pending
+
 Signed-off-by: Teoh, Ji Sheng <ji.sheng.teoh@intel.com>
 ---
  arch/arm/dts/socfpga_stratix10_socdk-u-boot.dtsi | 12 ++++++++++++

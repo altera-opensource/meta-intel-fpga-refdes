@@ -73,9 +73,10 @@ do_deploy:append() {
 		# Generate kernel.itb
 		mkimage -f ${B}/fit_kernel_${MACHINE}.its ${B}/kernel.itb
 
-		# Deploy kernel.its and kernel.itb
+		# Deploy kernel.its, kernel.itb and Image.lzma
 		install -m 744 ${B}/fit_kernel_${MACHINE}.its ${DEPLOYDIR}/fit_kernel_${MACHINE}.its
 		install -m 744 ${B}/kernel.itb ${DEPLOYDIR}/kernel.itb
+		install -m 744 ${B}/Image.lzma ${DEPLOYDIR}/Image.lzma
 	fi
 }
 

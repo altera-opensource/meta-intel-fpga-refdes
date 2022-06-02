@@ -35,9 +35,9 @@ SRC_URI:append:stratix10 = " \
 					file://socfpga_stratix10_qse_pcie_sgmii_ghrd_nand.dtsi \
 					file://socfpga_stratix10_socdk_nand.dts \
 					file://socfpga_stratix10_vanilla.dtb \
-					file://stratix10_fpga_static_region.dts \
-					file://stratix10_persona0.dts \
-					file://stratix10_persona1.dts \
+					file://stratix10_pr_fpga_static_region.dts \
+					file://stratix10_pr_persona0.dts \
+					file://stratix10_pr_persona1.dts \
 					"
 
 COMPATIBLE_MACHINE:stratix10 = ".*"

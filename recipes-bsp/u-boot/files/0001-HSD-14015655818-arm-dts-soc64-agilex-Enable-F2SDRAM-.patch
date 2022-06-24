@@ -1,0 +1,77 @@
+From 6b311a7563519700aa766ea6a4a10c1e9af47fa2 Mon Sep 17 00:00:00 2001
+From: Tien Fong Chee <tien.fong.chee@intel.com>
+Date: Thu, 23 Jun 2022 15:28:42 +0800
+Subject: [PATCH 1/2] HSD #14015655818: arm: dts: soc64: agilex: Enable F2SDRAM
+ access to 8GB DDR
+
+This is an example of required settings to disable firewall and secure
+access for FPGA to access 8GB DDR.
+
+Upstream-Status: Pending
+
+Signed-off-by: Tien Fong Chee <tien.fong.chee@intel.com>
+---
+ arch/arm/dts/socfpga_agilex-u-boot.dtsi | 34 ++++++++++++++++++++-----
+ 1 file changed, 28 insertions(+), 6 deletions(-)
+
+diff --git a/arch/arm/dts/socfpga_agilex-u-boot.dtsi b/arch/arm/dts/socfpga_agilex-u-boot.dtsi
+index ca71afa2c1..6a6aebdb0d 100644
+--- a/arch/arm/dts/socfpga_agilex-u-boot.dtsi
++++ b/arch/arm/dts/socfpga_agilex-u-boot.dtsi
+@@ -103,7 +103,9 @@
+ 			/* Disable MPFE firewall for SMMU */
+ 			<0x00000000 0x00010101>,
+ 			/* Disable MPFE firewall for HMC adapter */
+-			<0x00000004 0x00000001>;
++			<0x00000004 0x00000001>,
++			/* Enable non-secure access through F2S bridge */
++			<0x00000018 0x00000100>;
+ 		u-boot,dm-pre-reloc;
+ 	};
+ 
+@@ -117,17 +119,37 @@
+ 	soc_noc_fw_ddr_fpga2sdram_inst_0_ddr_scr@f8020100 {
+ 		reg = <0xf8020100 0x00000050>;
+ 		intel,offset-settings =
++			/* enable */
+ 			<0x0000000 0x00000000>,
++			/* enable set */
+ 			<0x0000004 0x00000000>,
++			/* enable clear */
+ 			<0x0000008 0x00000000>,
++			/*
++			 * DDR 0-2GB
++			 * mpuregion0addr_base
++			 */
+ 			<0x0000010 0x00000000>,
++			/* mpuregion0addr_baseext */
+ 			<0x0000014 0x00000000>,
+-			<0x0000018 0x0000ffff>,
++			/* mpuregion0addr_limit */
++			<0x0000018 0x7fffffff>,
++			/* mpuregion0addr_limitext */
+ 			<0x000001c 0x00000000>,
+-			<0x0000020 0x00000000>,
+-			<0x0000024 0x00000000>,
+-			<0x0000028 0x0000ffff>,
+-			<0x000002c 0x00000000>,
++			/*
++			 * DDR 2-8GB
++			 * using alias address for >2GB memory region
++			 * mpuregion1addr_base
++			 */
++			<0x0000020 0x80000000>,
++			/* mpuregion1addr_baseext */
++			<0x0000024 0x00000010>,
++			/* mpuregion1addr_limit */
++			<0x0000028 0xffffffff>,
++			/* mpuregion1addr_limitext */
++			<0x000002c 0x00000011>,
++			/* enable set */
++			<0x0000004 0x00000003>,
+ 			<0x0000030 0x00000000>,
+ 			<0x0000034 0x00000000>,
+ 			<0x0000038 0x0000ffff>,
+-- 
+2.19.0
+

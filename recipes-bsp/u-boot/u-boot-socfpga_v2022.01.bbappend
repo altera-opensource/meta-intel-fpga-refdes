@@ -8,7 +8,9 @@ DEPENDS:append:n5x = " arm-trusted-firmware bash u-boot-socfpga-scr"
 SRC_URI:append = " \
              file://0001-arm-Add-dwarf-4-to-compilation-flag.patch \
              file://0001-arm-agilex-add-board-configuration.patch \
-			 file://0001-arm-stratix10-add-board-configuration.patch \
+             file://0001-arm-stratix10-add-board-configuration.patch \
+             file://0001-HSD-14015655818-arm-dts-soc64-agilex-Enable-F2SDRAM-.patch \
+             file://0002-HSD-14015655816-arm-dts-soc64-s10-Enable-F2SDRAM-acc.patch \
            "
 
 inherit deploy

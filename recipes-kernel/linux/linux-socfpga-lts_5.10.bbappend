@@ -10,6 +10,8 @@ SRC_URI_append_agilex += "\
 			 ${@bb.utils.contains("IMAGE_TYPE", "pr", "${DTS_REPO}/agilex/pr/0001-socfpga_agilex_socdk-include-reference-design-dtsi.patch;name=agilex_gsrd_dts", "", d)} \
 			 ${@bb.utils.contains("IMAGE_TYPE", "pr", "${DTS_REPO}/agilex/pr/5.10/0001-dts-arm64-intel-enable-FPGA-PR-DTBs-for-Agilex.patch;name=agilex_pr_dts", "", d)} \
 			 ${@bb.utils.contains("IMAGE_TYPE", "sgmii", "${DTS_REPO}/agilex/sgmii/0001-dts-arm64-intel-enable-Agilex-SGMII-support.patch;name=agilex_sgmii_dts", "", d)} \
+			 ${@bb.utils.contains("IMAGE_TYPE", "n6000", "file://0001-arm64-dts-intel-add-device-tree-for-n6000.patch", "", d)} \
+			  \
 			 "
 
 #rename ghrd folder to gsrd folder internally
@@ -51,7 +53,10 @@ SRC_URI[cyclone5_dts.sha256sum] = "52f629affd6cffc11bb40bbdad62149c20d56d5392bc2
 
 # Append GSRD specific kernel config fragments
 SRC_URI += "file://ubifs.scc"
-SRC_URI_append_agilex += "file://sgmii.scc"
+SRC_URI_append_agilex += "\
+                          file://sgmii.scc \
+			  ${@bb.utils.contains("IMAGE_TYPE", "n6000", "file://ppp.scc", "", d)} \
+			  "
 SRC_URI_append_stratix10 += "file://sgmii.scc"
 SRC_URI_append_arria10 += "file://tse.scc"
 SRC_URI_append_cyclone5 += "file://tse.scc"
@@ -63,3 +68,4 @@ do_install_append() {
 		install -D -m 0644 ${D}/boot/persona0.dtb ${D}/boot/persona0.dtbo
 	fi
 }
+

@@ -1,0 +1,121 @@
+From 1aa48d9a59c5e0953509c5b5c655947e2795b903 Mon Sep 17 00:00:00 2001
+From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+Date: Tue, 31 Aug 2021 11:22:24 -0700
+Subject: [PATCH] arm64: dts: intel: add device tree for n6000
+
+Add a device tree for the n6000 instantiation of Agilex
+Hard Processor System (HPS).
+
+Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+v5:
+  - add Acked-by: Krzysztof Kozlowski
+
+v3:
+  - add unit number to memory node
+  - remove unused label
+  - remove 0x from #address-cells/#size-cells values
+  - change hps_cp_eng@0 to dma-controller@0
+  - remove spi node with unaccepted compatible value
+
+v2:
+  - fix copy engine node name
+  - fix compatible field for copy engine
+  - remove redundant status field
+  - add compatibility field for the board
+  - fix SPDX
+  - fix how osc1 clock frequency is set
+---
+ arch/arm64/boot/dts/intel/Makefile            |  3 +-
+ .../boot/dts/intel/socfpga_agilex_n6000.dts   | 66 +++++++++++++++++++
+ 2 files changed, 68 insertions(+), 1 deletion(-)
+ create mode 100644 arch/arm64/boot/dts/intel/socfpga_agilex_n6000.dts
+
+diff --git a/arch/arm64/boot/dts/intel/Makefile b/arch/arm64/boot/dts/intel/Makefile
+index b3c03f4f3c8c..3329242a6fb2 100644
+--- a/arch/arm64/boot/dts/intel/Makefile
++++ b/arch/arm64/boot/dts/intel/Makefile
+@@ -1,5 +1,6 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+-dtb-$(CONFIG_ARCH_AGILEX) += socfpga_agilex_socdk.dtb \
++dtb-$(CONFIG_ARCH_AGILEX) += socfpga_agilex_n6000.dtb \
++			     socfpga_agilex_socdk.dtb \
+ 			     socfpga_agilex_socdk_nand.dtb
+ dtb-$(CONFIG_ARCH_KEEMBAY) += keembay-evm.dtb
+ dtb-$(CONFIG_ARCH_DM) += socfpga_dm_simics.dtb
+diff --git a/arch/arm64/boot/dts/intel/socfpga_agilex_n6000.dts b/arch/arm64/boot/dts/intel/socfpga_agilex_n6000.dts
+new file mode 100644
+index 000000000000..6231a69204b1
+--- /dev/null
++++ b/arch/arm64/boot/dts/intel/socfpga_agilex_n6000.dts
+@@ -0,0 +1,66 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright (C) 2021-2022, Intel Corporation
++ */
++#include "socfpga_agilex.dtsi"
++
++/ {
++	model = "SoCFPGA Agilex n6000";
++	compatible = "intel,socfpga-agilex-n6000", "intel,socfpga-agilex";
++
++	aliases {
++		serial0 = &uart1;
++		serial1 = &uart0;
++		ethernet0 = &gmac0;
++		ethernet1 = &gmac1;
++		ethernet2 = &gmac2;
++	};
++
++	chosen {
++		stdout-path = "serial0:115200n8";
++	};
++
++	memory@0 {
++		device_type = "memory";
++		/* We expect the bootloader to fill in the reg */
++		reg = <0 0 0 0>;
++	};
++
++	soc {
++		bus@80000000 {
++			compatible = "simple-bus";
++			reg = <0x80000000 0x60000000>,
++				<0xf9000000 0x00100000>;
++			reg-names = "axi_h2f", "axi_h2f_lw";
++			#address-cells = <2>;
++			#size-cells = <1>;
++			ranges = <0x00000000 0x00000000 0xf9000000 0x00001000>;
++
++			dma-controller@0 {
++				compatible = "intel,hps-copy-engine";
++				reg = <0x00000000 0x00000000 0x00001000>;
++				#dma-cells = <1>;
++			};
++		};
++	};
++};
++
++&osc1 {
++	clock-frequency = <25000000>;
++};
++
++&uart0 {
++	status = "okay";
++};
++
++&uart1 {
++	status = "okay";
++};
++
++&watchdog0 {
++	status = "okay";
++};
++
++&fpga_mgr {
++	status = "disabled";
++};
+-- 
+2.25.1
+

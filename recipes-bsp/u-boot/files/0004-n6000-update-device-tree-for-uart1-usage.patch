@@ -1,0 +1,70 @@
+From 7cb2fca61d9be98737f44b38d6aebaa8b8921646 Mon Sep 17 00:00:00 2001
+From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+Date: Thu, 31 Mar 2022 16:15:33 -0700
+Subject: [PATCH 4/5] n6000: update device tree for uart1 usage
+
+Turn on uart1 and redirect the console to it.  Keep
+uart0 turned on as well.
+
+Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+---
+ arch/arm/dts/socfpga_agilex-u-boot.dtsi | 4 ++++
+ arch/arm/dts/socfpga_agilex.dtsi        | 1 +
+ arch/arm/dts/socfpga_agilex_n6000.dts   | 7 ++++++-
+ 3 files changed, 11 insertions(+), 1 deletion(-)
+
+diff --git a/arch/arm/dts/socfpga_agilex-u-boot.dtsi b/arch/arm/dts/socfpga_agilex-u-boot.dtsi
+index ca71afa2c1..63f1c3e63c 100644
+--- a/arch/arm/dts/socfpga_agilex-u-boot.dtsi
++++ b/arch/arm/dts/socfpga_agilex-u-boot.dtsi
+@@ -167,6 +167,10 @@
+ 	u-boot,dm-pre-reloc;
+ };
+ 
++&uart1 {
++	u-boot,dm-pre-reloc;
++};
++
+ &watchdog0 {
+ 	u-boot,dm-pre-reloc;
+ };
+diff --git a/arch/arm/dts/socfpga_agilex.dtsi b/arch/arm/dts/socfpga_agilex.dtsi
+index bd7f0c4182..d9681ef6b7 100644
+--- a/arch/arm/dts/socfpga_agilex.dtsi
++++ b/arch/arm/dts/socfpga_agilex.dtsi
+@@ -463,6 +463,7 @@
+ 			resets = <&rst UART1_RESET>;
+ 			clocks = <&clkmgr AGILEX_L4_SP_CLK>;
+ 			status = "disabled";
++			clock-frequency = <100000000>;
+ 		};
+ 
+ 		usbphy0: usbphy@0 {
+diff --git a/arch/arm/dts/socfpga_agilex_n6000.dts b/arch/arm/dts/socfpga_agilex_n6000.dts
+index 8778e4fdf2..9e94bbec63 100644
+--- a/arch/arm/dts/socfpga_agilex_n6000.dts
++++ b/arch/arm/dts/socfpga_agilex_n6000.dts
+@@ -8,7 +8,8 @@
+ 	model = "SoCFPGA Agilex n6000";
+ 
+ 	aliases {
+-		serial0 = &uart0;
++		serial1 = &uart0;
++		serial0 = &uart1;
+ 		ethernet0 = &gmac0;
+ 		ethernet1 = &gmac1;
+ 		ethernet2 = &gmac2;
+@@ -38,6 +39,10 @@
+ 	status = "okay";
+ };
+ 
++&uart1 {
++	status = "okay";
++};
++
+ &spi0 {
+ 	status = "okay";
+ 	bits-per-word = <16>;
+-- 
+2.25.1
+

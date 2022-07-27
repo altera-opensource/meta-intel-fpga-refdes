@@ -14,6 +14,7 @@ SRC_URI_agilex = "\
 			 ${@bb.utils.contains("UBOOT_CONFIG", "agilex-socdk-atf", "${ENV_REPO}/agilex-socdk-atf/u-boot-env.txt;name=agilex-socdk-atf-env", "", d)} \
 			 ${@bb.utils.contains("UBOOT_CONFIG", "agilex-socdk-qspi", "${ENV_REPO}/agilex-socdk-qspi/u-boot-env.txt;name=agilex-socdk-qspi-env", "", d)} \
 			 ${@bb.utils.contains("UBOOT_CONFIG", "agilex-socdk-qspi-atf", "${ENV_REPO}/agilex-socdk-qspi-atf/u-boot-env.txt;name=agilex-socdk-qspi-atf-env", "", d)} \
+			 ${@bb.utils.contains("UBOOT_CONFIG", "agilex-n6000", "${ENV_REPO}/agilex-socdk/u-boot-env.txt;name=agilex-socdk-env", "", d)} \
 			 "
 
 SRC_URI_stratix10 = "\

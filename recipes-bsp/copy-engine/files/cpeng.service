@@ -1,0 +1,8 @@
+[Unit]
+Description=copy-engine daemon to communicate with copy-engine FPGA IP
+
+[Service]
+ExecStart=/usr/bin/copy-engine -H -f
+
+[Install]
+WantedBy=multi-user.target

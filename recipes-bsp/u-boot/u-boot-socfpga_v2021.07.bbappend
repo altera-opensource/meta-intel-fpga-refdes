@@ -5,7 +5,14 @@ DEPENDS_append_agilex += "arm-trusted-firmware bash u-boot-socfpga-scr u-boot-so
 DEPENDS_append_stratix10 += "arm-trusted-firmware bash u-boot-socfpga-scr u-boot-socfpga-env"
 DEPENDS_append_arria10 += "hw-ref-design u-boot-socfpga-env"
 
+SRC_URI_append += "${@bb.utils.contains('IMAGE_TYPE', 'n6000', 'file://0001-HSD-14015124126-n6000-rename-n6010-to-n6000.patch', '', d)}"
+SRC_URI_append += "${@bb.utils.contains('IMAGE_TYPE', 'n6000', 'file://0002-HSD-14015468338-1-n6000-enable-ATF.patch', '', d)}"
+SRC_URI_append += "${@bb.utils.contains('IMAGE_TYPE', 'n6000', 'file://0003-HSD-14015468338-2-n6000-enable-VAB.patch', '', d)}"
+SRC_URI_append += "${@bb.utils.contains('IMAGE_TYPE', 'n6000', 'file://0004-n6000-update-device-tree-for-uart1-usage.patch', '', d)}"
+SRC_URI_append += "${@bb.utils.contains('IMAGE_TYPE', 'n6000', 'file://0005-n6000-update-device-tree-for-2GB-of-DDR.patch', '', d)}"
+
 inherit deploy
+
 
 do_compile[deptask] = "do_deploy"
 
@@ -13,12 +20,21 @@ do_compile_prepend() {
 	if ${@bb.utils.contains("MACHINE", "n5x", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
 		cp ${DEPLOY_DIR_IMAGE}/bl31.bin ${B}/${config}/bl31.bin
 		cp ${DEPLOY_DIR_IMAGE}/bl31.bin ${S}/bl31.bin
+
 		cp ${DEPLOY_DIR_IMAGE}/Image ${B}/${config}/Image
 		cp ${DEPLOY_DIR_IMAGE}/Image ${S}/Image
-		cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk.dtb ${B}/${config}/linux.dtb
-		cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk.dtb ${S}/linux.dtb
+
 		cp ${DEPLOY_DIR_IMAGE}/u-boot.txt ${B}/${config}/u-boot.txt
 		cp ${DEPLOY_DIR_IMAGE}/u-boot.txt ${S}/u-boot.txt
+
+		if ${@bb.utils.contains("IMAGE_TYPE", "n6000", "true", "false", d)} ; then
+			cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_n6000.dtb ${B}/socfpga_${MACHINE}_${IMAGE_TYPE}_defconfig/linux.dtb
+			cp ${DEPLOY_DIR_IMAGE}/bl31.bin ${B}/socfpga_${MACHINE}_${IMAGE_TYPE}_defconfig/bl31.bin
+			cp ${DEPLOY_DIR_IMAGE}/Image ${B}/socfpga_${MACHINE}_${IMAGE_TYPE}_defconfig/Image
+		else
+			cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk.dtb ${B}/${config}/linux.dtb
+			cp ${DEPLOY_DIR_IMAGE}/socfpga_${MACHINE}_socdk.dtb ${S}/linux.dtb
+		fi
 	fi
 }
 
@@ -45,18 +61,17 @@ do_deploy_append() {
 	install -m 644 ${B}/${config}/spl/u-boot-spl.dtb ${DEPLOYDIR}/u-boot-spl.dtb
 	install -m 644 ${B}/${config}/spl/u-boot-spl-dtb.bin ${DEPLOYDIR}/u-boot-spl-dtb.bin
 	install -m 644 ${B}/${config}/spl/u-boot-spl.map ${DEPLOYDIR}/u-boot-spl.map
-
 	if ${@bb.utils.contains("MACHINE", "n5x", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
 		install -m 744 ${B}/${config}/u-boot.fit.fit ${DEPLOYDIR}/u-boot.fit.fit
 		install -m 744 ${B}/${config}/u-boot.fit.itb ${DEPLOYDIR}/u-boot.fit.itb
 		install -m 744 ${B}/${config}/u-boot.itb ${DEPLOYDIR}/u-boot.itb
 		install -m 644 ${B}/${config}/spl/u-boot-spl-dtb.hex ${DEPLOYDIR}/u-boot-spl-dtb.hex
-
-		install -m 744 ${B}/${config}/kernel.fit.fit ${DEPLOYDIR}/kernel.fit.fit
-		install -m 744 ${B}/${config}/kernel.fit.itb ${DEPLOYDIR}/kernel.fit.itb
-		install -m 744 ${B}/${config}/kernel.itb ${DEPLOYDIR}/kernel.itb
-
-		install -m 744 ${B}/${config}/u-boot.scr ${DEPLOYDIR}/u-boot.scr
+		if ${@bb.utils.contains("IMAGE_TYPE", "n6000", "false", "true", d)} ; then
+			install -m 744 ${B}/${config}/kernel.fit.fit ${DEPLOYDIR}/kernel.fit.fit
+			install -m 744 ${B}/${config}/kernel.fit.itb ${DEPLOYDIR}/kernel.fit.itb
+			install -m 744 ${B}/${config}/kernel.itb ${DEPLOYDIR}/kernel.itb
+			install -m 744 ${B}/${config}/u-boot.scr ${DEPLOYDIR}/u-boot.scr
+		fi
 	fi
 }
 

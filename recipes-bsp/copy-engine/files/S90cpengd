@@ -1,0 +1,51 @@
+#! /bin/sh
+### BEGIN INIT INFO
+# Provides:             cpengd
+# Required-Start:       $remote_fs $time
+# Required-Stop:        $remote_fs $time
+# Default-Start:        2 3 4 5
+# Default-Stop:         0 1 6
+# Short-Description:    Copy engine verify/heartbeat
+### END INIT INFO
+
+set -e
+
+
+waitpid ()
+{
+  pid=$1
+  # Give pid a chance to exit before we restart with a 5s timeout in 1s intervals
+  if [ -z "$pid" ]; then
+    return
+  fi
+  timeout=5;
+  while [ $timeout -gt 0 ]
+  do
+    timeout=$(( $timeout-1 ))
+    kill -0 $pid 2> /dev/null || break
+    sleep 1
+  done
+}
+
+case "$1" in
+  start)
+	echo -n "Starting copy-engine: "
+	start-stop-daemon -S copy-engine -- --heartbeat
+	echo "done"
+	;;
+  stop)
+	echo -n "Stopping copy-engine: "
+	start-stop-daemon -K -n copy-engine
+	echo "done"
+	;;
+  restart)
+	pid1=`pidof copy-engine`
+	$0 stop
+	waitpid $pid1
+	$0 start
+	;;
+  *)
+	echo "Usage: cpengd { start | stop | restart }" >&2
+	exit 1
+	;;
+esac

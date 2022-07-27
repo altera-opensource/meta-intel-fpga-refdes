@@ -1,0 +1,178 @@
+From 2cc9958ced1591bb27c69e226c723727b20f3776 Mon Sep 17 00:00:00 2001
+From: Rodrigo Rojo <rodrigo.rojo@intel.com>
+Date: Fri, 15 Oct 2021 17:05:13 -0700
+Subject: [PATCH 1/5] HSD #14015124126: n6000: rename n6010 to n6000
+
+The name of the board is really the n6000; so change
+the filenames and documentation accordingly.
+When upstreamed, this patch should be squashed with
+83d2091167b9785b5cc471ff0c94dce9e019a66c.
+
+Signed-off-by: Rodrigo Rojo <rodrigo.rojo@intel.com>
+Acked-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+Acked-by: Tien Fong Chee <tien.fong.chee@intel.com>
+---
+ arch/arm/dts/Makefile                                  |  2 +-
+ ...10-u-boot.dtsi => socfpga_agilex_n6000-u-boot.dtsi} |  0
+ ...cfpga_agilex_n6010.dts => socfpga_agilex_n6000.dts} |  2 +-
+ arch/arm/mach-socfpga/Kconfig                          | 10 +++++-----
+ board/intel/{agilex-n6010 => agilex-n6000}/MAINTAINERS |  4 ++--
+ board/intel/{agilex-n6010 => agilex-n6000}/Makefile    |  0
+ board/intel/{agilex-n6010 => agilex-n6000}/plldata.c   |  0
+ board/intel/{agilex-n6010 => agilex-n6000}/plldata.h   |  0
+ board/intel/{agilex-n6010 => agilex-n6000}/socfpga.c   |  0
+ ..._n6010_defconfig => socfpga_agilex_n6000_defconfig} |  6 +++---
+ .../{socfpga_agilex_n6010.h => socfpga_agilex_n6000.h} |  0
+ 11 files changed, 12 insertions(+), 12 deletions(-)
+ rename arch/arm/dts/{socfpga_agilex_n6010-u-boot.dtsi => socfpga_agilex_n6000-u-boot.dtsi} (100%)
+ rename arch/arm/dts/{socfpga_agilex_n6010.dts => socfpga_agilex_n6000.dts} (95%)
+ rename board/intel/{agilex-n6010 => agilex-n6000}/MAINTAINERS (56%)
+ rename board/intel/{agilex-n6010 => agilex-n6000}/Makefile (100%)
+ rename board/intel/{agilex-n6010 => agilex-n6000}/plldata.c (100%)
+ rename board/intel/{agilex-n6010 => agilex-n6000}/plldata.h (100%)
+ rename board/intel/{agilex-n6010 => agilex-n6000}/socfpga.c (100%)
+ rename configs/{socfpga_agilex_n6010_defconfig => socfpga_agilex_n6000_defconfig} (92%)
+ rename include/configs/{socfpga_agilex_n6010.h => socfpga_agilex_n6000.h} (100%)
+
+diff --git a/arch/arm/dts/Makefile b/arch/arm/dts/Makefile
+index 818c46b7c4..4e25fbf6fa 100644
+--- a/arch/arm/dts/Makefile
++++ b/arch/arm/dts/Makefile
+@@ -400,7 +400,7 @@ dtb-$(CONFIG_TI816X) += dm8168-evm.dtb
+ dtb-$(CONFIG_THUNDERX) += thunderx-88xx.dtb
+ 
+ dtb-$(CONFIG_ARCH_SOCFPGA) +=				\
+-	socfpga_agilex_n6010.dtb			\
++	socfpga_agilex_n6000.dtb			\
+ 	socfpga_agilex_socdk.dtb			\
+ 	socfpga_agilex_socdk_nand.dtb                   \
+ 	socfpga_agilex_socdk_qspi.dtb			\
+diff --git a/arch/arm/dts/socfpga_agilex_n6010-u-boot.dtsi b/arch/arm/dts/socfpga_agilex_n6000-u-boot.dtsi
+similarity index 100%
+rename from arch/arm/dts/socfpga_agilex_n6010-u-boot.dtsi
+rename to arch/arm/dts/socfpga_agilex_n6000-u-boot.dtsi
+diff --git a/arch/arm/dts/socfpga_agilex_n6010.dts b/arch/arm/dts/socfpga_agilex_n6000.dts
+similarity index 95%
+rename from arch/arm/dts/socfpga_agilex_n6010.dts
+rename to arch/arm/dts/socfpga_agilex_n6000.dts
+index baf277b616..8778e4fdf2 100644
+--- a/arch/arm/dts/socfpga_agilex_n6010.dts
++++ b/arch/arm/dts/socfpga_agilex_n6000.dts
+@@ -5,7 +5,7 @@
+ #include "socfpga_agilex.dtsi"
+ 
+ / {
+-	model = "SoCFPGA Agilex n6010";
++	model = "SoCFPGA Agilex n6000";
+ 
+ 	aliases {
+ 		serial0 = &uart0;
+diff --git a/arch/arm/mach-socfpga/Kconfig b/arch/arm/mach-socfpga/Kconfig
+index 4aebd4b899..fd360c409d 100644
+--- a/arch/arm/mach-socfpga/Kconfig
++++ b/arch/arm/mach-socfpga/Kconfig
+@@ -103,8 +103,8 @@ config TARGET_SOCFPGA_N5X
+ 	select SPL_ALTERA_SDRAM
+ 	select SPL_CLK if SPL
+ 
+-config TARGET_SOCFPGA_AGILEX_N6010
+-	bool "Intel SOCFPGA n6010 (Agilex)"
++config TARGET_SOCFPGA_AGILEX_N6000
++	bool "Intel SOCFPGA n6000 (Agilex)"
+ 	select TARGET_SOCFPGA_AGILEX
+ 	select BINMAN if !SPL_ATF
+ 
+@@ -226,7 +226,7 @@ config TARGET_SOCFPGA_TERASIC_SOCKIT
+ endchoice
+ 
+ config SYS_BOARD
+-	default "agilex-n6010" if TARGET_SOCFPGA_AGILEX_N6010
++	default "agilex-n6000" if TARGET_SOCFPGA_AGILEX_N6000
+ 	default "agilex-socdk" if TARGET_SOCFPGA_AGILEX_SOCDK
+ 	default "arria5-socdk" if TARGET_SOCFPGA_ARRIA5_SOCDK
+ 	default "arria10-socdk" if TARGET_SOCFPGA_ARRIA10_SOCDK
+@@ -247,7 +247,7 @@ config SYS_BOARD
+ 	default "vining_fpga" if TARGET_SOCFPGA_SOFTING_VINING_FPGA
+ 
+ config SYS_VENDOR
+-	default "intel" if TARGET_SOCFPGA_AGILEX_N6010
++	default "intel" if TARGET_SOCFPGA_AGILEX_N6000
+ 	default "intel" if TARGET_SOCFPGA_AGILEX_SOCDK
+ 	default "intel" if TARGET_SOCFPGA_N5X_SOCDK
+ 	default "altera" if TARGET_SOCFPGA_ARRIA5_SOCDK
+@@ -268,7 +268,7 @@ config SYS_SOC
+ 	default "socfpga"
+ 
+ config SYS_CONFIG_NAME
+-	default "socfpga_agilex_n6010" if TARGET_SOCFPGA_AGILEX_N6010
++	default "socfpga_agilex_n6000" if TARGET_SOCFPGA_AGILEX_N6000
+ 	default "socfpga_agilex_socdk" if TARGET_SOCFPGA_AGILEX_SOCDK
+ 	default "socfpga_arria5_secu1" if TARGET_SOCFPGA_ARRIA5_SECU1
+ 	default "socfpga_arria5_socdk" if TARGET_SOCFPGA_ARRIA5_SOCDK
+diff --git a/board/intel/agilex-n6010/MAINTAINERS b/board/intel/agilex-n6000/MAINTAINERS
+similarity index 56%
+rename from board/intel/agilex-n6010/MAINTAINERS
+rename to board/intel/agilex-n6000/MAINTAINERS
+index 34313df931..a2542124ed 100644
+--- a/board/intel/agilex-n6010/MAINTAINERS
++++ b/board/intel/agilex-n6000/MAINTAINERS
+@@ -2,5 +2,5 @@ SOCFPGA BOARD
+ M:	Matthew Gerlach <matthew.gerlach@linux.intel.com>
+ S:	Maintained
+ F:	board/intel/agilex-acadp/
+-F:	include/configs/socfpga_agilex_n6010.h
+-F:	configs/socfpga_agilex_n6010_defconfig
++F:	include/configs/socfpga_agilex_n6000.h
++F:	configs/socfpga_agilex_n6000_defconfig
+diff --git a/board/intel/agilex-n6010/Makefile b/board/intel/agilex-n6000/Makefile
+similarity index 100%
+rename from board/intel/agilex-n6010/Makefile
+rename to board/intel/agilex-n6000/Makefile
+diff --git a/board/intel/agilex-n6010/plldata.c b/board/intel/agilex-n6000/plldata.c
+similarity index 100%
+rename from board/intel/agilex-n6010/plldata.c
+rename to board/intel/agilex-n6000/plldata.c
+diff --git a/board/intel/agilex-n6010/plldata.h b/board/intel/agilex-n6000/plldata.h
+similarity index 100%
+rename from board/intel/agilex-n6010/plldata.h
+rename to board/intel/agilex-n6000/plldata.h
+diff --git a/board/intel/agilex-n6010/socfpga.c b/board/intel/agilex-n6000/socfpga.c
+similarity index 100%
+rename from board/intel/agilex-n6010/socfpga.c
+rename to board/intel/agilex-n6000/socfpga.c
+diff --git a/configs/socfpga_agilex_n6010_defconfig b/configs/socfpga_agilex_n6000_defconfig
+similarity index 92%
+rename from configs/socfpga_agilex_n6010_defconfig
+rename to configs/socfpga_agilex_n6000_defconfig
+index f7fd358778..25bd0df1df 100644
+--- a/configs/socfpga_agilex_n6010_defconfig
++++ b/configs/socfpga_agilex_n6000_defconfig
+@@ -10,10 +10,10 @@ CONFIG_ENV_OFFSET=0x200
+ CONFIG_SYS_SPI_U_BOOT_OFFS=0x02000000
+ CONFIG_DM_GPIO=y
+ CONFIG_SPL_TEXT_BASE=0xFFE00000
+-CONFIG_TARGET_SOCFPGA_AGILEX_N6010=y
++CONFIG_TARGET_SOCFPGA_AGILEX_N6000=y
+ CONFIG_IDENT_STRING="socfpga_agilex"
+ CONFIG_SPL_FS_FAT=y
+-CONFIG_DEFAULT_DEVICE_TREE="socfpga_agilex_n6010"
++CONFIG_DEFAULT_DEVICE_TREE="socfpga_agilex_n6000"
+ CONFIG_FIT=y
+ CONFIG_SPL_LOAD_FIT=y
+ CONFIG_SPL_LOAD_FIT_ADDRESS=0x02000000
+@@ -22,7 +22,7 @@ CONFIG_ARMV8_PSCI=y
+ # CONFIG_USE_SPL_FIT_GENERATOR is not set
+ CONFIG_BOOTDELAY=3
+ CONFIG_USE_BOOTARGS=y
+-CONFIG_BOOTARGS="earlycon uio_pdrv_genirq.of_id=generic-uio"
++CONFIG_BOOTARGS="earlycon uio_pdrv_genirq.of_id=intel,hps-copy-engine"
+ CONFIG_USE_BOOTCOMMAND=y
+ CONFIG_BOOTCOMMAND="mw f9000158 1 ; bootm 0x02000000#linux_conf"
+ CONFIG_SPL_CACHE=y
+diff --git a/include/configs/socfpga_agilex_n6010.h b/include/configs/socfpga_agilex_n6000.h
+similarity index 100%
+rename from include/configs/socfpga_agilex_n6010.h
+rename to include/configs/socfpga_agilex_n6000.h
+-- 
+2.25.1
+

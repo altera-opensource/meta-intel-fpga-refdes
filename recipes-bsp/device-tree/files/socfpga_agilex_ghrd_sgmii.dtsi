@@ -115,10 +115,21 @@
 };
 
 &gmac1 {
-        altr,gmii-to-sgmii-converter = <&sgmii_1_gmii2sgmii>;
-        altr,gmii_to_sgmii_converter = <&sgmii_1_gmii2sgmii>;
-        phy-mode = "sgmii";
-        status = "okay";
+	altr,gmii-to-sgmii-converter = <&sgmii_1_gmii2sgmii>;
+	altr,gmii_to_sgmii_converter = <&sgmii_1_gmii2sgmii>;
+	phy-mode = "sgmii";
+	status = "okay";
+	phy-handle = <&phy1>;
+
+	mdio1 {
+		#address-cells = <1>;
+		#size-cells = <0>;
+		compatible = "snps,dwmac-mdio";
+		phy1: ethernet-phy@1 {
+			reg = <0>;
+			marvell,reg-init = <0 0x1a 0 0>;
+		};
+	};
 };
 
 

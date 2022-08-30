@@ -42,6 +42,15 @@ SRC_URI:append:stratix10 = " \
 
 COMPATIBLE_MACHINE:stratix10 = ".*"
 
+devicetree_do_install:append() {
+	if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
+		install -D -m 0644 ${WORKDIR}/socfpga_${MACHINE}_vanilla.dtb ${D}/boot/devicetree/socfpga_${MACHINE}_vanilla.dtb
+		if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)}; then
+			install -D -m 0644 ${WORKDIR}/socfpga_agilex_socdk_pr.dtb ${D}/boot/devicetree/socfpga_agilex_socdk_pr.dtb
+		fi
+	fi
+}
+
 devicetree_do_deploy:append() {
 	if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
 		install -D -m 0644 ${WORKDIR}/socfpga_${MACHINE}_vanilla.dtb ${DEPLOYDIR}/devicetree/socfpga_${MACHINE}_vanilla.dtb

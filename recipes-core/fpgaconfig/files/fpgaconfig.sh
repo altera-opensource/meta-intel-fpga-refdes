@@ -20,32 +20,62 @@ if [ ! -e /sys/kernel/config/device-tree/overlays ]; then
         exit -1
 fi
 
+# fpga_static_region
 if [ "$1" == "fpga_static_region.dtbo" ]; then
-	if [ "$2" == "start" ]; then
-        dtbt -p /boot -a fpga_static_region.dtbo
-	elif [ "$2" == "stop" ]; then
-		dtbt -p /boot -r fpga_static_region.dtbo
+	if [ "`cat /etc/hostname`" == "arria10" ]; then
+		if [ "$2" == "start" ]; then
+			dtbt -p /boot -a fpga_static_region.dtbo
+		elif [ "$2" == "stop" ]; then
+			dtbt -p /boot -r fpga_static_region.dtbo
+		else
+			:
+		fi
 	else
-		:
-	fi
+		if [ "$2" == "start" ]; then
+			dtbt -p /boot/devicetree -a fpga_static_region.dtbo
+		elif [ "$2" == "stop" ]; then
+			dtbt -p /boot/devicetree -r fpga_static_region.dtbo
+		else
+			:
+		fi
 fi
 
+# persona0
 if [ "$1" == "persona0.dtbo" ]; then
-	if [ "$2" == "start" ]; then
-        dtbt -p /boot -a persona0.dtbo
-	elif [ "$2" == "stop" ]; then
-		dtbt -p /boot -r persona0.dtbo
+	if [ "`cat /etc/hostname`" == "arria10" ]; then
+		if [ "$2" == "start" ]; then
+			dtbt -p /boot -a persona0.dtbo
+		elif [ "$2" == "stop" ]; then
+			dtbt -p /boot -r persona0.dtbo
+		else
+			:
+		fi
 	else
-		:
-	fi
+		if [ "$2" == "start" ]; then
+			dtbt -p /boot/devicetree -a persona0.dtbo
+		elif [ "$2" == "stop" ]; then
+			dtbt -p /boot/devicetree -r persona0.dtbo
+		else
+			:
+		fi
 fi
 
+# persona1
 if [ "$1" == "persona1.dtbo" ]; then
-	if [ "$2" == "start" ]; then
-        dtbt -p /boot -a persona1.dtbo
-	elif [ "$2" == "stop" ]; then
-		dtbt -p /boot -r persona1.dtbo
+	if [ "`cat /etc/hostname`" == "arria10" ]; then
+		if [ "$2" == "start" ]; then
+			dtbt -p /boot -a persona1.dtbo
+		elif [ "$2" == "stop" ]; then
+			dtbt -p /boot -r persona1.dtbo
+		else
+			:
+		fi
 	else
-		:
-	fi
+		if [ "$2" == "start" ]; then
+			dtbt -p /boot/devicetree -a persona1.dtbo
+		elif [ "$2" == "stop" ]; then
+			dtbt -p /boot/devicetree -r persona1.dtbo
+		else
+			:
+		fi
 fi

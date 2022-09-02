@@ -9,7 +9,7 @@ Dependencies
     * meta-networking
     * meta-oe
     * meta-python
-* meta-intel-fpga (https://git.yoctoproject.org/git/meta-intel-fpga)
+* meta-intel-fpga (https://git.yoctoproject.org/meta-intel-fpga)
 
 Supported U-Boot and Linux Kernels
 ==================================

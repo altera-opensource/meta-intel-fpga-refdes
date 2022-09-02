@@ -17,11 +17,7 @@ PROVIDES = "virtual/dtb"
 
 SRC_URI:append:agilex = " \
 					file://socfpga_agilex_ghrd_sgmii.dtsi \
-					file://socfpga_agilex.dtsi \
-					file://socfpga_agilex_socdk.dts \
-					file://socfpga_agilex_socdk_nand.dts \
-					file://socfpga_agilex_socdk_pr.dtb \
-					file://socfpga_agilex_vanilla.dtb \
+					file://socfpga_agilex_ghrd.dtsi \
 					file://agilex_pr_fpga_static_region.dts \
 					file://agilex_pr_persona0.dts \
 					file://agilex_pr_persona1.dts \
@@ -29,12 +25,8 @@ SRC_URI:append:agilex = " \
 COMPATIBLE_MACHINE:agilex = ".*"
 
 SRC_URI:append:stratix10 = " \
-					file://socfpga_stratix10.dtsi \
-					file://socfpga_stratix10_qse_pcie_sgmii_ghrd.dtsi \
-					file://socfpga_stratix10_socdk.dts \
-					file://socfpga_stratix10_qse_pcie_sgmii_ghrd_nand.dtsi \
-					file://socfpga_stratix10_socdk_nand.dts \
-					file://socfpga_stratix10_vanilla.dtb \
+					file://socfpga_stratix10_qse_sgmii_ghrd.dtsi \
+					file://socfpga_stratix10_qse_sgmii_ghrd_nand.dtsi \
 					file://stratix10_pr_fpga_static_region.dts \
 					file://stratix10_pr_persona0.dts \
 					file://stratix10_pr_persona1.dts \
@@ -42,20 +34,36 @@ SRC_URI:append:stratix10 = " \
 
 COMPATIBLE_MACHINE:stratix10 = ".*"
 
-devicetree_do_install:append() {
-	if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
-		install -D -m 0644 ${WORKDIR}/socfpga_${MACHINE}_vanilla.dtb ${D}/boot/devicetree/socfpga_${MACHINE}_vanilla.dtb
-		if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)}; then
-			install -D -m 0644 ${WORKDIR}/socfpga_agilex_socdk_pr.dtb ${D}/boot/devicetree/socfpga_agilex_socdk_pr.dtb
-		fi
-	fi
+do_configure[depends] += "virtual/kernel:do_configure"
+
+do_configure:append:agilex() {
+	# Vanilla DTB Generation
+	cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex_socdk.dts ${WORKDIR}/socfpga_agilex_vanilla.dts
+	cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex.dtsi ${WORKDIR}
+
+	# GSRD DTB Generation
+	# MMC, QSPI
+	cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex_socdk.dts ${WORKDIR}
+	sed -i '/\#include \"socfpga_agilex.dtsi\"/a \#include \"socfpga_agilex_ghrd_sgmii.dtsi\"' ${WORKDIR}/socfpga_agilex_socdk.dts
+	# NAND
+	cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex_socdk_nand.dts ${WORKDIR}
+	sed -i '/\#include \"socfpga_agilex.dtsi\"/a \#include \"socfpga_agilex_ghrd_sgmii.dtsi\"' ${WORKDIR}/socfpga_agilex_socdk_nand.dts
+	# PR
+	cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex_socdk.dts ${WORKDIR}/socfpga_agilex_socdk_pr.dts
+	sed -i '/\#include \"socfpga_agilex.dtsi\"/a \#include \"socfpga_agilex_ghrd.dtsi\"' ${WORKDIR}/socfpga_agilex_socdk_pr.dts
 }
 
-devicetree_do_deploy:append() {
-	if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
-		install -D -m 0644 ${WORKDIR}/socfpga_${MACHINE}_vanilla.dtb ${DEPLOYDIR}/devicetree/socfpga_${MACHINE}_vanilla.dtb
-		if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)}; then
-			install -D -m 0644 ${WORKDIR}/socfpga_agilex_socdk_pr.dtb ${DEPLOYDIR}/devicetree/socfpga_agilex_socdk_pr.dtb
-		fi
-	fi
+do_configure:append:stratix10() {
+	# Vanilla DTB Generation
+	cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/altera/socfpga_stratix10_socdk.dts ${WORKDIR}/socfpga_stratix10_vanilla.dts
+	cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/altera/socfpga_stratix10.dtsi ${WORKDIR}
+
+	# GSRD DTB Generation
+	# MMC, QSPI
+	cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/altera/socfpga_stratix10_socdk.dts ${WORKDIR}
+	sed -i '/\#include \"socfpga_stratix10.dtsi\"/a \#include \"socfpga_stratix10_qse_sgmii_ghrd.dtsi\"' ${WORKDIR}/socfpga_stratix10_socdk.dts
+	sed -i '/\#include \"socfpga_stratix10_qse.dtsi\"/d' ${WORKDIR}/socfpga_stratix10_socdk.dts
+	# NAND
+	cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/altera/socfpga_stratix10_socdk_nand.dts ${WORKDIR}
+	sed -i '/\#include \"socfpga_stratix10.dtsi\"/a \#include \"socfpga_stratix10_qse_sgmii_ghrd_nand.dtsi\"' ${WORKDIR}/socfpga_stratix10_socdk_nand.dts
 }

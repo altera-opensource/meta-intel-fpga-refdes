@@ -9,6 +9,10 @@ SRC_URI:append:agilex = " \
 			 file://fit_kernel_agilex.its \
 			 "
 
+SRC_URI:append:agilex_fm87 = " \
+			 file://fit_kernel_agilex_fm87.its \
+			 "
+
 SRC_URI:append:stratix10 = " \
 			 file://fit_kernel_stratix10.its \
 			 "
@@ -38,19 +42,19 @@ LINUXDEPLOYDIR = "${WORKDIR}/deploy-${PN}"
 DTBDEPLOYDIR = "${DEPLOY_DIR_IMAGE}/devicetree"
 
 do_deploy:append() {
-	if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)} ; then
+	if [[ "${MACHINE}" == *"agilex"* ]] || [[ "${MACHINE}" == "stratix10" ]]; then
 		# linux.dtb
 		cp ${DTBDEPLOYDIR}/socfpga_${MACHINE}_socdk.dtb ${B}/socfpga_${MACHINE}_socdk.dtb
-		cp ${DTBDEPLOYDIR}/socfpga_${MACHINE}_socdk_nand.dtb ${B}/socfpga_${MACHINE}_socdk_nand.dtb
 		cp ${DTBDEPLOYDIR}/socfpga_${MACHINE}_vanilla.dtb ${B}/socfpga_${MACHINE}_vanilla.dtb
-		if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} ; then
+		if [[ "${MACHINE}" == "agilex" ]]; then
+			cp ${DTBDEPLOYDIR}/socfpga_${MACHINE}_socdk_nand.dtb ${B}/socfpga_${MACHINE}_socdk_nand.dtb
 			cp ${DTBDEPLOYDIR}/socfpga_${MACHINE}_socdk_pr.dtb ${B}/socfpga_${MACHINE}_socdk_pr.dtb
 		fi
 
 		# core.rbf
 		cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd.core.rbf ${B}/ghrd.core.rbf
-		cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/nand.core.rbf ${B}/nand.core.rbf
-		if ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} ; then
+		if [ "${MACHINE}" = "agilex" ]; then
+			cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/nand.core.rbf ${B}/nand.core.rbf
 			cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd_pr.core.rbf ${B}/ghrd_pr.core.rbf
 		fi
 

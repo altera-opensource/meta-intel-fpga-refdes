@@ -10,6 +10,7 @@ inherit deploy nopackages
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 SRC_URI:agilex = "file://uboot.txt file://uboot_script.its"
+SRC_URI:agilex_fm87 = "file://uboot.txt file://uboot_script.its"
 SRC_URI:stratix10 = "file://uboot.txt file://uboot_script.its"
 SRC_URI:arria10 = "file://arria10_u-boot.txt"
 SRC_URI:cyclone5 = "file://cyclone5_u-boot.txt"
@@ -23,6 +24,10 @@ do_compile:n5x() {
 }
 
 do_compile:agilex() {
+	mkimage -f "${WORKDIR}/uboot_script.its" ${WORKDIR}/boot.scr.uimg
+}
+
+do_compile:agilex_fm87() {
 	mkimage -f "${WORKDIR}/uboot_script.its" ${WORKDIR}/boot.scr.uimg
 }
 
@@ -40,13 +45,13 @@ do_compile:arria10() {
 
 do_deploy() {
 	install -d ${DEPLOYDIR}
-	if ${@bb.utils.contains("MACHINE", "arria10", "true", "false", d)}; then
+	if [[ "${MACHINE}" == "arria10" ]]; then
 		install -m 0755 ${WORKDIR}/${MACHINE}_u-boot.txt ${DEPLOYDIR}/u-boot.txt
 		install -m 0644 ${WORKDIR}/boot.scr ${DEPLOYDIR}/boot.scr
-	elif ${@bb.utils.contains("MACHINE", "agilex", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)}; then
+	elif [[ "${MACHINE}" == *"agilex"* ]] || [[ "${MACHINE}" == "stratix10" ]]; then
 		install -m 0755 ${WORKDIR}/uboot.txt ${DEPLOYDIR}/u-boot.txt
 		install -m 0644 ${WORKDIR}/boot.scr.uimg ${DEPLOYDIR}/boot.scr.uimg
-	elif ${@bb.utils.contains("MACHINE", "n5x", "true", "false", d)} || ${@bb.utils.contains("MACHINE", "cyclone5", "true", "false", d)}; then
+	elif [[ "${MACHINE}" == "n5x" ]] || [[ "${MACHINE}" == "cyclone5" ]]; then
 		install -m 0755 ${WORKDIR}/${MACHINE}_u-boot.txt ${DEPLOYDIR}/u-boot.txt
 		install -m 0644 ${WORKDIR}/u-boot.scr ${DEPLOYDIR}/u-boot.scr
 	else

@@ -28,7 +28,7 @@ arria10)
 stratix10)
 	DEVKIT_NAME="Stratix 10 SoC Development Kit"
 	;;
-agilex)
+*agilex*)
 	DEVKIT_NAME="Agilex SoC Development Kit"
 	;;
 undef)
@@ -101,7 +101,7 @@ echo -e "<ul>"
         echo -e "<li><a href=\"http://www.rocketboards.org\" target=\"_blank\">Rocketboards.org</a></li> "
 echo -e "</ul>"
 echo -e "</div>"
-elif [ "$MACHINE" == "agilex" ]; then
+elif [[ "$MACHINE" =~ "agilex" ]]; then
 echo -e "<div class=\"bup-links\">"
 echo -e "<h4>Developer Resources</h4>"
 echo -e "<ul>"
@@ -128,7 +128,7 @@ elif [ "$MACHINE" == "arria10" ]; then
 elif [ "$MACHINE" == "stratix10" ]; then
 	echo -e "<span><strong><h1>$DEVKIT_NAME Features</h1></strong><br/></span>"
         echo -e "<div><img src=\"../stratix10-board-image.jpg\" style=\"width:640px;height:478px;\"></div>"
-elif [ "$MACHINE" == "agilex" ]; then
+elif [[ "$MACHINE" =~ "agilex" ]]; then
 	echo -e "<span><strong><h1>$DEVKIT_NAME Features</h1></strong><br/></span>"
         echo -e "<div><img src=\"../agilex-board-image.jpg\" style=\"width:640px;height:478px;\"></div>"
 fi

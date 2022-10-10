@@ -15,6 +15,8 @@ inherit devicetree
 
 PROVIDES = "virtual/dtb"
 
+COMPATIBLE_MACHINE = "(agilex|agilex_fm87|stratix10)"
+
 SRC_URI:append:agilex = " \
 					file://socfpga_agilex_ghrd_sgmii.dtsi \
 					file://socfpga_agilex_ghrd.dtsi \
@@ -22,7 +24,10 @@ SRC_URI:append:agilex = " \
 					file://agilex_pr_persona0.dts \
 					file://agilex_pr_persona1.dts \
 					"
-COMPATIBLE_MACHINE:agilex = ".*"
+
+SRC_URI:append:agilex_fm87 = " \
+					file://socfpga_agilex_ghrd.dtsi \
+					"
 
 SRC_URI:append:stratix10 = " \
 					file://socfpga_stratix10_qse_sgmii_ghrd.dtsi \
@@ -32,25 +37,35 @@ SRC_URI:append:stratix10 = " \
 					file://stratix10_pr_persona1.dts \
 					"
 
-COMPATIBLE_MACHINE:stratix10 = ".*"
-
 do_configure[depends] += "virtual/kernel:do_configure"
 
-do_configure:append:agilex() {
-	# Vanilla DTB Generation
-	cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex_socdk.dts ${WORKDIR}/socfpga_agilex_vanilla.dts
-	cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex.dtsi ${WORKDIR}
+do_configure:append() {
+	if [[ "${MACHINE}" == *"agilex"* ]]; then
+		# Vanilla DTB Generation
+		cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex_socdk.dts ${WORKDIR}/socfpga_${MACHINE}_vanilla.dts
+		cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex.dtsi ${WORKDIR}/socfpga_${MACHINE}.dtsi
 
-	# GSRD DTB Generation
-	# MMC, QSPI
-	cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex_socdk.dts ${WORKDIR}
-	sed -i '/\#include \"socfpga_agilex.dtsi\"/a \#include \"socfpga_agilex_ghrd_sgmii.dtsi\"' ${WORKDIR}/socfpga_agilex_socdk.dts
-	# NAND
-	cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex_socdk_nand.dts ${WORKDIR}
-	sed -i '/\#include \"socfpga_agilex.dtsi\"/a \#include \"socfpga_agilex_ghrd_sgmii.dtsi\"' ${WORKDIR}/socfpga_agilex_socdk_nand.dts
-	# PR
-	cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex_socdk.dts ${WORKDIR}/socfpga_agilex_socdk_pr.dts
-	sed -i '/\#include \"socfpga_agilex.dtsi\"/a \#include \"socfpga_agilex_ghrd.dtsi\"' ${WORKDIR}/socfpga_agilex_socdk_pr.dts
+		# FM61
+		if [[ "${MACHINE}" == "agilex" ]]; then
+			# GSRD DTB Generation
+			# MMC, QSPI
+			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex_socdk.dts ${WORKDIR}/socfpga_${MACHINE}_socdk.dts
+			sed -i '/\#include \"socfpga_agilex.dtsi\"/a \#include \"socfpga_agilex_ghrd_sgmii.dtsi\"' ${WORKDIR}/socfpga_${MACHINE}_socdk.dts
+			# NAND
+			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex_socdk_nand.dts ${WORKDIR}/socfpga_${MACHINE}_socdk_nand.dts
+			sed -i '/\#include \"socfpga_agilex.dtsi\"/a \#include \"socfpga_agilex_ghrd_sgmii.dtsi\"' ${WORKDIR}/socfpga_${MACHINE}_socdk_nand.dts
+			# PR
+			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex_socdk.dts ${WORKDIR}/socfpga_agilex_socdk_pr.dts
+			sed -i '/\#include \"socfpga_agilex.dtsi\"/a \#include \"socfpga_agilex_ghrd.dtsi\"' ${WORKDIR}/socfpga_agilex_socdk_pr.dts
+		fi
+		# FM87
+		if [[ "${MACHINE}" == "agilex_fm87" ]]; then
+			# GSRD DTB Generation
+			# MMC
+			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex_socdk.dts ${WORKDIR}/socfpga_${MACHINE}_socdk.dts
+			sed -i '/\#include \"socfpga_agilex.dtsi\"/a \#include \"socfpga_agilex_ghrd.dtsi\"' ${WORKDIR}/socfpga_${MACHINE}_socdk.dts
+		fi
+	fi
 }
 
 do_configure:append:stratix10() {

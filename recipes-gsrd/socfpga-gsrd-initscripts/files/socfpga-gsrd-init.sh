@@ -27,7 +27,7 @@ if [ "$(cat /sys/class/fpga_manager/fpga0/state)" == "operating" ]; then
 elif [ "`cat /etc/hostname`" == "stratix10" ]; then
 	/www/pages/cgi-bin/scroll_server &
 
-elif [ "`cat /etc/hostname`" == "agilex" ]; then
+elif [[ "`cat /etc/hostname`" =~ "agilex" ]]; then
 	/www/pages/cgi-bin/scroll_server &
 else
 	echo "machine not found"

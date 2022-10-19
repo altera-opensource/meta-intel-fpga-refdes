@@ -5,17 +5,11 @@ FILESEXTRAPATHS:prepend := "${THISDIR}/linux-socfpga-lts:"
 
 DEPENDS = "u-boot-mkimage-native dtc-native"
 
-SRC_URI:append:agilex = " \
-			 file://fit_kernel_agilex.its \
-			 "
+SRC_URI:append:agilex = " file://fit_kernel_agilex.its"
+SRC_URI:append:agilex_fm87 = " file://fit_kernel_agilex_fm87.its"
+SRC_URI:append:agilex_fm86 = " file://fit_kernel_agilex_fm86.its"
 
-SRC_URI:append:agilex_fm87 = " \
-			 file://fit_kernel_agilex_fm87.its \
-			 "
-
-SRC_URI:append:stratix10 = " \
-			 file://fit_kernel_stratix10.its \
-			 "
+SRC_URI:append:stratix10 = " file://fit_kernel_stratix10.its"
 
 SRC_URI:append:arria10 = " \
 			${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://0001-socfpga_arria10_socdk-include-reference-design-dtsi.patch", "", d)} \

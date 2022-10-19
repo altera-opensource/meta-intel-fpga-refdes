@@ -31,6 +31,10 @@ SRC_URI:agilex_fm87 ?= "\
 		${GHRD_REPO}/agilex_fm87_gsrd_${ARM64_GHRD_CORE_RBF};name=agilex_fm87_gsrd_core \
 		"
 
+SRC_URI:agilex_fm86 ?= "\
+		${GHRD_REPO}/agilex_fm86_gsrd_${ARM64_GHRD_CORE_RBF};name=agilex_fm86_gsrd_core \
+		"
+
 SRC_URI:stratix10 ?= "\
 		${GHRD_REPO}/stratix10_gsrd_${ARM64_GHRD_CORE_RBF};name=stratix10_gsrd_core \
 		${GHRD_REPO}/stratix10_nand_${ARM64_GHRD_CORE_RBF};name=stratix10_nand_core \
@@ -55,6 +59,7 @@ SRC_URI[agilex_pr_persona0.sha256sum] = "f7c2d3f2a81128c9d01c9b768daec3dea9b3c63
 SRC_URI[agilex_pr_persona1.sha256sum] = "5098d667a5b08bbf6a7541d2b2ed669ea3fc535f1b699989a866c536e55a8951"
 
 SRC_URI[agilex_fm87_gsrd_core.sha256sum] = "492e8d6395a63297966de33c82e03079b044fde4e023951527eb97e11532329c"
+SRC_URI[agilex_fm86_gsrd_core.sha256sum] = "492e8d6395a63297966de33c82e03079b044fde4e023951527eb97e11532329c"
 
 SRC_URI[stratix10_gsrd_core.sha256sum] = "35eeb11af3e77c74585a9b17377e4fed13b5dce5e3c619828032063e8927ca88"
 SRC_URI[stratix10_nand_core.sha256sum] = "8bdc602e830eba8a72eb09f491f0184e0f34985f1a889d595f576224e9ed35d4"

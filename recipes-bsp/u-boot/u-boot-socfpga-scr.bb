@@ -11,6 +11,7 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 SRC_URI:agilex = "file://uboot.txt file://uboot_script.its"
 SRC_URI:agilex_fm87 = "file://uboot.txt file://uboot_script.its"
+SRC_URI:agilex_fm86 = "file://uboot.txt file://uboot_script.its"
 SRC_URI:stratix10 = "file://uboot.txt file://uboot_script.its"
 SRC_URI:arria10 = "file://arria10_u-boot.txt"
 SRC_URI:cyclone5 = "file://cyclone5_u-boot.txt"
@@ -23,12 +24,10 @@ do_compile:n5x() {
 	mkimage -A arm -O linux -T script -C none -a 0 -e 0 -n "N5X Script" -d "${WORKDIR}/${MACHINE}_u-boot.txt" ${WORKDIR}/u-boot.scr
 }
 
-do_compile:agilex() {
-	mkimage -f "${WORKDIR}/uboot_script.its" ${WORKDIR}/boot.scr.uimg
-}
-
-do_compile:agilex_fm87() {
-	mkimage -f "${WORKDIR}/uboot_script.its" ${WORKDIR}/boot.scr.uimg
+do_compile() {
+	if [[ "${MACHINE}" == *"agilex"* ]]; then
+		mkimage -f "${WORKDIR}/uboot_script.its" ${WORKDIR}/boot.scr.uimg
+	fi
 }
 
 do_compile:stratix10() {

@@ -7,7 +7,7 @@
 /{
 	soc {
 
-		led_pio: gpio@1080 {
+		led_pio: gpio@f9001080 {
 				compatible = "altr,pio-1.0";
 				reg = <0xf9001080 0x8>;
 				altr,gpio-bank-width = <4>;
@@ -16,7 +16,7 @@
 				resetvalue = <0>;
 		};
 
-		button_pio: gpio@1060 {
+		button_pio: gpio@f9001060 {
 				compatible = "altr,pio-1.0";
 				reg = <0xf9001060 0x10>;
 				interrupt-parent = <&intc>;
@@ -28,7 +28,7 @@
 				gpio-controller;
 		};
 
-		dipsw_pio: gpio@1070 {
+		dipsw_pio: gpio@f9001070 {
 				compatible = "altr,pio-1.0";
 				reg = <0xf9001070 0x10>;
 				interrupt-parent = <&intc>;
@@ -40,7 +40,7 @@
 				gpio-controller;
 		};
 
-		trigger_pio: gpio@1040 {
+		trigger_pio: gpio@f9001040 {
 				compatible = "altr,pio-1.0";
 				reg = <0xf9001040 0x20>;
 				altr,gpio-bank-width = <4>;

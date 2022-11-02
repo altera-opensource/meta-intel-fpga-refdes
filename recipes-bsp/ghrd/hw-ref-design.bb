@@ -79,7 +79,7 @@ SRC_URI[arria10_tse_core.sha256sum] = "7c41078e9f0dedb96a03262a5f71c4e7238a5baec
 SRC_URI[arria10_tse_periph.sha256sum] = "a7ca9d17f068feeadf242b53b7ddcc9246f92031780f01880a1a4359b251f134"
 SRC_URI[arria10_tse_hps_xml.sha256sum] = "bb70e367cbcf2653733ee1c693d51bada80f2e520f0db2d2aedeab42369e0982"
 
-SRC_URI[cyclone5_gsrd_core.sha256sum] = "6c3bc32e8f336846c6b4b40bb7785e76f7fc8210821e71dd017be76aa673551c"
+SRC_URI[cyclone5_gsrd_core.sha256sum] = "66aba3b771153b63e54373bbc526b86236a07e0bef84d4a0cc3b5559c1b0af55"
 
 S ?= "${WORKDIR}/${MACHINE}"
 

@@ -19,12 +19,12 @@ A10_GHRD_CORE_RBF = "ghrd_10as066n2.core.rbf"
 A10_GHRD_PERIPH_RBF = "ghrd_10as066n2.periph.rbf"
 C5_GHRD_CORE_RBF = "soc_system.rbf"
 
-SRC_URI:agilex ?= "\
-		${GHRD_REPO}/agilex_gsrd_${ARM64_GHRD_CORE_RBF};name=agilex_gsrd_core \
-		${GHRD_REPO}/agilex_nand_${ARM64_GHRD_CORE_RBF};name=agilex_nand_core \
-		${GHRD_REPO}/agilex_pr_${ARM64_GHRD_CORE_RBF};name=agilex_pr_core \
-		${GHRD_REPO}/agilex_pr_persona0.rbf;name=agilex_pr_persona0 \
-		${GHRD_REPO}/agilex_pr_persona1.rbf;name=agilex_pr_persona1 \
+SRC_URI:agilex_fm61 ?= "\
+		${GHRD_REPO}/agilex_fm61_gsrd_${ARM64_GHRD_CORE_RBF};name=agilex_fm61_gsrd_core \
+		${GHRD_REPO}/agilex_fm61_nand_${ARM64_GHRD_CORE_RBF};name=agilex_fm61_nand_core \
+		${GHRD_REPO}/agilex_fm61_pr_${ARM64_GHRD_CORE_RBF};name=agilex_fm61_pr_core \
+		${GHRD_REPO}/agilex_fm61_pr_persona0.rbf;name=agilex_fm61_pr_persona0 \
+		${GHRD_REPO}/agilex_fm61_pr_persona1.rbf;name=agilex_fm61_pr_persona1 \
 		"
 
 SRC_URI:agilex_fm87 ?= "\
@@ -52,11 +52,11 @@ SRC_URI:arria10 ?= "\
 
 SRC_URI:cyclone5 ?= "${GHRD_REPO}/cyclone5_${IMAGE_TYPE}_${C5_GHRD_CORE_RBF};name=cyclone5_${IMAGE_TYPE}_core"
 
-SRC_URI[agilex_gsrd_core.sha256sum] = "492e8d6395a63297966de33c82e03079b044fde4e023951527eb97e11532329c"
-SRC_URI[agilex_nand_core.sha256sum] = "4946ad0c5f0f84f25c69840d557160806ff5692f30e1c36e5fca9bc6a9a678ba"
-SRC_URI[agilex_pr_core.sha256sum] = "1079e6a8d5dcffc2cd393d1e2d6a7bbe9e247f207b26eebfa81e63a7222a8c93"
-SRC_URI[agilex_pr_persona0.sha256sum] = "f7c2d3f2a81128c9d01c9b768daec3dea9b3c63d1558106e75de1a7f862c2ac9"
-SRC_URI[agilex_pr_persona1.sha256sum] = "5098d667a5b08bbf6a7541d2b2ed669ea3fc535f1b699989a866c536e55a8951"
+SRC_URI[agilex_fm61_gsrd_core.sha256sum] = "492e8d6395a63297966de33c82e03079b044fde4e023951527eb97e11532329c"
+SRC_URI[agilex_fm61_nand_core.sha256sum] = "4946ad0c5f0f84f25c69840d557160806ff5692f30e1c36e5fca9bc6a9a678ba"
+SRC_URI[agilex_fm61_pr_core.sha256sum] = "1079e6a8d5dcffc2cd393d1e2d6a7bbe9e247f207b26eebfa81e63a7222a8c93"
+SRC_URI[agilex_fm61_pr_persona0.sha256sum] = "f7c2d3f2a81128c9d01c9b768daec3dea9b3c63d1558106e75de1a7f862c2ac9"
+SRC_URI[agilex_fm61_pr_persona1.sha256sum] = "5098d667a5b08bbf6a7541d2b2ed669ea3fc535f1b699989a866c536e55a8951"
 
 SRC_URI[agilex_fm87_gsrd_core.sha256sum] = "492e8d6395a63297966de33c82e03079b044fde4e023951527eb97e11532329c"
 SRC_URI[agilex_fm86_gsrd_core.sha256sum] = "492e8d6395a63297966de33c82e03079b044fde4e023951527eb97e11532329c"
@@ -108,7 +108,7 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 do_install () {
 	if [[ "${MACHINE}" == *"agilex"* ]]; then
 		install -D -m 0644 ${WORKDIR}/${MACHINE}_gsrd_${ARM64_GHRD_CORE_RBF} ${D}/boot/${ARM64_GHRD_CORE_RBF}
-		if [[ "${MACHINE}" == "agilex" ]]; then
+		if [[ "${MACHINE}" == "agilex_fm61" ]]; then
 			install -D -m 0644 ${WORKDIR}/${MACHINE}_nand_${ARM64_GHRD_CORE_RBF} ${D}/boot/nand.core.rbf
 			install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_${ARM64_GHRD_CORE_RBF} ${D}/boot/ghrd_pr.core.rbf
 			install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_persona0.rbf ${D}${base_libdir}/firmware/persona0.rbf
@@ -136,7 +136,7 @@ do_install () {
 do_deploy () {
 	if [[ "${MACHINE}" == *"agilex"* ]]; then
 		install -D -m 0644 ${WORKDIR}/${MACHINE}_gsrd_${ARM64_GHRD_CORE_RBF} ${DEPLOYDIR}/${MACHINE}_gsrd_ghrd/${ARM64_GHRD_CORE_RBF}
-		if [[ "${MACHINE}" == "agilex" ]]; then
+		if [[ "${MACHINE}" == "agilex_fm61" ]]; then
 			install -D -m 0644 ${WORKDIR}/${MACHINE}_nand_${ARM64_GHRD_CORE_RBF} ${DEPLOYDIR}/${MACHINE}_${IMAGE_TYPE}_ghrd/nand.core.rbf
 			install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_${ARM64_GHRD_CORE_RBF} ${DEPLOYDIR}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd_pr.core.rbf
 			install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_persona0.rbf ${DEPLOYDIR}/${MACHINE}_${IMAGE_TYPE}_ghrd/persona0.rbf

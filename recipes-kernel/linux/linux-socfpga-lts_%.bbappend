@@ -5,7 +5,7 @@ FILESEXTRAPATHS:prepend := "${THISDIR}/linux-socfpga-lts:"
 
 DEPENDS = "u-boot-mkimage-native dtc-native"
 
-SRC_URI:append:agilex = " file://fit_kernel_agilex.its"
+SRC_URI:append:agilex_fm61 = " file://fit_kernel_agilex_fm61.its"
 SRC_URI:append:agilex_fm87 = " file://fit_kernel_agilex_fm87.its"
 SRC_URI:append:agilex_fm86 = " file://fit_kernel_agilex_fm86.its"
 
@@ -40,14 +40,14 @@ do_deploy:append() {
 		# linux.dtb
 		cp ${DTBDEPLOYDIR}/socfpga_${MACHINE}_socdk.dtb ${B}/socfpga_${MACHINE}_socdk.dtb
 		cp ${DTBDEPLOYDIR}/socfpga_${MACHINE}_vanilla.dtb ${B}/socfpga_${MACHINE}_vanilla.dtb
-		if [[ "${MACHINE}" == "agilex" ]]; then
+		if [[ "${MACHINE}" == "agilex_fm61" ]]; then
 			cp ${DTBDEPLOYDIR}/socfpga_${MACHINE}_socdk_nand.dtb ${B}/socfpga_${MACHINE}_socdk_nand.dtb
 			cp ${DTBDEPLOYDIR}/socfpga_${MACHINE}_socdk_pr.dtb ${B}/socfpga_${MACHINE}_socdk_pr.dtb
 		fi
 
 		# core.rbf
 		cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd.core.rbf ${B}/ghrd.core.rbf
-		if [ "${MACHINE}" = "agilex" ]; then
+		if [ "${MACHINE}" = "agilex_fm61" ]; then
 			cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/nand.core.rbf ${B}/nand.core.rbf
 			cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd_pr.core.rbf ${B}/ghrd_pr.core.rbf
 		fi

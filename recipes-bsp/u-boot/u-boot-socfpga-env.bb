@@ -9,7 +9,7 @@ DEPENDS = "u-boot-mkenvimage-native"
 inherit deploy nopackages
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
-SRC_URI:agilex = "\
+SRC_URI:agilex_fm61 = "\
 			 ${@bb.utils.contains("UBOOT_CONFIG", "agilex-socdk", "file://agilex-socdk_u-boot-env.txt", "", d)} \
 			 ${@bb.utils.contains("UBOOT_CONFIG", "agilex-socdk-atf", "file://agilex-socdk-atf_u-boot-env.txt", "", d)} \
 			 ${@bb.utils.contains("UBOOT_CONFIG", "agilex-socdk-qspi", "file://agilex-socdk-qspi_u-boot-env.txt", "", d)} \

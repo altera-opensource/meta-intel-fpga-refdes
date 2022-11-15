@@ -15,9 +15,9 @@ inherit devicetree
 
 PROVIDES = "virtual/dtb"
 
-COMPATIBLE_MACHINE = "(agilex|agilex_fm87|agilex_fm86|stratix10)"
+COMPATIBLE_MACHINE = "(agilex_fm61|agilex_fm87|agilex_fm86|stratix10)"
 
-SRC_URI:append:agilex = " \
+SRC_URI:append:agilex_fm61 = " \
 					file://socfpga_agilex_ghrd_sgmii.dtsi \
 					file://socfpga_agilex_ghrd.dtsi \
 					file://agilex_pr_fpga_static_region.dts \
@@ -50,7 +50,7 @@ do_configure:append() {
 		cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex.dtsi ${WORKDIR}/socfpga_${MACHINE}.dtsi
 
 		# FM61
-		if [[ "${MACHINE}" == "agilex" ]]; then
+		if [[ "${MACHINE}" == "agilex_fm61" ]]; then
 			# GSRD DTB Generation
 			# MMC, QSPI
 			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex_socdk.dts ${WORKDIR}/socfpga_${MACHINE}_socdk.dts
@@ -59,8 +59,8 @@ do_configure:append() {
 			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex_socdk_nand.dts ${WORKDIR}/socfpga_${MACHINE}_socdk_nand.dts
 			sed -i '/\#include \"socfpga_agilex.dtsi\"/a \#include \"socfpga_agilex_ghrd_sgmii.dtsi\"' ${WORKDIR}/socfpga_${MACHINE}_socdk_nand.dts
 			# PR
-			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex_socdk.dts ${WORKDIR}/socfpga_agilex_socdk_pr.dts
-			sed -i '/\#include \"socfpga_agilex.dtsi\"/a \#include \"socfpga_agilex_ghrd.dtsi\"' ${WORKDIR}/socfpga_agilex_socdk_pr.dts
+			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex_socdk.dts ${WORKDIR}/socfpga_${MACHINE}_socdk_pr.dts
+			sed -i '/\#include \"socfpga_agilex.dtsi\"/a \#include \"socfpga_agilex_ghrd.dtsi\"' ${WORKDIR}/socfpga_${MACHINE}_socdk_pr.dts
 		fi
 		# FM87
 		if [[ "${MACHINE}" == "agilex_fm87" ]]; then

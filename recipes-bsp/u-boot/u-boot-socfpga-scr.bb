@@ -9,7 +9,7 @@ DEPENDS = "u-boot-mkimage-native dtc-native"
 inherit deploy nopackages
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
-SRC_URI:agilex = "file://uboot.txt file://uboot_script.its"
+SRC_URI:agilex_fm61 = "file://uboot.txt file://uboot_script.its"
 SRC_URI:agilex_fm87 = "file://uboot.txt file://uboot_script.its"
 SRC_URI:agilex_fm86 = "file://uboot.txt file://uboot_script.its"
 SRC_URI:stratix10 = "file://uboot.txt file://uboot_script.its"

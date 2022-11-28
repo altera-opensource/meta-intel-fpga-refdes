@@ -43,6 +43,8 @@ do_deploy:append() {
 		if [[ "${MACHINE}" == "agilex_fm61" ]]; then
 			cp ${DTBDEPLOYDIR}/socfpga_${MACHINE}_socdk_nand.dtb ${B}/socfpga_${MACHINE}_socdk_nand.dtb
 			cp ${DTBDEPLOYDIR}/socfpga_${MACHINE}_socdk_pr.dtb ${B}/socfpga_${MACHINE}_socdk_pr.dtb
+		elif [[ "${MACHINE}" == "stratix10" ]]; then
+			cp ${DTBDEPLOYDIR}/socfpga_${MACHINE}_socdk_nand.dtb ${B}/socfpga_${MACHINE}_socdk_nand.dtb
 		fi
 
 		# core.rbf
@@ -50,6 +52,8 @@ do_deploy:append() {
 		if [ "${MACHINE}" = "agilex_fm61" ]; then
 			cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/nand.core.rbf ${B}/nand.core.rbf
 			cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd_pr.core.rbf ${B}/ghrd_pr.core.rbf
+		elif [ "${MACHINE}" == "stratix10" ]; then
+			cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/nand.core.rbf ${B}/nand.core.rbf
 		fi
 
 		# kernel.its

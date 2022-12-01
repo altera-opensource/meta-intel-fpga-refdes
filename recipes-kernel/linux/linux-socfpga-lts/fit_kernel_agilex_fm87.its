@@ -27,7 +27,7 @@
 
 		fdt-0 {
 			description = "socfpga_socdk_vanilla";
-			data = /incbin/("./socfpga_agilex_fm87_vanilla.dtb");
+			data = /incbin/("./socfpga_agilex_vanilla.dtb");
 			type = "flat_dt";
 			arch = "arm64";
 			compression = "none";
@@ -38,7 +38,7 @@
 
 		fdt-4 {
 			description = "socfpga_socdk_combined";
-			data = /incbin/("./socfpga_agilex_fm87_socdk.dtb");
+			data = /incbin/("./socfpga_agilex_socdk.dtb");
 			type = "flat_dt";
 			arch = "arm64";
 			compression = "none";

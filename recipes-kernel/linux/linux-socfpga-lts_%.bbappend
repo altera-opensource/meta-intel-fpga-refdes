@@ -25,7 +25,7 @@ SRC_URI:append:cyclone5 = " file://0001-socfpga_cyclone5_socdk-include-reference
 
 # Append GSRD specific kernel config fragments
 SRC_URI:append = " file://ubifs.scc"
-SRC_URI:append:agilex = " file://sgmii.scc"
+SRC_URI:append:agilex_fm61 = " file://sgmii.scc"
 SRC_URI:append:stratix10 = " file://sgmii.scc"
 SRC_URI:append:arria10 = " file://tse.scc"
 SRC_URI:append:cyclone5 = " file://tse.scc"
@@ -36,42 +36,49 @@ LINUXDEPLOYDIR = "${WORKDIR}/deploy-${PN}"
 DTBDEPLOYDIR = "${DEPLOY_DIR_IMAGE}/devicetree"
 
 do_deploy:append() {
-	if [[ "${MACHINE}" == *"agilex"* ]] || [[ "${MACHINE}" == "stratix10" ]]; then
+	# Stage required binaries for kernel.itb
+	# Supported device family:
+	# 				-	Agilex FM61, FM87, FM86
+	# 				-	Stratix10
+
+	if [[ "${MACHINE}" == *"agilex"* ]]; then
 		# linux.dtb
-		cp ${DTBDEPLOYDIR}/socfpga_${MACHINE}_socdk.dtb ${B}/socfpga_${MACHINE}_socdk.dtb
-		cp ${DTBDEPLOYDIR}/socfpga_${MACHINE}_vanilla.dtb ${B}/socfpga_${MACHINE}_vanilla.dtb
+		cp ${DTBDEPLOYDIR}/socfpga_agilex_socdk.dtb ${B}
+		cp ${DTBDEPLOYDIR}/socfpga_agilex_vanilla.dtb ${B}
 		if [[ "${MACHINE}" == "agilex_fm61" ]]; then
-			cp ${DTBDEPLOYDIR}/socfpga_${MACHINE}_socdk_nand.dtb ${B}/socfpga_${MACHINE}_socdk_nand.dtb
-			cp ${DTBDEPLOYDIR}/socfpga_${MACHINE}_socdk_pr.dtb ${B}/socfpga_${MACHINE}_socdk_pr.dtb
-		elif [[ "${MACHINE}" == "stratix10" ]]; then
-			cp ${DTBDEPLOYDIR}/socfpga_${MACHINE}_socdk_nand.dtb ${B}/socfpga_${MACHINE}_socdk_nand.dtb
+			cp ${DTBDEPLOYDIR}/socfpga_agilex_socdk_nand.dtb ${B}
+			cp ${DTBDEPLOYDIR}/socfpga_agilex_socdk_pr.dtb ${B}
 		fi
-
 		# core.rbf
-		cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd.core.rbf ${B}/ghrd.core.rbf
-		if [ "${MACHINE}" = "agilex_fm61" ]; then
-			cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/nand.core.rbf ${B}/nand.core.rbf
-			cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd_pr.core.rbf ${B}/ghrd_pr.core.rbf
-		elif [ "${MACHINE}" == "stratix10" ]; then
-			cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/nand.core.rbf ${B}/nand.core.rbf
+		cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd.core.rbf ${B}
+		if [[ "${MACHINE}" == "agilex_fm61" ]]; then
+			cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/nand.core.rbf ${B}
+			cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd_pr.core.rbf ${B}
 		fi
+	elif [[ "${MACHINE}" == "stratix10" ]]; then
+		# linux.dtb
+		cp ${DTBDEPLOYDIR}/socfpga_stratix10_socdk.dtb ${B}
+		cp ${DTBDEPLOYDIR}/socfpga_stratix10_vanilla.dtb ${B}
+		cp ${DTBDEPLOYDIR}/socfpga_stratix10_socdk_nand.dtb ${B}
+		# core.rbf
+		cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd.core.rbf ${B}
+		cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/nand.core.rbf ${B}
+	fi
 
+	# Generate and deploy kernel.itb
+	if [[ "${MACHINE}" == *"agilex"* || "${MACHINE}" == "stratix10" ]]; then
 		# kernel.its
-		cp ${WORKDIR}/fit_kernel_${MACHINE}.its ${B}/fit_kernel_${MACHINE}.its
-
+		cp ${WORKDIR}/fit_kernel_${MACHINE}.its ${B}
 		# Image
-		cp ${LINUXDEPLOYDIR}/Image ${B}/Image
-
+		cp ${LINUXDEPLOYDIR}/Image ${B}
 		# Compress Image to lzma format
 		xz --format=lzma ${B}/Image
-
 		# Generate kernel.itb
 		mkimage -f ${B}/fit_kernel_${MACHINE}.its ${B}/kernel.itb
-
 		# Deploy kernel.its, kernel.itb and Image.lzma
-		install -m 744 ${B}/fit_kernel_${MACHINE}.its ${DEPLOYDIR}/fit_kernel_${MACHINE}.its
-		install -m 744 ${B}/kernel.itb ${DEPLOYDIR}/kernel.itb
-		install -m 744 ${B}/Image.lzma ${DEPLOYDIR}/Image.lzma
+		install -m 744 ${B}/fit_kernel_${MACHINE}.its ${DEPLOYDIR}
+		install -m 744 ${B}/kernel.itb ${DEPLOYDIR}
+		install -m 744 ${B}/Image.lzma ${DEPLOYDIR}
 	fi
 }
 

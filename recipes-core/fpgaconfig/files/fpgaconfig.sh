@@ -32,14 +32,24 @@ if [ "$1" == "fpga_static_region.dtbo" ]; then
                 else
                         :
                 fi
-        else
+        elif [ "$MACHINE" == "agilex_fm61" ]; then
                 if [ "$2" == "start" ]; then
-                        dtbt -p /boot/devicetree -a ${MACHINE}_pr_fpga_static_region.dtbo
+                        dtbt -p /boot/devicetree -a agilex_pr_fpga_static_region.dtbo
                 elif [ "$2" == "stop" ]; then
-                        dtbt -p /boot/devicetree -r ${MACHINE}_pr_fpga_static_region.dtbo
+                        dtbt -p /boot/devicetree -r agilex_pr_fpga_static_region.dtbo
                 else
                         :
                 fi
+		elif [ "$MACHINE" == "stratix10" ]; then
+                if [ "$2" == "start" ]; then
+                        dtbt -p /boot/devicetree -a stratix10_pr_fpga_static_region.dtbo
+                elif [ "$2" == "stop" ]; then
+                        dtbt -p /boot/devicetree -r stratix10_pr_fpga_static_region.dtbo
+                else
+                        :
+                fi
+		else
+			:
         fi
 fi
 
@@ -53,14 +63,24 @@ if [ "$1" == "persona0.dtbo" ]; then
                 else
                         :
                 fi
-        else
+        elif [ "$MACHINE" == "agilex_fm61" ]; then
                 if [ "$2" == "start" ]; then
-                        dtbt -p /boot/devicetree -a ${MACHINE}_pr_persona0.dtbo
+                        dtbt -p /boot/devicetree -a agilex_pr_persona0.dtbo
                 elif [ "$2" == "stop" ]; then
-                        dtbt -p /boot/devicetree -r ${MACHINE}_pr_persona0.dtbo
+                        dtbt -p /boot/devicetree -r agilex_pr_persona0.dtbo
                 else
                         :
                 fi
+		elif [ "$MACHINE" == "stratix10" ]; then
+                if [ "$2" == "start" ]; then
+                        dtbt -p /boot/devicetree -a stratix10_pr_persona0.dtbo
+                elif [ "$2" == "stop" ]; then
+                        dtbt -p /boot/devicetree -r stratix10_pr_persona0.dtbo
+                else
+                        :
+                fi
+		else
+			:
         fi
 fi
 
@@ -74,13 +94,23 @@ if [ "$1" == "persona1.dtbo" ]; then
                 else
                         :
                 fi
-        else
+        elif [ "$MACHINE" == "agilex_fm61" ]; then
                 if [ "$2" == "start" ]; then
-                        dtbt -p /boot/devicetree -a ${MACHINE}_pr_persona1.dtbo
+                        dtbt -p /boot/devicetree -a agilex_pr_persona1.dtbo
                 elif [ "$2" == "stop" ]; then
-                        dtbt -p /boot/devicetree -r ${MACHINE}_pr_persona1.dtbo
+                        dtbt -p /boot/devicetree -r agilex_pr_persona1.dtbo
                 else
                         :
                 fi
+		elif [ "$MACHINE" == "stratix10" ]; then
+                if [ "$2" == "start" ]; then
+                        dtbt -p /boot/devicetree -a stratix10_pr_persona1.dtbo
+                elif [ "$2" == "stop" ]; then
+                        dtbt -p /boot/devicetree -r stratix10_pr_persona1.dtbo
+                else
+                        :
+                fi
+		else
+			:
         fi
 fi

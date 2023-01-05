@@ -14,7 +14,7 @@ IMAGE_INSTALL:append = " remote-debug-app fpgaconfig"
 export IMAGE_BASENAME = "gsrd-console-image"
 
 # NFS workaround
-ROOTFS_POSTPROCESS_COMMAND:append = " nfs_rootfs ; lighttpd_rootfs ;"
+ROOTFS_POSTPROCESS_COMMAND:append = " nfs_rootfs ; lighttpd_rootfs ; mask_udev ; "
 nfs_rootfs(){
         cd ${IMAGE_ROOTFS}/lib/systemd/system/; sed -i '/Wants/a ConditionKernelCommandLine=!root=/dev/nfs' connman.service
 }
@@ -23,3 +23,7 @@ lighttpd_rootfs(){
 	rm ${IMAGE_ROOTFS}/var/log; mkdir -p ${IMAGE_ROOTFS}/var/log; touch ${IMAGE_ROOTFS}/var/log/lighttpd
 }
 
+# Disable assignment of fixed ifname by masking udev's .link for default policy
+mask_udev(){
+	ln -sf ${IMAGE_ROOTFS}/dev/null ${IMAGE_ROOTFS}/lib/systemd/network/99-default.link
+}

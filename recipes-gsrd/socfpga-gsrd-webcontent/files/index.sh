@@ -13,7 +13,7 @@
 #  You should have received a copy of the GNU General Public License along with
 #  this program.  If not, see <http://www.gnu.org/licenses/>.
 
-MACHINE=$(hostname)
+MACHINE=`cat /etc/hostname`
 
 case $MACHINE in
 cyclone5)
@@ -28,8 +28,14 @@ arria10)
 stratix10)
 	DEVKIT_NAME="Stratix 10 SoC Development Kit"
 	;;
-*agilex*)
-	DEVKIT_NAME="Agilex SoC Development Kit"
+agilex_fm61)
+	DEVKIT_NAME="Agilex FM61 SoC Development Kit"
+	;;
+agilex_fm86)
+	DEVKIT_NAME="Agilex FM86 SoC Development Kit"
+	;;
+agilex_fm87)
+	DEVKIT_NAME="Agilex FM87 SoC Development Kit"
 	;;
 undef)
 	DEVKIT_NAME="Unknown Development Kit"
@@ -73,21 +79,29 @@ echo -e "</span>"
 echo -e "<p>This Board Web Server web page is being served by the web server application running on the Hard Processor System (HPS) of your development board. This web page provides links to useful information on Intel FPGA<sup>®</sup> website. Please refer to the side bar for the reference links. You can use this web page to interact with your board by blinking the LEDs and writing text messages to LCD on the board. For Stratix 10 there would be no LCD therefore users would have to use the JTAG UART"
 echo -e "</div>"
 
-if [ "$MACHINE" == "cyclone5" ] || [ "$MACHINE" == "arria5" ]; then
+if [ "$MACHINE" == "cyclone5" ]; then
 echo -e "<div class=\"bup-links\">"
 echo -e "<h4>Developer Resources</h4>"
 echo -e "<ul>"	
-	echo -e "<li><a href=\"http://www.altera.com/soc-hw-resources.html\" target=\"_blank\">Hardware Developers</a></li> "
-	echo -e "<li><a href=\"http://www.altera.com/soc-sw-resources.html\" target=\"_blank\">Software Developers</a></li>"
+	echo -e "<li><a href=\"https://www.intel.com/content/www/us/en/products/details/fpga/cyclone/v/sx/products.html\" target=\"_blank\">Cyclone 5 SoC Quick Start Guide</a></li> "
+	echo -e "<li><a href=\"http://www.rocketboards.org\" target=\"_blank\">Rocketboards.org</a></li> "
+echo -e "</ul>"
+echo -e "</div>"
+elif [ "$MACHINE" == "arria5" ]; then
+echo -e "<div class=\"bup-links\">"
+echo -e "<h4>Developer Resources</h4>"
+echo -e "<ul>"
+	echo -e "<li><a href=\"https://www.intel.com/content/www/us/en/products/details/fpga/development-kits/arria/v-st.html\" target=\"_blank\">Arria 5 SoC Quick Start Guide</a></li> "
+    echo -e "<li><a href=\"https://www.intel.com/content/dam/www/programmable/us/en/pdfs/literature/ug/ug_av_soc_dev_kit.pdf\" target=\"_blank\">User Guide</a></li> "
+	echo -e "<li><a href=\"http://www.rocketboards.org\" target=\"_blank\">Rocketboards.org</a></li> "
 echo -e "</ul>"
 echo -e "</div>"
 elif [ "$MACHINE" == "arria10" ]; then
 echo -e "<div class=\"bup-links\">"
 echo -e "<h4>Developer Resources</h4>"
 echo -e "<ul>"
-	echo -e "<li><a href=\"https://www.altera.com/products/soc/soc-quick-start-guide/arria10soc-dev-kit-quick-start.html\" target=\"_blank\">Arria 10 SoC Quick Start Guide</a></li> "
-        echo -e "<li><a href=\"https://www.altera.com/products/fpga/arria-series/arria-10/support.html\" target=\"_blank\">Hardware Resources</a></li> "
-        echo -e "<li><a href=\"https://www.altera.com/products/soc/portfolio/arria-10-soc/design-tools.html\" target=\"_blank\">Software Resources</a></li> "
+	echo -e "<li><a href=\"https://www.intel.com/content/www/us/en/products/details/fpga/development-kits/arria/10-sx.html\" target=\"_blank\">Arria 10 SoC Quick Start Guide</a></li> "
+    echo -e "<li><a href=\"https://www.intel.com/content/www/us/en/programmable/documentation/iga1434736665480.html\" target=\"_blank\">User Guide</a></li> "
 	echo -e "<li><a href=\"http://www.rocketboards.org\" target=\"_blank\">Rocketboards.org</a></li> "
 echo -e "</ul>"
 echo -e "</div>"
@@ -95,19 +109,35 @@ elif [ "$MACHINE" == "stratix10" ]; then
 echo -e "<div class=\"bup-links\">"
 echo -e "<h4>Developer Resources</h4>"
 echo -e "<ul>"
-        echo -e "<li><a href=\"https://www.altera.com/products/soc/soc-quick-start-guide/stratix10soc-dev-kit-quick-start.html\" target=\"_blank\">Stratix 10 SoC Quick Start Guide</a></li> "
-        echo -e "<li><a href=\"https://www.altera.com/products/fpga/stratix-series/Stratix-10/support.html\" target=\"_blank\">Hardware Resources</a></li> "
-        echo -e "<li><a href=\"https://www.altera.com/products/soc/portfolio/stratix-10-soc/design-tools.html\" target=\"_blank\">Software Resources</a></li> "
+        echo -e "<li><a href=\"https://www.intel.com/content/www/us/en/products/details/fpga/development-kits/stratix/10-sx.html\" target=\"_blank\">Stratix 10 SoC Quick Start Guide</a></li> "
+        echo -e "<li><a href=\"https://www.intel.com/content/www/us/en/programmable/documentation/sbe1494623766556.html\" target=\"_blank\">User Guide</a></li> "
         echo -e "<li><a href=\"http://www.rocketboards.org\" target=\"_blank\">Rocketboards.org</a></li> "
 echo -e "</ul>"
 echo -e "</div>"
-elif [[ "$MACHINE" =~ "agilex" ]]; then
+elif [[ "$MACHINE" == "agilex_fm61" ]]; then
 echo -e "<div class=\"bup-links\">"
 echo -e "<h4>Developer Resources</h4>"
 echo -e "<ul>"
-        echo -e "<li><a href=\"https://www.altera.com/products/soc/soc-quick-start-guide/agilex-dev-kit-quick-start.html\" target=\"_blank\">Agilex SoC Quick Start Guide</a></li> "
-        echo -e "<li><a href=\"https://www.altera.com/products/fpga/stratix-series/agilex/support.html\" target=\"_blank\">Hardware Resources</a></li> "
-        echo -e "<li><a href=\"https://www.altera.com/products/soc/portfolio/agilex/design-tools.html\" target=\"_blank\">Software Resources</a></li> "
+        echo -e "<li><a href=\"https://www.intel.com/content/www/us/en/products/details/fpga/development-kits/agilex/f-series-transceiver/si-agf014.html\" target=\"_blank\">Agilex FM61 SoC Quick Start Guide</a></li> "
+        echo -e "<li><a href=\"https://www.intel.com/content/www/us/en/docs/programmable/683752/current/overview.html\" target=\"_blank\">User Guide</a></li> "
+        echo -e "<li><a href=\"http://www.rocketboards.org\" target=\"_blank\">Rocketboards.org</a></li> "
+echo -e "</ul>"
+echo -e "</div>"
+elif [[ "$MACHINE" == "agilex_fm86" ]]; then
+echo -e "<div class=\"bup-links\">"
+echo -e "<h4>Developer Resources</h4>"
+echo -e "<ul>"
+        echo -e "<li><a href=\"https://www.intel.com/content/www/us/en/products/details/fpga/development-kits/agilex/f-series/dev-agf027-and-agf023.html\" target=\"_blank\">Agilex FM86 SoC Quick Start Guide</a></li> "
+        echo -e "<li><a href=\"https://www.intel.com/content/www/us/en/docs/programmable/739942/current/overview.html\" target=\"_blank\">User Guide</a></li> "
+        echo -e "<li><a href=\"http://www.rocketboards.org\" target=\"_blank\">Rocketboards.org</a></li> "
+echo -e "</ul>"
+echo -e "</div>"
+elif [[ "$MACHINE" == "agilex_fm87" ]]; then
+echo -e "<div class=\"bup-links\">"
+echo -e "<h4>Developer Resources</h4>"
+echo -e "<ul>"
+        echo -e "<li><a href=\"https://www.intel.com/content/www/us/en/products/details/fpga/development-kits/agilex/i-series-transceiver/si-agi027.html\" target=\"_blank\">Agilex FM87 SoC Quick Start Guide</a></li> "
+        echo -e "<li><a href=\"https://www.intel.com/content/www/us/en/docs/programmable/721605/current/overview.html\" target=\"_blank\">User Guide</a></li> "
         echo -e "<li><a href=\"http://www.rocketboards.org\" target=\"_blank\">Rocketboards.org</a></li> "
 echo -e "</ul>"
 echo -e "</div>"
@@ -128,9 +158,15 @@ elif [ "$MACHINE" == "arria10" ]; then
 elif [ "$MACHINE" == "stratix10" ]; then
 	echo -e "<span><strong><h1>$DEVKIT_NAME Features</h1></strong><br/></span>"
         echo -e "<div><img src=\"../stratix10-board-image.jpg\" style=\"width:640px;height:478px;\"></div>"
-elif [[ "$MACHINE" =~ "agilex" ]]; then
+elif [[ "$MACHINE" == "agilex_fm61" ]]; then
 	echo -e "<span><strong><h1>$DEVKIT_NAME Features</h1></strong><br/></span>"
-        echo -e "<div><img src=\"../agilex-board-image.jpg\" style=\"width:640px;height:478px;\"></div>"
+        echo -e "<div><img src=\"../agilex_fm61-board-image.jpg\" style=\"width:640px;height:478px;\"></div>"
+elif [[ "$MACHINE" == "agilex_fm86" ]]; then
+	echo -e "<span><strong><h1>$DEVKIT_NAME Features</h1></strong><br/></span>"
+        echo -e "<div><img src=\"../agilex_fm86-board-image.jpg\" style=\"width:640px;height:478px;\"></div>"
+elif [[ "$MACHINE" == "agilex_fm87" ]]; then
+	echo -e "<span><strong><h1>$DEVKIT_NAME Features</h1></strong><br/></span>"
+        echo -e "<div><img src=\"../agilex_fm87-board-image.jpg\" style=\"width:640px;height:478px;\"></div>"
 fi
 
 ##

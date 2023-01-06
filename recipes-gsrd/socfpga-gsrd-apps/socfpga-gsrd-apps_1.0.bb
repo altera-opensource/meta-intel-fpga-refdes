@@ -15,7 +15,10 @@ REFDES_BRANCH ?= "master"
 INSANE_SKIP:${PN} = "ldflags"
 INSANE_SKIP:${PN}-dev = "ldflags"
 
-SRC_URI = "${REFDES_REPO};protocol=${REFDES_PROT};branch=${REFDES_BRANCH}"
+SRC_URI = " \
+		${REFDES_REPO};protocol=${REFDES_PROT};branch=${REFDES_BRANCH} \
+		file://README_agilex_fm86 \
+		"
 
 SRCREV = "${AUTOREV}"
 
@@ -46,5 +49,10 @@ do_install() {
 	install -m 0755 scroll_client/scroll_client ${D}/home/root/intelFPGA/scroll_client
 	install -m 0755 toggle/toggle ${D}/home/root/intelFPGA/toggle
 	install -m 0755 hello/hello ${D}/home/root/intelFPGA/hello
-	install -m 0755 doc/README ${D}/home/root/
+
+	if [[ "${MACHINE}" == "agilex_fm86" ]]; then
+		install -m 0755 ${WORKDIR}/README_agilex_fm86 ${D}/home/root/README
+	else
+		install -m 0755 doc/README ${D}/home/root/
+	fi
 }

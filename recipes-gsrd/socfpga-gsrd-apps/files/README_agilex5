@@ -1,0 +1,27 @@
+Table of Contents
+=================
+1. Application Examples
+
+NOTE:
+This example does not serve as a full guideline on how to write a Linux Device
+Driver. For full guidelines, please refer to Linux Device Driver reference book
+(http://lwn.net/Kernel/LDD3/)
+
+1. Application Examples
+=======================
+These examples serve as references for users to write their own applications
+to interact with soft IP through driver developed.
+
+The source codes of these applications can be found from the installation path
+of  (<Yocto_install_path>/meta-intel-fpga-refdes/recipes-gsrd).
+
+The binaries of these applications can be found in /home/root/intelFPGA/. Please
+'cd' to /home/root/intelFPGA to execute these applications.
+
+Example applications usages are shown below.
+
+Hello world application from HPS
+--------------------------------
+Print "Hello SoC FPGA!" message from HPS:
+	./hello
+

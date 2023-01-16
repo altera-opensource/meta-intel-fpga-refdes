@@ -1,0 +1,119 @@
+From faf128704b3cdfa38c3ca8984f12cfdac78dcbc7 Mon Sep 17 00:00:00 2001
+From: "Chew, Chiau Ee" <chiau.ee.chew@intel.com>
+Date: Thu, 25 Feb 2021 18:51:52 +0800
+Subject: [PATCH] socfpga_arria10_socdk: sgmii: include reference design dtsi
+
+Upstream-Status: Pending
+
+Signed-off-by: Chew, Chiau Ee <chiau.ee.chew@intel.com>
+---
+ arch/arm/boot/dts/socfpga_arria10_sgmii.dtsi | 84 ++++++++++++++++++++
+ arch/arm/boot/dts/socfpga_arria10_socdk.dtsi |  1 +
+ 2 files changed, 85 insertions(+)
+ create mode 100644 arch/arm/boot/dts/socfpga_arria10_sgmii.dtsi
+
+diff --git a/arch/arm/boot/dts/socfpga_arria10_sgmii.dtsi b/arch/arm/boot/dts/socfpga_arria10_sgmii.dtsi
+new file mode 100644
+index 000000000000..629df128bd91
+--- /dev/null
++++ b/arch/arm/boot/dts/socfpga_arria10_sgmii.dtsi
+@@ -0,0 +1,84 @@
++/*
++* Add this piece of dtsi fragment as #include "socfpga_arria10_sgmii.dtsi"
++* in the file socfpga_arria10_socdk.dtsi. Compile it in the kernel along with
++* socfpga_arria10.dtsi.
++*/
++
++/{
++	aliases {
++		ethernet1 = &gmac1;
++		ethernet2 = &gmac2;
++	};
++
++	soc {
++		clkmgr@ffd04000 {
++			clocks {
++				sgmii_1_clk_0: sgmii_1_clk_0 {
++					compatible = "fixed-clock";
++					#clock-cells = <0>;
++					clock-frequency = <100000000>;  /* 100.00 MHz */
++					clock-output-names = "sgmii_1_clk_0-clk";
++				}; //end sgmii_1_clk_0 (sgmii_1_clk_0)
++
++				sgmii_1_clk_125: sgmii_1_clk_125 {
++					compatible = "fixed-clock";
++					#clock-cells = <0>;
++					clock-frequency = <125000000>;  /* 125.00 MHz */
++					clock-output-names = "sgmii_1_clk_125-clk";
++				}; //end sgmii_1_clk_125 (sgmii_1_clk_125)
++
++				sgmii_2_clk_0: sgmii_2_clk_0 {
++					compatible = "fixed-clock";
++					#clock-cells = <0>;
++					clock-frequency = <100000000>;  /* 100.00 MHz */
++					clock-output-names = "sgmii_2_clk_0-clk";
++				}; //end sgmii_2_clk_0 (sgmii_2_clk_0)
++
++				sgmii_2_clk_125: sgmii_2_clk_125 {
++					compatible = "fixed-clock";
++					#clock-cells = <0>;
++					clock-frequency = <125000000>;  /* 125.00 MHz */
++					clock-output-names = "sgmii_2_clk_125-clk";
++				}; //end sgmii_2_clk_125 (sgmii_2_clk_125)
++			};
++		};
++
++		sgmii_1_gmii_to_sgmii_converter_0: phy@0xff200240 {
++			compatible = "altr,gmii-to-sgmii-2.0";
++			reg = <0xff200240 0x00000008>,
++				<0xff200200 0x00000040>;
++			reg-names = "gmii_to_sgmii_adapter_avalon_slave", "eth_tse_control_port";
++			//clocks = <&sgmii_1_clk_0>, <&gmac1 1>, <&sgmii_1_clk_125>, <&sgmii_1_clk_125>;
++			//clock-names = "clock_in", "emac_gtx_clk", "tse_pcs_ref_clk_clock_connection", "tse_rx_cdr_refclk";
++		};
++
++		sgmii_2_gmii_to_sgmii_converter_0: phy@0xff200440 {
++			compatible = "altr,gmii-to-sgmii-2.0";
++			reg = <0xff200440 0x00000008>,
++				<0xff200400 0x00000040>;
++			reg-names = "gmii_to_sgmii_adapter_avalon_slave", "eth_tse_control_port";
++			//clocks = <&sgmii_2_clk_0>, <&gmac2 1>, <&sgmii_2_clk_125>, <&sgmii_2_clk_125>;
++			//clock-names = "clock_in", "emac_gtx_clk", "tse_pcs_ref_clk_clock_connection", "tse_rx_cdr_refclk";
++		};
++	};
++};
++
++&gmac1 {
++	address-bits = <48>;
++	max-frame-size = <1518>;
++	local-mac-address = [00 00 00 00 00 00];
++	altr,gmii-to-sgmii-converter = <&sgmii_1_gmii_to_sgmii_converter_0>;
++	altr,gmii_to_sgmii_converter = <&sgmii_1_gmii_to_sgmii_converter_0>;
++	phy-mode = "sgmii";
++	status = "okay";
++};
++
++&gmac2 {
++	address-bits = <48>;
++	max-frame-size = <1518>;
++	local-mac-address = [00 00 00 00 00 00];
++	altr,gmii-to-sgmii-converter = <&sgmii_2_gmii_to_sgmii_converter_0>;
++	altr,gmii_to_sgmii_converter = <&sgmii_2_gmii_to_sgmii_converter_0>;
++	phy-mode = "sgmii";
++	status = "okay";
++};
+diff --git a/arch/arm/boot/dts/socfpga_arria10_socdk.dtsi b/arch/arm/boot/dts/socfpga_arria10_socdk.dtsi
+index 1ff37b89b109..975821f5bdaa 100644
+--- a/arch/arm/boot/dts/socfpga_arria10_socdk.dtsi
++++ b/arch/arm/boot/dts/socfpga_arria10_socdk.dtsi
+@@ -3,6 +3,7 @@
+  * Copyright (C) 2015 Altera Corporation <www.altera.com>
+  */
+ #include "socfpga_arria10.dtsi"
++#include "socfpga_arria10_sgmii.dtsi"
+ 
+ / {
+ 	model = "Altera SOCFPGA Arria 10";
+-- 
+2.17.1
+

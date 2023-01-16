@@ -1,0 +1,230 @@
+From b88978ee83ef39640e8d83eff24e62085437dd1b Mon Sep 17 00:00:00 2001
+From: "Chew, Chiau Ee" <chiau.ee.chew@intel.com>
+Date: Thu, 27 May 2021 18:21:14 +0800
+Subject: [PATCH] dts/arm: enable FPGA PR DTBs for Arria10
+
+This is to enable fpga_static_region and persona0/1 DTBs
+for Arria10 FPGA Partial Reconfiguration with Linux.
+
+Upstream-Status: Pending
+
+Signed-off-by: Chew, Chiau Ee <chiau.ee.chew@intel.com>
+---
+ arch/arm/boot/dts/Makefile               |   5 +-
+ arch/arm/boot/dts/fpga_static_region.dts | 106 +++++++++++++++++++++++
+ arch/arm/boot/dts/persona0.dts           |  33 +++++++
+ arch/arm/boot/dts/persona1.dts           |  33 +++++++
+ 4 files changed, 176 insertions(+), 1 deletion(-)
+ create mode 100644 arch/arm/boot/dts/fpga_static_region.dts
+ create mode 100644 arch/arm/boot/dts/persona0.dts
+ create mode 100644 arch/arm/boot/dts/persona1.dts
+
+diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
+index b21b3a64641a..c1a42145854d 100644
+--- a/arch/arm/boot/dts/Makefile
++++ b/arch/arm/boot/dts/Makefile
+@@ -962,7 +962,10 @@ dtb-$(CONFIG_ARCH_SOCFPGA) += \
+ 	socfpga_cyclone5_socrates.dtb \
+ 	socfpga_cyclone5_sodia.dtb \
+ 	socfpga_cyclone5_vining_fpga.dtb \
+-	socfpga_vt.dtb
++	socfpga_vt.dtb \
++	fpga_static_region.dtb \
++	persona0.dtb \
++	persona1.dtb
+ dtb-$(CONFIG_ARCH_SPEAR13XX) += \
+ 	spear1310-evb.dtb \
+ 	spear1340-evb.dtb
+diff --git a/arch/arm/boot/dts/fpga_static_region.dts b/arch/arm/boot/dts/fpga_static_region.dts
+new file mode 100644
+index 000000000000..92be25e09997
+--- /dev/null
++++ b/arch/arm/boot/dts/fpga_static_region.dts
+@@ -0,0 +1,106 @@
++/dts-v1/;
++/plugin/;
++/ {
++	fragment@0 {
++		target-path = "/soc/base_fpga_region";
++		#address-cells = <1>;
++		#size-cells = <1>;
++
++		__overlay__ {
++			ranges = <0x00000000 0xff200000 0x00001000>;
++
++			external-fpga-config;
++
++			clocks = <&clk_0 &clk_0 &clk_0 &clk_0>;
++			clock-names = "h2f_axi_clock", "h2f_lw_axi_clock", "f2sdram0_clock", "f2sdram2_clock";
++			#address-cells = <1>;
++			#size-cells = <1>;
++
++			clk_0: clk_0 {
++				compatible = "fixed-clock";
++				#clock-cells = <0>;
++				clock-frequency = <100000000>;	/* 100.00 MHz */
++				clock-output-names = "clk_0-clk";
++			}; //end clk_0 (clk_0)
++
++			fpga_pr_region0 {
++				compatible = "fpga-region";
++				fpga-bridges = <&freeze_controller_0>;
++				ranges;
++				#address-cells = <1>;
++				#size-cells = <1>;
++			};
++
++			ILC: ilc@0x00000100 {
++				compatible = "altr,altera_ilc-16.1", "altr,ilc-1.0";
++				reg = <0x00000100 0x00000100>;
++				interrupt-parent = <&intc>;
++				interrupts = <0 21 4 0 19 1 0 20 1>;
++				interrupt-names = "freeze_controller_0", "button_pio", "dipsw_pio";
++				interrupt-controller;
++				#interrupt-cells = <1>;
++				clocks = <&clk_0>;
++				altr,sw-fifo-depth = <32>;	/* embeddedsw.dts.params.altr,sw-fifo-depth type NUMBER */
++				status = "disabled";	/* appended from boardinfo */
++			}; //end ilc@0x00000100 (ILC)
++
++			freeze_controller_0: freeze_controller@0x00000450 {
++				compatible = "altr,freeze_controller-16.1", "altr,freeze-bridge-controller";
++				reg = <0x00000450 0x00000010>;
++				interrupt-parent = <&intc>;
++				interrupts = <0 21 4>;
++				clocks = <&clk_0>;
++			}; //end freeze_controller@0x00000450 (freeze_controller_0)
++
++			sysid_qsys_0: sysid@0x00000000 {
++				compatible = "altr,sysid-16.1", "altr,sysid-1.0";
++				reg = <0x00000000 0x00000008>;
++				clocks = <&clk_0>;
++				id = <3221755904>;	/* embeddedsw.dts.params.id type NUMBER */
++				timestamp = <0>;	/* embeddedsw.dts.params.timestamp type NUMBER */
++			}; //end sysid@0x00000000 (sysid_qsys_0)
++
++			led_pio: gpio@0x00000010 {
++				compatible = "altr,pio-16.1", "altr,pio-1.0";
++				reg = <0x00000010 0x00000010>;
++				clocks = <&clk_0>;
++				altr,gpio-bank-width = <4>;	/* embeddedsw.dts.params.altr,gpio-bank-width type NUMBER */
++				resetvalue = <0>;	/* embeddedsw.dts.params.resetvalue type NUMBER */
++				#gpio-cells = <2>;
++				gpio-controller;
++			}; //end gpio@0x00000010 (led_pio)
++
++			button_pio: gpio@0x00000020 {
++				compatible = "altr,pio-16.1", "altr,pio-1.0";
++				reg = <0x00000020 0x00000010>;
++				interrupt-parent = <&intc>;
++				interrupts = <0 19 1>;
++				clocks = <&clk_0>;
++				altr,gpio-bank-width = <4>;	/* embeddedsw.dts.params.altr,gpio-bank-width type NUMBER */
++				altr,interrupt-type = <2>;	/* embeddedsw.dts.params.altr,interrupt-type type NUMBER */
++				altr,interrupt_type = <2>;	/* embeddedsw.dts.params.altr,interrupt_type type NUMBER */
++				edge_type = <1>;	/* embeddedsw.dts.params.edge_type type NUMBER */
++				level_trigger = <0>;	/* embeddedsw.dts.params.level_trigger type NUMBER */
++				resetvalue = <0>;	/* embeddedsw.dts.params.resetvalue type NUMBER */
++				#gpio-cells = <2>;
++				gpio-controller;
++			}; //end gpio@0x00000020 (button_pio)
++
++			dipsw_pio: gpio@0x00000030 {
++				compatible = "altr,pio-16.1", "altr,pio-1.0";
++				reg = <0x00000030 0x00000010>;
++				interrupt-parent = <&intc>;
++				interrupts = <0 20 1>;
++				clocks = <&clk_0>;
++				altr,gpio-bank-width = <4>;	/* embeddedsw.dts.params.altr,gpio-bank-width type NUMBER */
++				altr,interrupt-type = <3>;	/* embeddedsw.dts.params.altr,interrupt-type type NUMBER */
++				altr,interrupt_type = <3>;	/* embeddedsw.dts.params.altr,interrupt_type type NUMBER */
++				edge_type = <2>;	/* embeddedsw.dts.params.edge_type type NUMBER */
++				level_trigger = <0>;	/* embeddedsw.dts.params.level_trigger type NUMBER */
++				resetvalue = <0>;	/* embeddedsw.dts.params.resetvalue type NUMBER */
++				#gpio-cells = <2>;
++				gpio-controller;
++			}; //end gpio@0x00000030 (dipsw_pio)
++		};
++	};
++};
+diff --git a/arch/arm/boot/dts/persona0.dts b/arch/arm/boot/dts/persona0.dts
+new file mode 100644
+index 000000000000..1718ad109585
+--- /dev/null
++++ b/arch/arm/boot/dts/persona0.dts
+@@ -0,0 +1,33 @@
++/dts-v1/;
++/plugin/;
++/ {
++	fragment@1 {
++		target-path = "/soc/base_fpga_region/fpga_pr_region0";
++		#address-cells = <1>;
++		#size-cells = <1>;
++		__overlay__ {
++			partial-fpga-config;
++			firmware-name = "persona0.rbf";
++			#address-cells = <1>;
++			#size-cells = <1>;
++
++			region-unfreeze-timeout-us = <4>;
++			region-freeze-timeout-us = <4>;
++
++			pr_region_0_pr_clk_100: pr_region_0_pr_clk_100 {
++				compatible = "fixed-clock";
++				#clock-cells = <0>;
++				clock-frequency = <100000000>;	/* 100.00 MHz */
++				clock-output-names = "pr_region_0_pr_clk_100-clk";
++			}; //end pr_region_0_pr_clk_100 (pr_region_0_pr_clk_100)
++
++			pr_region_0_pr_sysid_qsys_0: sysid@0x00000800 {
++				compatible = "altr,sysid-16.1", "altr,sysid-1.0";
++				reg = <0x00000800 0x00000008>;
++				clocks = <&pr_region_0_pr_clk_100>;
++				id = <3405707982>;	/* embeddedsw.dts.params.id type NUMBER */
++				timestamp = <0>;	/* embeddedsw.dts.params.timestamp type NUMBER */
++			}; //end sysid@0x100000800 (pr_region_0_pr_sysid_qsys_0)
++		};
++	};
++};
+diff --git a/arch/arm/boot/dts/persona1.dts b/arch/arm/boot/dts/persona1.dts
+new file mode 100644
+index 000000000000..7cdb142801d0
+--- /dev/null
++++ b/arch/arm/boot/dts/persona1.dts
+@@ -0,0 +1,33 @@
++/dts-v1/;
++/plugin/;
++/ {
++	fragment@1 {
++		target-path = "/soc/base_fpga_region/fpga_pr_region0";
++		#address-cells = <1>;
++		#size-cells = <1>;
++		__overlay__ {
++			partial-fpga-config;
++			firmware-name = "persona1.rbf";
++			#address-cells = <1>;
++			#size-cells = <1>;
++
++			region-unfreeze-timeout-us = <4>;
++			region-freeze-timeout-us = <4>;
++
++			pr_region_0_pr_clk_100: pr_region_0_pr_clk_100 {
++				compatible = "fixed-clock";
++				#clock-cells = <0>;
++				clock-frequency = <100000000>;	/* 100.00 MHz */
++				clock-output-names = "pr_region_0_pr_clk_100-clk";
++			}; //end pr_region_0_pr_clk_100 (pr_region_0_pr_clk_100)
++
++			pr_region_0_pr_sysid_qsys_0: sysid@0x00000900 {
++				compatible = "altr,sysid-16.1", "altr,sysid-1.0";
++				reg = <0x00000900 0x00000008>;
++				clocks = <&pr_region_0_pr_clk_100>;
++				id = <3405707982>;	/* embeddedsw.dts.params.id type NUMBER */
++				timestamp = <0>;	/* embeddedsw.dts.params.timestamp type NUMBER */
++			}; //end sysid@0x100000700 (pr_region_0_pr_sysid_qsys_0)
++		};
++	};
++};
+-- 
+2.17.1
+

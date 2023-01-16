@@ -1,0 +1,178 @@
+From 109c6ee8d7d19d8b8720f47224f4d3b22e1308cb Mon Sep 17 00:00:00 2001
+From: "Chew, Chiau Ee" <chiau.ee.chew@intel.com>
+Date: Thu, 25 Feb 2021 22:52:07 +0800
+Subject: [PATCH] socfpga_arria10_socdk: pcie: include reference design dtsi
+
+Upstream-Status: Pending
+
+Signed-off-by: Chew, Chiau Ee <chiau.ee.chew@intel.com>
+---
+ arch/arm/boot/dts/socfpga_arria10_pcie.dtsi  | 143 +++++++++++++++++++
+ arch/arm/boot/dts/socfpga_arria10_socdk.dtsi |   1 +
+ 2 files changed, 144 insertions(+)
+ create mode 100644 arch/arm/boot/dts/socfpga_arria10_pcie.dtsi
+
+diff --git a/arch/arm/boot/dts/socfpga_arria10_pcie.dtsi b/arch/arm/boot/dts/socfpga_arria10_pcie.dtsi
+new file mode 100644
+index 000000000000..1bf1bd1cbbcd
+--- /dev/null
++++ b/arch/arm/boot/dts/socfpga_arria10_pcie.dtsi
+@@ -0,0 +1,143 @@
++/*
++* Add this piece of dtsi fragment as #include "socfpga_arria10_pcie.dtsi"
++* in the file socfpga_arria10_socdk.dtsi. Compile it in the kernel along with
++* socfpga_arria10.dtsi.
++*/
++
++/{
++	soc {
++		clkmgr@ffd04000 {
++			clocks {
++				clk_100: clk_100 { 
++					compatible = "fixed-clock";
++					#clock-cells = <0>;
++					clock-frequency = <100000000>;  /* 100.00 MHz */
++					clock-output-names = "clk_100-out_clk";
++				}; //end clk_100 (clk_100)
++
++				pcie_0_coreclk_fan: pcie_0_coreclk_fan {
++					compatible = "fixed-clock";
++						#clock-cells = <0>;
++					clock-frequency = <125000000>;  /* 125.00 MHz */
++					clock-output-names = "pcie_0_coreclk_fan-out_clk";
++				}; //end pcie_0_coreclk_fan (pcie_0_coreclk_fan)
++
++				pcie_0_coreclk_out: pcie_0_coreclk_out {
++					compatible = "fixed-clock";
++					#clock-cells = <0>;
++					clock-frequency = <125000000>;  /* 125.00 MHz */
++					clock-output-names = "pcie_0_coreclk_out-out_clk";
++				}; //end pcie_0_coreclk_out (pcie_0_coreclk_out)
++
++				pcie_0_pcie_clk_100: pcie_0_pcie_clk_100 {
++					compatible = "fixed-clock";
++					#clock-cells = <0>;
++					clock-frequency = <100000000>;  /* 100.00 MHz */
++					clock-output-names = "pcie_0_pcie_clk_100-out_clk";
++				}; //end pcie_0_pcie_clk_100 (pcie_0_pcie_clk_100)
++
++				pcie_0_pcie_clk_125: pcie_0_pcie_clk_125 {
++					compatible = "fixed-clock";
++					#clock-cells = <0>;
++					clock-frequency = <125000000>;  /* 125.00 MHz */
++					clock-output-names = "pcie_0_pcie_clk_125-out_clk";
++				}; //end pcie_0_pcie_clk_125 (pcie_0_pcie_clk_125)
++
++				iopll_0: iopll_0 {
++					compatible = "altr,altera_iopll-19.1";
++					#clock-cells = <1>;
++
++					iopll_0_outclk0: iopll_0_outclk0 {
++						compatible = "fixed-clock";
++						#clock-cells = <0>;
++						clock-frequency = <220000000>;  /* 220.00 MHz */
++						clock-output-names = "iopll_0-outclk0";
++					}; //end iopll_0_outclk0 (iopll_0_outclk0)
++
++					iopll_0_outclk1: iopll_0_outclk1 {
++						compatible = "fixed-clock";
++						#clock-cells = <0>;
++						clock-frequency = <125714286>;  /* 125.71 MHz */
++						clock-output-names = "iopll_0-outclk1";
++					}; //end iopll_0_outclk1 (iopll_0_outclk1)
++				}; //end iopll_0 (iopll_0)
++			};
++		};
++
++		a10_hps_bridges: bridge@0xc0000000 {
++			compatible = "altr,bridge-19.1", "simple-bus";
++			reg = <0xc0000000 0x20000000>,
++				<0xff200000 0x00200000>;
++			reg-names = "axi_h2f", "axi_h2f_lw";
++			clocks = <&iopll_0 1 &clk_100 &clk_100 &iopll_0 0>;
++			clock-names = "h2f_axi_clock", "h2f_lw_axi_clock", "f2sdram0_clock", "f2sdram2_clock";
++			#address-cells = <2>;
++			#size-cells = <1>;
++			ranges = <0x00000000 0x00000000 0xc0000000 0x00040000>,
++				<0x00000000 0x10000000 0xd0000000 0x10000000>,
++				<0x00000001 0x00000100 0xff200100 0x00000100>,
++				<0x00000001 0x00000000 0xff200000 0x00000008>,
++				<0x00000001 0x00000010 0xff200010 0x00000010>,
++				<0x00000001 0x00000020 0xff200020 0x00000010>,
++				<0x00000001 0x00000030 0xff200030 0x00000010>,
++				<0x00000001 0x000140a0 0xff2140a0 0x00000020>,
++				<0x00000001 0x00010000 0xff210000 0x00004000>,
++				<0x00000001 0x000140c0 0xff2140c0 0x00000020>,
++				<0x00000001 0x00014080 0xff214080 0x00000010>,
++				<0x00000001 0x000140e0 0xff2140e0 0x00000010>,
++				<0x00000001 0x00014000 0xff214000 0x00000080>;
++
++			pcie_0_pcie_a10: pcie@0x010000000 {
++				compatible = "altr,pcie-root-port-19.1", "altr,pcie-root-port-1.0";
++				reg = <0x00000000 0x10000000 0x10000000>,
++					<0x00000001 0x00010000 0x00004000>;
++				reg-names = "Txs", "Cra";
++				interrupt-parent = <&intc>;
++				interrupts = <0 24 4>;
++				interrupt-controller;
++				#interrupt-cells = <1>;
++				device_type = "pci";    /* embeddedsw.dts.params.device_type type STRING */
++				bus-range = <0x00000000 0x000000ff>;
++				ranges = <0x82000000 0x00000000 0x00000000 0x00000000 0x10000000 0x00000000 0x10000000>;
++				msi-parent = <&pcie_0_msi_irq>;
++				#address-cells = <3>;
++				#size-cells = <2>;
++				interrupt-map-mask = <0 0 0 7>;
++				interrupt-map = <0 0 0 1 &pcie_0_pcie_a10 1>,
++					<0 0 0 2 &pcie_0_pcie_a10 2>,
++					<0 0 0 3 &pcie_0_pcie_a10 3>,
++					<0 0 0 4 &pcie_0_pcie_a10 4>;
++			}; //end pcie@0x010000000 (pcie_0_pcie_a10)
++
++			pcie_0_perf_cnt_0: perf_counter@0x1000140a0 {
++				compatible = "ALTR,perf-counter-19.1", "ALTR,perf-counter-1.0";
++				reg = <0x00000001 0x000140a0 0x00000020>;
++				clocks = <&pcie_0_pcie_clk_100>;
++			}; //end perf_counter@0x1000140a0 (pcie_0_perf_cnt_0)
++
++			pcie_0_msgdma_0: msgdma@0x1000140c0 {
++				compatible = "altr,msgdma-19.1", "altr,msgdma-1.0";
++				reg = <0x00000001 0x000140c0 0x00000020>,
++					<0x00000001 0x000140e0 0x00000010>;
++				reg-names = "csr", "descriptor_slave";
++				interrupt-parent = <&intc>;
++				interrupts = <0 23 4>;
++				clocks = <&pcie_0_pcie_clk_125>;
++			}; //end msgdma@0x1000140c0 (pcie_0_msgdma_0)
++
++			pcie_0_msi_irq: msi@0x100014080 {
++				compatible = "altr,msi-1.0", "altr,msi-1.0";
++				reg = <0x00000001 0x00014080 0x00000010>,
++					<0x00000001 0x00014000 0x00000080>;
++				reg-names = "csr", "vector_slave";
++				interrupt-parent = <&intc>;
++				interrupts = <0 22 4>;
++				clocks = <&pcie_0_pcie_clk_100>;
++				msi-controller = <1>;   /* embeddedsw.dts.params.msi-controller type NUMBER */
++				num-vectors = <32>;     /* embeddedsw.dts.params.num-vectors type NUMBER */
++			}; //end msi@0x100014080 (pcie_0_msi_irq)
++		}; //end bridge@0xc0000000 (a10_hps_bridges)
++	};
++};
++
++
+diff --git a/arch/arm/boot/dts/socfpga_arria10_socdk.dtsi b/arch/arm/boot/dts/socfpga_arria10_socdk.dtsi
+index 1ff37b89b109..096e7a57274f 100644
+--- a/arch/arm/boot/dts/socfpga_arria10_socdk.dtsi
++++ b/arch/arm/boot/dts/socfpga_arria10_socdk.dtsi
+@@ -3,6 +3,7 @@
+  * Copyright (C) 2015 Altera Corporation <www.altera.com>
+  */
+ #include "socfpga_arria10.dtsi"
++#include "socfpga_arria10_pcie.dtsi"
+ 
+ / {
+ 	model = "Altera SOCFPGA Arria 10";
+-- 
+2.17.1
+

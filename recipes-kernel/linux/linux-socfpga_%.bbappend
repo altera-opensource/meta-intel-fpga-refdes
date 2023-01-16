@@ -1,7 +1,7 @@
 # Append GSRD SoCFPGA device tree source include files
 # As this is custom to Intel SoCFPGA GSRD, hence it is not suitable to be upstreamed to meta-intel-fpga
 
-FILESEXTRAPATHS:prepend := "${THISDIR}/linux-socfpga-lts:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/linux-socfpga:"
 
 DEPENDS = "u-boot-mkimage-native dtc-native"
 

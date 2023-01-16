@@ -1,0 +1,190 @@
+From e046d1b202e944607ca48016d243ffc4615a7063 Mon Sep 17 00:00:00 2001
+From: "Chew, Chiau Ee" <chiau.ee.chew@intel.com>
+Date: Thu, 25 Feb 2021 18:37:41 +0800
+Subject: [PATCH] socfpga_arria10_socdk: include reference design dtsi
+
+Upstream-Status: Pending
+
+Signed-off-by: Chew, Chiau Ee <chiau.ee.chew@intel.com>
+---
+ arch/arm/boot/dts/socfpga_arria10_ghrd.dtsi  | 155 +++++++++++++++++++
+ arch/arm/boot/dts/socfpga_arria10_socdk.dtsi |   1 +
+ 2 files changed, 156 insertions(+)
+ create mode 100644 arch/arm/boot/dts/socfpga_arria10_ghrd.dtsi
+
+diff --git a/arch/arm/boot/dts/socfpga_arria10_ghrd.dtsi b/arch/arm/boot/dts/socfpga_arria10_ghrd.dtsi
+new file mode 100644
+index 000000000000..7eaf188fd509
+--- /dev/null
++++ b/arch/arm/boot/dts/socfpga_arria10_ghrd.dtsi
+@@ -0,0 +1,155 @@
++/*
++* Add this piece of dtsi fragment as #include "socfpga_arria10_ghrd.dtsi"
++* in the file socfpga_arria10_socdk.dtsi. Compile it in the kernel along with
++* socfpga_arria10.dtsi.
++*/
++
++/{
++	soc {
++		clkmgr@ffd04000 {
++			clocks {
++				clk_100: clk_100 { 
++					compatible = "fixed-clock";
++					#clock-cells = <0>;
++					clock-frequency = <100000000>;  /* 100.00 MHz */
++					clock-output-names = "clk_100-out_clk";
++				};
++
++				dp_0_clk_16: dp_0_clk_16 {
++					compatible = "fixed-clock";
++					#clock-cells = <0>;
++					clock-frequency = <16000000>;   /* 16.00 MHz */
++					clock-output-names = "dp_0_clk_16-out_clk";
++				};
++
++				dp_0_clk_vip: dp_0_clk_vip {
++					compatible = "fixed-clock";
++					#clock-cells = <0>;
++					clock-frequency = <74250000>;   /* 74.25 MHz */
++					clock-output-names = "dp_0_clk_vip-out_clk";
++				};
++
++				dp_0_dp_clk_100: dp_0_dp_clk_100 {
++					compatible = "fixed-clock";
++					#clock-cells = <0>;
++					clock-frequency = <100000000>;  /* 100.00 MHz */
++					clock-output-names = "dp_0_dp_clk_100-out_clk";
++				};
++			}; //end clocks
++		};
++
++		led_pio: gpio@0x100000010 {
++				compatible = "altr,pio-1.0";
++				reg = <0xff200010 0x10>;
++				altr,gpio-bank-width = <4>;
++				#gpio-cells = <2>;
++				gpio-controller;
++				resetvalue = <0>;
++		};
++
++		button_pio: gpio@0x100000020 {
++				compatible = "altr,pio-1.0";
++				reg = <0xff200020 0x10>;
++				interrupt-parent = <&intc>;
++				interrupts = <0 19 1>;
++				altr,gpio-bank-width = <4>;
++				altr,interrupt-type = <2>;
++				altr,interrupt_type = <2>;
++				edge_type = <1>;
++				level_trigger = <0>;
++				resetvalue = <0>;
++				#gpio-cells = <2>;
++				gpio-controller;
++		};
++
++		dipsw_pio: gpio@0x100000030 {
++				compatible = "altr,pio-1.0";
++				reg = <0xff200030 0x10>;
++				interrupt-parent = <&intc>;
++				interrupts = <0 20 1>;
++				altr,gpio-bank-width = <4>;
++				altr,interrupt-type = <3>;
++				altr,interrupt_type = <3>;
++				edge_type = <2>;
++				level_trigger = <0>;
++				resetvalue = <0>;
++				#gpio-cells = <2>;
++				gpio-controller;
++		};
++
++		trigger_pio: gpio@0x100000040 {
++				compatible = "altr,pio-1.0";
++				reg = <0xf9001040 0x20>;
++				altr,gpio-bank-width = <4>;
++				#gpio-cells = <2>;
++				gpio-controller;
++				resetvalue = <0>;
++		};
++
++		soc_leds: leds {
++			compatible = "gpio-leds";
++
++			led_fpga0: fpga0 {
++					label = "fpga_led0";
++					gpios = <&led_pio 0 1>;
++			}; //end fpga0 (led_fpga0)
++
++			led_fpga1: fpga1 {
++					label = "fpga_led1";
++					gpios = <&led_pio 1 1>;
++			}; //end fpga1 (led_fpga1)
++
++			led_fpga2: fpga2 {
++					label = "fpga_led2";
++					gpios = <&led_pio 2 1>;
++			}; //end fpga2 (led_fpga2)
++
++			led_fpga3: fpga3 {
++					label = "fpga_led3";
++					gpios = <&led_pio 3 1>;
++			}; //end fpga3 (led_fpga3)
++		};
++
++		dp_0_frame_buf: vip@0x100000280 {
++			compatible = "altr,vip-19.1", "altr,vip-frame-buffer-2.0";
++			reg = <0xff200280 0x00000040>;
++			interrupt-parent = <&intc>;
++			interrupts = <0 25 4>;
++			clocks = <&dp_0_clk_vip>;
++			altr,bits-per-symbol = <8>;
++			altr,max-height = <720>;
++			altr,max-width = <1280>;
++			altr,mem-port-width = <128>;
++		};
++
++		dp_0_bitec_dp_0: unknown@0x100002000 {
++			compatible = "unknown,unknown-19.1";
++			reg = <0xff202000 0x00000800>;
++			clocks = <&dp_0_dp_clk_100 &dp_0_clk_16 &dp_0_dp_clk_100>;
++			clock-names = "clk", "aux_clk", "xcvr_mgmt_clk";
++		};
++
++		ILC: ilc@0x100000100 {
++			compatible = "altr,altera_ilc-19.1", "altr,ilc-1.0";
++			reg = <0xff200100 0x00000100>;
++			interrupt-parent = <&intc>;
++			interrupts = <0 19 1 0 20 1>;
++			interrupt-names = "button_pio", "dipsw_pio";
++			interrupt-controller;
++			#interrupt-cells = <1>;
++			clocks = <&clk_100>;
++			altr,sw-fifo-depth = <32>;
++		};
++
++		sys_id: sysid@0x100000000 {
++			compatible = "altr,sysid-19.1", "altr,sysid-1.0";
++			reg = <0xff200000 0x00000008>;
++			clocks = <&clk_100>;
++			id = "-1073194496";
++			timestamp = <0>;
++		};
++
++	};
++};
++
++
+diff --git a/arch/arm/boot/dts/socfpga_arria10_socdk.dtsi b/arch/arm/boot/dts/socfpga_arria10_socdk.dtsi
+index 1ff37b89b109..001e33c83303 100644
+--- a/arch/arm/boot/dts/socfpga_arria10_socdk.dtsi
++++ b/arch/arm/boot/dts/socfpga_arria10_socdk.dtsi
+@@ -3,6 +3,7 @@
+  * Copyright (C) 2015 Altera Corporation <www.altera.com>
+  */
+ #include "socfpga_arria10.dtsi"
++#include "socfpga_arria10_ghrd.dtsi"
+ 
+ / {
+ 	model = "Altera SOCFPGA Arria 10";
+-- 
+2.17.1
+

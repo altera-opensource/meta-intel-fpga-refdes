@@ -3,13 +3,13 @@
 / {
 	fragment@0 {
 		target-path = "/soc/base_fpga_region";
-		#address-cells = <1>;
-		#size-cells = <1>;
+		#address-cells = <0x2>;
+		#size-cells = <0x2>;
 		__overlay__ {
-			#address-cells = <1>;
-			#size-cells = <1>;
+			#address-cells = <0x2>;
+			#size-cells = <0x2>;
 
-			ranges = <0x00000000 0xF9000000 0x00200000>;
+			ranges = <0x00000000 0x0 0xF9000000 0x0 0x00200000>;
 
 			external-fpga-config;
 
@@ -27,13 +27,13 @@
 				compatible = "fpga-region";
 				fpga-bridges = <&freeze_controller_0>;
 				ranges;
-				#address-cells = <1>;
-				#size-cells = <1>;
+				#address-cells = <0x2>;
+				#size-cells = <0x2>;
 			};
 
 			freeze_controller_0: freeze_controller@0x0450 {
 				compatible = "altr,freeze_controller-16.1", "altr,freeze-bridge-controller";
-				reg = <0x00000450 0x00000010>;
+				reg = <0x0 0x00000450 0x0 0x00000010>;
 				interrupt-parent = <&intc>;
 				/*interrupts = <0 21 4>;*/
 				clocks = <&clk_0>;

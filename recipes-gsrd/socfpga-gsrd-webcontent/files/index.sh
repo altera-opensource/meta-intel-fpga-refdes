@@ -37,6 +37,9 @@ agilex_fm86)
 agilex_fm87)
 	DEVKIT_NAME="Agilex FM87 SoC Development Kit"
 	;;
+agilex5)
+	DEVKIT_NAME="Agilex5 SoC Development Kit"
+	;;
 undef)
 	DEVKIT_NAME="Unknown Development Kit"
 	exit -1
@@ -141,6 +144,13 @@ echo -e "<ul>"
         echo -e "<li><a href=\"http://www.rocketboards.org\" target=\"_blank\">Rocketboards.org</a></li> "
 echo -e "</ul>"
 echo -e "</div>"
+elif [ "$MACHINE" == "agilex5" ]; then
+echo -e "<div class=\"bup-links\">"
+echo -e "<h4>Developer Resources</h4>"
+echo -e "<ul>"
+        echo -e "<li><a href=\"http://www.rocketboards.org\" target=\"_blank\">Rocketboards.org</a></li> "
+echo -e "</ul>"
+echo -e "</div>"
 fi
 
 echo -e "<div class=\"bup-form\">"
@@ -169,311 +179,313 @@ elif [[ "$MACHINE" == "agilex_fm87" ]]; then
         echo -e "<div><img src=\"../agilex_fm87-board-image.jpg\" style=\"width:640px;height:478px;\"></div>"
 fi
 
-##
-echo -e "<div id=\"interactive\" class=\"bup-form\">"
-echo "<hr style=\"border: 1px solid; color:#06c\"><br>"
-echo -e "<span><strong><h1>Interacting with $DEVKIT_NAME</h1></strong><br/>"
-echo -e "</span>"
+if [ "$MACHINE" != "agilex5" ]; then
+	##
+	echo -e "<div id=\"interactive\" class=\"bup-form\">"
+	echo "<hr style=\"border: 1px solid; color:#06c\"><br>"
+	echo -e "<span><strong><h1>Interacting with $DEVKIT_NAME</h1></strong><br/>"
+	echo -e "</span>"
 
-read POST_STRING
-#echo $POST_STRING
-SCROLL_DELAY=-1
-LED_CONTROL=-1
-LED_COMMAND="none"
-LED_FREQ=-1
+	read POST_STRING
+	#echo $POST_STRING
+	SCROLL_DELAY=-1
+	LED_CONTROL=-1
+	LED_COMMAND="none"
+	LED_FREQ=-1
 
-IFS='&' read -ra ADDR <<< "$POST_STRING"
+	IFS='&' read -ra ADDR <<< "$POST_STRING"
 
-for i in "${ADDR[@]}"
-do
-	KEY=`echo $i | sed 's/=.*//g'`
-	VALUE=`echo $i | sed 's/.*=//g'`
-
-	if [ "$KEY" = "lcd_text" ]; then
-		printf '\e[2K' > /dev/ttyLCD0
-		VALUE=`echo "$VALUE" | sed 's/+/ /g'`
-		VALUE=`echo "$VALUE" | sed -e's/%\([0-9A-F][0-9A-F]\)/\\\\\x\1/g'`
-		VALUE=`echo -e "$VALUE"`
-		VALUE=`echo "$VALUE" | sed 's/%/%%/g' | sed 's/\\\\/\\\\\\\\/g'`
-		printf "$VALUE" > /dev/ttyLCD0
-	fi
-
-	if [ "$KEY" = "scroll_freq" ]; then
-		SCROLL_DELAY=$VALUE
-	fi
-
-	if [ "$KEY" = "scroll" ]; then
-		if [ "$VALUE" = "START" ]; then
-			SCROLL_COMMAND="start"
-		fi
-		if [ "$VALUE" = "STOP" ]; then
-			SCROLL_COMMAND="stop"
-		fi
-	fi
-
-	for LED_NUMBER in 0 1 2 3
+	for i in "${ADDR[@]}"
 	do
-		if [ "$KEY" = "led_"$LED_NUMBER ]; then
-			if [ "$VALUE" = "BLINK" ]; then
-				LED_CONTROL=$LED_NUMBER
-				LED_COMMAND="blink"
+		KEY=`echo $i | sed 's/=.*//g'`
+		VALUE=`echo $i | sed 's/.*=//g'`
+
+		if [ "$KEY" = "lcd_text" ]; then
+			printf '\e[2K' > /dev/ttyLCD0
+			VALUE=`echo "$VALUE" | sed 's/+/ /g'`
+			VALUE=`echo "$VALUE" | sed -e's/%\([0-9A-F][0-9A-F]\)/\\\\\x\1/g'`
+			VALUE=`echo -e "$VALUE"`
+			VALUE=`echo "$VALUE" | sed 's/%/%%/g' | sed 's/\\\\/\\\\\\\\/g'`
+			printf "$VALUE" > /dev/ttyLCD0
+		fi
+
+		if [ "$KEY" = "scroll_freq" ]; then
+			SCROLL_DELAY=$VALUE
+		fi
+
+		if [ "$KEY" = "scroll" ]; then
+			if [ "$VALUE" = "START" ]; then
+				SCROLL_COMMAND="start"
 			fi
-			if [ "$VALUE" = "OFF" ]; then
-				LED_CONTROL=$LED_NUMBER
-				LED_COMMAND="off"
-			fi
-			if [ "$VALUE" = "ON" ]; then
-				LED_CONTROL=$LED_NUMBER
-				LED_COMMAND="on"
+			if [ "$VALUE" = "STOP" ]; then
+				SCROLL_COMMAND="stop"
 			fi
 		fi
 
+		for LED_NUMBER in 0 1 2 3
+		do
+			if [ "$KEY" = "led_"$LED_NUMBER ]; then
+				if [ "$VALUE" = "BLINK" ]; then
+					LED_CONTROL=$LED_NUMBER
+					LED_COMMAND="blink"
+				fi
+				if [ "$VALUE" = "OFF" ]; then
+					LED_CONTROL=$LED_NUMBER
+					LED_COMMAND="off"
+				fi
+				if [ "$VALUE" = "ON" ]; then
+					LED_CONTROL=$LED_NUMBER
+					LED_COMMAND="on"
+				fi
+			fi
+
+		done
+
+		if [ "$KEY" = "led_0_freq" ]; then
+			LED_FREQ=$VALUE
+		fi
+		if [ "$KEY" = "led_1_freq" ]; then
+			LED_FREQ=$VALUE
+		fi
+		if [ "$KEY" = "led_2_freq" ]; then
+			LED_FREQ=$VALUE
+		fi
+		if [ "$KEY" = "led_3_freq" ]; then
+			LED_FREQ=$VALUE
+		fi
+		if [ "$KEY" = "scroll_freq" ]; then
+			SCROLL_FREQ=$VALUE
+		fi
 	done
 
-	if [ "$KEY" = "led_0_freq" ]; then
-		LED_FREQ=$VALUE
-	fi
-	if [ "$KEY" = "led_1_freq" ]; then
-		LED_FREQ=$VALUE
-	fi
-	if [ "$KEY" = "led_2_freq" ]; then
-		LED_FREQ=$VALUE
-	fi
-	if [ "$KEY" = "led_3_freq" ]; then
-		LED_FREQ=$VALUE
-	fi
-	if [ "$KEY" = "scroll_freq" ]; then
-		SCROLL_FREQ=$VALUE
-	fi
-done
+	if [ "$LED_CONTROL" != "-1" ]; then
+		if [ "$LED_COMMAND" = "blink" ]; then
+			./blink $LED_CONTROL $LED_FREQ
+		fi
 
-if [ "$LED_CONTROL" != "-1" ]; then
-	if [ "$LED_COMMAND" = "blink" ]; then
-		./blink $LED_CONTROL $LED_FREQ
+		if [ "$LED_COMMAND" = "on" ]; then
+			./toggle $LED_CONTROL 1
+		fi
+
+		if [ "$LED_COMMAND" = "off" ]; then
+			./toggle $LED_CONTROL 0
+		fi
 	fi
 
-	if [ "$LED_COMMAND" = "on" ]; then
-		./toggle $LED_CONTROL 1
+	if [ "$SCROLL_COMMAND" = "start" ]; then
+		./scroll_client $SCROLL_DELAY
+	fi
+	if [ "$SCROLL_COMMAND" = "stop" ]; then
+		./scroll_client -1
 	fi
 
-	if [ "$LED_COMMAND" = "off" ]; then
-		./toggle $LED_CONTROL 0
-	fi
-fi
+	#ON=1, OFF=0, BLINK=-1
+	LED0_STATUS=1
+	LED1_STATUS=0
+	LED2_STATUS=1
+	LED3_STATUS=0
+	SCROLL_START=0
 
-if [ "$SCROLL_COMMAND" = "start" ]; then
-	./scroll_client $SCROLL_DELAY
-fi
-if [ "$SCROLL_COMMAND" = "stop" ]; then
-	./scroll_client -1
-fi
+	LED0_BLINKING=`cat /sys/class/leds/fpga_led0/trigger | cut -d "[" -f2 | cut -d "]" -f1`
+	LED1_BLINKING=`cat /sys/class/leds/fpga_led1/trigger | cut -d "[" -f2 | cut -d "]" -f1`
+	LED2_BLINKING=`cat /sys/class/leds/fpga_led2/trigger | cut -d "[" -f2 | cut -d "]" -f1`
+	LED3_BLINKING=`cat /sys/class/leds/fpga_led3/trigger | cut -d "[" -f2 | cut -d "]" -f1`
 
-#ON=1, OFF=0, BLINK=-1
-LED0_STATUS=1
-LED1_STATUS=0
-LED2_STATUS=1
-LED3_STATUS=0
-SCROLL_START=0
-
-LED0_BLINKING=`cat /sys/class/leds/fpga_led0/trigger | cut -d "[" -f2 | cut -d "]" -f1`
-LED1_BLINKING=`cat /sys/class/leds/fpga_led1/trigger | cut -d "[" -f2 | cut -d "]" -f1`
-LED2_BLINKING=`cat /sys/class/leds/fpga_led2/trigger | cut -d "[" -f2 | cut -d "]" -f1`
-LED3_BLINKING=`cat /sys/class/leds/fpga_led3/trigger | cut -d "[" -f2 | cut -d "]" -f1`
-
-if [ "$LED0_BLINKING" = "timer" ]; then
-LED0_STATUS=-1
-else
-LED0_STATUS=`cat /sys/class/leds/fpga_led0/brightness`
-fi
-
-if [ "$LED1_BLINKING" = "timer" ]; then
-LED1_STATUS=-1
-else
-LED1_STATUS=`cat /sys/class/leds/fpga_led1/brightness`
-fi
-
-if [ "$LED2_BLINKING" = "timer" ]; then
-LED2_STATUS=-1
-else
-LED2_STATUS=`cat /sys/class/leds/fpga_led2/brightness`
-fi
-
-if [ "$LED3_BLINKING" = "timer" ]; then
-LED3_STATUS=-1
-else
-LED3_STATUS=`cat /sys/class/leds/fpga_led3/brightness`
-fi
-
-SCROLL_START=`./scroll_client 0`
-if [ $SCROLL_START -ge 1 ]; then
-SCROLL_START=1
-else
-SCROLL_START=0
-fi
-
-echo -e "<p>You can observe the LED that are connected to the FPGA on the board from the picture below.</p>"
-
-echo -e "<table style=\"margin-top:10px; margin-left:0px; font-family: Arial; font-size: 10pt\">"
-echo -e "<tr><td></td><td align=center width=19 height=10>0</td> <td align=center width=19 height=10>1</td> <td align=center width=19 height=10>2</td> <td align=center width=19 height=10>3</td></tr>"
-echo -e "<tr>"
-
-if [ "$SCROLL_START" == "1" ]; then
-echo -e "<td align=left ><strong>LED Status:</strong> </td> <td align=center colspan=4><img src=\"../runningled.gif\"></td>"
-else
-echo -e "<td><strong>LED Status:</strong></td>"
-if [ "$LED0_STATUS" == "0" ]; then
-	echo -e "<td align=center width=19 height=46> <img src=\"../offled.jpg\"> </td>"
-elif [ "$LED0_STATUS" == "1" ]; then
-	echo -e "<td align=center width=19 height=46> <img src=\"../onled.jpg\"> </td>"
-else
-	echo -e "<td align=center width=19 height=46> <img src=\"../blinkled.gif\"> </td>"
-fi
-
-if [ "$LED1_STATUS" == "0" ]; then
-	echo -e "<td align=center width=19 height=46> <img src=\"../offled.jpg\"> </td>"
-elif [ "$LED1_STATUS" == "1" ]; then
-	echo -e "<td align=center width=19 height=46> <img src=\"../onled.jpg\"> </td>"
-else
-	echo -e "<td align=center width=19 height=46> <img src=\"../blinkled.gif\"> </td>"
-fi
-
-if [ "$LED2_STATUS" == "0" ]; then
-	echo -e "<td align=center width=19 height=46> <img src=\"../offled.jpg\"> </td>"
-elif [ "$LED2_STATUS" == "1" ]; then
-	echo -e "<td align=center width=19 height=46> <img src=\"../onled.jpg\"> </td>"
-else
-	echo -e "<td align=center width=19 height=46> <img src=\"../blinkled.gif\"> </td>"
-fi
-
-if [ "$LED3_STATUS" == "0" ]; then
-	echo -e "<td align=center width=19 height=46> <img src=\"../offled.jpg\"> </td>"
-elif [ "$LED3_STATUS" == "1" ]; then
-	echo -e "<td align=center width=19 height=46> <img src=\"../onled.jpg\"> </td>"
-else
-	echo -e "<td align=center width=19 height=46> <img src=\"../blinkled.gif\"> </td>"
-fi
-
-fi
-
-echo -e "</tr>"
-echo -e "</table>"
-
-echo "<br><hr style=\"border: 1px dotted\"><br>"
-
-
-echo -e "<p>You can start running lightshow on the LED that are connected to the FPGA. Type in the running delay in milliseconds and click Start button. Click Stop button when you wish to stop the running LED.<br><br></p>"
-
-echo -e "<FORM name=\"interactive\" action=\"/cgi-bin/index.sh#interactive\" method=\"post\">"
-
-
-	echo -e "<P>"
-	echo -e "<strong><font size=\"2\"> LED Lightshow: </font></strong> "
-	echo -e "<INPUT type=\"text\" id=\"lightshow\" class=\"box\" size=\"22\" name=\"scroll_freq\" onChange=\"valuevalidation(this.value, 0);\" placeholder=\"Type LED Running Delay (ms)\">"
-	echo -e "<INPUT type=\"submit\" class=\"box\" name=\"scroll\" value=\"START\" onclick=\"if(validatedelay()) return this.clicked  = true; else return this.clicked = false;\">"
-	echo -e "<INPUT type=\"submit\" class=\"box\" name=\"scroll\" value=\"STOP\" >"
-	echo -e "</P>"
-
-echo -e "</FORM>"
-
-echo "<br>"
-
-echo "<hr style=\"border: 1px dotted\">"
-
-echo -e "<p><br>You can control to turn on, turn off or to blink the LED that are connected to the FPGA on the development kit. To blink the LED, type the LED toggling delay in milliseconds and click Blink button.<br><br></p>"
-
-echo -e "<FORM action=\"/cgi-bin/index.sh#interactive\" method=\"post\">"
-    echo -e "<P>"
-    echo -e "<strong><font size=\"2\"> LED 0: </font></strong> "	
-	if [ "$SCROLL_START" == 0 ]; then
-	echo -e "<INPUT type=\"submit\" class=\"box\" name=\"led_0\" value=\"ON\" >"
-	echo -e "<INPUT type=\"submit\" class=\"box\" name=\"led_0\" value=\"OFF\" >"
-	echo -e "&nbsp &nbsp &nbsp &nbsp &nbsp"
-	echo -e "<INPUT type=\"text\" id=\"led0_id\" class=\"box\" size=\"22\" name=\"led_0_freq\" placeholder=\"Type LED Toggling Delay (ms)\" onChange=\"valuevalidation(this.value, 1);\">  " 	
-	echo -e "<INPUT type=\"submit\" class=\"box\" name=\"led_0\" value=\"BLINK\" >"
+	if [ "$LED0_BLINKING" = "timer" ]; then
+	LED0_STATUS=-1
 	else
-	echo -e "<INPUT type=\"submit\" class=\"box\" name=\"led_0\" value=\"ON\" disabled>"
-	echo -e "<INPUT type=\"submit\" class=\"box\" name=\"led_0\" value=\"OFF\" disabled>"
-	echo -e "&nbsp &nbsp &nbsp &nbsp &nbsp"
-	echo -e "<INPUT type=\"text\" id=\"led0_id\" class=\"box\" size=\"22\" name=\"led_0_freq\" placeholder=\"Type LED Toggling Delay (ms)\"  disabled>  "
-	echo -e "<INPUT type=\"submit\" class=\"box\" name=\"led_0\" value=\"BLINK\" disabled>"
-	fi	
-    echo -e "</P>"
-echo -e "</FORM>"
-
-echo -e "<FORM action=\"/cgi-bin/index.sh#interactive\" method=\"post\">"
-	echo -e "<P>"
-    echo -e "<strong><font size=\"2\"> LED 1: </font></strong> "	
-	if [ "$SCROLL_START" == 0 ]; then
-	echo -e "<INPUT type=\"submit\" class=\"box\" name=\"led_1\" value=\"ON\" >"
-	echo -e "<INPUT type=\"submit\" class=\"box\" name=\"led_1\" value=\"OFF\" >"	
-	echo -e "&nbsp &nbsp &nbsp &nbsp &nbsp"
-	echo -e "<INPUT type=\"text\" id=\"led1_id\" class=\"box\" size=\"22\" name=\"led_1_freq\" placeholder=\"Type LED Toggling Delay (ms)\" onChange=\"valuevalidation(this.value, 2);\">  "
-	echo -e "<INPUT type=\"submit\" class=\"box\" name=\"led_1\" value=\"BLINK\" >"
-	else
-	echo -e "<INPUT type=\"submit\" class=\"box\" name=\"led_1\" value=\"ON\" disabled>"
-	echo -e "<INPUT type=\"submit\" class=\"box\" name=\"led_1\" value=\"OFF\" disabled>"	
-	echo -e "&nbsp &nbsp &nbsp &nbsp &nbsp"
-	echo -e "<INPUT type=\"text\" id=\"led1_id\" class=\"box\" size=\"22\" name=\"led_1_freq\" placeholder=\"Type LED Toggling Delay (ms)\" disabled>  "
-	echo -e "<INPUT type=\"submit\" class=\"box\" name=\"led_1\" value=\"BLINK\" disabled>"
-	fi	
-    echo -e "</P>"
-echo -e "</FORM>"
-
-echo -e "<FORM action=\"/cgi-bin/index.sh#interactive\" method=\"post\">"
-	echo -e "<P>"
-    echo -e "<strong><font size=\"2\"> LED 2: </font></strong> "	
-	if [ "$SCROLL_START" == 0 ]; then
-	echo -e "<INPUT type=\"submit\" class=\"box\" name=\"led_2\" value=\"ON\" >"
-	echo -e "<INPUT type=\"submit\" class=\"box\" name=\"led_2\" value=\"OFF\" >"
-	echo -e "&nbsp &nbsp &nbsp &nbsp &nbsp"
-	echo -e "<INPUT type=\"text\" id=\"led2_id\" class=\"box\" size=\"22\" name=\"led_2_freq\" placeholder=\"Type LED Toggling Delay (ms)\"  onChange=\"valuevalidation(this.value, 3);\">  "
-	echo -e "<INPUT type=\"submit\" class=\"box\" name=\"led_2\" value=\"BLINK\" >"
-	else
-	echo -e "<INPUT type=\"submit\" class=\"box\" name=\"led_2\" value=\"ON\" disabled>"
-	echo -e "<INPUT type=\"submit\" class=\"box\" name=\"led_2\" value=\"OFF\" disabled>"	
-	echo -e "&nbsp &nbsp &nbsp &nbsp &nbsp"
-	echo -e "<INPUT type=\"text\" id=\"led2_id\" class=\"box\" size=\"22\" name=\"led_2_freq\" placeholder=\"Type LED Toggling Delay (ms)\" disabled>  "
-	echo -e "<INPUT type=\"submit\" class=\"box\" name=\"led_2\" value=\"BLINK\" disabled>"
+	LED0_STATUS=`cat /sys/class/leds/fpga_led0/brightness`
 	fi
-	echo -e "</P>"
-echo -e "</FORM>"
 
-echo -e "<FORM action=\"/cgi-bin/index.sh#interactive\" method=\"post\">"
-	echo -e "<P>"
-    echo -e "<strong><font size=\"2\"> LED 3: </font></strong> "	
-	if [ "$SCROLL_START" == 0 ]; then
-	echo -e "<INPUT type=\"submit\" class=\"box\" name=\"led_3\" value=\"ON\" >"
-	echo -e "<INPUT type=\"submit\" class=\"box\" name=\"led_3\" value=\"OFF\" >"	
-	echo -e "&nbsp &nbsp &nbsp &nbsp &nbsp"
-	echo -e "<INPUT type=\"text\" id=\"led3_id\" class=\"box\" size=\"22\" name=\"led_3_freq\" placeholder=\"Type LED Toggling Delay (ms)\"  onChange=\"valuevalidation(this.value, 4);\">  "
-	echo -e "<INPUT type=\"submit\" class=\"box\" name=\"led_3\" value=\"BLINK\" >"
+	if [ "$LED1_BLINKING" = "timer" ]; then
+	LED1_STATUS=-1
 	else
-	echo -e "<INPUT type=\"submit\" class=\"box\" name=\"led_3\" value=\"ON\" disabled>"
-	echo -e "<INPUT type=\"submit\" class=\"box\" name=\"led_3\" value=\"OFF\" disabled>"	
-	echo -e "&nbsp &nbsp &nbsp &nbsp &nbsp"
-	echo -e "<INPUT type=\"text\" id=\"led3_id\" class=\"box\" size=\"22\" name=\"led_3_freq\" placeholder=\"Type LED Toggling Delay (ms)\" disabled>  "
-	echo -e "<INPUT type=\"submit\" class=\"box\" name=\"led_3\" value=\"BLINK\" disabled>"
+	LED1_STATUS=`cat /sys/class/leds/fpga_led1/brightness`
 	fi
-	echo -e "</P>"	
-echo -e "</FORM>"
 
-# FPGA in user mode detection complete
+	if [ "$LED2_BLINKING" = "timer" ]; then
+	LED2_STATUS=-1
+	else
+	LED2_STATUS=`cat /sys/class/leds/fpga_led2/brightness`
+	fi
 
-if [ "$MACHINE" == "arria10" ] || ["$MACHINE" == "cyclone5" ] || ["$MACHINE" == "arria5" ]; then
+	if [ "$LED3_BLINKING" = "timer" ]; then
+	LED3_STATUS=-1
+	else
+	LED3_STATUS=`cat /sys/class/leds/fpga_led3/brightness`
+	fi
 
-	echo "<br><hr id=\"lcd\" style=\"border: 1px dotted\">"
+	SCROLL_START=`./scroll_client 0`
+	if [ $SCROLL_START -ge 1 ]; then
+	SCROLL_START=1
+	else
+	SCROLL_START=0
+	fi
 
-	echo -e "<p><br>Type in the message (maximum 16 characters) that you wish to send over to the character LCD on the development kit. <br><br></p>"
+	echo -e "<p>You can observe the LED that are connected to the FPGA on the board from the picture below.</p>"
 
-	echo -e "<FORM action=\"/cgi-bin/index.sh#lcd\" method=\"post\">"
+	echo -e "<table style=\"margin-top:10px; margin-left:0px; font-family: Arial; font-size: 10pt\">"
+	echo -e "<tr><td></td><td align=center width=19 height=10>0</td> <td align=center width=19 height=10>1</td> <td align=center width=19 height=10>2</td> <td align=center width=19 height=10>3</td></tr>"
+	echo -e "<tr>"
+
+	if [ "$SCROLL_START" == "1" ]; then
+	echo -e "<td align=left ><strong>LED Status:</strong> </td> <td align=center colspan=4><img src=\"../runningled.gif\"></td>"
+	else
+	echo -e "<td><strong>LED Status:</strong></td>"
+	if [ "$LED0_STATUS" == "0" ]; then
+		echo -e "<td align=center width=19 height=46> <img src=\"../offled.jpg\"> </td>"
+	elif [ "$LED0_STATUS" == "1" ]; then
+		echo -e "<td align=center width=19 height=46> <img src=\"../onled.jpg\"> </td>"
+	else
+		echo -e "<td align=center width=19 height=46> <img src=\"../blinkled.gif\"> </td>"
+	fi
+
+	if [ "$LED1_STATUS" == "0" ]; then
+		echo -e "<td align=center width=19 height=46> <img src=\"../offled.jpg\"> </td>"
+	elif [ "$LED1_STATUS" == "1" ]; then
+		echo -e "<td align=center width=19 height=46> <img src=\"../onled.jpg\"> </td>"
+	else
+		echo -e "<td align=center width=19 height=46> <img src=\"../blinkled.gif\"> </td>"
+	fi
+
+	if [ "$LED2_STATUS" == "0" ]; then
+		echo -e "<td align=center width=19 height=46> <img src=\"../offled.jpg\"> </td>"
+	elif [ "$LED2_STATUS" == "1" ]; then
+		echo -e "<td align=center width=19 height=46> <img src=\"../onled.jpg\"> </td>"
+	else
+		echo -e "<td align=center width=19 height=46> <img src=\"../blinkled.gif\"> </td>"
+	fi
+
+	if [ "$LED3_STATUS" == "0" ]; then
+		echo -e "<td align=center width=19 height=46> <img src=\"../offled.jpg\"> </td>"
+	elif [ "$LED3_STATUS" == "1" ]; then
+		echo -e "<td align=center width=19 height=46> <img src=\"../onled.jpg\"> </td>"
+	else
+		echo -e "<td align=center width=19 height=46> <img src=\"../blinkled.gif\"> </td>"
+	fi
+
+	fi
+
+	echo -e "</tr>"
+	echo -e "</table>"
+
+	echo "<br><hr style=\"border: 1px dotted\"><br>"
+
+
+	echo -e "<p>You can start running lightshow on the LED that are connected to the FPGA. Type in the running delay in milliseconds and click Start button. Click Stop button when you wish to stop the running LED.<br><br></p>"
+
+	echo -e "<FORM name=\"interactive\" action=\"/cgi-bin/index.sh#interactive\" method=\"post\">"
+
 
 		echo -e "<P>"
-    		echo -e "<strong><font size=\"2\">Send to character LCD: </font></strong> "
-		echo -e "<INPUT type=\"text\" class=\"box\" name=\"lcd_text\" maxlength=\"16\">"
-    		echo -e "<INPUT type=\"submit\" class=\"box\" value=\"Send to LCD\"> "
-    		echo -e "</P>"
+		echo -e "<strong><font size=\"2\"> LED Lightshow: </font></strong> "
+		echo -e "<INPUT type=\"text\" id=\"lightshow\" class=\"box\" size=\"22\" name=\"scroll_freq\" onChange=\"valuevalidation(this.value, 0);\" placeholder=\"Type LED Running Delay (ms)\">"
+		echo -e "<INPUT type=\"submit\" class=\"box\" name=\"scroll\" value=\"START\" onclick=\"if(validatedelay()) return this.clicked  = true; else return this.clicked = false;\">"
+		echo -e "<INPUT type=\"submit\" class=\"box\" name=\"scroll\" value=\"STOP\" >"
+		echo -e "</P>"
 
-	echo -e "</form>"
+	echo -e "</FORM>"
+
+	echo "<br>"
+
+	echo "<hr style=\"border: 1px dotted\">"
+
+	echo -e "<p><br>You can control to turn on, turn off or to blink the LED that are connected to the FPGA on the development kit. To blink the LED, type the LED toggling delay in milliseconds and click Blink button.<br><br></p>"
+
+	echo -e "<FORM action=\"/cgi-bin/index.sh#interactive\" method=\"post\">"
+		echo -e "<P>"
+		echo -e "<strong><font size=\"2\"> LED 0: </font></strong> "	
+		if [ "$SCROLL_START" == 0 ]; then
+		echo -e "<INPUT type=\"submit\" class=\"box\" name=\"led_0\" value=\"ON\" >"
+		echo -e "<INPUT type=\"submit\" class=\"box\" name=\"led_0\" value=\"OFF\" >"
+		echo -e "&nbsp &nbsp &nbsp &nbsp &nbsp"
+		echo -e "<INPUT type=\"text\" id=\"led0_id\" class=\"box\" size=\"22\" name=\"led_0_freq\" placeholder=\"Type LED Toggling Delay (ms)\" onChange=\"valuevalidation(this.value, 1);\">  " 	
+		echo -e "<INPUT type=\"submit\" class=\"box\" name=\"led_0\" value=\"BLINK\" >"
+		else
+		echo -e "<INPUT type=\"submit\" class=\"box\" name=\"led_0\" value=\"ON\" disabled>"
+		echo -e "<INPUT type=\"submit\" class=\"box\" name=\"led_0\" value=\"OFF\" disabled>"
+		echo -e "&nbsp &nbsp &nbsp &nbsp &nbsp"
+		echo -e "<INPUT type=\"text\" id=\"led0_id\" class=\"box\" size=\"22\" name=\"led_0_freq\" placeholder=\"Type LED Toggling Delay (ms)\"  disabled>  "
+		echo -e "<INPUT type=\"submit\" class=\"box\" name=\"led_0\" value=\"BLINK\" disabled>"
+		fi	
+		echo -e "</P>"
+	echo -e "</FORM>"
+
+	echo -e "<FORM action=\"/cgi-bin/index.sh#interactive\" method=\"post\">"
+		echo -e "<P>"
+		echo -e "<strong><font size=\"2\"> LED 1: </font></strong> "	
+		if [ "$SCROLL_START" == 0 ]; then
+		echo -e "<INPUT type=\"submit\" class=\"box\" name=\"led_1\" value=\"ON\" >"
+		echo -e "<INPUT type=\"submit\" class=\"box\" name=\"led_1\" value=\"OFF\" >"	
+		echo -e "&nbsp &nbsp &nbsp &nbsp &nbsp"
+		echo -e "<INPUT type=\"text\" id=\"led1_id\" class=\"box\" size=\"22\" name=\"led_1_freq\" placeholder=\"Type LED Toggling Delay (ms)\" onChange=\"valuevalidation(this.value, 2);\">  "
+		echo -e "<INPUT type=\"submit\" class=\"box\" name=\"led_1\" value=\"BLINK\" >"
+		else
+		echo -e "<INPUT type=\"submit\" class=\"box\" name=\"led_1\" value=\"ON\" disabled>"
+		echo -e "<INPUT type=\"submit\" class=\"box\" name=\"led_1\" value=\"OFF\" disabled>"	
+		echo -e "&nbsp &nbsp &nbsp &nbsp &nbsp"
+		echo -e "<INPUT type=\"text\" id=\"led1_id\" class=\"box\" size=\"22\" name=\"led_1_freq\" placeholder=\"Type LED Toggling Delay (ms)\" disabled>  "
+		echo -e "<INPUT type=\"submit\" class=\"box\" name=\"led_1\" value=\"BLINK\" disabled>"
+		fi	
+		echo -e "</P>"
+	echo -e "</FORM>"
+
+	echo -e "<FORM action=\"/cgi-bin/index.sh#interactive\" method=\"post\">"
+		echo -e "<P>"
+		echo -e "<strong><font size=\"2\"> LED 2: </font></strong> "	
+		if [ "$SCROLL_START" == 0 ]; then
+		echo -e "<INPUT type=\"submit\" class=\"box\" name=\"led_2\" value=\"ON\" >"
+		echo -e "<INPUT type=\"submit\" class=\"box\" name=\"led_2\" value=\"OFF\" >"
+		echo -e "&nbsp &nbsp &nbsp &nbsp &nbsp"
+		echo -e "<INPUT type=\"text\" id=\"led2_id\" class=\"box\" size=\"22\" name=\"led_2_freq\" placeholder=\"Type LED Toggling Delay (ms)\"  onChange=\"valuevalidation(this.value, 3);\">  "
+		echo -e "<INPUT type=\"submit\" class=\"box\" name=\"led_2\" value=\"BLINK\" >"
+		else
+		echo -e "<INPUT type=\"submit\" class=\"box\" name=\"led_2\" value=\"ON\" disabled>"
+		echo -e "<INPUT type=\"submit\" class=\"box\" name=\"led_2\" value=\"OFF\" disabled>"	
+		echo -e "&nbsp &nbsp &nbsp &nbsp &nbsp"
+		echo -e "<INPUT type=\"text\" id=\"led2_id\" class=\"box\" size=\"22\" name=\"led_2_freq\" placeholder=\"Type LED Toggling Delay (ms)\" disabled>  "
+		echo -e "<INPUT type=\"submit\" class=\"box\" name=\"led_2\" value=\"BLINK\" disabled>"
+		fi
+		echo -e "</P>"
+	echo -e "</FORM>"
+
+	echo -e "<FORM action=\"/cgi-bin/index.sh#interactive\" method=\"post\">"
+		echo -e "<P>"
+		echo -e "<strong><font size=\"2\"> LED 3: </font></strong> "	
+		if [ "$SCROLL_START" == 0 ]; then
+		echo -e "<INPUT type=\"submit\" class=\"box\" name=\"led_3\" value=\"ON\" >"
+		echo -e "<INPUT type=\"submit\" class=\"box\" name=\"led_3\" value=\"OFF\" >"	
+		echo -e "&nbsp &nbsp &nbsp &nbsp &nbsp"
+		echo -e "<INPUT type=\"text\" id=\"led3_id\" class=\"box\" size=\"22\" name=\"led_3_freq\" placeholder=\"Type LED Toggling Delay (ms)\"  onChange=\"valuevalidation(this.value, 4);\">  "
+		echo -e "<INPUT type=\"submit\" class=\"box\" name=\"led_3\" value=\"BLINK\" >"
+		else
+		echo -e "<INPUT type=\"submit\" class=\"box\" name=\"led_3\" value=\"ON\" disabled>"
+		echo -e "<INPUT type=\"submit\" class=\"box\" name=\"led_3\" value=\"OFF\" disabled>"	
+		echo -e "&nbsp &nbsp &nbsp &nbsp &nbsp"
+		echo -e "<INPUT type=\"text\" id=\"led3_id\" class=\"box\" size=\"22\" name=\"led_3_freq\" placeholder=\"Type LED Toggling Delay (ms)\" disabled>  "
+		echo -e "<INPUT type=\"submit\" class=\"box\" name=\"led_3\" value=\"BLINK\" disabled>"
+		fi
+		echo -e "</P>"	
+	echo -e "</FORM>"
+
+	# FPGA in user mode detection complete
+
+	if [ "$MACHINE" == "arria10" ] || ["$MACHINE" == "cyclone5" ] || ["$MACHINE" == "arria5" ]; then
+
+		echo "<br><hr id=\"lcd\" style=\"border: 1px dotted\">"
+
+		echo -e "<p><br>Type in the message (maximum 16 characters) that you wish to send over to the character LCD on the development kit. <br><br></p>"
+
+		echo -e "<FORM action=\"/cgi-bin/index.sh#lcd\" method=\"post\">"
+
+			echo -e "<P>"
+				echo -e "<strong><font size=\"2\">Send to character LCD: </font></strong> "
+			echo -e "<INPUT type=\"text\" class=\"box\" name=\"lcd_text\" maxlength=\"16\">"
+				echo -e "<INPUT type=\"submit\" class=\"box\" value=\"Send to LCD\"> "
+				echo -e "</P>"
+
+		echo -e "</form>"
+	fi
 fi
 
  echo -e "<br> <hr style=\"border: 1px solid; color:#06c\"> <br>"

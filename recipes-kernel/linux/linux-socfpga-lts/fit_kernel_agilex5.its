@@ -1,0 +1,54 @@
+// SPDX-License-Identifier: GPL-2.0
+/*
+ * Copyright (C) 2023 Intel Corporation
+ *
+ */
+
+/dts-v1/;
+
+/ {
+	description = "FIT image with kernel, DTB and FPGA core binary";
+	#address-cells = <1>;
+
+	images {
+		kernel {
+			description = "Linux Kernel";
+			data = /incbin/("./Image.lzma");
+			type = "kernel";
+			arch = "arm64";
+			os = "linux";
+			compression = "lzma";
+			load = <0x86000000>;
+			entry = <0x86000000>;
+			hash {
+				algo = "crc32";
+			};
+		};
+
+		fdt-0 {
+			description = "socfpga_socdk";
+			data = /incbin/("./socfpga_agilex5_socdk.dtb");
+			type = "flat_dt";
+			arch = "arm64";
+			compression = "none";
+			hash {
+				algo = "crc32";
+			};
+		};
+	};
+
+	configurations {
+		default = "board-0";
+
+		board-0 {
+			description = "board_0";
+			kernel = "kernel";
+			fdt = "fdt-0";
+			signature {
+				algo = "crc32";
+				key-name-hint = "dev";
+				sign-images = "fdt-0", "kernel";
+			};
+		};
+	};
+};

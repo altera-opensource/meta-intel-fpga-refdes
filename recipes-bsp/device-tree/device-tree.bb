@@ -44,7 +44,7 @@ SRC_URI:append:stratix10 = " \
 do_configure[depends] += "virtual/kernel:do_configure"
 
 do_configure:append() {
-	if [[ "${MACHINE}" == *"agilex"* ]]; then
+	if [[ "${MACHINE}" == *"agilex_"* ]]; then
 		# Vanilla DTB Generation
 		cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex_socdk.dts ${WORKDIR}/socfpga_agilex_vanilla.dts
 		cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex.dtsi ${WORKDIR}/socfpga_agilex.dtsi

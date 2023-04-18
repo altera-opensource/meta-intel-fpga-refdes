@@ -3,6 +3,7 @@ FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 DEPENDS:append:agilex_fm61 = " arm-trusted-firmware bash u-boot-socfpga-scr"
 DEPENDS:append:agilex_fm87 = " arm-trusted-firmware bash u-boot-socfpga-scr"
 DEPENDS:append:agilex_fm86 = " arm-trusted-firmware bash u-boot-socfpga-scr"
+DEPENDS:append:agilex5 = " arm-trusted-firmware bash u-boot-socfpga-scr"
 DEPENDS:append:stratix10 = " arm-trusted-firmware bash u-boot-socfpga-scr"
 DEPENDS:append:arria10 = " hw-ref-design"
 DEPENDS:append:n5x = " arm-trusted-firmware bash u-boot-socfpga-scr"
@@ -16,6 +17,10 @@ SRC_URI:append = " \
 inherit deploy
 
 do_compile[deptask] = "do_deploy"
+
+do_configure:prepend:agilex5() {
+	sed -i -e '$aCONFIG_LEGACY_IMAGE_FORMAT=y' ${S}/configs/socfpga_agilex5_defconfig
+}
 
 do_compile:prepend:arria10() {
 	cp -r ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/hps.xml ${S}/.

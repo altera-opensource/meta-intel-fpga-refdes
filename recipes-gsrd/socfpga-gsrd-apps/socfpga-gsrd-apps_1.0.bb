@@ -18,6 +18,7 @@ INSANE_SKIP:${PN}-dev = "ldflags"
 SRC_URI = " \
 		${REFDES_REPO};protocol=${REFDES_PROT};branch=${REFDES_BRANCH} \
 		file://README_agilex_fm86 \
+		file://README_agilex5 \
 		"
 
 SRCREV = "${AUTOREV}"
@@ -39,19 +40,22 @@ do_install() {
 	cd ${S}
 	install -d ${D}/www/pages/cgi-bin
 	install -d ${D}/home/root/intelFPGA
-	install -m 0755 blink/blink ${D}/www/pages/cgi-bin/blink
-	install -m 0755 scroll_server/scroll_server ${D}/www/pages/cgi-bin/scroll_server
-	install -m 0755 scroll_client/scroll_client ${D}/www/pages/cgi-bin/scroll_client
-	install -m 0755 toggle/toggle ${D}/www/pages/cgi-bin/toggle
-
-	install -m 0755 syschk/syschk ${D}/home/root/intelFPGA/syschk
-	install -m 0755 blink/blink ${D}/home/root/intelFPGA/blink
-	install -m 0755 scroll_client/scroll_client ${D}/home/root/intelFPGA/scroll_client
-	install -m 0755 toggle/toggle ${D}/home/root/intelFPGA/toggle
 	install -m 0755 hello/hello ${D}/home/root/intelFPGA/hello
+	install -m 0755 syschk/syschk ${D}/home/root/intelFPGA/syschk
+	if [[ "${MACHINE}" != "agilex5" ]]; then
+		install -m 0755 blink/blink ${D}/www/pages/cgi-bin/blink
+		install -m 0755 scroll_server/scroll_server ${D}/www/pages/cgi-bin/scroll_server
+		install -m 0755 scroll_client/scroll_client ${D}/www/pages/cgi-bin/scroll_client
+		install -m 0755 toggle/toggle ${D}/www/pages/cgi-bin/toggle
+		install -m 0755 blink/blink ${D}/home/root/intelFPGA/blink
+		install -m 0755 scroll_client/scroll_client ${D}/home/root/intelFPGA/scroll_client
+		install -m 0755 toggle/toggle ${D}/home/root/intelFPGA/toggle
+	fi
 
 	if [[ "${MACHINE}" == "agilex_fm86" ]]; then
 		install -m 0755 ${WORKDIR}/README_agilex_fm86 ${D}/home/root/README
+	elif [[ "${MACHINE}" == "agilex5" ]]; then
+		install -m 0755 ${WORKDIR}/README_agilex5 ${D}/home/root/README
 	else
 		install -m 0755 doc/README ${D}/home/root/
 	fi

@@ -106,7 +106,7 @@ PACKAGES = "${PN}"
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 do_install () {
-	if [[ "${MACHINE}" == *"agilex"* ]]; then
+	if [[ "${MACHINE}" == *"agilex_"* ]]; then
 		install -D -m 0644 ${WORKDIR}/${MACHINE}_gsrd_${ARM64_GHRD_CORE_RBF} ${D}/boot/${ARM64_GHRD_CORE_RBF}
 		if [[ "${MACHINE}" == "agilex_fm61" ]]; then
 			install -D -m 0644 ${WORKDIR}/${MACHINE}_nand_${ARM64_GHRD_CORE_RBF} ${D}/boot/nand.core.rbf
@@ -134,7 +134,7 @@ do_install () {
 }
 
 do_deploy () {
-	if [[ "${MACHINE}" == *"agilex"* ]]; then
+	if [[ "${MACHINE}" == *"agilex_"* ]]; then
 		install -D -m 0644 ${WORKDIR}/${MACHINE}_gsrd_${ARM64_GHRD_CORE_RBF} ${DEPLOYDIR}/${MACHINE}_gsrd_ghrd/${ARM64_GHRD_CORE_RBF}
 		if [[ "${MACHINE}" == "agilex_fm61" ]]; then
 			install -D -m 0644 ${WORKDIR}/${MACHINE}_nand_${ARM64_GHRD_CORE_RBF} ${DEPLOYDIR}/${MACHINE}_${IMAGE_TYPE}_ghrd/nand.core.rbf

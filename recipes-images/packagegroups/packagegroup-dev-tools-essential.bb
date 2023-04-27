@@ -12,6 +12,7 @@ RDEPENDS:packagegroup-dev-tools-essential = "\
 	e2fsprogs \
 	ethtool \
 	gcc \
+	gcc-symlinks \
 	gdb \
 	gdbserver \
 	git \

@@ -27,7 +27,7 @@
 
 		fdt-0 {
 			description = "socfpga_socdk";
-			data = /incbin/("./socfpga_agilex5_socdk.dtb");
+			data = /incbin/("./socfpga_agilex5_socdk_swvp.dtb");
 			type = "flat_dt";
 			arch = "arm64";
 			compression = "none";

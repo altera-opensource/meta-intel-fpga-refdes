@@ -1,0 +1,28 @@
+From 89dd938184a83b59276491d47eb87b460f715791 Mon Sep 17 00:00:00 2001
+From: Muhammad Husaini Zulkifli <muhammad.husaini.zulkifli@intel.com>
+Date: Thu, 28 Jul 2022 15:14:21 +0800
+Subject: [PATCH] tc: Add invalid bit message for frame preemption
+
+This patch is to indicate that an invalid value is being set
+for frame preemption bit mask setting.
+
+Signed-off-by: Muhammad Husaini Zulkifli <muhammad.husaini.zulkifli@intel.com>
+---
+ tc/q_taprio.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/tc/q_taprio.c b/tc/q_taprio.c
+index 9dd04e4..a8c5528 100644
+--- a/tc/q_taprio.c
++++ b/tc/q_taprio.c
+@@ -332,6 +332,7 @@ static int taprio_parse_opt(struct qdisc_util *qu, int argc,
+ 				return -1;
+ 			}
+ 			if (get_u32(&preempt, *argv, 2)) {
++				fprintf(stderr, "taprio: Invalid value for \"preempt\" bitmask\n");
+ 				PREV_ARG();
+ 				return -1;
+ 			}
+-- 
+2.17.1
+

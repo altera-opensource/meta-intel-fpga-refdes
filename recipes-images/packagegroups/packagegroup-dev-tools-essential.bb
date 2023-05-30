@@ -26,4 +26,8 @@ RDEPENDS:packagegroup-dev-tools-essential = "\
 	pciutils \
 	tcpdump \
 	perf \
+	wireshark \
+	python3-scapy \
+	bc \
+	tcpreplay \
 	"

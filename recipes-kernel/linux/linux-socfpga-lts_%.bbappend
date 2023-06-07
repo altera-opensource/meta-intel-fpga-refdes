@@ -10,6 +10,7 @@ SRC_URI:append:agilex_fm87 = " file://fit_kernel_agilex_fm87.its"
 SRC_URI:append:agilex_fm86 = " file://fit_kernel_agilex_fm86.its"
 SRC_URI:append:agilex5 = " file://fit_kernel_agilex5.its"
 SRC_URI:append:stratix10 = " file://fit_kernel_stratix10.its"
+SRC_URI:append:n5x = " file://fit_kernel_n5x.its"
 
 SRC_URI:append:arria10 = " \
 			${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://0001-socfpga_arria10_socdk-include-reference-design-dtsi.patch", "", d)} \
@@ -69,14 +70,17 @@ do_deploy:append() {
 		# core.rbf
 		cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd.core.rbf ${B}
 		cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/nand.core.rbf ${B}
-	fi
+	elif [[ "${MACHINE}" == "n5x" ]]; then
+    cp ${LINUXDEPLOYDIR}/socfpga_${MACHINE}_socdk.dtb ${B}/linux.dtb
+  fi
 
 	# Generate and deploy kernel.itb
-	if [[ "${MACHINE}" == *"agilex"* || "${MACHINE}" == "stratix10" ]]; then
+	if [[ "${MACHINE}" == *"agilex"* || "${MACHINE}" == "stratix10" || "${MACHINE}" == "n5x" ]]; then
 		# kernel.its
 		cp ${WORKDIR}/fit_kernel_${MACHINE}.its ${B}
 		# Image
 		cp ${LINUXDEPLOYDIR}/Image ${B}
+   
 		# Compress Image to lzma format
 		xz --format=lzma ${B}/Image
 		# Generate kernel.itb

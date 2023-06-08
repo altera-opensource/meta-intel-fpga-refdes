@@ -7,6 +7,7 @@ DEPENDS = "u-boot-mkimage-native dtc-native"
 
 SRC_URI:append:agilex_fm61 = " file://fit_kernel_agilex_fm61.its"
 SRC_URI:append:agilex_fm87 = " file://fit_kernel_agilex_fm87.its"
+SRC_URI:append:agilex_fm87_linear = " file://fit_kernel_agilex_fm87_linear.its"
 SRC_URI:append:agilex_fm86 = " file://fit_kernel_agilex_fm86.its"
 SRC_URI:append:agilex5 = " file://fit_kernel_agilex5.its"
 SRC_URI:append:stratix10 = " file://fit_kernel_stratix10.its"

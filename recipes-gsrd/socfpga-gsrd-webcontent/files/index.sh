@@ -37,6 +37,9 @@ agilex_fm86)
 agilex_fm87)
 	DEVKIT_NAME="Agilex FM87 SoC Development Kit"
 	;;
+agilex_fm87_linear)
+	DEVKIT_NAME="Agilex FM87 B2 Linear (Non-ENPIRION) SoC Development Kit"
+	;;
 agilex5)
 	DEVKIT_NAME="Agilex5 SoC Development Kit"
 	;;
@@ -135,7 +138,7 @@ echo -e "<ul>"
         echo -e "<li><a href=\"http://www.rocketboards.org\" target=\"_blank\">Rocketboards.org</a></li> "
 echo -e "</ul>"
 echo -e "</div>"
-elif [[ "$MACHINE" == "agilex_fm87" ]]; then
+elif [[ "$MACHINE" == "agilex_fm87"* ]]; then
 echo -e "<div class=\"bup-links\">"
 echo -e "<h4>Developer Resources</h4>"
 echo -e "<ul>"
@@ -174,7 +177,7 @@ elif [[ "$MACHINE" == "agilex_fm61" ]]; then
 elif [[ "$MACHINE" == "agilex_fm86" ]]; then
 	echo -e "<span><strong><h1>$DEVKIT_NAME Features</h1></strong><br/></span>"
         echo -e "<div><img src=\"../agilex_fm86-board-image.jpg\" style=\"width:640px;height:478px;\"></div>"
-elif [[ "$MACHINE" == "agilex_fm87" ]]; then
+elif [[ "$MACHINE" == "agilex_fm87"* ]]; then
 	echo -e "<span><strong><h1>$DEVKIT_NAME Features</h1></strong><br/></span>"
         echo -e "<div><img src=\"../agilex_fm87-board-image.jpg\" style=\"width:640px;height:478px;\"></div>"
 fi

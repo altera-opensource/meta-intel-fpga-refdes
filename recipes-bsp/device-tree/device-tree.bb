@@ -15,7 +15,7 @@ inherit devicetree
 
 PROVIDES = "virtual/dtb"
 
-COMPATIBLE_MACHINE = "(agilex_fm61|agilex_fm87|agilex_fm86|stratix10)"
+COMPATIBLE_MACHINE = "(agilex_fm61|agilex_fm87|agilex_fm87_linear|agilex_fm86|stratix10)"
 
 SRC_URI:append:agilex_fm61 = " \
 					file://socfpga_agilex_ghrd_sgmii.dtsi \
@@ -26,6 +26,10 @@ SRC_URI:append:agilex_fm61 = " \
 					"
 
 SRC_URI:append:agilex_fm87 = " \
+					file://socfpga_agilex_ghrd.dtsi \
+					"
+
+SRC_URI:append:agilex_fm87_linear = " \
 					file://socfpga_agilex_ghrd.dtsi \
 					"
 
@@ -63,7 +67,7 @@ do_configure:append() {
 			sed -i '/\#include \"socfpga_agilex.dtsi\"/a \#include \"socfpga_agilex_ghrd.dtsi\"' ${WORKDIR}/socfpga_agilex_socdk_pr.dts
 		fi
 		# FM87
-		if [[ "${MACHINE}" == "agilex_fm87" ]]; then
+		if [[ "${MACHINE}" == "agilex_fm87"* ]]; then
 			# GSRD DTB Generation
 			# MMC
 			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex_socdk.dts ${WORKDIR}/socfpga_agilex_socdk.dts

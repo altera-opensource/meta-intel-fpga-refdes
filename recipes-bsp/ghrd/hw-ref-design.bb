@@ -26,6 +26,10 @@ SRC_URI:agilex_fm61 ?= "\
 		${GHRD_REPO}/agilex_fm61_pr_persona0.rbf;name=agilex_fm61_pr_persona0 \
 		${GHRD_REPO}/agilex_fm61_pr_persona1.rbf;name=agilex_fm61_pr_persona1 \
 		"
+#TODO
+SRC_URI:agilex_fm61_linear ?= "\
+		${GHRD_REPO}/agilex_fm61_gsrd_${ARM64_GHRD_CORE_RBF};name=agilex_fm61_gsrd_core \
+		"
 
 SRC_URI:agilex_fm87 ?= "\
 		${GHRD_REPO}/agilex_fm87_gsrd_${ARM64_GHRD_CORE_RBF};name=agilex_fm87_gsrd_core \
@@ -61,6 +65,8 @@ SRC_URI[agilex_fm61_nand_core.sha256sum] = "e48226c5cd98c6412a5aecdf3bdf8ebd5fdd
 SRC_URI[agilex_fm61_pr_core.sha256sum] = "2d62ccb27bfe7eff51896ce486351c1cb881f2a97f9f601bcc112fec52b43b51"
 SRC_URI[agilex_fm61_pr_persona0.sha256sum] = "956e2d985337514f54a8b19cfdf59e53e3686f43390c6fd134d56673f93bf22b"
 SRC_URI[agilex_fm61_pr_persona1.sha256sum] = "6e4005b6b1ed68739e38213fc57ad3b51df9ed65c234b1bef5c889863bacf651"
+
+SRC_URI[agilex_fm61_linear_gsrd_core.sha256sum] = "08ac352acca207d76efe787e21b60378042332ab612573cf8bb5dee4e31d0471"
 
 SRC_URI[agilex_fm87_gsrd_core.sha256sum] = "bb26748f0de309db4ee636c76f492dcef1850c81f0772954bff6d39fde9dad73"
 SRC_URI[agilex_fm87_linear_gsrd_core.sha256sum] = "27cf4861f2cc379ab9b4bd8891aff0fe41c00f9e7f96f297b3c4596e62f5db32"
@@ -112,7 +118,13 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 do_install () {
 	if [[ "${MACHINE}" == *"agilex_"* ]]; then
-		install -D -m 0644 ${WORKDIR}/${MACHINE}_gsrd_${ARM64_GHRD_CORE_RBF} ${D}/boot/${ARM64_GHRD_CORE_RBF}
+    #TODO
+    if [[ "${MACHINE}" == "agilex_fm61_linear" ]]; then 
+		   install -D -m 0644 ${WORKDIR}/agilex_fm61_gsrd_${ARM64_GHRD_CORE_RBF} ${D}/boot/${ARM64_GHRD_CORE_RBF}
+    else
+		   install -D -m 0644 ${WORKDIR}/${MACHINE}_gsrd_${ARM64_GHRD_CORE_RBF} ${D}/boot/${ARM64_GHRD_CORE_RBF}
+	  fi
+
 		if [[ "${MACHINE}" == "agilex_fm61" ]]; then
 			install -D -m 0644 ${WORKDIR}/${MACHINE}_nand_${ARM64_GHRD_CORE_RBF} ${D}/boot/nand.core.rbf
 			install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_${ARM64_GHRD_CORE_RBF} ${D}/boot/ghrd_pr.core.rbf
@@ -140,7 +152,13 @@ do_install () {
 
 do_deploy () {
 	if [[ "${MACHINE}" == *"agilex_"* ]]; then
-		install -D -m 0644 ${WORKDIR}/${MACHINE}_gsrd_${ARM64_GHRD_CORE_RBF} ${DEPLOYDIR}/${MACHINE}_gsrd_ghrd/${ARM64_GHRD_CORE_RBF}
+		#TODO
+    if [[ "${MACHINE}" == "agilex_fm61_linear" ]]; then 
+		   install -D -m 0644 ${WORKDIR}/agilex_fm61_gsrd_${ARM64_GHRD_CORE_RBF} ${DEPLOYDIR}/${MACHINE}_gsrd_ghrd/${ARM64_GHRD_CORE_RBF}
+    else
+		   install -D -m 0644 ${WORKDIR}/${MACHINE}_gsrd_${ARM64_GHRD_CORE_RBF} ${DEPLOYDIR}/${MACHINE}_gsrd_ghrd/${ARM64_GHRD_CORE_RBF}
+	  fi
+
 		if [[ "${MACHINE}" == "agilex_fm61" ]]; then
 			install -D -m 0644 ${WORKDIR}/${MACHINE}_nand_${ARM64_GHRD_CORE_RBF} ${DEPLOYDIR}/${MACHINE}_${IMAGE_TYPE}_ghrd/nand.core.rbf
 			install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_${ARM64_GHRD_CORE_RBF} ${DEPLOYDIR}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd_pr.core.rbf

@@ -1,6 +1,7 @@
 FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
 DEPENDS:append:agilex_fm61 = " arm-trusted-firmware bash u-boot-socfpga-scr"
+DEPENDS:append:agilex_fm61_linear = " arm-trusted-firmware bash u-boot-socfpga-scr"
 DEPENDS:append:agilex_fm87 = " arm-trusted-firmware bash u-boot-socfpga-scr"
 DEPENDS:append:agilex_fm87_linear = " arm-trusted-firmware bash u-boot-socfpga-scr"
 DEPENDS:append:agilex_fm86 = " arm-trusted-firmware bash u-boot-socfpga-scr"

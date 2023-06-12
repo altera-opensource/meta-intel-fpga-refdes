@@ -10,6 +10,7 @@ inherit deploy nopackages
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 SRC_URI:agilex_fm61 = "file://uboot.txt file://uboot_script.its"
+SRC_URI:agilex_fm61_linear = "file://uboot.txt file://uboot_script.its"
 SRC_URI:agilex_fm87 = "file://uboot.txt file://uboot_script.its"
 SRC_URI:agilex_fm87_linear = "file://uboot.txt file://uboot_script.its"
 SRC_URI:agilex_fm86 = "file://uboot.txt file://uboot_script.its"

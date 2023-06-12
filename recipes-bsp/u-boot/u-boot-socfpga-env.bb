@@ -16,6 +16,13 @@ SRC_URI:agilex_fm61 = "\
 			 ${@bb.utils.contains("UBOOT_CONFIG", "agilex-socdk-qspi-atf", "file://agilex-socdk-qspi-atf_u-boot-env.txt", "", d)} \
 			 "
 
+SRC_URI:agilex_fm61_linear = "\
+			 ${@bb.utils.contains("UBOOT_CONFIG", "agilex-socdk", "file://agilex-socdk_u-boot-env.txt", "", d)} \
+			 ${@bb.utils.contains("UBOOT_CONFIG", "agilex-socdk-atf", "file://agilex-socdk-atf_u-boot-env.txt", "", d)} \
+			 ${@bb.utils.contains("UBOOT_CONFIG", "agilex-socdk-qspi", "file://agilex-socdk-qspi_u-boot-env.txt", "", d)} \
+			 ${@bb.utils.contains("UBOOT_CONFIG", "agilex-socdk-qspi-atf", "file://agilex-socdk-qspi-atf_u-boot-env.txt", "", d)} \
+			 "
+
 SRC_URI:stratix10 = "\
 			 ${@bb.utils.contains("UBOOT_CONFIG", "stratix10-socdk", "file://stratix10-socdk_u-boot-env.txt", "", d)} \
 			 ${@bb.utils.contains("UBOOT_CONFIG", "stratix10-socdk-atf", "file://stratix10-socdk-atf_u-boot-env.txt", "", d)} \

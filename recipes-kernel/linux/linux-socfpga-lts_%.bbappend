@@ -6,6 +6,7 @@ FILESEXTRAPATHS:prepend := "${THISDIR}/linux-socfpga-lts:"
 DEPENDS = "u-boot-mkimage-native dtc-native"
 
 SRC_URI:append:agilex_fm61 = " file://fit_kernel_agilex_fm61.its"
+SRC_URI:append:agilex_fm61_linear = " file://fit_kernel_agilex_fm61_linear.its"
 SRC_URI:append:agilex_fm87 = " file://fit_kernel_agilex_fm87.its"
 SRC_URI:append:agilex_fm87_linear = " file://fit_kernel_agilex_fm87_linear.its"
 SRC_URI:append:agilex_fm86 = " file://fit_kernel_agilex_fm86.its"
@@ -27,6 +28,7 @@ SRC_URI:append:cyclone5 = " file://0001-socfpga_cyclone5_socdk-include-reference
 # Append GSRD specific kernel config fragments
 SRC_URI:append = " file://ubifs.scc"
 SRC_URI:append:agilex_fm61 = " file://sgmii.scc"
+SRC_URI:append:agilex_fm61_linear = " file://sgmii.scc"
 SRC_URI:append:agilex5 = " file://initrd.scc"
 SRC_URI:append:stratix10 = " file://sgmii.scc"
 SRC_URI:append:arria10 = " file://tse.scc"
@@ -48,7 +50,7 @@ do_deploy:append() {
 		# linux.dtb
 		cp ${DTBDEPLOYDIR}/socfpga_agilex_socdk.dtb ${B}
 		cp ${DTBDEPLOYDIR}/socfpga_agilex_vanilla.dtb ${B}
-		if [[ "${MACHINE}" == "agilex_fm61" ]]; then
+		if [[ "${MACHINE}" == "agilex_fm61"* ]]; then
 			cp ${DTBDEPLOYDIR}/socfpga_agilex_socdk_nand.dtb ${B}
 			cp ${DTBDEPLOYDIR}/socfpga_agilex_socdk_pr.dtb ${B}
 		fi

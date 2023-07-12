@@ -9,14 +9,14 @@ DEPENDS = "u-boot-mkenvimage-native"
 inherit deploy nopackages
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
-SRC_URI:agilex_fm61 = "\
+SRC_URI:agilex7_dk_si_agf014ea = "\
 			 ${@bb.utils.contains("UBOOT_CONFIG", "agilex-socdk", "file://agilex-socdk_u-boot-env.txt", "", d)} \
 			 ${@bb.utils.contains("UBOOT_CONFIG", "agilex-socdk-atf", "file://agilex-socdk-atf_u-boot-env.txt", "", d)} \
 			 ${@bb.utils.contains("UBOOT_CONFIG", "agilex-socdk-qspi", "file://agilex-socdk-qspi_u-boot-env.txt", "", d)} \
 			 ${@bb.utils.contains("UBOOT_CONFIG", "agilex-socdk-qspi-atf", "file://agilex-socdk-qspi-atf_u-boot-env.txt", "", d)} \
 			 "
 
-SRC_URI:agilex_fm61_linear = "\
+SRC_URI:agilex7_dk_si_agf014eb = "\
 			 ${@bb.utils.contains("UBOOT_CONFIG", "agilex-socdk", "file://agilex-socdk_u-boot-env.txt", "", d)} \
 			 ${@bb.utils.contains("UBOOT_CONFIG", "agilex-socdk-atf", "file://agilex-socdk-atf_u-boot-env.txt", "", d)} \
 			 ${@bb.utils.contains("UBOOT_CONFIG", "agilex-socdk-qspi", "file://agilex-socdk-qspi_u-boot-env.txt", "", d)} \

@@ -1,5 +1,5 @@
 /*
-* Add this piece of dtsi fragment as #include "socfpga_agilex_fm86_ghrd.dtsi"
+* Add this piece of dtsi fragment as #include "socfpga_agilex7_dk_dev_agf027f1es_ghrd.dtsi"
 * in the file socfpga_agilex_socdk.dts. Compile it in the kernel along with
 * socfpga_agilex.dtsi.
 */

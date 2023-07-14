@@ -15,9 +15,9 @@ inherit devicetree
 
 PROVIDES = "virtual/dtb"
 
-COMPATIBLE_MACHINE = "(agilex_fm61|agilex_fm61_linear|agilex_fm87|agilex_fm87_linear|agilex_fm86|stratix10)"
+COMPATIBLE_MACHINE = "(agilex7_dk_si_agf014ea|agilex7_dk_si_agf014eb|agilex7_dk_si_agi027fb|agilex7_dk_si_agi027fa|agilex7_dk_dev_agf027f1es|stratix10)"
 
-SRC_URI:append:agilex_fm61 = " \
+SRC_URI:append:agilex7_dk_si_agf014ea = " \
 					file://socfpga_agilex_ghrd_sgmii.dtsi \
 					file://socfpga_agilex_ghrd.dtsi \
 					file://agilex_pr_fpga_static_region.dts \
@@ -25,7 +25,7 @@ SRC_URI:append:agilex_fm61 = " \
 					file://agilex_pr_persona1.dts \
 					"
 
-SRC_URI:append:agilex_fm61_linear = " \
+SRC_URI:append:agilex7_dk_si_agf014eb = " \
 					file://socfpga_agilex_ghrd_sgmii.dtsi \
 					file://socfpga_agilex_ghrd.dtsi \
 					file://agilex_pr_fpga_static_region.dts \
@@ -33,16 +33,16 @@ SRC_URI:append:agilex_fm61_linear = " \
 					file://agilex_pr_persona1.dts \
 					"
 
-SRC_URI:append:agilex_fm87 = " \
+SRC_URI:append:agilex7_dk_si_agi027fb = " \
 					file://socfpga_agilex_ghrd.dtsi \
 					"
 
-SRC_URI:append:agilex_fm87_linear = " \
+SRC_URI:append:agilex7_dk_si_agi027fa = " \
 					file://socfpga_agilex_ghrd.dtsi \
 					"
 
-SRC_URI:append:agilex_fm86 = " \
-					file://socfpga_agilex_fm86_ghrd.dtsi \
+SRC_URI:append:agilex7_dk_dev_agf027f1es = " \
+					file://socfpga_agilex7_dk_dev_agf027f1es_ghrd.dtsi \
 					"
 
 SRC_URI:append:stratix10 = " \
@@ -56,13 +56,13 @@ SRC_URI:append:stratix10 = " \
 do_configure[depends] += "virtual/kernel:do_configure"
 
 do_configure:append() {
-	if [[ "${MACHINE}" == *"agilex_"* ]]; then
+	if [[ "${MACHINE}" == *"agilex7_"* ]]; then
 		# Vanilla DTB Generation
 		cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex_socdk.dts ${WORKDIR}/socfpga_agilex_vanilla.dts
 		cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex.dtsi ${WORKDIR}/socfpga_agilex.dtsi
     
-    #FM61 linear
-		if [[ "${MACHINE}" == "agilex_fm61_linear" ]]; then
+    # AGILEX7 DK-SI-AGF014EB
+		if [[ "${MACHINE}" == "agilex7_dk_si_agf014eb" ]]; then
 			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex_socdk.dts ${WORKDIR}/socfpga_agilex_socdk.dts
 			sed -i '/\#include \"socfpga_agilex.dtsi\"/a \#include \"socfpga_agilex_ghrd.dtsi\"' ${WORKDIR}/socfpga_agilex_socdk.dts
 			# NAND
@@ -72,8 +72,8 @@ do_configure:append() {
 			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex_socdk.dts ${WORKDIR}/socfpga_agilex_socdk_pr.dts
 			sed -i '/\#include \"socfpga_agilex.dtsi\"/a \#include \"socfpga_agilex_ghrd.dtsi\"' ${WORKDIR}/socfpga_agilex_socdk_pr.dts
     fi
-		# FM61
-		if [[ "${MACHINE}" == "agilex_fm61" ]]; then
+		# AGILEX7 DK-SI-AGF014EA
+		if [[ "${MACHINE}" == "agilex7_dk_si_agf014ea" ]]; then
 			# GSRD DTB Generation
 			# MMC, QSPI
 			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex_socdk.dts ${WORKDIR}/socfpga_agilex_socdk.dts
@@ -85,19 +85,19 @@ do_configure:append() {
 			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex_socdk.dts ${WORKDIR}/socfpga_agilex_socdk_pr.dts
 			sed -i '/\#include \"socfpga_agilex.dtsi\"/a \#include \"socfpga_agilex_ghrd.dtsi\"' ${WORKDIR}/socfpga_agilex_socdk_pr.dts
 		fi
-		# FM87
-		if [[ "${MACHINE}" == "agilex_fm87"* ]]; then
+		# AGILEX7 DK-SI-AGI027F
+		if [[ "${MACHINE}" == "agilex7_dk_si_agi027f"* ]]; then
 			# GSRD DTB Generation
 			# MMC
 			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex_socdk.dts ${WORKDIR}/socfpga_agilex_socdk.dts
 			sed -i '/\#include \"socfpga_agilex.dtsi\"/a \#include \"socfpga_agilex_ghrd.dtsi\"' ${WORKDIR}/socfpga_agilex_socdk.dts
 		fi
-		# FM86
-		if [[ "${MACHINE}" == "agilex_fm86" ]]; then
+		# AGILEX7 DK-DEV-AGF027F1ES
+		if [[ "${MACHINE}" == "agilex7_dk_dev_agf027f1es" ]]; then
 			# GSRD DTB Generation
 			# MMC
 			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex_socdk.dts ${WORKDIR}/socfpga_agilex_socdk.dts
-			sed -i '/\#include \"socfpga_agilex.dtsi\"/a \#include \"socfpga_agilex_fm86_ghrd.dtsi\"' ${WORKDIR}/socfpga_agilex_socdk.dts
+			sed -i '/\#include \"socfpga_agilex.dtsi\"/a \#include \"socfpga_agilex7_dk_dev_agf027f1es_ghrd.dtsi\"' ${WORKDIR}/socfpga_agilex_socdk.dts
 		fi
 	fi
 }

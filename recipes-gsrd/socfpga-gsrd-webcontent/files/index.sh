@@ -28,20 +28,20 @@ arria10)
 stratix10)
 	DEVKIT_NAME="Stratix 10 SoC Development Kit"
 	;;
-agilex_fm61)
-	DEVKIT_NAME="Agilex FM61 SoC Development Kit"
+agilex7_dk_si_agf014ea)
+	DEVKIT_NAME="Agilex7 DK-SI-AGF014EA SoC Development Kit"
 	;;
-agilex_fm61_linear)
-	DEVKIT_NAME="Agilex FM61 B2 Linear (Non-ENPIRION) SoC Development Kit"
+agilex7_dk_si_agf014eb)
+	DEVKIT_NAME="Agilex7 DK-SI-AGF014EB (LINEAR) SoC Development Kit"
 	;;
-agilex_fm86)
-	DEVKIT_NAME="Agilex FM86 SoC Development Kit"
+agilex7_dk_dev_agf027f1es)
+	DEVKIT_NAME="Agilex7 DK-DEV-AGF027F1ES SoC Development Kit"
 	;;
-agilex_fm87)
-	DEVKIT_NAME="Agilex FM87 SoC Development Kit"
+agilex7_dk_si_agi027fb)
+	DEVKIT_NAME="Agilex7 DK-SI-AGI027FB SoC Development Kit"
 	;;
-agilex_fm87_linear)
-	DEVKIT_NAME="Agilex FM87 B2 Linear (Non-ENPIRION) SoC Development Kit"
+agilex7_dk_si_agi027fa)
+	DEVKIT_NAME="Agilex7 DK-SI-AGI027FA (LINEAR) SoC Development Kit"
 	;;
 agilex5)
 	DEVKIT_NAME="Agilex5 SoC Development Kit"
@@ -123,29 +123,29 @@ echo -e "<ul>"
         echo -e "<li><a href=\"http://www.rocketboards.org\" target=\"_blank\">Rocketboards.org</a></li> "
 echo -e "</ul>"
 echo -e "</div>"
-elif [[ "$MACHINE" == "agilex_fm61"* ]]; then
+elif [[ "$MACHINE" == "agilex7_dk_si_agf014e"* ]]; then
 echo -e "<div class=\"bup-links\">"
 echo -e "<h4>Developer Resources</h4>"
 echo -e "<ul>"
-        echo -e "<li><a href=\"https://www.intel.com/content/www/us/en/products/details/fpga/development-kits/agilex/f-series-transceiver/si-agf014.html\" target=\"_blank\">Agilex FM61 SoC Quick Start Guide</a></li> "
+        echo -e "<li><a href=\"https://www.intel.com/content/www/us/en/products/details/fpga/development-kits/agilex/f-series-transceiver/si-agf014.html\" target=\"_blank\">Agilex7 DK-SI-AGF014EA SoC Quick Start Guide</a></li> "
         echo -e "<li><a href=\"https://www.intel.com/content/www/us/en/docs/programmable/683752/current/overview.html\" target=\"_blank\">User Guide</a></li> "
         echo -e "<li><a href=\"http://www.rocketboards.org\" target=\"_blank\">Rocketboards.org</a></li> "
 echo -e "</ul>"
 echo -e "</div>"
-elif [[ "$MACHINE" == "agilex_fm86" ]]; then
+elif [[ "$MACHINE" == "agilex7_dk_dev_agf027f1es" ]]; then
 echo -e "<div class=\"bup-links\">"
 echo -e "<h4>Developer Resources</h4>"
 echo -e "<ul>"
-        echo -e "<li><a href=\"https://www.intel.com/content/www/us/en/products/details/fpga/development-kits/agilex/f-series/dev-agf027-and-agf023.html\" target=\"_blank\">Agilex FM86 SoC Quick Start Guide</a></li> "
+        echo -e "<li><a href=\"https://www.intel.com/content/www/us/en/products/details/fpga/development-kits/agilex/f-series/dev-agf027-and-agf023.html\" target=\"_blank\">Agilex7 DK-DEV-AGF027F1ES SoC Quick Start Guide</a></li> "
         echo -e "<li><a href=\"https://www.intel.com/content/www/us/en/docs/programmable/739942/current/overview.html\" target=\"_blank\">User Guide</a></li> "
         echo -e "<li><a href=\"http://www.rocketboards.org\" target=\"_blank\">Rocketboards.org</a></li> "
 echo -e "</ul>"
 echo -e "</div>"
-elif [[ "$MACHINE" == "agilex_fm87"* ]]; then
+elif [[ "$MACHINE" == "agilex7_dk_si_agi027f"* ]]; then
 echo -e "<div class=\"bup-links\">"
 echo -e "<h4>Developer Resources</h4>"
 echo -e "<ul>"
-        echo -e "<li><a href=\"https://www.intel.com/content/www/us/en/products/details/fpga/development-kits/agilex/i-series-transceiver/si-agi027.html\" target=\"_blank\">Agilex FM87 SoC Quick Start Guide</a></li> "
+        echo -e "<li><a href=\"https://www.intel.com/content/www/us/en/products/details/fpga/development-kits/agilex/i-series-transceiver/si-agi027.html\" target=\"_blank\">Agilex7 DK-SI-AGI027FB SoC Quick Start Guide</a></li> "
         echo -e "<li><a href=\"https://www.intel.com/content/www/us/en/docs/programmable/721605/current/overview.html\" target=\"_blank\">User Guide</a></li> "
         echo -e "<li><a href=\"http://www.rocketboards.org\" target=\"_blank\">Rocketboards.org</a></li> "
 echo -e "</ul>"
@@ -174,15 +174,15 @@ elif [ "$MACHINE" == "arria10" ]; then
 elif [ "$MACHINE" == "stratix10" ]; then
 	echo -e "<span><strong><h1>$DEVKIT_NAME Features</h1></strong><br/></span>"
         echo -e "<div><img src=\"../stratix10-board-image.jpg\" style=\"width:640px;height:478px;\"></div>"
-elif [[ "$MACHINE" == "agilex_fm61"* ]]; then
+elif [[ "$MACHINE" == "agilex7_dk_si_agf014e"* ]]; then
 	echo -e "<span><strong><h1>$DEVKIT_NAME Features</h1></strong><br/></span>"
-        echo -e "<div><img src=\"../agilex_fm61-board-image.jpg\" style=\"width:640px;height:478px;\"></div>"
-elif [[ "$MACHINE" == "agilex_fm86" ]]; then
+        echo -e "<div><img src=\"../agilex7_dk_si_agf014ea-board-image.jpg\" style=\"width:640px;height:478px;\"></div>"
+elif [[ "$MACHINE" == "agilex7_dk_dev_agf027f1es" ]]; then
 	echo -e "<span><strong><h1>$DEVKIT_NAME Features</h1></strong><br/></span>"
-        echo -e "<div><img src=\"../agilex_fm86-board-image.jpg\" style=\"width:640px;height:478px;\"></div>"
-elif [[ "$MACHINE" == "agilex_fm87"* ]]; then
+        echo -e "<div><img src=\"../agilex7_dk_dev_agf027f1es-board-image.jpg\" style=\"width:640px;height:478px;\"></div>"
+elif [[ "$MACHINE" == "agilex7_dk_si_agi027f"* ]]; then
 	echo -e "<span><strong><h1>$DEVKIT_NAME Features</h1></strong><br/></span>"
-        echo -e "<div><img src=\"../agilex_fm87-board-image.jpg\" style=\"width:640px;height:478px;\"></div>"
+        echo -e "<div><img src=\"../agilex7_dk_si_agi027fb-board-image.jpg\" style=\"width:640px;height:478px;\"></div>"
 fi
 
 if [ "$MACHINE" != "agilex5" ]; then

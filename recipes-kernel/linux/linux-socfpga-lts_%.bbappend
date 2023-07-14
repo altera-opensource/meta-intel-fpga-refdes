@@ -5,11 +5,11 @@ FILESEXTRAPATHS:prepend := "${THISDIR}/linux-socfpga-lts:"
 
 DEPENDS = "u-boot-mkimage-native dtc-native"
 
-SRC_URI:append:agilex_fm61 = " file://fit_kernel_agilex_fm61.its"
-SRC_URI:append:agilex_fm61_linear = " file://fit_kernel_agilex_fm61_linear.its"
-SRC_URI:append:agilex_fm87 = " file://fit_kernel_agilex_fm87.its"
-SRC_URI:append:agilex_fm87_linear = " file://fit_kernel_agilex_fm87_linear.its"
-SRC_URI:append:agilex_fm86 = " file://fit_kernel_agilex_fm86.its"
+SRC_URI:append:agilex7_dk_si_agf014ea = " file://fit_kernel_agilex7_dk_si_agf014ea.its"
+SRC_URI:append:agilex7_dk_si_agf014eb = " file://fit_kernel_agilex7_dk_si_agf014eb.its"
+SRC_URI:append:agilex7_dk_si_agi027fb = " file://fit_kernel_agilex7_dk_si_agi027fb.its"
+SRC_URI:append:agilex7_dk_si_agi027fa = " file://fit_kernel_agilex7_dk_si_agi027fa.its"
+SRC_URI:append:agilex7_dk_dev_agf027f1es = " file://fit_kernel_agilex7_dk_dev_agf027f1es.its"
 SRC_URI:append:agilex5 = " file://fit_kernel_agilex5.its"
 SRC_URI:append:stratix10 = " file://fit_kernel_stratix10.its"
 
@@ -27,8 +27,8 @@ SRC_URI:append:cyclone5 = " file://0001-socfpga_cyclone5_socdk-include-reference
 
 # Append GSRD specific kernel config fragments
 SRC_URI:append = " file://ubifs.scc"
-SRC_URI:append:agilex_fm61 = " file://sgmii.scc"
-SRC_URI:append:agilex_fm61_linear = " file://sgmii.scc"
+SRC_URI:append:agilex7_dk_si_agf014ea = " file://sgmii.scc"
+SRC_URI:append:agilex7_dk_si_agf014eb = " file://sgmii.scc"
 SRC_URI:append:agilex5 = " file://initrd.scc"
 SRC_URI:append:stratix10 = " file://sgmii.scc"
 SRC_URI:append:arria10 = " file://tse.scc"
@@ -42,21 +42,21 @@ DTBDEPLOYDIR = "${DEPLOY_DIR_IMAGE}/devicetree"
 do_deploy:append() {
 	# Stage required binaries for kernel.itb
 	# Supported device family:
-	# 				-	Agilex FM61, FM87, FM86
+	# 				-	Agilex7
 	# 				-	Agilex5
 	# 				-	Stratix10
 
-	if [[ "${MACHINE}" == *"agilex_"* ]]; then
+	if [[ "${MACHINE}" == *"agilex7_"* ]]; then
 		# linux.dtb
 		cp ${DTBDEPLOYDIR}/socfpga_agilex_socdk.dtb ${B}
 		cp ${DTBDEPLOYDIR}/socfpga_agilex_vanilla.dtb ${B}
-		if [[ "${MACHINE}" == "agilex_fm61"* ]]; then
+		if [[ "${MACHINE}" == "agilex7_dk_si_agf014e"* ]]; then
 			cp ${DTBDEPLOYDIR}/socfpga_agilex_socdk_nand.dtb ${B}
 			cp ${DTBDEPLOYDIR}/socfpga_agilex_socdk_pr.dtb ${B}
 		fi
 		# core.rbf
 		cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd.core.rbf ${B}
-		if [[ "${MACHINE}" == "agilex_fm61" ]]; then
+		if [[ "${MACHINE}" == "agilex7_dk_si_agf014ea" ]]; then
 			cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/nand.core.rbf ${B}
 			cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd_pr.core.rbf ${B}
 		fi

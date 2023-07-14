@@ -19,28 +19,28 @@ A10_GHRD_CORE_RBF = "ghrd_10as066n2.core.rbf"
 A10_GHRD_PERIPH_RBF = "ghrd_10as066n2.periph.rbf"
 C5_GHRD_CORE_RBF = "soc_system.rbf"
 
-SRC_URI:agilex_fm61 ?= "\
-		${GHRD_REPO}/agilex_fm61_gsrd_${ARM64_GHRD_CORE_RBF};name=agilex_fm61_gsrd_core \
-		${GHRD_REPO}/agilex_fm61_nand_${ARM64_GHRD_CORE_RBF};name=agilex_fm61_nand_core \
-		${GHRD_REPO}/agilex_fm61_pr_${ARM64_GHRD_CORE_RBF};name=agilex_fm61_pr_core \
-		${GHRD_REPO}/agilex_fm61_pr_persona0.rbf;name=agilex_fm61_pr_persona0 \
-		${GHRD_REPO}/agilex_fm61_pr_persona1.rbf;name=agilex_fm61_pr_persona1 \
+SRC_URI:agilex7_dk_si_agf014ea ?= "\
+		${GHRD_REPO}/agilex7_dk_si_agf014ea_gsrd_${ARM64_GHRD_CORE_RBF};name=agilex7_dk_si_agf014ea_gsrd_core \
+		${GHRD_REPO}/agilex7_dk_si_agf014ea_nand_${ARM64_GHRD_CORE_RBF};name=agilex7_dk_si_agf014ea_nand_core \
+		${GHRD_REPO}/agilex7_dk_si_agf014ea_pr_${ARM64_GHRD_CORE_RBF};name=agilex7_dk_si_agf014ea_pr_core \
+		${GHRD_REPO}/agilex7_dk_si_agf014ea_pr_persona0.rbf;name=agilex7_dk_si_agf014ea_pr_persona0 \
+		${GHRD_REPO}/agilex7_dk_si_agf014ea_pr_persona1.rbf;name=agilex7_dk_si_agf014ea_pr_persona1 \
 		"
 #TODO
-SRC_URI:agilex_fm61_linear ?= "\
-		${GHRD_REPO}/agilex_fm61_gsrd_${ARM64_GHRD_CORE_RBF};name=agilex_fm61_gsrd_core \
+SRC_URI:agilex7_dk_si_agf014eb ?= "\
+		${GHRD_REPO}/agilex7_dk_si_agf014eb_gsrd_${ARM64_GHRD_CORE_RBF};name=agilex7_dk_si_agf014eb_gsrd_core \
 		"
 
-SRC_URI:agilex_fm87 ?= "\
-		${GHRD_REPO}/agilex_fm87_gsrd_${ARM64_GHRD_CORE_RBF};name=agilex_fm87_gsrd_core \
+SRC_URI:agilex7_dk_si_agi027fb ?= "\
+		${GHRD_REPO}/agilex7_dk_si_agi027fb_gsrd_${ARM64_GHRD_CORE_RBF};name=agilex7_dk_si_agi027fb_gsrd_core \
 		"
 
-SRC_URI:agilex_fm87_linear ?= "\
-		${GHRD_REPO}/agilex_fm87_linear_gsrd_${ARM64_GHRD_CORE_RBF};name=agilex_fm87_linear_gsrd_core \
+SRC_URI:agilex7_dk_si_agi027fa ?= "\
+		${GHRD_REPO}/agilex7_dk_si_agi027fa_gsrd_${ARM64_GHRD_CORE_RBF};name=agilex7_dk_si_agi027fa_gsrd_core \
 		"
 
-SRC_URI:agilex_fm86 ?= "\
-		${GHRD_REPO}/agilex_fm86_gsrd_${ARM64_GHRD_CORE_RBF};name=agilex_fm86_gsrd_core \
+SRC_URI:agilex7_dk_dev_agf027f1es ?= "\
+		${GHRD_REPO}/agilex7_dk_dev_agf027f1es_gsrd_${ARM64_GHRD_CORE_RBF};name=agilex7_dk_dev_agf027f1es_gsrd_core \
 		"
 
 SRC_URI:stratix10 ?= "\
@@ -60,17 +60,17 @@ SRC_URI:arria10 ?= "\
 
 SRC_URI:cyclone5 ?= "${GHRD_REPO}/cyclone5_${IMAGE_TYPE}_${C5_GHRD_CORE_RBF};name=cyclone5_${IMAGE_TYPE}_core"
 
-SRC_URI[agilex_fm61_gsrd_core.sha256sum] = "adb614fe00eadcaa2d56a04801ac7890b097639f7fdafab76203bcbe5707b39d"
-SRC_URI[agilex_fm61_nand_core.sha256sum] = "5ab342a09fee670713a2d62add50d680a8b113cd6ed6552fd04bb3990078b8f6"
-SRC_URI[agilex_fm61_pr_core.sha256sum] = "e8f52b61992f299ac9d44789c6086f52e61ffc30f97f37fc934e553285240caf"
-SRC_URI[agilex_fm61_pr_persona0.sha256sum] = "069a9c4bcb9b38b3796c3ad1b37b9436699766f39614c8dee3f6c6e92ecc13d5"
-SRC_URI[agilex_fm61_pr_persona1.sha256sum] = "118daa70dfd82c0689b5811d9a973eecd67bc3d6840b1a6fc5454ac6afa9c05e"
+SRC_URI[agilex7_dk_si_agf014ea_gsrd_core.sha256sum] = "adb614fe00eadcaa2d56a04801ac7890b097639f7fdafab76203bcbe5707b39d"
+SRC_URI[agilex7_dk_si_agf014ea_nand_core.sha256sum] = "5ab342a09fee670713a2d62add50d680a8b113cd6ed6552fd04bb3990078b8f6"
+SRC_URI[agilex7_dk_si_agf014ea_pr_core.sha256sum] = "e8f52b61992f299ac9d44789c6086f52e61ffc30f97f37fc934e553285240caf"
+SRC_URI[agilex7_dk_si_agf014ea_pr_persona0.sha256sum] = "069a9c4bcb9b38b3796c3ad1b37b9436699766f39614c8dee3f6c6e92ecc13d5"
+SRC_URI[agilex7_dk_si_agf014ea_pr_persona1.sha256sum] = "118daa70dfd82c0689b5811d9a973eecd67bc3d6840b1a6fc5454ac6afa9c05e"
 
-SRC_URI[agilex_fm61_linear_gsrd_core.sha256sum] = "00f1fb17a628051fefaf2986818e7ee3a2727d8e5ac670a302c4023d8a03dea5"
+SRC_URI[agilex7_dk_si_agf014eb_gsrd_core.sha256sum] = "00f1fb17a628051fefaf2986818e7ee3a2727d8e5ac670a302c4023d8a03dea5"
 
-SRC_URI[agilex_fm87_gsrd_core.sha256sum] = "a750404a6aa24cfcc7713ab714656f50b9e00c1d4ca41c671ade050e5d24df8d"
-SRC_URI[agilex_fm87_linear_gsrd_core.sha256sum] = "603d31c52ecea11a179dbdbdd3281873c4d222066b707af6ed9515557bbc29a8"
-SRC_URI[agilex_fm86_gsrd_core.sha256sum] = "40d7f31d6dec2dae9ea9ccd6120ac726064c97cfa376a855a02c3d016bee6e92"
+SRC_URI[agilex7_dk_si_agi027fb_gsrd_core.sha256sum] = "a750404a6aa24cfcc7713ab714656f50b9e00c1d4ca41c671ade050e5d24df8d"
+SRC_URI[agilex7_dk_si_agi027fa_gsrd_core.sha256sum] = "603d31c52ecea11a179dbdbdd3281873c4d222066b707af6ed9515557bbc29a8"
+SRC_URI[agilex7_dk_dev_agf027f1es_gsrd_core.sha256sum] = "40d7f31d6dec2dae9ea9ccd6120ac726064c97cfa376a855a02c3d016bee6e92"
 
 SRC_URI[stratix10_gsrd_core.sha256sum] = "29894dc542880d10a14af9b1ae925458c5f60c9f7979d7194989b14fa0be1380"
 SRC_URI[stratix10_nand_core.sha256sum] = "068fb0ad75e54b9c3ac25ebfb87927e99444de8f4964dc22b2a40cd036a8fae7"
@@ -117,15 +117,15 @@ PACKAGES = "${PN}"
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 do_install () {
-	if [[ "${MACHINE}" == *"agilex_"* ]]; then
+	if [[ "${MACHINE}" == *"agilex7_"* ]]; then
     #TODO
-    if [[ "${MACHINE}" == "agilex_fm61_linear" ]]; then 
-		   install -D -m 0644 ${WORKDIR}/agilex_fm61_gsrd_${ARM64_GHRD_CORE_RBF} ${D}/boot/${ARM64_GHRD_CORE_RBF}
+    if [[ "${MACHINE}" == "agilex7_dk_si_agf014eb" ]]; then 
+		   install -D -m 0644 ${WORKDIR}/${MACHINE}_gsrd_${ARM64_GHRD_CORE_RBF} ${D}/boot/${ARM64_GHRD_CORE_RBF}
     else
 		   install -D -m 0644 ${WORKDIR}/${MACHINE}_gsrd_${ARM64_GHRD_CORE_RBF} ${D}/boot/${ARM64_GHRD_CORE_RBF}
 	  fi
 
-		if [[ "${MACHINE}" == "agilex_fm61" ]]; then
+		if [[ "${MACHINE}" == "agilex7_dk_si_agf014ea" ]]; then
 			install -D -m 0644 ${WORKDIR}/${MACHINE}_nand_${ARM64_GHRD_CORE_RBF} ${D}/boot/nand.core.rbf
 			install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_${ARM64_GHRD_CORE_RBF} ${D}/boot/ghrd_pr.core.rbf
 			install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_persona0.rbf ${D}${base_libdir}/firmware/persona0.rbf
@@ -151,15 +151,15 @@ do_install () {
 }
 
 do_deploy () {
-	if [[ "${MACHINE}" == *"agilex_"* ]]; then
+	if [[ "${MACHINE}" == *"agilex7_"* ]]; then
 		#TODO
-    if [[ "${MACHINE}" == "agilex_fm61_linear" ]]; then 
-		   install -D -m 0644 ${WORKDIR}/agilex_fm61_gsrd_${ARM64_GHRD_CORE_RBF} ${DEPLOYDIR}/${MACHINE}_gsrd_ghrd/${ARM64_GHRD_CORE_RBF}
+    if [[ "${MACHINE}" == "agilex7_dk_si_agf014eb" ]]; then 
+		   install -D -m 0644 ${WORKDIR}/${MACHINE}_gsrd_${ARM64_GHRD_CORE_RBF} ${DEPLOYDIR}/${MACHINE}_gsrd_ghrd/${ARM64_GHRD_CORE_RBF}
     else
 		   install -D -m 0644 ${WORKDIR}/${MACHINE}_gsrd_${ARM64_GHRD_CORE_RBF} ${DEPLOYDIR}/${MACHINE}_gsrd_ghrd/${ARM64_GHRD_CORE_RBF}
 	  fi
 
-		if [[ "${MACHINE}" == "agilex_fm61" ]]; then
+		if [[ "${MACHINE}" == "agilex7_dk_si_agf014ea" ]]; then
 			install -D -m 0644 ${WORKDIR}/${MACHINE}_nand_${ARM64_GHRD_CORE_RBF} ${DEPLOYDIR}/${MACHINE}_${IMAGE_TYPE}_ghrd/nand.core.rbf
 			install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_${ARM64_GHRD_CORE_RBF} ${DEPLOYDIR}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd_pr.core.rbf
 			install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_persona0.rbf ${DEPLOYDIR}/${MACHINE}_${IMAGE_TYPE}_ghrd/persona0.rbf

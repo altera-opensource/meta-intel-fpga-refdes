@@ -9,11 +9,11 @@ DEPENDS = "u-boot-mkimage-native dtc-native"
 inherit deploy nopackages
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
-SRC_URI:agilex_fm61 = "file://uboot.txt file://uboot_script.its"
-SRC_URI:agilex_fm61_linear = "file://uboot.txt file://uboot_script.its"
-SRC_URI:agilex_fm87 = "file://uboot.txt file://uboot_script.its"
-SRC_URI:agilex_fm87_linear = "file://uboot.txt file://uboot_script.its"
-SRC_URI:agilex_fm86 = "file://uboot.txt file://uboot_script.its"
+SRC_URI:agilex7_dk_si_agf014ea = "file://uboot.txt file://uboot_script.its"
+SRC_URI:agilex7_dk_si_agf014eb = "file://uboot.txt file://uboot_script.its"
+SRC_URI:agilex7_dk_si_agi027fb = "file://uboot.txt file://uboot_script.its"
+SRC_URI:agilex7_dk_si_agi027fa = "file://uboot.txt file://uboot_script.its"
+SRC_URI:agilex7_dk_dev_agf027f1es = "file://uboot.txt file://uboot_script.its"
 SRC_URI:agilex5 = "file://agilex5_uboot.txt file://agilex5_uboot_script.its"
 SRC_URI:stratix10 = "file://uboot.txt file://uboot_script.its"
 SRC_URI:arria10 = "file://arria10_u-boot.txt"
@@ -28,7 +28,7 @@ do_compile:n5x() {
 }
 
 do_compile() {
-	if [[ "${MACHINE}" == *"agilex_"* ]]; then
+	if [[ "${MACHINE}" == *"agilex7_"* ]]; then
 		mkimage -f "${WORKDIR}/uboot_script.its" ${WORKDIR}/boot.scr.uimg
 	fi
 }
@@ -54,7 +54,7 @@ do_deploy() {
 	if [[ "${MACHINE}" == "arria10" ]]; then
 		install -m 0755 ${WORKDIR}/${MACHINE}_u-boot.txt ${DEPLOYDIR}/u-boot.txt
 		install -m 0644 ${WORKDIR}/boot.scr ${DEPLOYDIR}/boot.scr
-	elif [[ "${MACHINE}" == *"agilex_"* ]] || [[ "${MACHINE}" == "stratix10" ]]; then
+	elif [[ "${MACHINE}" == *"agilex7_"* ]] || [[ "${MACHINE}" == "stratix10" ]]; then
 		install -m 0755 ${WORKDIR}/uboot.txt ${DEPLOYDIR}/u-boot.txt
 		install -m 0644 ${WORKDIR}/boot.scr.uimg ${DEPLOYDIR}/boot.scr.uimg
 	elif [[ "${MACHINE}" == "agilex5" ]]; then

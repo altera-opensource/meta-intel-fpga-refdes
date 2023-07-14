@@ -25,9 +25,9 @@ SRC_URI:append = " \
 	    file://stratix10-board-image.jpg \
 	    file://style.css \
 	    file://validation_script.js \
-		file://agilex_fm61-board-image.jpg \
-		file://agilex_fm86-board-image.jpg \
-		file://agilex_fm87-board-image.jpg \
+		file://agilex7_dk_si_agf014ea-board-image.jpg \
+		file://agilex7_dk_dev_agf027f1es-board-image.jpg \
+		file://agilex7_dk_si_agi027fb-board-image.jpg \
 	    "
 
 S = "${WORKDIR}"
@@ -53,9 +53,9 @@ do_install() {
 	install -m 0755 validation_script.js ${D}/www/pages/
 	install -m 0755 stratix10-board-image.jpg ${D}/www/pages/
 	install -m 0755 index.sh ${D}/www/pages/cgi-bin
-	install -m 0755 agilex_fm61-board-image.jpg ${D}/www/pages/
-	install -m 0755 agilex_fm86-board-image.jpg ${D}/www/pages/
-	install -m 0755 agilex_fm87-board-image.jpg ${D}/www/pages/
+	install -m 0755 agilex7_dk_si_agf014ea-board-image.jpg ${D}/www/pages/
+	install -m 0755 agilex7_dk_dev_agf027f1es-board-image.jpg ${D}/www/pages/
+	install -m 0755 agilex7_dk_si_agi027fb-board-image.jpg ${D}/www/pages/
 }
 
 FILES:${PN} = "/www/pages/* /home/*"

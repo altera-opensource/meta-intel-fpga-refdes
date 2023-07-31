@@ -32,7 +32,7 @@ if [ "$1" == "fpga_static_region.dtbo" ]; then
                 else
                         :
                 fi
-        elif [[ "$MACHINE" == "agilex_fm61"* ]]; then
+        elif [[ "$MACHINE" == "agilex7_dk_si_agf014e"* ]]; then
                 if [ "$2" == "start" ]; then
                         dtbt -p /boot/devicetree -a agilex_pr_fpga_static_region.dtbo
                 elif [ "$2" == "stop" ]; then
@@ -63,7 +63,7 @@ if [ "$1" == "persona0.dtbo" ]; then
                 else
                         :
                 fi
-        elif [[ "$MACHINE" == "agilex_fm61"* ]]; then
+        elif [[ "$MACHINE" == "agilex7_dk_si_agf014e"* ]]; then
                 if [ "$2" == "start" ]; then
                         dtbt -p /boot/devicetree -a agilex_pr_persona0.dtbo
                 elif [ "$2" == "stop" ]; then
@@ -94,7 +94,7 @@ if [ "$1" == "persona1.dtbo" ]; then
                 else
                         :
                 fi
-        elif [[ "$MACHINE" == "agilex_fm61"* ]]; then
+        elif [[ "$MACHINE" == "agilex7_dk_si_agf014e"* ]]; then
                 if [ "$2" == "start" ]; then
                         dtbt -p /boot/devicetree -a agilex_pr_persona1.dtbo
                 elif [ "$2" == "stop" ]; then

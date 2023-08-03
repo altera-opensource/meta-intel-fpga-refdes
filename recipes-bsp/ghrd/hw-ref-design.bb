@@ -43,6 +43,10 @@ SRC_URI:agilex7_dk_dev_agf027f1es ?= "\
 		${GHRD_REPO}/agilex7_dk_dev_agf027f1es_gsrd_${ARM64_GHRD_CORE_RBF};name=agilex7_dk_dev_agf027f1es_gsrd_core \
 		"
 
+SRC_URI:agilex7_dk_dev_agm039fes ?= "\
+		${GHRD_REPO}/agilex7_dk_dev_agm039fes_gsrd_${ARM64_GHRD_CORE_RBF};name=agilex7_dk_dev_agm039fes_gsrd_core \
+		"
+
 SRC_URI:stratix10 ?= "\
 		${GHRD_REPO}/stratix10_gsrd_${ARM64_GHRD_CORE_RBF};name=stratix10_gsrd_core \
 		${GHRD_REPO}/stratix10_nand_${ARM64_GHRD_CORE_RBF};name=stratix10_nand_core \
@@ -71,6 +75,8 @@ SRC_URI[agilex7_dk_si_agf014eb_gsrd_core.sha256sum] = "00f1fb17a628051fefaf29868
 SRC_URI[agilex7_dk_si_agi027fb_gsrd_core.sha256sum] = "a750404a6aa24cfcc7713ab714656f50b9e00c1d4ca41c671ade050e5d24df8d"
 SRC_URI[agilex7_dk_si_agi027fa_gsrd_core.sha256sum] = "603d31c52ecea11a179dbdbdd3281873c4d222066b707af6ed9515557bbc29a8"
 SRC_URI[agilex7_dk_dev_agf027f1es_gsrd_core.sha256sum] = "40d7f31d6dec2dae9ea9ccd6120ac726064c97cfa376a855a02c3d016bee6e92"
+#TO DO: ADD FP82 HASH
+#SRC_URI[agilex7_dk_dev_agm039fes_gsrd_core.sha256sum] = "40d7f31d6dec2dae9ea9ccd6120ac726064c97cfa376a855a02c3d016bee6e92"
 
 SRC_URI[stratix10_gsrd_core.sha256sum] = "29894dc542880d10a14af9b1ae925458c5f60c9f7979d7194989b14fa0be1380"
 SRC_URI[stratix10_nand_core.sha256sum] = "068fb0ad75e54b9c3ac25ebfb87927e99444de8f4964dc22b2a40cd036a8fae7"

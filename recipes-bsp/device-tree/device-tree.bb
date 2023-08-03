@@ -15,7 +15,7 @@ inherit devicetree
 
 PROVIDES = "virtual/dtb"
 
-COMPATIBLE_MACHINE = "(agilex7_dk_si_agf014ea|agilex7_dk_si_agf014eb|agilex7_dk_si_agi027fb|agilex7_dk_si_agi027fa|agilex7_dk_dev_agf027f1es|stratix10)"
+COMPATIBLE_MACHINE = "(agilex7_dk_si_agf014ea|agilex7_dk_si_agf014eb|agilex7_dk_si_agi027fb|agilex7_dk_si_agi027fa|agilex7_dk_dev_agf027f1es|agilex7_dk_dev_agm039fes|stratix10)"
 
 SRC_URI:append:agilex7_dk_si_agf014ea = " \
 					file://socfpga_agilex_ghrd_sgmii.dtsi \
@@ -43,6 +43,10 @@ SRC_URI:append:agilex7_dk_si_agi027fa = " \
 
 SRC_URI:append:agilex7_dk_dev_agf027f1es = " \
 					file://socfpga_agilex7_dk_dev_agf027f1es_ghrd.dtsi \
+					"
+
+SRC_URI:append:agilex7_dk_dev_agm039fes = " \
+					file://socfpga_agilex_ghrd.dtsi \
 					"
 
 SRC_URI:append:stratix10 = " \
@@ -98,6 +102,13 @@ do_configure:append() {
 			# MMC
 			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex_socdk.dts ${WORKDIR}/socfpga_agilex_socdk.dts
 			sed -i '/\#include \"socfpga_agilex.dtsi\"/a \#include \"socfpga_agilex7_dk_dev_agf027f1es_ghrd.dtsi\"' ${WORKDIR}/socfpga_agilex_socdk.dts
+		fi
+		# Agilex7 DK-DEV-AGM039FES
+		if [[ "${MACHINE}" == "agilex7_dk_dev_agm039fes" ]]; then
+			# GSRD DTB Generation
+			# MMC
+			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex_socdk.dts ${WORKDIR}/socfpga_agilex_socdk.dts
+			sed -i '/\#include \"socfpga_agilex.dtsi\"/a \#include \"socfpga_agilex_ghrd.dtsi\"' ${WORKDIR}/socfpga_agilex_socdk.dts
 		fi
 	fi
 }

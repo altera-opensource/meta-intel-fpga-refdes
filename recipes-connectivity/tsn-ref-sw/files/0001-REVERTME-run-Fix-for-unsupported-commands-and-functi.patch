@@ -1,0 +1,470 @@
+From 6820b6d843b0e8da0ea9ec6c28b1c022c05b5820 Mon Sep 17 00:00:00 2001
+From: Rohan G Thomas <rohan.g.thomas@intel.com>
+Date: Thu, 6 Jul 2023 15:38:02 +0800
+Subject: [PATCH] REVERTME: run: Fix for unsupported commands and functions
+
+Fix for unsupported commands and functions.
+
+Signed-off-by: Rohan G Thomas <rohan.g.thomas@intel.com>
+---
+ run.sh               |  8 ++++----
+ shell/clock-setup.sh | 18 ++++++++++------
+ shell/helpers.sh     | 12 +++++------
+ shell/setup-tsq1a.sh |  5 +++--
+ shell/setup-tsq1b.sh |  5 +++--
+ shell/tsq1a.sh       | 24 +++++++++++-----------
+ shell/tsq1b.sh       | 10 ++++-----
+ shell/vs1a.sh        | 42 ++++++++++++++++++++++++-------------
+ shell/vs1b.sh        | 49 +++++++++++++++++++++++++++-----------------
+ 9 files changed, 103 insertions(+), 70 deletions(-)
+
+diff --git a/run.sh b/run.sh
+index a646199..7d7014a 100755
+--- a/run.sh
++++ b/run.sh
+@@ -192,15 +192,15 @@ ts_log_start(){
+ ts_log_stop_n_report(){
+     num_ptp_lines=$(cat /var/log/captured_ptp4l.log | wc -l)
+     if [[ num_ptp_lines -gt 2 ]]; then
+-        grep -vaP '[\0\200-\377]' /var/log/captured_ptp4l.log > /var/log/temp_ptp4l.log
++        grep -vaE '[\0\200-\377]' /var/log/captured_ptp4l.log > /var/log/temp_ptp4l.log
+     else
+-        grep -vaP '[\0\200-\377]' /var/log/ptp4l.log > /var/log/temp_ptp4l.log
++        grep -vaE '[\0\200-\377]' /var/log/ptp4l.log > /var/log/temp_ptp4l.log
+     fi
+     num_phc_lines=$(cat /var/log/captured_phc2sys.log | wc -l)
+     if [[ num_phc_lines -gt 2 ]]; then
+-        grep -vaP '[\0\200-\377]' /var/log/captured_phc2sys.log > /var/log/temp_phc2sys.log
++        grep -vaE '[\0\200-\377]' /var/log/captured_phc2sys.log > /var/log/temp_phc2sys.log
+     else
+-        grep -vaP '[\0\200-\377]' /var/log/phc2sys.log > /var/log/temp_phc2sys.log
++        grep -vaE '[\0\200-\377]' /var/log/phc2sys.log > /var/log/temp_phc2sys.log
+     fi
+ 
+     echo -e "---------------------------------------------------------------------------------------"
+diff --git a/shell/clock-setup.sh b/shell/clock-setup.sh
+index 316651d..88437be 100755
+--- a/shell/clock-setup.sh
++++ b/shell/clock-setup.sh
+@@ -40,8 +40,10 @@ if [ -z $1 ]; then
+ fi
+ 
+ IFACE=$1
+-pkill ptp4l
+-pkill phc2sys
++# pkill ptp4l
++# pkill phc2sys
++kill $(pgrep -f ptp4l) 1&>> /dev/null
++kill $(pgrep -f phc2sys) 1&>> /dev/null
+ 
+ # Defaults when executing clock-setup.sh directly
+ # Use q0, gPTP.cfg and no vlan
+@@ -60,8 +62,10 @@ else
+     echo "Using $GPTP_FILE";
+ fi
+ 
+-taskset -c 1 ptp4l -P2Hi $IFACE$PTP_IFACE_APPEND -f $DIR/../common/$GPTP_FILE \
+-        --step_threshold=1 --socket_priority=$PTP_TX_Q -m &> /var/log/ptp4l.log &
++# taskset -c 1 ptp4l -P2Hi $IFACE$PTP_IFACE_APPEND -f $DIR/../common/$GPTP_FILE \
++#         --step_threshold=1 --socket_priority=$PTP_TX_Q -m &> /var/log/ptp4l.log &
++ptp4l -P2Hi $IFACE$PTP_IFACE_APPEND -f $DIR/../common/$GPTP_FILE \
++         --step_threshold=1 --socket_priority=$PTP_TX_Q -m &> /var/log/ptp4l.log &
+ 
+ sleep 2 # Required
+ 
+@@ -77,6 +81,8 @@ if [[ $PLAT == i225* ]]; then
+         --transportSpecific=1 -O 0 --first_step_threshold=0.0 \
+         -w -ml 7 &> /var/log/phc2sys.log &
+ else
+-    taskset -c 1 phc2sys -s $IFACE -c CLOCK_REALTIME --step_threshold=1 \
+-            --transportSpecific=1 -O 0 -w -ml 7 &> /var/log/phc2sys.log &
++    # taskset -c 1 phc2sys -s $IFACE -c CLOCK_REALTIME --step_threshold=1 \
++    #         --transportSpecific=1 -O 0 -w -ml 7 &> /var/log/phc2sys.log &
++    phc2sys -s $IFACE -c CLOCK_REALTIME --step_threshold=1 \
++             --transportSpecific=1 -O 0 -w -ml 7 &> /var/log/phc2sys.log &
+ fi
+diff --git a/shell/helpers.sh b/shell/helpers.sh
+index 6ab7b6c..c9ab4ed 100644
+--- a/shell/helpers.sh
++++ b/shell/helpers.sh
+@@ -166,7 +166,7 @@ init_interface(){
+         fi
+ 
+         # Set irq affinity
+-        set_irq_smp_affinity $IFACE $DIR/../common/$IRQ_AFFINITY_FILE
++        # set_irq_smp_affinity $IFACE $DIR/../common/$IRQ_AFFINITY_FILE
+ }
+ 
+ # Tag kernel according to version for napi deferral needs
+@@ -375,7 +375,7 @@ enable_extts(){
+                 echo "Please enter interface: ./enable_extts.sh iface"; exit 1;
+         fi
+ 
+-        CLK=`ethtool -T $IFACE | grep -Po "(?<=PTP Hardware Clock: )[\d+]"`
++        CLK=`ethtool -T $IFACE | grep -Eo "PTP Hardware Clock: [0-9]+" | grep -Eo "[0-9+]"`
+         PCLK=ptp$CLK
+         echo "Enabling extts on $IFACE ($PCLK)"
+ 
+@@ -396,7 +396,7 @@ enable_pps(){
+ 
+         IFACE=$1
+ 
+-        CLK=`ethtool -T $IFACE | grep -Po "(?<=PTP Hardware Clock: )[\d+]"`
++        CLK=`ethtool -T $IFACE | grep -Eo "PTP Hardware Clock: [0-9]+" | grep -Eo "[0-9+]"`
+         PCLK=ptp$CLK
+         echo "Enabling pps on $IFACE ($PCLK)"
+ 
+@@ -433,7 +433,7 @@ run_iperf3_bg_client(){
+         #    run for 30000s
+         #     always use CPU0, general purpose core
+ 
+-        if [ ! -z "$SSH_CLIENT" ]; then
++        if [[ ! -z "$SSH_CLIENT" || ! `which xterm &> /dev/null` ]]; then
+                 # Headless mode, use ssh root@127.0.0.1 to trigger loopback if required
+                 echo "[CMD] iperf3 -c $TARGET_IP_ADDR -u -b $IPERF_BITRATE -l 1440 -f m -i 10 -t 30000 -A $CPU_AFFINITY &"
+                 iperf3 -c $TARGET_IP_ADDR -u -b $IPERF_BITRATE -l 1440 -f m -i 10 -t 30000 -A $CPU_AFFINITY &
+@@ -457,7 +457,7 @@ run_iperf3_bg_server(){
+         #     output interval 10s
+         #     always use CPU0, general purpose core
+ 
+-        if [ ! -z "$SSH_CLIENT" ]; then
++        if [[ ! -z "$SSH_CLIENT" || ! `which xterm &> /dev/null` ]]; then
+                 # Headless mode, use ssh root@127.0.0.1 to trigger loopback if required
+                 iperf3 -s -B $IFACE_IP_ADDR -i 10 -1 -A $CPU_AFFINITY &
+         else
+@@ -527,7 +527,7 @@ stop_if_empty(){
+ 
+         COUNT=$(wc -l $1 | awk '{print $1}')
+ 
+-        if [ $COUNT -lt 3000 ]; then
++        if [ $COUNT -lt 1000 ]; then
+                 echo "Too little data $1 has only $COUNT lines"
+                 exit
+         fi
+diff --git a/shell/setup-tsq1a.sh b/shell/setup-tsq1a.sh
+index fd005c1..32d9708 100755
+--- a/shell/setup-tsq1a.sh
++++ b/shell/setup-tsq1a.sh
+@@ -47,8 +47,9 @@ init_interface  $IFACE
+ $DIR/clock-setup.sh $IFACE
+ sleep 20
+ 
+-pkill phc2sys #need to disable phc2sys to use EXTTS
++# pkill phc2sys #need to disable phc2sys to use EXTTS
++# kill -9 $(pgrep -f phc2sys) 1&>> /dev/null
+ 
+-enable_extts    $IFACE
++# enable_extts    $IFACE
+ 
+ enable_pps      $IFACE
+diff --git a/shell/setup-tsq1b.sh b/shell/setup-tsq1b.sh
+index 691382c..9d7e90a 100755
+--- a/shell/setup-tsq1b.sh
++++ b/shell/setup-tsq1b.sh
+@@ -47,6 +47,7 @@ init_interface  $IFACE
+ $DIR/clock-setup.sh $IFACE
+ sleep 20
+ 
+-pkill phc2sys #need to disable phc2sys to use EXTTS
++# pkill phc2sys #need to disable phc2sys to use EXTTS
++# kill -9 $(pgrep -f phc2sys) 1&>> /dev/null
+ 
+-enable_extts    $IFACE
++# enable_extts    $IFACE
+diff --git a/shell/tsq1a.sh b/shell/tsq1a.sh
+index 31110fb..95e5914 100755
+--- a/shell/tsq1a.sh
++++ b/shell/tsq1a.sh
+@@ -40,9 +40,9 @@ if [ $# -eq 0 ]; then
+ fi
+ 
+ IFACE=$1
+-CLK=`ethtool -T $IFACE | grep -Po "(?<=PTP Hardware Clock: )[\d+]"`
++CLK=`ethtool -T $IFACE | grep -Eo "PTP Hardware Clock: [0-9]+" | grep -Eo "[0-9+]"`
+ 
+-pkill gnuplot
++# pkill gnuplot
+ if pgrep -x tsq > /dev/null; then
+ 	kill -9 $( pgrep -x tsq ) > /dev/null
+ 	echo -e "Previous TSQ is still running. Attempting to kill it."
+@@ -53,10 +53,10 @@ fi
+ TSQ_LISTENER_PID=$!
+ 
+ # Check if tsq listener is alive, otherwise exit.
+-if ! ps -p $TSQ_LISTENER_PID > /dev/null; then
+-	echo -e "\nTSQ Listener has exited prematurely. Script will stop now."
+-	exit 1
+-fi
++# if ! ps -p $TSQ_LISTENER_PID > /dev/null; then
++# 	echo -e "\nTSQ Listener has exited prematurely. Script will stop now."
++# 	exit 1
++# fi
+ 
+ sleep 5
+ 
+@@ -65,12 +65,12 @@ sleep 5
+ TSQ_TALKER_PID=$!
+ 
+ # Check if tsq talker is alive, otherwise exit
+-if ! ps -p $TSQ_TALKER_PID > /dev/null; then
+-	echo -e "\nTSQ Talker has exited prematurely. Script will stop now."
+-	# Kill tsq listener before exiting.
+-	kill -9 $( pgrep -x tsq ) > /dev/null
+-	exit 1
+-fi
++# if ! ps -p $TSQ_TALKER_PID > /dev/null; then
++# 	echo -e "\nTSQ Talker has exited prematurely. Script will stop now."
++# 	# Kill tsq listener before exiting.
++#	kill -9 $( pgrep -x tsq ) > /dev/null
++#	exit 1
++#fi
+ 
+ GNUPLOT_PATH=$(which gnuplot)
+ 
+diff --git a/shell/tsq1b.sh b/shell/tsq1b.sh
+index bd4075b..bcf0ade 100755
+--- a/shell/tsq1b.sh
++++ b/shell/tsq1b.sh
+@@ -40,7 +40,7 @@ if [ $# -eq 0 ]; then
+ fi
+ 
+ IFACE=$1
+-CLK=`ethtool -T $IFACE | grep -Po "(?<=PTP Hardware Clock: )[\d+]"`
++CLK=`ethtool -T $IFACE | grep -Eo "PTP Hardware Clock: [0-9]+" | grep -Eo "[0-9+]"`
+ 
+ if pgrep -x tsq > /dev/null; then
+ 	kill -9 $( pgrep -x tsq ) > /dev/null
+@@ -52,10 +52,10 @@ fi
+ TSQ_TALKER_PID=$!
+ 
+ # Check if tsq listener and talker are both alive.
+-if ! ps -p $TSQ_TALKER_PID > /dev/null; then
+-	echo -e "TSQ Talker has exited prematurely. Script will stop now."
+-	exit 1
+-fi
++# if ! ps -p $TSQ_TALKER_PID > /dev/null; then
++# 	echo -e "TSQ Talker has exited prematurely. Script will stop now."
++# 	exit 1
++# fi
+ 
+ sleep $TEST_PERIOD
+ kill -9 $( pgrep -x tsq ) > /dev/null
+diff --git a/shell/vs1a.sh b/shell/vs1a.sh
+index 2b2719b..fba60bd 100755
+--- a/shell/vs1a.sh
++++ b/shell/vs1a.sh
+@@ -45,9 +45,11 @@ elif [[ -z $INTERVAL || -z $XDP_INTERVAL ||
+         echo "Source config file first"; exit
+ fi
+ 
+-pkill gnuplot
+-pkill txrx-tsn
+-pkill iperf3
++# pkill gnuplot
++# pkill txrx-tsn
++# pkill iperf3
++kill -9 $(pgrep -f txrx-tsn) 1&>> /dev/null
++kill $(pgrep -f iperf3) 1&>> /dev/null
+ 
+ # Remove logging files and its links
+ rm -f $TEMP_DIR/afpkt-txtstamps.txt
+@@ -71,24 +73,32 @@ if [ "$AFP_PACKET_TEST" = "y" ]; then
+         fi
+         sleep 5
+ 
+-        echo "CMD: ./txrx-tsn -i $IFACE -PtTq $TX_PKT_Q -n $NUMPKTS -l $SIZE -y $INTERVAL -e $EARLY_OFFSET -o $TXTIME_OFFSET"
+-        ./txrx-tsn -i $IFACE -PtTq $TX_PKT_Q -n $NUMPKTS -l $SIZE -y $INTERVAL \
++        # echo "CMD: ./txrx-tsn -i $IFACE -PtTq $TX_PKT_Q -n $NUMPKTS -l $SIZE -y $INTERVAL -e $EARLY_OFFSET -o $TXTIME_OFFSET"
++        # ./txrx-tsn -i $IFACE -PtTq $TX_PKT_Q -n $NUMPKTS -l $SIZE -y $INTERVAL \
++        #                 -e $EARLY_OFFSET -o $TXTIME_OFFSET > afpkt-txtstamps.txt &
++        echo "CMD: ./txrx-tsn -i $IFACE -Ptq $TX_PKT_Q -n $NUMPKTS -l $SIZE -y $INTERVAL -e $EARLY_OFFSET -o $TXTIME_OFFSET"
++        ./txrx-tsn -i $IFACE -Ptq $TX_PKT_Q -n $NUMPKTS -l $SIZE -y $INTERVAL \
+                         -e $EARLY_OFFSET -o $TXTIME_OFFSET > afpkt-txtstamps.txt &
+         TXRX_PID=$!
+ 
++<< comment
+         if ! ps -p $TXRX_PID > /dev/null; then
+                 echo -e "\ntxrx-tsn exited prematurely. vs1a.sh script will be stopped."
+                 kill -9 $( pgrep -x iperf3 ) > /dev/null
+                 exit 1
+         fi
++comment
+ 
+         # Assign to CPU2
+-        taskset -p 4 $TXRX_PID
+-        chrt --fifo -p 90 $TXRX_PID
++        # taskset -p 4 $TXRX_PID
++        # chrt --fifo -p 90 $TXRX_PID
+ 
+         sleep $SLEEP_SEC
+-        pkill iperf3
+-        pkill txrx-tsn
++        # pkill iperf3
++        # pkill txrx-tsn
++	kill $(pgrep -f iperf3) 1&>> /dev/null
++        kill -9 $(pgrep -f txrx-tsn) 1&>> /dev/null
++
+ else
+         echo "PHASE 1: AF_PACKET is not configured to run."
+ fi
+@@ -111,19 +121,21 @@ KERNEL_VER=$(uname -r | cut -d'.' -f1-2)
+ 
+ TXRX_PID=$!
+ 
++<< comment
+ if ! ps -p $TXRX_PID > /dev/null; then
+ 	echo -e "\ntxrx-tsn exited prematurely. vs1a.sh script will be stopped."
+ 	exit 1
+ fi
++comment
+ 
+ # Assign to CPU2
+-taskset -p 4 $TXRX_PID
+-chrt --fifo -p 90 $TXRX_PID
++#taskset -p 4 $TXRX_PID
++#chrt --fifo -p 90 $TXRX_PID
+ 
+ sleep 5
+ 
+ # This is targeting for stmmac and kernel others than 5.4
+-if [[ $PLAT != i225* && $KERNEL_VER != 5.4 ]]; then
++if [[ $PLAT != i225* && $KERNEL_VER != 5.4 && $KERNEL_VER != 6.1 ]]; then
+         init_interface  $IFACE
+         setup_taprio $IFACE
+         setup_etf $IFACE
+@@ -149,8 +161,10 @@ if [ "$RUN_IPERF3_XDP" = "y" ]; then
+ fi
+ 
+ sleep $XDP_SLEEP_SEC
+-pkill iperf3
+-pkill txrx-tsn
++# pkill iperf3
++# pkill txrx-tsn
++kill $(pgrep -f iperf3) 1&>> /dev/null
++kill -9 $(pgrep -f txrx-tsn) 1&>> /dev/null
+ 
+ # This is targeting for i225/i226 and kernel 5.4 only
+ if [[ $PLAT == i225* && $KERNEL_VER == 5.4 ]]; then
+diff --git a/shell/vs1b.sh b/shell/vs1b.sh
+index 3e057bc..c9330ef 100755
+--- a/shell/vs1b.sh
++++ b/shell/vs1b.sh
+@@ -45,9 +45,11 @@ elif [[ -z $INTERVAL || -z $XDP_INTERVAL ||
+         echo "Source config file first"; exit
+ fi
+ 
+-pkill gnuplot
+-pkill txrx-tsn
+-pkill iperf3
++# pkill gnuplot
++# pkill txrx-tsn
++# pkill iperf3
++kill -9 $(pgrep -f txrx-tsn) 1&>> /dev/null
++kill $(pgrep -f iperf3) 1&>> /dev/null
+ 
+ # Improve performance/consistency by logging to tmpfs (system memory)
+ ln -sfv $TEMP_DIR/afpkt-rxtstamps.txt .
+@@ -77,17 +79,22 @@ if [ "$AFP_PACKET_TEST" = "y" ]; then
+     ./txrx-tsn -Pri $IFACE -q $RX_PKT_Q -n $NUMPKTS > afpkt-rxtstamps.txt &
+     TXRX_PID=$!
+ 
++<< comment
+     if ! ps -p $TXRX_PID > /dev/null; then
+         echo -e "\ntxrx-tsn exited prematurely. vs1b.sh script will be stopped."
+         kill -9 $( pgrep -x iperf3 ) > /dev/null
+         exit 1
+     fi
++comment
+ 
+     # Assign to CPU3
+-    taskset -p 8 $TXRX_PID
++    # taskset -p 8 $TXRX_PID
+     sleep $SLEEP_SEC
+-    pkill txrx-tsn
+-    pkill iperf3
++    # pkill txrx-tsn
++    # pkill iperf3
++    kill -9 $(pgrep -f txrx-tsn) 1&>> /dev/null
++    kill $(pgrep -f iperf3) 1&>> /dev/null
++
+ 
+ else
+     echo "PHASE 1: AF_PACKET is not configured to run."
+@@ -104,7 +111,7 @@ else
+     echo "CMD: ./txrx-tsn -X -$XDP_MODE -ri $IFACE -q $RX_XDP_Q -n $NUMPKTS"
+     ./txrx-tsn -X -$XDP_MODE -ri $IFACE -q $RX_XDP_Q -n $NUMPKTS > afxdp-rxtstamps.txt &
+     TXRX_PID=$!
+-
++<< comment
+     if ! ps -p $TXRX_PID > /dev/null; then
+         echo -e "\ntxrx-tsn exited prematurely. vs1b.sh script will be stopped."
+         stop_if_empty "afpkt-rxtstamps.txt"
+@@ -113,18 +120,19 @@ else
+         save_result_files $(basename $0 .sh) $NUMPKTS $SIZE $INTERVAL $XDP_MODE $PLAT
+         exit 1
+     fi
++comment
+ 
+     # Assign to CPU3
+-    taskset -p 8 $TXRX_PID
++    # taskset -p 8 $TXRX_PID
+ 
+     sleep 5
+ 
+     # This is targeting for stmmac
+     if [[ $PLAT != i225* ]]; then
+         # This is targeting for kernel 5.4 only
+-        if [[ KERNEL_VER == 5.4 ]]; then
++        if [[ KERNEL_VER == 5.4 || $KERNEL_VER == 6.1 ]]; then
+             setup_vlanrx_xdp $IFACE
+-            sleep 40
++            sleep 10
+         # This is targeting for kernel others than 5.4
+         else
+             init_interface  $IFACE
+@@ -161,8 +169,10 @@ else
+     fi
+ 
+     sleep $XDP_SLEEP_SEC
+-    pkill iperf3
+-    pkill txrx-tsn
++    # pkill iperf3
++    # pkill txrx-tsn
++    kill $(pgrep -f iperf3) 1&>> /dev/null
++    kill -9 $(pgrep -f txrx-tsn) 1&>> /dev/null
+ 
+     # This is targeting for i225/i226 and kernel 5.4 only
+     if [[ $PLAT == i225* && $KERNEL_VER == 5.4 ]]; then
+@@ -178,7 +188,14 @@ else
+ fi
+ 
+ echo "PHASE 3: Calculating.."
+-pkill gnuplot
++# pkill gnuplot
++
++GNUPLOT_PATH=$(which gnuplot)
++
++if [[ -z $GNUPLOT_PATH ]]; then
++    echo "INFO: gnuplot is not available in this system. No graph will be created."
++    exit 0
++fi
+ 
+ if [ "$AFP_PACKET_TEST" = "y" ]; then
+     stop_if_empty "afpkt-rxtstamps.txt"
+@@ -194,12 +211,6 @@ fi
+ 
+ save_result_files $(basename $0 .sh) $NUMPKTS $SIZE $INTERVAL $XDP_MODE $PLAT
+ 
+-GNUPLOT_PATH=$(which gnuplot)
+-
+-if [[ -z $GNUPLOT_PATH ]]; then
+-    echo "INFO: gnuplot is not available in this system. No graph will be created."
+-    exit 0
+-fi
+ 
+ if [ "$XDP_MODE" = "NA" ]; then
+     gnuplot -e "FILENAME='afpkt-traffic.txt';YMAX=2000000; PLOT_TITLE='$PLAT:AF_Packet only'" $DIR/../common/latency_single.gnu -p 2> /dev/null &
+-- 
+2.26.2
+
+

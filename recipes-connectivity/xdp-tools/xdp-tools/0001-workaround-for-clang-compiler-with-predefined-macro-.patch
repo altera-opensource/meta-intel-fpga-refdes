@@ -1,0 +1,54 @@
+From ad548b7636d06d12d7f2c37d75392ab08f769d28 Mon Sep 17 00:00:00 2001
+From: Swee Leong Ching <leong.ching.swee@intel.com>
+Date: Mon, 31 Jul 2023 14:45:43 +0800
+Subject: [PATCH] workaround for clang compiler with predefined macro
+ __aarch64__
+
+Signed-off-by: Swee Leong Ching <leong.ching.swee@intel.com>
+---
+ headers/bits/wordsize.h | 32 ++++++++++++++++++++++++++++++++
+ 1 file changed, 32 insertions(+)
+ create mode 100644 headers/bits/wordsize.h
+
+diff --git a/headers/bits/wordsize.h b/headers/bits/wordsize.h
+new file mode 100644
+index 0000000..a9f1fda
+--- /dev/null
++++ b/headers/bits/wordsize.h
+@@ -0,0 +1,32 @@
++/* Determine the wordsize from the preprocessor defines.
++
++   Copyright (C) 2016-2023 Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library; if not, see
++   <https://www.gnu.org/licenses/>.  */
++
++#if defined (__LP64__)
++# define __WORDSIZE			64
++#elif defined (__aarch64__)
++# define __WORDSIZE			32
++# define __WORDSIZE32_SIZE_ULONG	1
++# define __WORDSIZE32_PTRDIFF_LONG	1
++#else
++# define __WORDSIZE			32
++# define __WORDSIZE32_SIZE_ULONG	0
++# define __WORDSIZE32_PTRDIFF_LONG	0
++#endif
++
++#define __WORDSIZE_TIME64_COMPAT32	0
+-- 
+2.34.1
+
+

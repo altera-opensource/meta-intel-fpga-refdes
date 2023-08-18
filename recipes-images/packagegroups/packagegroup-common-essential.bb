@@ -14,4 +14,6 @@ RDEPENDS:packagegroup-common-essential = "\
 	mtd-utils-ubifs \
 	libgpiod-tools \
 	dosfstools \
+	xdp-tools \
+	tsn-ref-sw \
 	"

@@ -1,0 +1,486 @@
+From 37969633c2e522d888f7e8a7d391788acdf0f16e Mon Sep 17 00:00:00 2001
+From: Rohan G Thomas <rohan.g.thomas@intel.com>
+Date: Thu, 6 Jul 2023 15:14:59 +0800
+Subject: [PATCH 1/3] src: txrx: Update libxdp support
+
+Updat libxdp support.
+
+Signed-off-by: Rohan G Thomas <rohan.g.thomas@intel.com>
+---
+ src/txrx-afxdp.c | 12 ++++++++----
+ src/txrx.c       |  3 ++-
+ src/txrx.h       |  3 ++-
+ 3 files changed, 12 insertions(+), 6 deletions(-)
+
+diff --git a/src/txrx-afxdp.c b/src/txrx-afxdp.c
+index aff5942..32c5729 100644
+--- a/src/txrx-afxdp.c
++++ b/src/txrx-afxdp.c
+@@ -65,7 +65,8 @@
+ #include <linux/if_link.h>
+ #include "linux/if_xdp.h"
+ #include <bpf/libbpf.h>
+-#include <bpf/xsk.h>
++// #include <bpf/xsk.h>
++#include <xdp/xsk.h>
+ #include <bpf/bpf.h>
+ 
+ #include "txrx-afxdp.h"
+@@ -89,13 +90,15 @@ void remove_xdp_program(void)
+ {
+ 	uint32_t curr_prog_id = 0;
+ 
+-	if (bpf_get_link_xdp_id(glob_ifindex, &curr_prog_id, glob_xdp_flags)) {
++	// if (bpf_get_link_xdp_id(glob_ifindex, &curr_prog_id, glob_xdp_flags)) {
++	if (bpf_xdp_query_id(glob_ifindex, glob_xdp_flags, &curr_prog_id)) {
+ 		fprintf(stderr, "exit: bpf_get_link_xdp_id failed\n");
+ 		exit(EXIT_FAILURE);
+ 	}
+ 
+ 	if (glob_xskinfo_ptr && glob_xskinfo_ptr->bpf_prog_id == curr_prog_id)
+-		bpf_set_link_xdp_fd(glob_ifindex, -1, glob_xdp_flags);
++		// bpf_set_link_xdp_fd(glob_ifindex, -1, glob_xdp_flags);
++		bpf_xdp_attach(glob_ifindex, -1, glob_xdp_flags, NULL);
+ 	else if (!glob_xskinfo_ptr)
+ 		fprintf(stderr, "exit: socket creation incomplete. " \
+ 				"Possibly due toincompatible queue.\n");
+@@ -201,7 +204,8 @@ static struct xsk_info *create_xsk_info(struct user_opt *opt, struct pkt_buffer
+ 	if (ret)
+ 		afxdp_exit_with_error(-ret);
+ 
+-	ret = bpf_get_link_xdp_id(opt->ifindex, &temp_xsk->bpf_prog_id, opt->x_opt.xdp_flags);
++	// ret = bpf_get_link_xdp_id(opt->ifindex, &temp_xsk->bpf_prog_id, opt->x_opt.xdp_flags);
++	ret = bpf_xdp_query_id(opt->ifindex, opt->x_opt.xdp_flags, &temp_xsk->bpf_prog_id);
+ 	if (ret)
+ 		afxdp_exit_with_error(-ret);
+ 
+diff --git a/src/txrx.c b/src/txrx.c
+index a2d56be..e0a4191 100644
+--- a/src/txrx.c
++++ b/src/txrx.c
+@@ -285,7 +285,8 @@ static struct argp argp = { options, parser, usage, summary };
+ 
+ static void copy_file(char *src_file, char *dst_file, bool clear_src)
+ {
+-	char ch;
++	// char ch;
++	 signed char ch;
+ 	FILE *src, *dst;
+ 
+ 	if (src_file == NULL || dst_file == NULL) {
+diff --git a/src/txrx.h b/src/txrx.h
+index 594c7b1..c667f5c 100644
+--- a/src/txrx.h
++++ b/src/txrx.h
+@@ -35,7 +35,8 @@
+ 
+ #include <stdio.h>
+ #ifdef WITH_XDP
+-#include <bpf/xsk.h>
++// #include <bpf/xsk.h>
++#include <xdp/xsk.h>
+ #endif
+ #include <time.h>
+ #include <string.h>
+-- 
+2.26.2
+
+
+From 89f2b7ee645ad984a29f6c6c4bef3e79a88df97f Mon Sep 17 00:00:00 2001
+From: Rohan G Thomas <rohan.g.thomas@intel.com>
+Date: Thu, 6 Jul 2023 15:19:59 +0800
+Subject: [PATCH 2/3] build: Add support for cross-compilation
+
+Add support for cross-compilation.
+
+Signed-off-by: Rohan G Thomas <rohan.g.thomas@intel.com>
+---
+ Makefile.am  |  2 +-
+ build.sh     | 16 ++++++++++++++--
+ configure.ac |  4 +++-
+ 3 files changed, 18 insertions(+), 4 deletions(-)
+
+diff --git a/Makefile.am b/Makefile.am
+index a01de47..b8fdf80 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -23,7 +23,7 @@ opcua_server_SOURCES=src/opcua-tsn/multicallback_server.c   \
+ 			src/opcua-tsn/opcua_datasource.c\
+ 			src/opcua-tsn/opcua_publish.c	\
+ 			src/opcua-tsn/opcua_subscribe.c
+-txrx_tsn_LDADD = $(libbpf_LIBS) $(libelf_LIBS) -lpthread
++txrx_tsn_LDADD = $(libbpf_LIBS) $(libelf_LIBS) $(libz_LIBS) -lpthread 
+ opcua_server_LDADD = $(open62451_LIBS) $(libjson_LIBS) $(libbpf_LIBS) $(libelf_LIBS) -lpthread
+ 
+ AM_CPPFLAGS = -O2 -g -fstack-protector-strong -fPIE -fPIC -D_FORTIFY_SOURCE=2 \
+diff --git a/build.sh b/build.sh
+index 778b28a..0d12ac4 100755
+--- a/build.sh
++++ b/build.sh
+@@ -75,8 +75,11 @@ export version=0
+ export verbose=0
+ export ENABLE_XDP="--enable-xdp"
+ export ENABLE_XDPTBS="--enable-xdptbs"
++export STR_prefix="--prefix=/usr"
++export STR_host=""
++export pkg="/usr"
+ 
+-options=$(getopt -l "help,disablexdptbs,verbose,version" -o "htVv" -a -- "$@")
++options=$(getopt -l "help,disablexdptbs,verbose,version,host:,prefix:" -o "htVvH:p:" -a -- "$@")
+ eval set -- "$options"
+ 
+ while true
+@@ -97,6 +100,13 @@ case $1 in
+     export verbose=1
+     set -xv # Set xtrace and verbose mode
+     ;;
++-H|--host)
++    export STR_host="--host=$2"
++    ;;
++-p|--prefix)
++    export pkg="$2"
++    export STR_prefix="--prefix=$2"
++    ;;
+ --)
+     shift
+     break;;
+@@ -135,12 +145,14 @@ rm -rf  Makefile                \
+ 
+ echo -e "\nBUILD.SH: Configure"
+ autoreconf --install
+-./configure --prefix /usr $ENABLE_XDP $ENABLE_XDPTBS
++./configure $STR_prefix $STR_host $ENABLE_XDP $ENABLE_XDPTBS
+ 
+ if [ $? -ne 0 ]; then echo "Configure failed"; exit 1; fi
+ 
+ echo -e "\nBUILD.SH: Compile"
+ make -j 4
++#make install
++cp -rf run.sh shell common tsq txrx-tsn pkg
+ 
+ # Ideally, just use git reset HEAD --hard
+ echo -e "\nBUILD.SH: Clean up automake artifacts."
+diff --git a/configure.ac b/configure.ac
+index 700846f..0a45b78 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -1,6 +1,7 @@
+ AC_INIT([iotg-tsn-ref-sw], [1.0])
+ AM_INIT_AUTOMAKE([-Wall -Werror foreign subdir-objects])
+ AC_PROG_CC
++AM_PROG_CC_C_O 
+ 
+ # Check for XDP header file
+ AC_CHECK_HEADERS([linux/if_xdp.h], [HAVE_XDP=yes], [HAVE_XDP=no])
+@@ -58,6 +59,7 @@ fi
+ AC_SUBST(ENABLEXDP_CPPFLAGS)
+ 
+ #TODO check using AC_SEARCH_LIBS instead of PKG_CHECK_MODULES in the next iteration.
++PKG_CHECK_MODULES([libz], [zlib],,[AC_MSG_WARN([zlib.pc is not found in the system. Pls ensure the lib is installed anyway!!])])
+ PKG_CHECK_MODULES([libelf], [libelf],,[AC_MSG_WARN([libelf.pc is not found in the system. Pls ensure the lib is installed anyway!!])])
+ PKG_CHECK_MODULES([libbpf], [libbpf],,[AC_MSG_WARN([libbpf.pc is not found in the system. Pls ensure the lib is installed anyway!!])])
+ PKG_CHECK_MODULES([libjson], [json-c],,[AC_MSG_WARN([json-c.pc is not found in the system. Pls ensure the lib is installed anyway!!])])
+@@ -76,7 +78,7 @@ fi
+ 
+ AM_CONDITIONAL([NO_OPEN62541_IOTG_LIB], [test "x$no_open62541_iotg_fork" = "x1"])
+ # Support for af_xdp (if_xdp.h must be in) is mandatory for opcua-server
+-AM_CONDITIONAL([WITH_OPCUA], [test "x${no_open62541_iotg_fork}" = "x0" && test "x${HAVE_XDP}" = "xyes"])
++AM_CONDITIONAL([WITH_OPCUA], [test "x${no_open62541_iotg_fork}" = "xyes" && test "x${HAVE_XDP}" = "xyes"])
+ 
+ if test "x${no_open62541_iotg_fork}" = "x0"; then
+   if test "x${HAVE_XDP}" = "xno"; then
+-- 
+2.26.2
+
+
+From 75c989bd9f87812fbd975c1440d5b76f382f8367 Mon Sep 17 00:00:00 2001
+From: Rohan G Thomas <rohan.g.thomas@intel.com>
+Date: Thu, 6 Jul 2023 15:29:01 +0800
+Subject: [PATCH 3/3] run: agilex5: Add agilex5 platform support
+
+Add agilex5 platform support.
+
+Signed-off-by: Rohan G Thomas <rohan.g.thomas@intel.com>
+---
+ run.sh                     |  4 +-
+ shell/agilex5/tsq1a.config | 36 +++++++++++++++++
+ shell/agilex5/tsq1b.config | 36 +++++++++++++++++
+ shell/agilex5/vs1a.config  | 82 ++++++++++++++++++++++++++++++++++++++
+ shell/agilex5/vs1b.config  | 67 +++++++++++++++++++++++++++++++
+ 5 files changed, 223 insertions(+), 2 deletions(-)
+ create mode 100644 shell/agilex5/tsq1a.config
+ create mode 100644 shell/agilex5/tsq1b.config
+ create mode 100644 shell/agilex5/vs1a.config
+ create mode 100644 shell/agilex5/vs1b.config
+
+diff --git a/run.sh b/run.sh
+index c9988cf..a646199 100755
+--- a/run.sh
++++ b/run.sh
+@@ -76,7 +76,7 @@ main() {
+     IFACE=$2
+ 
+     # Check for valid <PLAT>
+-    if [[ "$1" == "tglu" || "$1" == "ehl" || "$1" == "tglh" || "$1" == "i225" || "$1" == "adls" || "$1" == "adln" || "$1" == "rplp" || "$1" == "rpls" ]]; then
++    if [[ "$1" == "tglu" || "$1" == "ehl" || "$1" == "tglh" || "$1" == "i225" || "$1" == "adls" || "$1" == "adln" || "$1" == "rplp" || "$1" == "rpls" || "$1" == "agilex5" ]]; then
+         IFACE2=""
+         CONFIG=$3
+         ACTION=$4
+@@ -275,7 +275,7 @@ save_gcl_info() {
+ }
+ 
+ save_board_info(){
+-        echo -e "\n\nBIOS Version: " $(dmidecode -s bios-version)
++        # echo -e "\n\nBIOS Version: " $(dmidecode -s bios-version)
+         echo "Kernel Version: " $(uname -r)
+         echo "Kernel Build Date: " $(uname -v)
+         echo -e "Kernel Parameter: \n" $(cat /proc/cmdline)
+diff --git a/shell/agilex5/tsq1a.config b/shell/agilex5/tsq1a.config
+new file mode 100644
+index 0000000..29c468c
+--- /dev/null
++++ b/shell/agilex5/tsq1a.config
+@@ -0,0 +1,36 @@
++#!/bin/bash
++
++###############################################################################
++# Phase: Init
++
++IFACE_MAC_ADDR="aa:00:aa:00:aa:00"
++
++IFACE_IP_ADDR="169.254.1.11"
++IFACE_BRC_ADDR="169.254.1.255"
++
++IFACE_VLAN_IP_ADDR="169.254.11.11"
++IFACE_VLAN_BRC_ADDR="169.254.11.255"
++IFACE_VLAN_ID="3"
++
++TX_Q_COUNT=8
++RX_Q_COUNT=8
++
++VLAN_PRIORITY_SUPPORT="YES"
++VLAN_STRIP_SUPPORT="YES"
++EEE_TURNOFF="NO"
++
++IRQ_AFFINITY_FILE="irq_affinity_4c_8tx_8rx.map"
++
++###############################################################################
++# Phase: Setup
++
++PTP_IFACE_APPEND=".vlan"
++PTP_PHY_HW="RGMII-MV1510-1G"
++PTP_TX_Q=0
++PTP_RX_Q=0
++
++###############################################################################
++# Runtime
++
++TARGET_IP_ADDR="169.254.1.11"
++TEST_PERIOD=60
+diff --git a/shell/agilex5/tsq1b.config b/shell/agilex5/tsq1b.config
+new file mode 100644
+index 0000000..97a1f8f
+--- /dev/null
++++ b/shell/agilex5/tsq1b.config
+@@ -0,0 +1,36 @@
++#!/bin/bash
++
++###############################################################################
++# Phase: Init
++
++IFACE_MAC_ADDR="22:bb:22:bb:22:bb"
++
++IFACE_IP_ADDR="169.254.1.22"
++IFACE_BRC_ADDR="169.254.1.255"
++
++IFACE_VLAN_IP_ADDR="169.254.11.22"
++IFACE_VLAN_BRC_ADDR="169.254.11.255"
++IFACE_VLAN_ID="3"
++
++TX_Q_COUNT=8
++RX_Q_COUNT=8
++
++VLAN_PRIORITY_SUPPORT="YES"
++VLAN_STRIP_SUPPORT="YES"
++EEE_TURNOFF="NO"
++
++IRQ_AFFINITY_FILE="irq_affinity_4c_8tx_8rx.map"
++
++###############################################################################
++# Phase: Setup
++
++PTP_IFACE_APPEND=".vlan"
++PTP_PHY_HW="RGMII-MV1510-1G"
++PTP_TX_Q=0
++PTP_RX_Q=0
++
++###############################################################################
++# Runtime
++
++TARGET_IP_ADDR="169.254.1.11"
++TEST_PERIOD=60
+diff --git a/shell/agilex5/vs1a.config b/shell/agilex5/vs1a.config
+new file mode 100644
+index 0000000..ad4ad2c
+--- /dev/null
++++ b/shell/agilex5/vs1a.config
+@@ -0,0 +1,82 @@
++#!/bin/bash
++
++###############################################################################
++# Phase: Init
++
++IFACE_MAC_ADDR="aa:00:aa:00:aa:00"
++
++IFACE_IP_ADDR="169.254.1.11"
++IFACE_BRC_ADDR="169.254.1.255"
++
++IFACE_VLAN_IP_ADDR="169.254.11.11"
++IFACE_VLAN_BRC_ADDR="169.254.11.255"
++IFACE_VLAN_ID="3"
++
++TX_Q_COUNT=8
++RX_Q_COUNT=8
++
++VLAN_PRIORITY_SUPPORT="YES"
++VLAN_STRIP_SUPPORT="YES"
++EEE_TURNOFF="NO"
++
++IRQ_AFFINITY_FILE="irq_affinity_4c_8tx_8rx.map"
++TEMP_DIR="/tmp"
++
++###############################################################################
++# Phase: Setup
++
++TAPRIO_MAP="0 1 2 3 4 5 6 7 0 0 0 0 0 0 0 0"
++TAPRIO_SCHED=("sched-entry S 43 500000"
++              "sched-entry S 42 500000"
++             )
++
++# NOTE : Value 0x2 : FPE ON. Turning off fpe-qmask as per now, q0 is preemptible by default in stmmac
++#TAPRIO_FLAGS="flags 0x2 fpe-qmask 0x01"
++TAPRIO_FLAGS="flags 0x2"
++
++VLAN_RX_MAP=("vlan_prio 1 hw_tc 1"
++             "vlan_prio 6 hw_tc 2" #ehl only
++            )
++
++VLAN_RX_MAP_XDP=("vlan_prio 1 hw_tc 1"
++                 "vlan_prio 2 hw_tc 2"
++                )
++
++PTP_IFACE_APPEND=".vlan"
++PTP_PHY_HW="RGMII-MV1510-1G"
++PTP_TX_Q=1
++PTP_RX_Q=1
++
++ETF_Q=6
++ETF_DELTA=700000
++#ETF_FLAGS="deadline_mode"
++
++IPERF_BITRATE=200M
++CPU_AFFINITY=0
++
++###############################################################################
++# Runtime
++
++TARGET_IP_ADDR="169.254.1.22"
++
++AFP_PACKET_TEST="y"
++RUN_IPERF3_AFP="y"
++RUN_IPERF3_XDP="y"
++
++TX_PKT_Q=6
++RX_PKT_Q=6
++
++TX_XDP_Q=6
++RX_XDP_Q=2
++
++TXTIME_OFFSET=20000
++NUMPKTS=1000
++SIZE=64
++
++INTERVAL=1000000
++EARLY_OFFSET=700000
++
++#XDP_MODE="zT" #Zero-copy with LaunchTime
++XDP_MODE="z" #Zero-copy with LaunchTime not supported by Simics
++XDP_INTERVAL=200000
++XDP_EARLY_OFFSET=100000
+diff --git a/shell/agilex5/vs1b.config b/shell/agilex5/vs1b.config
+new file mode 100644
+index 0000000..d5a799f
+--- /dev/null
++++ b/shell/agilex5/vs1b.config
+@@ -0,0 +1,67 @@
++#!/bin/bash
++
++###############################################################################
++# Phase: Init
++
++IFACE_MAC_ADDR="22:bb:22:bb:22:bb"
++
++IFACE_IP_ADDR="169.254.1.22"
++IFACE_BRC_ADDR="169.254.1.255"
++
++IFACE_VLAN_IP_ADDR="169.254.11.22"
++IFACE_VLAN_BRC_ADDR="169.254.11.255"
++IFACE_VLAN_ID="3"
++
++TX_Q_COUNT=8
++RX_Q_COUNT=8
++
++VLAN_PRIORITY_SUPPORT="YES"
++VLAN_STRIP_SUPPORT="YES"
++EEE_TURNOFF="NO"
++
++IRQ_AFFINITY_FILE="irq_affinity_4c_8tx_8rx.map"
++TEMP_DIR="/tmp"
++
++###############################################################################
++# Phase: Setup
++
++MQPRIO_MAP="0 1 2 3 4 5 6 7 0 0 0 0 0 0 0 0"
++
++VLAN_RX_MAP=("vlan_prio 1 hw_tc 1"
++             "vlan_prio 6 hw_tc 2" #ehl only
++            )
++
++VLAN_RX_MAP_XDP=("vlan_prio 1 hw_tc 1"
++                 "vlan_prio 6 hw_tc 2"
++                )
++
++PTP_IFACE_APPEND=".vlan"
++PTP_PHY_HW="RGMII-MV1510-1G"
++PTP_TX_Q=1
++PTP_RX_Q=1
++
++CPU_AFFINITY=0
++
++###############################################################################
++# Runtime
++
++AFP_PACKET_TEST="y"
++RUN_IPERF3_AFP="y"
++RUN_IPERF3_XDP="y"
++
++TX_PKT_Q=6
++RX_PKT_Q=2
++
++TX_XDP_Q=2
++RX_XDP_Q=2
++
++TXTIME_OFFSET=20000
++NUMPKTS=1000
++SIZE=64
++
++INTERVAL=1000000
++EARLY_OFFSET=700000
++
++XDP_MODE="z" #Zero-copy
++XDP_INTERVAL=200000
++XDP_EARLY_OFFSET=100000
+-- 
+2.26.2
+
+

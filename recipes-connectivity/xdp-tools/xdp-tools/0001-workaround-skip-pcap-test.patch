@@ -1,0 +1,62 @@
+From d820581deefd9a13ec22c8349701e092022f2792 Mon Sep 17 00:00:00 2001
+From: Swee Leong Ching <leong.ching.swee@intel.com>
+Date: Sun, 30 Jul 2023 14:34:52 +0800
+Subject: [PATCH] Workaround to remove pcap test function 
+
+Signed-off-by: Swee Leong Ching <leong.ching.swee@intel.com>
+---
+ configure | 38 +++++++++++++++++++-------------------
+ 1 file changed, 19 insertions(+), 19 deletions(-)
+
+diff --git a/configure b/configure
+index 70fdfdf..5336f9f 100755
+--- a/configure
++++ b/configure
+@@ -129,25 +129,25 @@ check_pcap()
+         LIBPCAP_LDLIBS="-lpcap"
+     fi
+ 
+-    cat >$TMPDIR/libpcaptest.c <<EOF
+-#define PCAP_DONT_INCLUDE_PCAP_BPF_H
+-#include <pcap/dlt.h>
+-#include <pcap/pcap.h>
+-int main(int argc, char **argv) {
+-    pcap_t *pcap = pcap_open_live("ifname", 100, 1, 1000, NULL);
+-    return 0;
+-}
+-EOF
+-    libpcap_err=$($CC -o $TMPDIR/libpcaptest $TMPDIR/libpcaptest.c  $LIBPCAP_CFLAGS $LIBPCAP_LDLIBS 2>&1)
+-    if [ "$?" -eq "0" ]; then
+-        echo "HAVE_PCAP:=y" >>$CONFIG
+-        [ -n "$LIBPCAP_CFLAGS" ] && echo 'CFLAGS += ' $LIBPCAP_CFLAGS >> $CONFIG
+-        echo "yes"
+-    else
+-        echo "missing - this is required"
+-        echo "error: $libpcap_err"
+-        return 1
+-    fi
++#     cat >$TMPDIR/libpcaptest.c <<EOF
++# #define PCAP_DONT_INCLUDE_PCAP_BPF_H
++# #include <pcap/dlt.h>
++# #include <pcap/pcap.h>
++# int main(int argc, char **argv) {
++#     pcap_t *pcap = pcap_open_live("ifname", 100, 1, 1000, NULL);
++#     return 0;
++# }
++# EOF
++#     libpcap_err=$($CC -o $TMPDIR/libpcaptest $TMPDIR/libpcaptest.c  $LIBPCAP_CFLAGS $LIBPCAP_LDLIBS 2>&1)
++#     if [ "$?" -eq "0" ]; then
++#         echo "HAVE_PCAP:=y" >>$CONFIG
++#         [ -n "$LIBPCAP_CFLAGS" ] && echo 'CFLAGS += ' $LIBPCAP_CFLAGS >> $CONFIG
++#         echo "yes"
++#     else
++#         echo "missing - this is required"
++#         echo "error: $libpcap_err"
++#         return 1
++#     fi
+ }
+ 
+ 
+-- 
+2.34.1
+

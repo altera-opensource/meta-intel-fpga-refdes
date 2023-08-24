@@ -19,6 +19,30 @@ A10_GHRD_CORE_RBF = "ghrd_10as066n2.core.rbf"
 A10_GHRD_PERIPH_RBF = "ghrd_10as066n2.periph.rbf"
 C5_GHRD_CORE_RBF = "soc_system.rbf"
 
+SRC_URI:agilex5_mudv_bbr ?= "\
+		${GHRD_REPO}/agilex7_dk_si_agf014ea_gsrd_${ARM64_GHRD_CORE_RBF};name=agilex5_gsrd_core \
+		"
+
+SRC_URI:agilex5_mudv_cvr ?= "\
+		${GHRD_REPO}/agilex7_dk_si_agf014ea_gsrd_${ARM64_GHRD_CORE_RBF};name=agilex5_gsrd_core \
+		"
+
+SRC_URI:agilex5_mudv_pcr ?= "\
+		${GHRD_REPO}/agilex7_dk_si_agf014ea_gsrd_${ARM64_GHRD_CORE_RBF};name=agilex5_gsrd_core \
+		"
+
+SRC_URI:agilex5_mudv_mod ?= "\
+		${GHRD_REPO}/agilex7_dk_si_agf014ea_gsrd_${ARM64_GHRD_CORE_RBF};name=agilex5_gsrd_core \
+		"
+
+SRC_URI:agilex5_mucv ?= "\
+		${GHRD_REPO}/agilex7_dk_si_agf014ea_gsrd_${ARM64_GHRD_CORE_RBF};name=agilex5_gsrd_core \
+		"
+
+SRC_URI:agilex5_devkit ?= "\
+		${GHRD_REPO}/agilex7_dk_si_agf014ea_gsrd_${ARM64_GHRD_CORE_RBF};name=agilex5_gsrd_core \
+		"
+
 SRC_URI:agilex7_dk_si_agf014ea ?= "\
 		${GHRD_REPO}/agilex7_dk_si_agf014ea_gsrd_${ARM64_GHRD_CORE_RBF};name=agilex7_dk_si_agf014ea_gsrd_core \
 		${GHRD_REPO}/agilex7_dk_si_agf014ea_nand_${ARM64_GHRD_CORE_RBF};name=agilex7_dk_si_agf014ea_nand_core \
@@ -59,6 +83,8 @@ SRC_URI:arria10 ?= "\
 		"
 
 SRC_URI:cyclone5 ?= "${GHRD_REPO}/cyclone5_${IMAGE_TYPE}_${C5_GHRD_CORE_RBF};name=cyclone5_${IMAGE_TYPE}_core"
+
+SRC_URI[agilex5_gsrd_core.sha256sum] = "adb614fe00eadcaa2d56a04801ac7890b097639f7fdafab76203bcbe5707b39d"
 
 SRC_URI[agilex7_dk_si_agf014ea_gsrd_core.sha256sum] = "adb614fe00eadcaa2d56a04801ac7890b097639f7fdafab76203bcbe5707b39d"
 SRC_URI[agilex7_dk_si_agf014ea_nand_core.sha256sum] = "5ab342a09fee670713a2d62add50d680a8b113cd6ed6552fd04bb3990078b8f6"
@@ -148,11 +174,20 @@ do_install () {
 		install -D -m 0644 ${WORKDIR}/${MACHINE}_${IMAGE_TYPE}_persona0.rbf ${D}${base_libdir}/firmware/persona0.rbf
 		install -D -m 0644 ${WORKDIR}/${MACHINE}_${IMAGE_TYPE}_persona1.rbf ${D}${base_libdir}/firmware/persona1.rbf
 	fi
+
+	if [[ "${MACHINE}" == *"agilex5"* ]]; then
+		install -D -m 0644 ${WORKDIR}/agilex7_dk_si_agf014ea_gsrd_${ARM64_GHRD_CORE_RBF} ${D}/boot/${ARM64_GHRD_CORE_RBF}
+	fi
 }
 
 do_deploy () {
+	if [[ "${MACHINE}" == *"agilex5"* ]]; then
+		install -D -m 0644 ${WORKDIR}/agilex7_dk_si_agf014ea_gsrd_${ARM64_GHRD_CORE_RBF} ${DEPLOYDIR}/${MACHINE}_gsrd_ghrd/${ARM64_GHRD_CORE_RBF}
+	fi
+
 	if [[ "${MACHINE}" == *"agilex7_"* ]]; then
 		#TODO
+
     if [[ "${MACHINE}" == "agilex7_dk_si_agf014eb" ]]; then 
 		   install -D -m 0644 ${WORKDIR}/${MACHINE}_gsrd_${ARM64_GHRD_CORE_RBF} ${DEPLOYDIR}/${MACHINE}_gsrd_ghrd/${ARM64_GHRD_CORE_RBF}
     else

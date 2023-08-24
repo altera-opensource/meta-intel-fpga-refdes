@@ -74,7 +74,7 @@ do_configure:append() {
 			sed -i '/\#include \"socfpga_agilex.dtsi\"/a \#include \"socfpga_agilex_ghrd_sgmii.dtsi\"' ${WORKDIR}/socfpga_agilex_socdk_nand.dts
 			# PR
 			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex_socdk.dts ${WORKDIR}/socfpga_agilex_socdk_pr.dts
-			sed -i '/\#include \"socfpga_agilex.dtsi\"/a \#include \"socfpga_agilex_ghrd.dtsi\"' ${WORKDIR}/socfpga_agilex_socdk_pr.dts
+			sed -i '/\#include \"socfpga_agilex.dtsi\"/a \#include \"socfpga_agilex_ghrd.dtsi\" \#include \"socfpga_agilex_socdk_ilc.dts\"' ${WORKDIR}/socfpga_agilex_socdk_pr.dts
     fi
 		# Agilex7 DK-SI-AGF014EA
 		if [[ "${MACHINE}" == "agilex7_dk_si_agf014ea" ]]; then
@@ -87,7 +87,7 @@ do_configure:append() {
 			sed -i '/\#include \"socfpga_agilex.dtsi\"/a \#include \"socfpga_agilex_ghrd_sgmii.dtsi\"' ${WORKDIR}/socfpga_agilex_socdk_nand.dts
 			# PR
 			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex_socdk.dts ${WORKDIR}/socfpga_agilex_socdk_pr.dts
-			sed -i '/\#include \"socfpga_agilex.dtsi\"/a \#include \"socfpga_agilex_ghrd.dtsi\"' ${WORKDIR}/socfpga_agilex_socdk_pr.dts
+			sed -i '/\#include \"socfpga_agilex.dtsi\"/a \#include \"socfpga_agilex_ghrd.dtsi\" \#include \"socfpga_agilex_socdk_ilc.dts\"' ${WORKDIR}/socfpga_agilex_socdk_pr.dts
 		fi
 		# Agilex7 DK-SI-AGI027F
 		if [[ "${MACHINE}" == "agilex7_dk_si_agi027f"* ]]; then

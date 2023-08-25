@@ -21,7 +21,7 @@ RDEPENDS:packagegroup-dev-tools-essential = "\
 	iproute2-tc \
 	iproute2-ip \
 	open62541 \
-	netcat \
+	netcat-openbsd \
 	openssh-sftp-server \
 	pciutils \
 	tcpdump \

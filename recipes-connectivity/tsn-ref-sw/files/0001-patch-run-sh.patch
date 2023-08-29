@@ -1,0 +1,37 @@
+From 8be2f66820ae2f2b9f360a9d6a87e25d22adc0f2 Mon Sep 17 00:00:00 2001
+From: Swee Leong Ching <leong.ching.swee@intel.com>
+Date: Mon, 28 Aug 2023 17:41:00 +0800
+Subject: [PATCH] patch run-sh
+
+Signed-off-by: Swee Leong Ching <leong.ching.swee@intel.com>
+---
+ run.sh | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
+
+diff --git a/run.sh b/run.sh
+index 7d7014a..1239bec 100755
+--- a/run.sh
++++ b/run.sh
+@@ -169,14 +169,15 @@ main() {
+         exit 1
+     fi
+ 
++    exit 0
+     # Only for debug: timesync per-run logging
+-    if [[ "$RUNSH_DEBUG_MODE" == "YES" && "$ACTION" == "run" ]]; then
+-        ts_log_stop_n_report
+-    fi
+-
+-    if [[ "$RUNSH_DEBUG_MODE" == "YES" && "$ACTION" == "setup" ]]; then
+-        save_board_info > board_info.txt
+-    fi
++    # if [[ "$RUNSH_DEBUG_MODE" == "YES" && "$ACTION" == "run" ]]; then
++    #     ts_log_stop_n_report
++    # fi
++    #
++    # if [[ "$RUNSH_DEBUG_MODE" == "YES" && "$ACTION" == "setup" ]]; then
++    #     save_board_info > board_info.txt
++    # fi
+ }
+ 
+ ts_log_start(){

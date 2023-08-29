@@ -1,0 +1,40 @@
+From decc08e0aaf7bede59b5cfdee4344dbe9595e95c Mon Sep 17 00:00:00 2001
+From: Swee Leong Ching <leong.ching.swee@intel.com>
+Date: Wed, 23 Aug 2023 10:02:34 +0800
+Subject: [PATCH] change dir to install libbpf locally
+
+Upstream-Status:Inappropriate
+
+Signed-off-by: Swee Leong Ching <leong.ching.swee@intel.com>
+---
+ lib/Makefile   | 1 +
+ lib/defines.mk | 1 +
+ 2 files changed, 2 insertions(+)
+
+diff --git a/lib/Makefile b/lib/Makefile
+index 5ee035d..37fa0af 100644
+--- a/lib/Makefile
++++ b/lib/Makefile
+@@ -32,6 +32,7 @@ install: libxdp_install
+ libxdp_install: libxdp
+ 	install -m 0755 -d $(DESTDIR)$(HDRDIR)
+ 	$(MAKE) -C libxdp install
++	LOCAL_PREFIX=$(LOCAL_DIR) LOCAL_LIBDIR=$(LOCAL_DIR)/lib $(MAKE) -C libbpf/src install
+ 
+ libbpf: $(OBJECT_LIBBPF)
+ 
+diff --git a/lib/defines.mk b/lib/defines.mk
+index f134c43..5bb39d8 100644
+--- a/lib/defines.mk
++++ b/lib/defines.mk
+@@ -20,6 +20,7 @@ BPF_OBJECT_DIR ?=$(LIBDIR)/bpf
+ MAX_DISPATCHER_ACTIONS ?=10
+ 
+ HEADER_DIR = $(LIB_DIR)/../headers
++LOCAL_DIR = $(LIB_DIR)/../bpf_headers
+ TEST_DIR = $(LIB_DIR)/testing
+ LIBXDP_DIR := $(LIB_DIR)/libxdp
+ LIBBPF_DIR := $(LIB_DIR)/libbpf
+-- 
+2.34.1
+

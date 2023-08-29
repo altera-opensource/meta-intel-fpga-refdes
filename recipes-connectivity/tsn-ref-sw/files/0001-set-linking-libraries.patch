@@ -1,0 +1,26 @@
+From d94c7dc4e1a6f29e91abf8fbf51d80f7c1488031 Mon Sep 17 00:00:00 2001
+From: Swee Leong Ching <leong.ching.swee@intel.com>
+Date: Mon, 21 Aug 2023 13:51:39 +0800
+Subject: [PATCH] set linking libraries.
+
+Upstream-Status: Inappropriate
+
+Signed-off-by: Swee Leong Ching <leong.ching.swee@intel.com>
+---
+ Makefile.am | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/Makefile.am b/Makefile.am
+index b8fdf80..8beb628 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -23,7 +23,8 @@ opcua_server_SOURCES=src/opcua-tsn/multicallback_server.c   \
+ 			src/opcua-tsn/opcua_datasource.c\
+ 			src/opcua-tsn/opcua_publish.c	\
+ 			src/opcua-tsn/opcua_subscribe.c
+-txrx_tsn_LDADD = $(libbpf_LIBS) $(libelf_LIBS) $(libz_LIBS) -lpthread 
++#txrx_tsn_LDADD = $(libbpf_LIBS) $(libelf_LIBS) $(libz_LIBS) -lpthread
++txrx_tsn_LDADD = -lbpf -lz -lelf -lxdp -lpthread 
+ opcua_server_LDADD = $(open62451_LIBS) $(libjson_LIBS) $(libbpf_LIBS) $(libelf_LIBS) -lpthread
+ 
+ AM_CPPFLAGS = -O2 -g -fstack-protector-strong -fPIE -fPIC -D_FORTIFY_SOURCE=2 \

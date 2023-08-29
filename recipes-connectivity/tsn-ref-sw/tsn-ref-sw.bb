@@ -6,11 +6,13 @@ LICENSE = "BSD-3-Clause"
 
 LIC_FILES_CHKSUM = "file://LICENSE.md;md5=665202835d998903d52afcb9c30ad9f5"
 
-SRC_URI = "git://github.com/intel/iotg_tsn_ref_sw.git;protocol=https;branch=master"
+SRC_URI = "git://github.com/intel/iotg_tsn_ref_sw.git;protocol=https;branch=master \
+           file://0001-Fix-for-agilex5-6.1.20-lts-kernel.patch \
+           file://0001-REVERTME-run-Fix-for-unsupported-commands-and-functi.patch \
+           file://0001-set-linking-libraries.patch \
+           file://0001-patch-run-sh.patch \
+           "
 
-SRC_URI:append = " file://0001-Fix-for-agilex5-6.1.20-lts-kernel.patch \
-                   file://0001-REVERTME-run-Fix-for-unsupported-commands-and-functi.patch \
-"
 SRCREV = "0ee32cd0f38b8bb0451445c1f06bd7907b23ef1d"
 PV = "1.0-git${SRCPV}"
 
@@ -18,7 +20,7 @@ S = "${WORKDIR}/git"
 
 inherit autotools pkgconfig
 
-DEPENDS += " elfutils libbpf json-c xdp-tools"
+DEPENDS += " elfutils json-c xdp-tools"
 
 RDEPENDS:${PN} += "\
                     iperf3 \
@@ -26,8 +28,15 @@ RDEPENDS:${PN} += "\
                     "
 prefix="/home/root/tsn"
 
+#EXTRA_OECONF:append = " --enable-xdp --enable-xdptbs"
+EXTRA_OECONF:append = " --enable-xdp"
+
 FILES:${PN} = "/home/root/tsn/* \
 "
+
+# use custom libbpf library and header
+LDFLAGS += "-L${STAGING_DIR_TARGET}/usr/lib/custom_bpf/lib"
+CFLAGS += "-I${STAGING_DIR_TARGET}/usr/lib/custom_bpf/include"
 
 do_install:append(){
 	cd ${S}

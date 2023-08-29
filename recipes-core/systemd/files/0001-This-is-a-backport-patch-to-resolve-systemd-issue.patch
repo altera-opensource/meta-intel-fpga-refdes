@@ -1,0 +1,46 @@
+From bbe3c1735f1c72a43d6c10f30204371fa2c02da9 Mon Sep 17 00:00:00 2001
+From: Swee Leong Ching <leong.ching.swee@intel.com>
+Date: Mon, 21 Aug 2023 09:53:47 +0800
+Subject: [PATCH] This is a backport patch to resolve systemd issue.
+
+Backport from this commit 5ed087f ("generators: skip private tmpfs
+if /tmp does not exist")
+
+Upstream-Status: Backport
+
+Signed-off-by: Swee Leong Ching <leong.ching.swee@intel.com>
+---
+ src/core/manager.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/src/core/manager.c b/src/core/manager.c
+index 380a4e30d7..b29ab9d205 100644
+--- a/src/core/manager.c
++++ b/src/core/manager.c
+@@ -3798,6 +3798,7 @@ static int manager_execute_generators(Manager *m, char **paths, bool remount_ro)
+ }
+ 
+ static int manager_run_generators(Manager *m) {
++        ForkFlags flags = FORK_RESET_SIGNALS | FORK_WAIT | FORK_NEW_MOUNTNS | FORK_MOUNTNS_SLAVE;
+         _cleanup_strv_free_ char **paths = NULL;
+         int r;
+ 
+@@ -3828,9 +3829,12 @@ static int manager_run_generators(Manager *m) {
+                 goto finish;
+         }
+ 
+-        r = safe_fork("(sd-gens)",
+-                      FORK_RESET_SIGNALS | FORK_WAIT | FORK_NEW_MOUNTNS | FORK_MOUNTNS_SLAVE | FORK_PRIVATE_TMP,
+-                      NULL);
++        /* On some systems /tmp/ doesn't exist, and on some other systems we cannot create it at all. Avoid
++         * trying to mount a private tmpfs on it as there's no one size fits all. */
++        if (is_dir("/tmp", /* follow= */ false) > 0)
++                flags |= FORK_PRIVATE_TMP;
++
++        r = safe_fork("(sd-gens)", flags, NULL);
+         if (r == 0) {
+                 r = manager_execute_generators(m, paths, /* remount_ro= */ true);
+                 _exit(r >= 0 ? EXIT_SUCCESS : EXIT_FAILURE);
+-- 
+2.34.1
+

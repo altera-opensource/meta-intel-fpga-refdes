@@ -1,0 +1,14 @@
+/dts-v1/;
+/plugin/;
+/ {
+	soc {
+		ilc@f9001100 {
+			compatible = "altr,ilc-1.0";
+			reg = <0xf9001100 0x00000100>;
+			interrupt-parent = <0x00000005>;
+			interrupts = <0x00000000 0x00000011 0x00000004 0x00000000 0x00000012 0x00000004>;
+			status = "disabled";
+			altr,sw-fifo-depth = <32>;
+		};
+	};
+};

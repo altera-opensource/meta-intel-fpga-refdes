@@ -15,8 +15,10 @@ SRC_URI:append:agilex5_mudv_bbr = " file://fit_kernel_agilex5_mudv_bbr.its"
 SRC_URI:append:agilex5_mudv_mod = " file://fit_kernel_agilex5_mudv_mod.its"
 SRC_URI:append:agilex5_mudv_pcr = " file://fit_kernel_agilex5_mudv_pcr.its"
 SRC_URI:append:agilex5_mudv_cvr = " file://fit_kernel_agilex5_mudv_cvr.its"
-SRC_URI:append:agilex5_mucv = " file://fit_kernel_agilex5_mucv.its"
-SRC_URI:append:agilex5_devkit = " file://fit_kernel_agilex5_devkit.its"
+SRC_URI:append:agilex5_mucv = " file://fit_kernel_agilex5_mucv.its \
+                                file://0001-xgmac0-only-dts-patch.patch"
+SRC_URI:append:agilex5_devkit = " file://fit_kernel_agilex5_devkit.its \
+                                  file://0001-xgmac2-only-dts-patch.patch"
 SRC_URI:append:stratix10 = " file://fit_kernel_stratix10.its"
 
 SRC_URI:append:arria10 = " \

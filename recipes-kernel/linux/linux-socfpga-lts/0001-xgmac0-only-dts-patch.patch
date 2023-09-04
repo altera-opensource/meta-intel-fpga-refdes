@@ -1,0 +1,50 @@
+From 6154e62111d15e9cf96416c88e597e07a8b5f42e Mon Sep 17 00:00:00 2001
+From: Swee Leong Ching <leong.ching.swee@intel.com>
+Date: Wed, 30 Aug 2023 13:42:57 +0800
+Subject: [PATCH] xgmac0 only dts patch
+
+Upstream-Status: Inappropriate
+
+Signed-off-by: Swee Leong Ching <leong.ching.swee@intel.com>
+---
+ .../boot/dts/intel/socfpga_agilex5_socdk.dts   | 18 ------------------
+ 1 file changed, 18 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/intel/socfpga_agilex5_socdk.dts b/arch/arm64/boot/dts/intel/socfpga_agilex5_socdk.dts
+index baaf90d20bc1..4a0b72e03d14 100644
+--- a/arch/arm64/boot/dts/intel/socfpga_agilex5_socdk.dts
++++ b/arch/arm64/boot/dts/intel/socfpga_agilex5_socdk.dts
+@@ -11,7 +11,6 @@ / {
+ 	aliases {
+ 		serial0 = &uart0;
+ 		ethernet0 = &gmac0;
+-		ethernet2 = &gmac2;
+ 	};
+ 
+ 	chosen {
+@@ -70,23 +69,6 @@ emac0_phy0: ethernet-phy@1 {
+ 	};
+ };
+ 
+-&gmac2 {
+-	status = "okay";
+-	phy-mode = "rgmii";
+-	phy-handle = <&emac2_phy0>;
+-
+-	max-frame-size = <9000>;
+-
+-	mdio0 {
+-		#address-cells = <1>;
+-		#size-cells = <0>;
+-		compatible = "snps,dwmac-mdio";
+-		emac2_phy0: ethernet-phy@1 {
+-			reg = <1>;
+-		};
+-	};
+-};
+-
+ &mmc {
+ 	status = "okay";
+ 	bus-width = <4>;
+-- 
+2.34.1

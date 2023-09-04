@@ -1,0 +1,25 @@
+From 6d9ffe791006f91ec7290dba093142c5b3536b23 Mon Sep 17 00:00:00 2001
+From: Swee Leong Ching <leong.ching.swee@intel.com>
+Date: Tue, 29 Aug 2023 15:46:12 +0800
+Subject: [PATCH] add txtime into headers folder if_xdp.h
+
+Signed-off-by: Swee Leong Ching <leong.ching.swee@intel.com>
+---
+ headers/linux/if_xdp.h | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/headers/linux/if_xdp.h b/headers/linux/if_xdp.h
+index a78a809..7c5168c 100644
+--- a/headers/linux/if_xdp.h
++++ b/headers/linux/if_xdp.h
+@@ -104,6 +104,7 @@ struct xdp_desc {
+ 	__u64 addr;
+ 	__u32 len;
+ 	__u32 options;
++	__u64 txtime;
+ };
+ 
+ /* UMEM descriptor is __u64 */
+-- 
+2.34.1
+

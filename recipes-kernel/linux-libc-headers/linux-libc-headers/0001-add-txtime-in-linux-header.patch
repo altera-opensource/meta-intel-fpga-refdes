@@ -1,0 +1,24 @@
+From 8e150751f53186ffabc4893cdd863d79201fe7ca Mon Sep 17 00:00:00 2001
+From: Swee Leong Ching <leong.ching.swee@intel.com>
+Date: Tue, 29 Aug 2023 17:37:16 +0800
+Subject: [PATCH] add txtime in linux header
+
+Upstream-Status: Inappropriate
+
+Signed-off-by: Swee Leong Ching <leong.ching.swee@intel.com>
+---
+ include/uapi/linux/if_xdp.h | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/include/uapi/linux/if_xdp.h b/include/uapi/linux/if_xdp.h
+index a78a8096f..7c5168c69 100644
+--- a/include/uapi/linux/if_xdp.h
++++ b/include/uapi/linux/if_xdp.h
+@@ -104,6 +104,7 @@ struct xdp_desc {
+ 	__u64 addr;
+ 	__u32 len;
+ 	__u32 options;
++	__u64 txtime;
+ };
+ 
+ /* UMEM descriptor is __u64 */

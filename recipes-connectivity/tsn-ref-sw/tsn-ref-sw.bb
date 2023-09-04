@@ -28,8 +28,8 @@ RDEPENDS:${PN} += "\
                     "
 prefix="/home/root/tsn"
 
-#EXTRA_OECONF:append = " --enable-xdp --enable-xdptbs"
-EXTRA_OECONF:append = " --enable-xdp"
+EXTRA_OECONF:append = " --enable-xdp --enable-xdptbs"
+# EXTRA_OECONF:append = " --enable-xdp"
 
 FILES:${PN} = "/home/root/tsn/* \
 "

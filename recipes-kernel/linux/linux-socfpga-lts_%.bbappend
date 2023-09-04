@@ -28,10 +28,10 @@ SRC_URI:append:cyclone5 = " file://0001-socfpga_cyclone5_socdk-include-reference
 
 # Append GSRD specific kernel config fragments
 SRC_URI:append = " file://ubifs.scc"
-SRC_URI:append:agilex7_dk_si_agf014ea = " file://sgmii.scc"
-SRC_URI:append:agilex7_dk_si_agf014eb = " file://sgmii.scc"
+SRC_URI:append:agilex7_dk_si_agf014ea = " file://sgmii.scc file://ilc.scc"
+SRC_URI:append:agilex7_dk_si_agf014eb = " file://sgmii.scc file://ilc.scc"
 SRC_URI:append:agilex5 = " file://initrd.scc"
-SRC_URI:append:stratix10 = " file://sgmii.scc"
+SRC_URI:append:stratix10 = " file://sgmii.scc file://ilc.scc"
 SRC_URI:append:arria10 = " file://tse.scc"
 SRC_URI:append:cyclone5 = " file://tse.scc"
 

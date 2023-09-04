@@ -35,7 +35,9 @@ SRC_URI:append:cyclone5 = " file://0001-socfpga_cyclone5_socdk-include-reference
 SRC_URI:append = " file://ubifs.scc"
 SRC_URI:append:agilex7_dk_si_agf014ea = " file://sgmii.scc"
 SRC_URI:append:agilex7_dk_si_agf014eb = " file://sgmii.scc"
-SRC_URI:append:agilex5 = " file://initrd.scc file://xdp.scc"
+SRC_URI:append:agilex5 = " file://initrd.scc \
+                           file://xdp.scc \
+                           file://0001-libbpf-add-txtime-field-in-xdp_desc-struct.patch"
 SRC_URI:append:agilex5_mudv_bbr = " file://initrd.scc"
 SRC_URI:append:agilex5_mudv_mod = " file://initrd.scc"
 SRC_URI:append:agilex5_mudv_pcr = " file://initrd.scc"

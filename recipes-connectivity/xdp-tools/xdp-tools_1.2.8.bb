@@ -18,7 +18,9 @@ SRC_URI = "gitsm://github.com/xdp-project/xdp-tools.git;branch=v1.2;protocol=htt
            file://0004-Makefile-fix-libxdp.pc-error.patch \
            file://0001-Backport-patch-to-resolve-section-name-issue.patch \
            file://0001-change-dir-to-install-libbpf-locally.patch \
+           file://0001-add-txtime-into-headers-folder-if_xdp.h.patch \
            file://0001-workaround-the-install-libbpf-header-to-local \
+           file://0001-add-txtime-in-if_xdp.h-for-libbpf-library \
            "
 
 SRCREV = "d4ff1f9bcf8b03556b625ab6e16958598482e861"
@@ -44,8 +46,10 @@ CFLAGS += "-I${STAGING_INCDIR} -I${D}${libdir}"
 do_configure:append() {
     # workaround to patch libbpf submodule
     cp ${WORKDIR}/0001-workaround-the-install-libbpf-header-to-local ${S}/lib/libbpf/0001-workaround-the-install-libbpf-header-to-local.patch
+    cp ${WORKDIR}/0001-add-txtime-in-if_xdp.h-for-libbpf-library ${S}/lib/libbpf/0001-add-txtime-in-if_xdp.h-for-libbpf-library.patch
     pushd ${S}/lib/libbpf
     git am 0001-workaround-the-install-libbpf-header-to-local.patch
+    git am 0001-add-txtime-in-if_xdp.h-for-libbpf-library.patch
     popd
 }
 

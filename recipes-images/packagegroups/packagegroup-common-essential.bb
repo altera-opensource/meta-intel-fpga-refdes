@@ -9,6 +9,7 @@ RDEPENDS:packagegroup-common-essential = "\
 	socfpga-gsrd-apps \
 	socfpga-gsrd-initscripts \
 	socfpga-gsrd-pio-interrupt \
+	socfpga-gsrd-pio-ilc-demo \
 	i2c-tools \
 	mtd-utils \
 	mtd-utils-ubifs \

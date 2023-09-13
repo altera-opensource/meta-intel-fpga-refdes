@@ -30,30 +30,6 @@ do_configure:prepend:agilex5() {
 	sed -i -e '$aCONFIG_LEGACY_IMAGE_FORMAT=y' ${S}/configs/socfpga_agilex5_defconfig
 }
 
-do_configure:prepend:agilex5_mudv_bbr() {
-	sed -i -e '$aCONFIG_LEGACY_IMAGE_FORMAT=y' ${S}/configs/socfpga_agilex5_defconfig
-}
-
-do_configure:prepend:agilex5_mudv_mod() {
-	sed -i -e '$aCONFIG_LEGACY_IMAGE_FORMAT=y' ${S}/configs/socfpga_agilex5_defconfig
-}
-
-do_configure:prepend:agilex5_mudv_pcr() {
-	sed -i -e '$aCONFIG_LEGACY_IMAGE_FORMAT=y' ${S}/configs/socfpga_agilex5_defconfig
-}
-
-do_configure:prepend:agilex5_mudv_cvr() {
-	sed -i -e '$aCONFIG_LEGACY_IMAGE_FORMAT=y' ${S}/configs/socfpga_agilex5_defconfig
-}
-
-do_configure:prepend:agilex5_mucv() {
-	sed -i -e '$aCONFIG_LEGACY_IMAGE_FORMAT=y' ${S}/configs/socfpga_agilex5_defconfig
-}
-
-do_configure:prepend:agilex5_devkit() {
-	sed -i -e '$aCONFIG_LEGACY_IMAGE_FORMAT=y' ${S}/configs/socfpga_agilex5_defconfig
-}
-
 do_compile:prepend:arria10() {
 	cp -r ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/hps.xml ${S}/.
 	${S}/arch/arm/mach-socfpga/qts-filter-a10.sh ${S}/hps.xml ${S}/arch/arm/dts/socfpga_arria10_socdk_sdmmc_handoff.h

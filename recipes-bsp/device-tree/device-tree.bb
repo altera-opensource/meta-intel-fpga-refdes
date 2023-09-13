@@ -23,6 +23,7 @@ SRC_URI:append:agilex7_dk_si_agf014ea = " \
 					file://agilex7_pr_fpga_static_region.dts \
 					file://agilex7_pr_persona0.dts \
 					file://agilex7_pr_persona1.dts \
+					file://socfpga_ilc.dtsi \
 					"
 
 SRC_URI:append:agilex7_dk_si_agf014eb = " \
@@ -31,22 +32,27 @@ SRC_URI:append:agilex7_dk_si_agf014eb = " \
 					file://agilex7_pr_fpga_static_region.dts \
 					file://agilex7_pr_persona0.dts \
 					file://agilex7_pr_persona1.dts \
+					file://socfpga_ilc.dtsi \
 					"
 
 SRC_URI:append:agilex7_dk_si_agi027fb = " \
 					file://socfpga_agilex7_ghrd.dtsi \
+					file://socfpga_ilc.dtsi \
 					"
 
 SRC_URI:append:agilex7_dk_si_agi027fa = " \
 					file://socfpga_agilex7_ghrd.dtsi \
+					file://socfpga_ilc.dtsi \
 					"
 
 SRC_URI:append:agilex7_dk_dev_agf027f1es = " \
 					file://socfpga_agilex7_dk_dev_agf027f1es_ghrd.dtsi \
+					file://socfpga_ilc.dtsi \
 					"
 
 SRC_URI:append:agilex7_dk_dev_agm039fes = " \
 					file://socfpga_agilex7_ghrd.dtsi \
+					file://socfpga_ilc.dtsi \
 					"
 
 SRC_URI:append:stratix10 = " \
@@ -55,6 +61,7 @@ SRC_URI:append:stratix10 = " \
 					file://stratix10_pr_fpga_static_region.dts \
 					file://stratix10_pr_persona0.dts \
 					file://stratix10_pr_persona1.dts \
+					file://socfpga_ilc.dtsi \
 					"
 
 do_configure[depends] += "virtual/kernel:do_configure"

@@ -1,6 +1,10 @@
-/dts-v1/;
-/plugin/;
-/ {
+/*
+* Add this piece of dtsi fragment in the file socfpga_agilex7_socdk.dts
+* and socfpga_stratix10_socdk.dts. Compile it in the kernel along with
+* socfpga_agilex.dtsi and socfpga_stratix10.dtsi.
+*/
+
+/{
 	soc {
 		ilc@f9001100 {
 			compatible = "altr,ilc-1.0";

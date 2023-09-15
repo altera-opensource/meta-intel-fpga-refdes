@@ -48,7 +48,7 @@ agilex5)
 agilex5_mudv_bbr)
 	DEVKIT_NAME="Agilex5 mUDV BBR SoC Development Kit"
 	;;
-agilex5_mudv_mod)
+agilex5_modular)
 	DEVKIT_NAME="Agilex5 mUDV Modular SoC Development Kit"
 	;;
 agilex5_mudv_cvr)

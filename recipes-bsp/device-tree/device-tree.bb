@@ -15,7 +15,7 @@ inherit devicetree
 
 PROVIDES = "virtual/dtb"
 
-COMPATIBLE_MACHINE = "(agilex5_devkit|agilex5_mudv_bbr|agilex5_mudv_mod|agilex5_mudv_cvr|agilex5_mudv_pcr|agilex5_mucv|agilex7_dk_si_agf014ea|agilex7_dk_si_agf014eb|agilex7_dk_si_agi027fb|agilex7_dk_si_agi027fa|agilex7_dk_dev_agf027f1es|stratix10)"
+COMPATIBLE_MACHINE = "(agilex5_devkit|agilex5_mudv_bbr|agilex5_modular|agilex5_mudv_cvr|agilex5_mudv_pcr|agilex5_mucv|agilex7_dk_si_agf014ea|agilex7_dk_si_agf014eb|agilex7_dk_si_agi027fb|agilex7_dk_si_agi027fa|agilex7_dk_dev_agf027f1es|stratix10)"
 
 SRC_URI:append:agilex7_dk_si_agf014ea = " \
 					file://socfpga_agilex_ghrd_sgmii.dtsi \
@@ -58,7 +58,7 @@ SRC_URI:append:agilex5_mudv_bbr = " \
 					file://socfpga_agilex5_ghrd.dtsi \
 					"
 
-SRC_URI:append:agilex5_mudv_mod = " \
+SRC_URI:append:agilex5_modular = " \
 					file://socfpga_agilex5_ghrd_sgmii.dtsi \
 					file://socfpga_agilex5_ghrd.dtsi \
 					"

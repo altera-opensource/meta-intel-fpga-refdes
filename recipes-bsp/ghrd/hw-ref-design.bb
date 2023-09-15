@@ -31,7 +31,7 @@ SRC_URI:agilex5_mudv_pcr ?= "\
 		${GHRD_REPO}/agilex7_dk_si_agf014ea_gsrd_${ARM64_GHRD_CORE_RBF};name=agilex5_gsrd_core \
 		"
 
-SRC_URI:agilex5_mudv_mod ?= "\
+SRC_URI:agilex5_modular ?= "\
 		${GHRD_REPO}/agilex7_dk_si_agf014ea_gsrd_${ARM64_GHRD_CORE_RBF};name=agilex5_gsrd_core \
 		"
 

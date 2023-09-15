@@ -40,12 +40,21 @@ SRC_URI:append:agilex7_dk_si_agf014eb = " file://sgmii.scc"
 SRC_URI:append:agilex5 = " file://initrd.scc \
                            file://xdp.scc \
                            file://0001-libbpf-add-txtime-field-in-xdp_desc-struct.patch"
-SRC_URI:append:agilex5_mudv_bbr = " file://initrd.scc"
-SRC_URI:append:agilex5_mudv_mod = " file://initrd.scc"
-SRC_URI:append:agilex5_mudv_pcr = " file://initrd.scc"
-SRC_URI:append:agilex5_mudv_cvr = " file://initrd.scc"
-SRC_URI:append:agilex5_mucv_cvr = " file://initrd.scc"
-SRC_URI:append:agilex5_devkit = " file://initrd.scc"
+SRC_URI:append:agilex5_mudv_bbr = " file://initrd.scc \
+			       	    file://xdp.scc \
+			       	    file://0001-libbpf-add-txtime-field-in-xdp_desc-struct.patch"
+SRC_URI:append:agilex5_mudv_pcr = " file://initrd.scc \
+			       	    file://xdp.scc \
+			       	    file://0001-libbpf-add-txtime-field-in-xdp_desc-struct.patch"
+SRC_URI:append:agilex5_mudv_cvr = " file://initrd.scc \
+			       	    file://xdp.scc \
+			       	    file://0001-libbpf-add-txtime-field-in-xdp_desc-struct.patch"
+SRC_URI:append:agilex5_mucv_cvr = " file://initrd.scc \
+			       	    file://xdp.scc \
+			       	    file://0001-libbpf-add-txtime-field-in-xdp_desc-struct.patch"
+SRC_URI:append:agilex5_devkit = " file://initrd.scc \
+			       	  file://xdp.scc \
+			       	  file://0001-libbpf-add-txtime-field-in-xdp_desc-struct.patch"
 SRC_URI:append:stratix10 = " file://sgmii.scc"
 SRC_URI:append:arria10 = " file://tse.scc"
 SRC_URI:append:cyclone5 = " file://tse.scc"

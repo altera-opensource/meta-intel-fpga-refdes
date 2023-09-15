@@ -50,9 +50,12 @@ SRC_URI:append:agilex5_mudv_pcr = " file://initrd.scc \
 SRC_URI:append:agilex5_mudv_cvr = " file://initrd.scc \
 			       	    file://xdp.scc \
 			       	    file://0001-libbpf-add-txtime-field-in-xdp_desc-struct.patch"
-SRC_URI:append:agilex5_mucv_cvr = " file://initrd.scc \
-			       	    file://xdp.scc \
-			       	    file://0001-libbpf-add-txtime-field-in-xdp_desc-struct.patch"
+SRC_URI:append:agilex5_mucv = " file://initrd.scc \
+			       	file://xdp.scc \
+			       	file://0001-libbpf-add-txtime-field-in-xdp_desc-struct.patch"
+SRC_URI:append:agilex5_modular = " file://initrd.scc \
+				   file://xdp.scc \
+				   file://0001-libbpf-add-txtime-field-in-xdp_desc-struct.patch"
 SRC_URI:append:agilex5_devkit = " file://initrd.scc \
 			       	  file://xdp.scc \
 			       	  file://0001-libbpf-add-txtime-field-in-xdp_desc-struct.patch"

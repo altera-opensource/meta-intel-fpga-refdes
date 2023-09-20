@@ -30,7 +30,7 @@ if test ${target} = "qspi"; then
 fi
 
 if test ${target} = "nand"; then
-	ubi part root;
+	ubi part rootubi;
 	ubi readvol ${loadaddr} kernel;
 	setenv bootargs "earlycon panic=-1 root=${nandroot} rw rootwait rootfstype=ubifs ubi.mtd=1";
 	bootm ${loadaddr};

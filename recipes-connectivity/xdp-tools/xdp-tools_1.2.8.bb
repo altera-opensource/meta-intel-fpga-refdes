@@ -65,8 +65,6 @@ do_install () {
     install -m 0755 lib/libxdp/xsk_def_xdp_prog.o ${D}/${libdir}/bpf/
     install -m 0755 lib/libxdp/xsk_def_xdp_prog_5.3.o ${D}/${libdir}/bpf/
     cp -r lib/libbpf/bpf_headers/* ${D}/usr/lib/custom_bpf/
-    cp -r ${D}/usr/lib/custom_bpf/lib/libbpf.so* ${D}/usr/lib/ 
-    rm -rf ${D}/usr/lib/custom_bpf/lib/libbpf.so*
 }
 
 RDEPENDS:${PN} += "bash"

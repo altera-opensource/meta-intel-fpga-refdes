@@ -12,11 +12,7 @@ if test ${target} = "mmc0"; then
 fi
 
 if test ${target} = "qspi"; then
-	setenv mtdids "nor0=nor0,nand0=ffb90000.nand.0";
-  setenv mtdparts "mtdparts=nor0:66m(u-boot),190m(qspi_root);ffb90000.nand.0:2m(u-boot),-(root)";
-  env select UBI;
-  saveenv;
-  mtdparts;
+	mtdparts;
 	ubi part root;
 	ubi readvol ${loadaddr} kernel;
 	ubi detach;
@@ -25,6 +21,11 @@ if test ${target} = "qspi"; then
 fi
 
 if test ${target} = "nand"; then
+	setenv mtdids "nor0=nor0,nand0=ffb90000.nand.0";
+	setenv mtdparts "mtdparts=nor0:66m(u-boot),190m(qspi_root);ffb90000.nand.0:2m(u-boot),-(root)";
+	env select UBI;
+	saveenv;
+	mtdparts;
 	ubi part root;
 	ubi readvol ${loadaddr} kernel;
 	ubi detach;

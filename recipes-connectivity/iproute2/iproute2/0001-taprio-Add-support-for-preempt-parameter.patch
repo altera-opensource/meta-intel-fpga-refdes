@@ -3,24 +3,26 @@ From: "Swee, Leong Ching" <leong.ching.swee@intel.com>
 Date: Tue, 23 May 2023 14:15:12 +0800
 Subject: [PATCH] preempt param
 
+Upstream-Status: Pending
+
 ---
  include/uapi/linux/pkt_sched.h |  2 ++
  tc/q_taprio.c                  | 33 ++++++++++++++++++++++++++++++++-
  2 files changed, 34 insertions(+), 1 deletion(-)
 
 diff --git a/include/uapi/linux/pkt_sched.h b/include/uapi/linux/pkt_sched.h
-index 000eec1..9c0a12a 100644
+index 3f85ae57..b178eb39 100644
 --- a/include/uapi/linux/pkt_sched.h
 +++ b/include/uapi/linux/pkt_sched.h
-@@ -738,6 +738,7 @@ enum {
- 	TCA_MQPRIO_SHAPER,
+@@ -755,6 +755,7 @@ enum {
  	TCA_MQPRIO_MIN_RATE64,
  	TCA_MQPRIO_MAX_RATE64,
-+  TCA_MQPRIO_PREEMPT_TCS,
+ 	TCA_MQPRIO_TC_ENTRY,
++	TCA_MQPRIO_PREEMPT_TCS,
  	__TCA_MQPRIO_MAX,
  };
  
-@@ -1256,6 +1257,7 @@ enum {
+@@ -1284,6 +1285,7 @@ enum {
  	TCA_TAPRIO_ATTR_FLAGS, /* u32 */
  	TCA_TAPRIO_ATTR_TXTIME_DELAY, /* u32 */
  	TCA_TAPRIO_ATTR_TC_ENTRY, /* nest */
@@ -29,10 +31,10 @@ index 000eec1..9c0a12a 100644
  };
  
 diff --git a/tc/q_taprio.c b/tc/q_taprio.c
-index e00d2aa..d22e50b 100644
+index ef8fc7a0..98faf332 100644
 --- a/tc/q_taprio.c
 +++ b/tc/q_taprio.c
-@@ -172,6 +172,7 @@ static int taprio_parse_opt(struct qdisc_util *qu, int argc,
+@@ -186,6 +186,7 @@ static int taprio_parse_opt(struct qdisc_util *qu, int argc,
  	struct tc_mqprio_qopt opt = { };
  	__s64 cycle_time_extension = 0;
  	struct list_head sched_entries;
@@ -40,7 +42,7 @@ index e00d2aa..d22e50b 100644
  	bool have_tc_entries = false;
  	int num_max_sdu_entries = 0;
  	struct rtattr *tail, *l;
-@@ -331,7 +332,16 @@ static int taprio_parse_opt(struct qdisc_util *qu, int argc,
+@@ -361,7 +362,16 @@ static int taprio_parse_opt(struct qdisc_util *qu, int argc,
  				PREV_ARG();
  				return -1;
  			}
@@ -58,7 +60,7 @@ index e00d2aa..d22e50b 100644
  		} else if (strcmp(*argv, "help") == 0) {
  			explain();
  			return -1;
-@@ -368,6 +378,10 @@ static int taprio_parse_opt(struct qdisc_util *qu, int argc,
+@@ -398,6 +408,10 @@ static int taprio_parse_opt(struct qdisc_util *qu, int argc,
  		addattr_l(n, 1024, TCA_TAPRIO_ATTR_SCHED_CYCLE_TIME_EXTENSION,
  			  &cycle_time_extension, sizeof(cycle_time_extension));
  
@@ -67,9 +69,9 @@ index e00d2aa..d22e50b 100644
 +			  &preempt, sizeof(preempt));
 +
  	if (have_tc_entries)
- 		add_tc_entries(n, max_sdu, num_max_sdu_entries);
+ 		add_tc_entries(n, max_sdu, num_max_sdu_entries, fp, num_fp_entries);
  
-@@ -523,6 +537,7 @@ static int taprio_print_opt(struct qdisc_util *qu, FILE *f, struct rtattr *opt)
+@@ -592,6 +606,7 @@ static int taprio_print_opt(struct qdisc_util *qu, FILE *f, struct rtattr *opt)
  {
  	struct rtattr *tb[TCA_TAPRIO_ATTR_MAX + 1];
  	struct tc_mqprio_qopt *qopt = 0;
@@ -77,7 +79,7 @@ index e00d2aa..d22e50b 100644
  	int i;
  
  	if (opt == NULL)
-@@ -555,6 +570,22 @@ static int taprio_print_opt(struct qdisc_util *qu, FILE *f, struct rtattr *opt)
+@@ -624,6 +639,22 @@ static int taprio_print_opt(struct qdisc_util *qu, FILE *f, struct rtattr *opt)
  
  	print_nl();
  
@@ -102,4 +104,3 @@ index e00d2aa..d22e50b 100644
  
 -- 
 2.34.1
-

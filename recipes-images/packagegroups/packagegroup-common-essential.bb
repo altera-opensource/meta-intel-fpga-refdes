@@ -16,4 +16,5 @@ RDEPENDS:packagegroup-common-essential = "\
 	dosfstools \
 	xdp-tools \
 	tsn-ref-sw \
+	init-ifupdown \
 	"

@@ -77,11 +77,11 @@ do_deploy:append() {
 
 	if [[ "${MACHINE}" == *"agilex7_"* ]]; then
 		# linux.dtb
-		cp ${DTBDEPLOYDIR}/socfpga_agilex_socdk.dtb ${B}
-		cp ${DTBDEPLOYDIR}/socfpga_agilex_vanilla.dtb ${B}
+		cp ${DTBDEPLOYDIR}/socfpga_agilex7_socdk.dtb ${B}
+		cp ${DTBDEPLOYDIR}/socfpga_agilex7_vanilla.dtb ${B}
 		if [[ "${MACHINE}" == "agilex7_dk_si_agf014e"* ]]; then
-			cp ${DTBDEPLOYDIR}/socfpga_agilex_socdk_nand.dtb ${B}
-			cp ${DTBDEPLOYDIR}/socfpga_agilex_socdk_pr.dtb ${B}
+			cp ${DTBDEPLOYDIR}/socfpga_agilex7_socdk_nand.dtb ${B}
+			cp ${DTBDEPLOYDIR}/socfpga_agilex7_socdk_pr.dtb ${B}
 		fi
 		# core.rbf
 		cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd.core.rbf ${B}

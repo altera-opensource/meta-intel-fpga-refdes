@@ -1,0 +1,55 @@
+From e5ed9738764242cde06784a2add459b3dd4c13fd Mon Sep 17 00:00:00 2001
+From: "Tham, Mun Yew" <mun.yew.tham@intel.com>
+Date: Wed, 22 Nov 2023 13:46:27 +0800
+Subject: [PATCH] HSD#15014692304: arm64: dts: Add xgmac support for TSN Config
+ 2
+
+Add gmac1 mac-mode GMII support for Agilex5.
+
+Add gmac1 phy-mode for RGMII PHY integration
+
+Signed-off-by: Tham, Mun Yew <mun.yew.tham@intel.com>
+---
+ .../boot/dts/intel/socfpga_agilex5_socdk.dts  | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/intel/socfpga_agilex5_socdk.dts b/arch/arm64/boot/dts/intel/socfpga_agilex5_socdk.dts
+index baaf90d20bc1..7d018dc5b12d 100644
+--- a/arch/arm64/boot/dts/intel/socfpga_agilex5_socdk.dts
++++ b/arch/arm64/boot/dts/intel/socfpga_agilex5_socdk.dts
+@@ -11,6 +11,7 @@ / {
+ 	aliases {
+ 		serial0 = &uart0;
+ 		ethernet0 = &gmac0;
++		ethernet1 = &gmac1;
+ 		ethernet2 = &gmac2;
+ 	};
+ 
+@@ -70,6 +71,24 @@ emac0_phy0: ethernet-phy@1 {
+ 	};
+ };
+ 
++&gmac1 {
++	status = "okay";
++	phy-mode = "rgmii";
++	mac-mode = "gmii";
++	phy-handle = <&emac1_phy0>;
++
++	max-frame-size = <9000>;
++
++	mdio0 {
++		#address-cells = <1>;
++		#size-cells = <0>;
++		compatible = "snps,dwmac-mdio";
++		emac1_phy0: ethernet-phy@1 {
++			reg = <1>;
++		};
++	};
++};
++
+ &gmac2 {
+ 	status = "okay";
+ 	phy-mode = "rgmii";
+-- 
+2.26.2
+

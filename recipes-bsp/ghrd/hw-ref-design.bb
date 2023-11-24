@@ -75,8 +75,8 @@ SRC_URI[agilex7_dk_si_agf014eb_gsrd_core.sha256sum] = "287d385b878282ebb1bf13d58
 SRC_URI[agilex7_dk_si_agi027fb_gsrd_core.sha256sum] = "78a6bf4220ad167fbdeda52bb417c5df563d2efba49d4c0629bff572be70bfad"
 SRC_URI[agilex7_dk_si_agi027fa_gsrd_core.sha256sum] = "8cde675e1f02293ae0dd8bedc76466b762eb6f3665f133238185a6f02332307b"
 SRC_URI[agilex7_dk_dev_agf027f1es_gsrd_core.sha256sum] = "fe9a888ffe3df58ada5eb068761a25250f9751a1f77e780500a500a4b5dc7e9e"
-#TO DO: ADD AGILEX7-DK-DEV-AGM039FES HASH
-#SRC_URI[agilex7_dk_dev_agm039fes_gsrd_core.sha256sum] = "40d7f31d6dec2dae9ea9ccd6120ac726064c97cfa376a855a02c3d016bee6e92"
+
+SRC_URI[agilex7_dk_dev_agm039fes_gsrd_core.sha256sum] = "ae994d3a51510a6cc5f6f22391226f6b76f94ffddf95408130d011faeffe4c73"
 
 SRC_URI[stratix10_gsrd_core.sha256sum] = "b83db9e1cd2d328a9279a3dee04ac09faa616e7303a8969a61bc38c8cdaa5f50"
 SRC_URI[stratix10_nand_core.sha256sum] = "e503e16e25fdba43689ce45d2ffd018fadf28de9f36c6f61297fc9a3bc08a67b"
@@ -107,7 +107,7 @@ SRC_URI[arria10_tse_core.sha256sum] = "8cd30622d8a441731dd1c1bb879847e5a1357e036
 SRC_URI[arria10_tse_periph.sha256sum] = "937c8d74ee69046c978f3111cf5e9c07953e790883c3c067704e74508de9fb76"
 SRC_URI[arria10_tse_hps_xml.sha256sum] = "e61193d7b0a919fb8ab51d15edc98c3da78313e0030b4df716ed2ae8ce558750"
 
-SRC_URI[cyclone5_gsrd_core.sha256sum] = "66aba3b771153b63e54373bbc526b86236a07e0bef84d4a0cc3b5559c1b0af55"
+SRC_URI[cyclone5_gsrd_core.sha256sum] = "0498c9c97e48e2e6de97410b998d6f9d751c630e233071234b146d2ee399f268"
 
 S ?= "${WORKDIR}/${MACHINE}"
 

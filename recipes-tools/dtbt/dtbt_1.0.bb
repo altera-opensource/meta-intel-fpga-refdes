@@ -15,7 +15,7 @@ RPROVIDES:${PN} = "dtbt"
 
 SRC_URI = "${DTBT_REPO};protocol=${DTBT_PROT};branch=${DTBT_BRANCH}"
 
-FILES:${PN} = "/sbin/dtbt"
+FILES:${PN} = "/usr/sbin/dtbt"
 FILES:${PN}-dbg = ""
 
 RDEPENDS:${PN}="python3"
@@ -27,6 +27,6 @@ do_compile() {
 }
 
 do_install() {
-        install -d ${D}/sbin
-        install -m 0755 dtbt ${D}/sbin/dtbt
+        install -d ${D}/usr/sbin
+        install -m 0755 dtbt ${D}/usr/sbin/dtbt
 }

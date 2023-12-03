@@ -3,24 +3,26 @@ From: Vinicius Costa Gomes <vinicius.gomes@intel.com>
 Date: Mon, 1 Mar 2021 15:25:03 -0800
 Subject: [PATCH] mqprio: Add support for configuring frame preemption
 
+Upstream-Status: Pending
+
 Signed-off-by: Vinicius Costa Gomes <vinicius.gomes@intel.com>
 ---
  tc/q_mqprio.c | 15 +++++++++++++++
  1 file changed, 15 insertions(+)
 
 diff --git a/tc/q_mqprio.c b/tc/q_mqprio.c
-index 706452d0..a03bc90b 100644
+index 7a4417f5..da53da84 100644
 --- a/tc/q_mqprio.c
 +++ b/tc/q_mqprio.c
-@@ -48,6 +48,7 @@ static int mqprio_parse_opt(struct qdisc_util *qu, int argc,
- 	__u64 max_rate64[TC_QOPT_MAX_QUEUE] = {0};
+@@ -62,6 +62,7 @@ static int mqprio_parse_opt(struct qdisc_util *qu, int argc,
  	__u16 shaper = TC_MQPRIO_SHAPER_DCB;
+ 	__u32 fp[TC_QOPT_MAX_QUEUE] = { };
  	__u16 mode = TC_MQPRIO_MODE_DCB;
 +	__u32 preempt = UINT32_MAX;
+ 	bool have_tc_entries = false;
+ 	int num_fp_entries = 0;
  	int cnt_off_pairs = 0;
- 	struct rtattr *tail;
- 	__u32 flags = 0;
-@@ -166,6 +167,16 @@ static int mqprio_parse_opt(struct qdisc_util *qu, int argc,
+@@ -197,6 +198,16 @@ static int mqprio_parse_opt(struct qdisc_util *qu, int argc,
  				return -1;
  			}
  			flags |= TC_MQPRIO_F_MAX_RATE;
@@ -37,7 +39,7 @@ index 706452d0..a03bc90b 100644
  		} else if (strcmp(*argv, "help") == 0) {
  			explain();
  			return -1;
-@@ -217,6 +228,10 @@ static int mqprio_parse_opt(struct qdisc_util *qu, int argc,
+@@ -251,6 +262,10 @@ static int mqprio_parse_opt(struct qdisc_util *qu, int argc,
  		addattr_nest_end(n, start);
  	}
  
@@ -50,4 +52,3 @@ index 706452d0..a03bc90b 100644
  	return 0;
 -- 
 2.34.1
-

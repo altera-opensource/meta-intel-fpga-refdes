@@ -8,6 +8,8 @@ Although this is already in kernel, currently the tool does not support
 them. We need these commands for full TSN features which are currently
 supported in Synopsys IPs such as QoS and XGMAC3.
 
+Upstream-Status: Pending
+
 Signed-off-by: Jose Abreu <Jose.Abreu@synopsys.com>
 Date: Dec/18/2019, 23:05:13 (UTC+00:00)
 Date: Jan/03/2020, 22:24:14
@@ -43,4 +45,3 @@ index a248148a..07567277 100644
  }
 -- 
 2.34.1
-

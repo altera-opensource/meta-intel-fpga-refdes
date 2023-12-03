@@ -137,7 +137,7 @@ PROVIDES = "virtual/bitstream"
 
 FILES:${PN} = " \
 		/boot \
-		/lib/firmware \
+		/usr/lib/firmware \
 		"
 
 PACKAGES = "${PN}"

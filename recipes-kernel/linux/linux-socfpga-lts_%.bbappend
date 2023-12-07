@@ -105,6 +105,7 @@ do_deploy:append() {
 		if [[ "${MACHINE}" == "agilex5_devkit"* ]]; then
 			cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_nand.dtb ${B}
 			cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/nand.core.rbf ${B}
+			cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/emmc.core.rbf ${B}
 		fi
                 cp ${B}/.config ${LINUXDEPLOYDIR}/kernel_config.txt
 	elif [[ "${MACHINE}" == "stratix10" ]]; then

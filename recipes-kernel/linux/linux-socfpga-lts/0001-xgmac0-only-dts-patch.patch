@@ -1,4 +1,4 @@
-From 6154e62111d15e9cf96416c88e597e07a8b5f42e Mon Sep 17 00:00:00 2001
+From 6802b57037c1d2706555b68be2a4c33346942bfb Mon Sep 17 00:00:00 2001
 From: Swee Leong Ching <leong.ching.swee@intel.com>
 Date: Wed, 30 Aug 2023 13:42:57 +0800
 Subject: [PATCH] xgmac0 only dts patch
@@ -7,11 +7,11 @@ Upstream-Status: Inappropriate
 
 Signed-off-by: Swee Leong Ching <leong.ching.swee@intel.com>
 ---
- .../boot/dts/intel/socfpga_agilex5_socdk.dts   | 18 ------------------
- 1 file changed, 18 deletions(-)
+ .../boot/dts/intel/socfpga_agilex5_socdk.dts  | 20 +------------------
+ 1 file changed, 1 insertion(+), 19 deletions(-)
 
 diff --git a/arch/arm64/boot/dts/intel/socfpga_agilex5_socdk.dts b/arch/arm64/boot/dts/intel/socfpga_agilex5_socdk.dts
-index baaf90d20bc1..4a0b72e03d14 100644
+index a4056d125d17..cc3733ca2d4e 100644
 --- a/arch/arm64/boot/dts/intel/socfpga_agilex5_socdk.dts
 +++ b/arch/arm64/boot/dts/intel/socfpga_agilex5_socdk.dts
 @@ -11,7 +11,6 @@ / {
@@ -22,7 +22,7 @@ index baaf90d20bc1..4a0b72e03d14 100644
  	};
  
  	chosen {
-@@ -70,23 +69,6 @@ emac0_phy0: ethernet-phy@1 {
+@@ -72,23 +71,6 @@ emac0_phy0: ethernet-phy@1 {
  	};
  };
  
@@ -37,8 +37,8 @@ index baaf90d20bc1..4a0b72e03d14 100644
 -		#address-cells = <1>;
 -		#size-cells = <0>;
 -		compatible = "snps,dwmac-mdio";
--		emac2_phy0: ethernet-phy@1 {
--			reg = <1>;
+-		emac2_phy0: ethernet-phy@0 {
+-			reg = <0>;
 -		};
 -	};
 -};
@@ -46,5 +46,19 @@ index baaf90d20bc1..4a0b72e03d14 100644
  &mmc {
  	status = "okay";
  	bus-width = <4>;
+@@ -172,7 +154,6 @@ &qspi {
+ 	status = "disabled";
+ 	flash@0 {
+ 		#address-cells = <1>;
+-		#size-cells = <1>;
+ 		compatible = "micron,mt25qu02g", "jedec,spi-nor";
+ 		reg = <0>;
+ 		spi-max-frequency = <100000000>;
+@@ -203,3 +184,4 @@ qspi_rootfs: partition@3FE0000 {
+ 		};
+ 	};
+ };
++// SPDX-License-Identifier:     GPL-2.0
 -- 
-2.34.1
+2.26.2
+

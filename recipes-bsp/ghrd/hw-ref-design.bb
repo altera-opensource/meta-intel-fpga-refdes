@@ -20,23 +20,33 @@ A10_GHRD_PERIPH_RBF = "ghrd_10as066n2.periph.rbf"
 C5_GHRD_CORE_RBF = "soc_system.rbf"
 
 SRC_URI:agilex5_mudv_bbr ?= "\
-		${GHRD_REPO}/agilex7_dk_si_agf014ea_gsrd_${ARM64_GHRD_CORE_RBF};name=agilex5_gsrd_core \
+		file://agilex5_devkit_gsrd_ghrd.core.rbf \
+		file://agilex5_devkit_nand_ghrd.core.rbf \
+		file://agilex5_devkit_emmc_ghrd.core.rbf \
 		"
 
 SRC_URI:agilex5_mudv_cvr ?= "\
-		${GHRD_REPO}/agilex7_dk_si_agf014ea_gsrd_${ARM64_GHRD_CORE_RBF};name=agilex5_gsrd_core \
+		file://agilex5_devkit_gsrd_ghrd.core.rbf \
+		file://agilex5_devkit_nand_ghrd.core.rbf \
+		file://agilex5_devkit_emmc_ghrd.core.rbf \
 		"
 
 SRC_URI:agilex5_mudv_pcr ?= "\
-		${GHRD_REPO}/agilex7_dk_si_agf014ea_gsrd_${ARM64_GHRD_CORE_RBF};name=agilex5_gsrd_core \
+		file://agilex5_devkit_gsrd_ghrd.core.rbf \
+		file://agilex5_devkit_nand_ghrd.core.rbf \
+		file://agilex5_devkit_emmc_ghrd.core.rbf \
 		"
 
 SRC_URI:agilex5_modular ?= "\
-		${GHRD_REPO}/agilex7_dk_si_agf014ea_gsrd_${ARM64_GHRD_CORE_RBF};name=agilex5_gsrd_core \
+		file://agilex5_devkit_gsrd_ghrd.core.rbf \
+		file://agilex5_devkit_nand_ghrd.core.rbf \
+		file://agilex5_devkit_emmc_ghrd.core.rbf \
 		"
 
 SRC_URI:agilex5_mucv ?= "\
-		${GHRD_REPO}/agilex7_dk_si_agf014ea_gsrd_${ARM64_GHRD_CORE_RBF};name=agilex5_gsrd_core \
+		file://agilex5_devkit_gsrd_ghrd.core.rbf \
+		file://agilex5_devkit_nand_ghrd.core.rbf \
+		file://agilex5_devkit_emmc_ghrd.core.rbf \
 		"
 
 SRC_URI:agilex5_devkit ?= "\
@@ -180,7 +190,7 @@ do_install () {
 
 	if [[ "${MACHINE}" == *"agilex5"* ]]; then
 	    #TODO: no GHRD yet, just use dummy ghrd for now
-	    if [[ "${MACHINE}" == "agilex5_devkit"* ]]; then
+    	if [[ "${MACHINE}" == "agilex5_devkit"*  ||  "${MACHINE}" == "agilex5_mudv"* || "${MACHINE}" == "agilex5_mucv"* || "${MACHINE}" == "agilex5_modular"* ]]; then
 	    	install -D -m 0644 ${WORKDIR}/agilex5_devkit_gsrd_ghrd.core.rbf ${D}/boot/${ARM64_GHRD_CORE_RBF}
 	    	install -D -m 0644 ${WORKDIR}/agilex5_devkit_nand_ghrd.core.rbf ${D}/boot/nand.core.rbf
 	    	install -D -m 0644 ${WORKDIR}/agilex5_devkit_emmc_ghrd.core.rbf ${D}/boot/emmc.core.rbf
@@ -192,7 +202,7 @@ do_install () {
 
 do_deploy () {
 	if [[ "${MACHINE}" == *"agilex5"* ]]; then
-    	if [[ "${MACHINE}" == "agilex5_devkit"* ]]; then
+    	if [[ "${MACHINE}" == "agilex5_devkit"*  ||  "${MACHINE}" == "agilex5_mudv"* || "${MACHINE}" == "agilex5_mucv"* || "${MACHINE}" == "agilex5_modular"* ]]; then
     		install -D -m 0644 ${WORKDIR}/agilex5_devkit_gsrd_ghrd.core.rbf ${DEPLOYDIR}/${MACHINE}_gsrd_ghrd/${ARM64_GHRD_CORE_RBF}
     		install -D -m 0644 ${WORKDIR}/agilex5_devkit_nand_ghrd.core.rbf ${DEPLOYDIR}/${MACHINE}_gsrd_ghrd/nand.core.rbf
     		install -D -m 0644 ${WORKDIR}/agilex5_devkit_emmc_ghrd.core.rbf ${DEPLOYDIR}/${MACHINE}_gsrd_ghrd/emmc.core.rbf

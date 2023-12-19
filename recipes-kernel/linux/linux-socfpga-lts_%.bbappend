@@ -11,15 +11,18 @@ SRC_URI:append:agilex7_dk_si_agi027fb = " file://fit_kernel_agilex7_dk_si_agi027
 SRC_URI:append:agilex7_dk_si_agi027fa = " file://fit_kernel_agilex7_dk_si_agi027fa.its"
 SRC_URI:append:agilex7_dk_dev_agf027f1es = " file://fit_kernel_agilex7_dk_dev_agf027f1es.its"
 SRC_URI:append:agilex5 = " file://fit_kernel_agilex5.its"
-SRC_URI:append:agilex5_mudv_bbr = " file://fit_kernel_agilex5_mudv_bbr.its"
+SRC_URI:append:agilex5_mudv_bbr = " file://fit_kernel_agilex5_mudv_bbr.its \
+                                    file://0001-OOBE-daughter-card.patch"
 SRC_URI:append:agilex5_modular = " file://fit_kernel_agilex5_modular.its \
-				   file://0001-xgmac0-only-dts-patch.patch"
-SRC_URI:append:agilex5_mudv_pcr = " file://fit_kernel_agilex5_mudv_pcr.its"
-SRC_URI:append:agilex5_mudv_cvr = " file://fit_kernel_agilex5_mudv_cvr.its"
+				   				   file://0001-xgmac0-only-dts-patch.patch"
+SRC_URI:append:agilex5_mudv_pcr = " file://fit_kernel_agilex5_mudv_pcr.its \
+                                    file://0001-OOBE-daughter-card.patch"
+SRC_URI:append:agilex5_mudv_cvr = " file://fit_kernel_agilex5_mudv_cvr.its \
+                                    file://0001-OOBE-daughter-card.patch"
 SRC_URI:append:agilex5_mucv = " file://fit_kernel_agilex5_mucv.its \
                                 file://0001-xgmac0-only-dts-patch.patch"
 SRC_URI:append:agilex5_devkit = " file://fit_kernel_agilex5_devkit.its \
-                                  file://0001-xgmac2-only-dts-patch.patch"
+                                  file://0001-OOBE-daughter-card.patch"
 SRC_URI:append:stratix10 = " file://fit_kernel_stratix10.its"
 
 SRC_URI:append:arria10 = " \

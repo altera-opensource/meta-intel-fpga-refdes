@@ -18,7 +18,7 @@ index f8598980c30d..c3be216528ff 100644
  &gmac0 {
 -	status = "disabled";
 +	status = "okay";
- 	phy-mode = "rgmii";
+ 	phy-mode = "rgmii-id";
  	phy-handle = <&emac0_phy0>;
  
 @@ -56,8 +56,8 @@ mdio0 {

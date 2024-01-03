@@ -23,36 +23,48 @@ SRC_URI:agilex5_mudv_bbr ?= "\
 		file://agilex5_devkit_gsrd_ghrd.core.rbf \
 		file://agilex5_devkit_nand_ghrd.core.rbf \
 		file://agilex5_devkit_emmc_ghrd.core.rbf \
+		file://agilex5_devkit_aic0_ghrd.core.rbf \
+		file://agilex5_devkit_debug2_ghrd.core.rbf \
 		"
 
 SRC_URI:agilex5_mudv_cvr ?= "\
 		file://agilex5_devkit_gsrd_ghrd.core.rbf \
 		file://agilex5_devkit_nand_ghrd.core.rbf \
 		file://agilex5_devkit_emmc_ghrd.core.rbf \
+		file://agilex5_devkit_aic0_ghrd.core.rbf \
+		file://agilex5_devkit_debug2_ghrd.core.rbf \
 		"
 
 SRC_URI:agilex5_mudv_pcr ?= "\
 		file://agilex5_devkit_gsrd_ghrd.core.rbf \
 		file://agilex5_devkit_nand_ghrd.core.rbf \
 		file://agilex5_devkit_emmc_ghrd.core.rbf \
+		file://agilex5_devkit_aic0_ghrd.core.rbf \
+		file://agilex5_devkit_debug2_ghrd.core.rbf \
 		"
 
 SRC_URI:agilex5_modular ?= "\
 		file://agilex5_devkit_gsrd_ghrd.core.rbf \
 		file://agilex5_devkit_nand_ghrd.core.rbf \
 		file://agilex5_devkit_emmc_ghrd.core.rbf \
+		file://agilex5_devkit_aic0_ghrd.core.rbf \
+		file://agilex5_devkit_debug2_ghrd.core.rbf \
 		"
 
 SRC_URI:agilex5_mucv ?= "\
 		file://agilex5_devkit_gsrd_ghrd.core.rbf \
 		file://agilex5_devkit_nand_ghrd.core.rbf \
 		file://agilex5_devkit_emmc_ghrd.core.rbf \
+		file://agilex5_devkit_aic0_ghrd.core.rbf \
+		file://agilex5_devkit_debug2_ghrd.core.rbf \
 		"
 
 SRC_URI:agilex5_devkit ?= "\
 		file://agilex5_devkit_gsrd_ghrd.core.rbf \
 		file://agilex5_devkit_nand_ghrd.core.rbf \
 		file://agilex5_devkit_emmc_ghrd.core.rbf \
+		file://agilex5_devkit_aic0_ghrd.core.rbf \
+		file://agilex5_devkit_debug2_ghrd.core.rbf \
 		"
 
 SRC_URI:agilex7_dk_si_agf014ea ?= "\
@@ -194,6 +206,8 @@ do_install () {
 	    	install -D -m 0644 ${WORKDIR}/agilex5_devkit_gsrd_ghrd.core.rbf ${D}/boot/${ARM64_GHRD_CORE_RBF}
 	    	install -D -m 0644 ${WORKDIR}/agilex5_devkit_nand_ghrd.core.rbf ${D}/boot/nand.core.rbf
 	    	install -D -m 0644 ${WORKDIR}/agilex5_devkit_emmc_ghrd.core.rbf ${D}/boot/emmc.core.rbf
+	    	install -D -m 0644 ${WORKDIR}/agilex5_devkit_aic0_ghrd.core.rbf ${D}/boot/aic0.core.rbf
+	    	install -D -m 0644 ${WORKDIR}/agilex5_devkit_debug2_ghrd.core.rbf ${D}/boot/debug2.core.rbf
         else
 		    install -D -m 0644 ${WORKDIR}/agilex7_dk_si_agf014ea_gsrd_${ARM64_GHRD_CORE_RBF} ${D}/boot/${ARM64_GHRD_CORE_RBF}
 		fi
@@ -206,6 +220,8 @@ do_deploy () {
     		install -D -m 0644 ${WORKDIR}/agilex5_devkit_gsrd_ghrd.core.rbf ${DEPLOYDIR}/${MACHINE}_gsrd_ghrd/${ARM64_GHRD_CORE_RBF}
     		install -D -m 0644 ${WORKDIR}/agilex5_devkit_nand_ghrd.core.rbf ${DEPLOYDIR}/${MACHINE}_gsrd_ghrd/nand.core.rbf
     		install -D -m 0644 ${WORKDIR}/agilex5_devkit_emmc_ghrd.core.rbf ${DEPLOYDIR}/${MACHINE}_gsrd_ghrd/emmc.core.rbf
+    		install -D -m 0644 ${WORKDIR}/agilex5_devkit_aic0_ghrd.core.rbf ${DEPLOYDIR}/${MACHINE}_gsrd_ghrd/aic0.core.rbf
+    		install -D -m 0644 ${WORKDIR}/agilex5_devkit_debug2_ghrd.core.rbf ${DEPLOYDIR}/${MACHINE}_gsrd_ghrd/debug2.core.rbf
 	    else
 		    install -D -m 0644 ${WORKDIR}/agilex7_dk_si_agf014ea_gsrd_${ARM64_GHRD_CORE_RBF} ${DEPLOYDIR}/${MACHINE}_gsrd_ghrd/${ARM64_GHRD_CORE_RBF}
 		fi

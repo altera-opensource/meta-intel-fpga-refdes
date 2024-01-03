@@ -1,0 +1,37 @@
+From f93f475ba0cb6b45c7cffe50f1926d5fd7744305 Mon Sep 17 00:00:00 2001
+From: Swee Leong Ching <leong.ching.swee@intel.com>
+Date: Thu, 21 Dec 2023 10:50:36 +0800
+Subject: [PATCH] AIC0 tsn config
+
+Signed-off-by: Swee Leong Ching <leong.ching.swee@intel.com>
+---
+ socfpga_agilex5_socdk.dts | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/socfpga_agilex5_socdk.dts b/socfpga_agilex5_socdk.dts
+index f8598980c30d..c3be216528ff 100644
+--- a/socfpga_agilex5_socdk.dts
++++ b/socfpga_agilex5_socdk.dts
+@@ -46,7 +46,7 @@ &gpio0 {
+ };
+ 
+ &gmac0 {
+-	status = "disabled";
++	status = "okay";
+ 	phy-mode = "rgmii-id";
+ 	phy-handle = <&emac0_phy0>;
+ 
+@@ -56,8 +56,8 @@ mdio0 {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 		compatible = "snps,dwmac-mdio";
+-		emac0_phy0: ethernet-phy@1 {
+-			reg = <1>;
++		emac0_phy0: ethernet-phy@0 {
++			reg = <0>;
+ 		};
+ 	};
+ };
+-- 
+2.34.1
+

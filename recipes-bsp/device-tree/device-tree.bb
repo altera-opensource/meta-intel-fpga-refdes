@@ -56,31 +56,43 @@ SRC_URI:append:stratix10 = " \
 SRC_URI:append:agilex5_mudv_bbr = " \
 					file://socfpga_agilex5_ghrd_sgmii.dtsi \
 					file://socfpga_agilex5_ghrd.dtsi \
+					file://0001-AIC0-tsn-config.patch_bc \
+					file://0001-emmc-debug2-tsn-config.patch_bc \
 					"
 
 SRC_URI:append:agilex5_modular = " \
 					file://socfpga_agilex5_ghrd_sgmii.dtsi \
 					file://socfpga_agilex5_ghrd.dtsi \
+					file://0001-AIC0-tsn-config.patch_bc \
+					file://0001-emmc-debug2-tsn-config.patch_bc \
 					"
 
 SRC_URI:append:agilex5_mudv_pcr = " \
 					file://socfpga_agilex5_ghrd_sgmii.dtsi \
 					file://socfpga_agilex5_ghrd.dtsi \
+					file://0001-AIC0-tsn-config.patch_bc \
+					file://0001-emmc-debug2-tsn-config.patch_bc \
 					"
 
 SRC_URI:append:agilex5_mudv_cvr = " \
 					file://socfpga_agilex5_ghrd_sgmii.dtsi \
 					file://socfpga_agilex5_ghrd.dtsi \
+					file://0001-AIC0-tsn-config.patch_bc \
+					file://0001-emmc-debug2-tsn-config.patch_bc \
 					"
 
 SRC_URI:append:agilex5_mucv = " \
 					file://socfpga_agilex5_ghrd_sgmii.dtsi \
 					file://socfpga_agilex5_ghrd.dtsi \
+					file://0001-AIC0-tsn-config.patch_bc \
+					file://0001-emmc-debug2-tsn-config.patch_bc \
 					"
 
 SRC_URI:append:agilex5_devkit = " \
 					file://socfpga_agilex5_ghrd_sgmii.dtsi \
 					file://socfpga_agilex5_ghrd.dtsi \
+					file://0001-AIC0-tsn-config.patch_bc \
+					file://0001-emmc-debug2-tsn-config.patch_bc \
 					"
 
 do_configure[depends] += "virtual/kernel:do_configure"
@@ -136,16 +148,32 @@ do_configure:append() {
 		cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex5_socdk.dts ${WORKDIR}/socfpga_agilex5_vanilla.dts
 		cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex5.dtsi ${WORKDIR}/socfpga_agilex5.dtsi
 
-		# Base
+		# Base or OOBE
 		cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex5_socdk.dts ${WORKDIR}/socfpga_agilex5_socdk.dts
         #TODO disble any ghrd for poweron
 		# sed -i '/\#include \"socfpga_agilex5.dtsi\"/a \#include \"socfpga_agilex5_ghrd.dtsi\"' ${WORKDIR}/socfpga_agilex5_socdk.dts
-
-		if [[ "${MACHINE}" == "agilex5_devkit"* ]]; then
+        if [[ "${MACHINE}" == "agilex5_devkit"*  ||  "${MACHINE}" == "agilex5_mudv"* || "${MACHINE}" == "agilex5_mucv"* || "${MACHINE}" == "agilex5_modular"* ]]; then
+			# AIC0
+			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex5_socdk.dts ${WORKDIR}/socfpga_agilex5_socdk_aic0.dts
+			mv ${WORKDIR}/0001-AIC0-tsn-config.patch_bc ${WORKDIR}/0001-AIC0-tsn-config.patch
+			patch -p1 ${WORKDIR}/socfpga_agilex5_socdk_aic0.dts ${WORKDIR}/0001-AIC0-tsn-config.patch 
+			# emmc
+			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex5_socdk.dts ${WORKDIR}/socfpga_agilex5_socdk_emmc.dts
+			mv  ${WORKDIR}/0001-emmc-debug2-tsn-config.patch_bc ${WORKDIR}/0001-emmc-debug2-tsn-config.patch    
+			patch -p1 ${WORKDIR}/socfpga_agilex5_socdk_emmc.dts ${WORKDIR}/0001-emmc-debug2-tsn-config.patch
+			# debug2
+			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex5_socdk.dts ${WORKDIR}/socfpga_agilex5_socdk_debug2.dts
+			patch -p1 ${WORKDIR}/socfpga_agilex5_socdk_debug2.dts ${WORKDIR}/0001-emmc-debug2-tsn-config.patch
 		    # Nand 
 		    cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex5_socdk_nand.dts ${WORKDIR}/socfpga_agilex5_socdk_nand.dts
 		    sed -i '/\#include \"socfpga_agilex5.dtsi\"/a \#include \"socfpga_agilex5_ghrd.dtsi\"' ${WORKDIR}/socfpga_agilex5_socdk_nand.dts
-		fi
+	  	fi
+
+		# if [[ "${MACHINE}" == "agilex5_devkit"* ]]; then
+		    # Nand 
+		    # cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex5_socdk_nand.dts ${WORKDIR}/socfpga_agilex5_socdk_nand.dts
+		    # sed -i '/\#include \"socfpga_agilex5.dtsi\"/a \#include \"socfpga_agilex5_ghrd.dtsi\"' ${WORKDIR}/socfpga_agilex5_socdk_nand.dts
+		# fi
 		# NAND
 		# cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex_socdk_nand.dts ${WORKDIR}/socfpga_agilex_socdk_nand.dts
 		# sed -i '/\#include \"socfpga_agilex.dtsi\"/a \#include \"socfpga_agilex_ghrd_sgmii.dtsi\"' ${WORKDIR}/socfpga_agilex_socdk_nand.dts

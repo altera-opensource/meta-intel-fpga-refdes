@@ -1,0 +1,43 @@
+From 1d695a04958650f01455c73434901ac2b4f308f1 Mon Sep 17 00:00:00 2001
+From: Swee Leong Ching <leong.ching.swee@intel.com>
+Date: Thu, 28 Dec 2023 14:52:03 +0800
+Subject: [PATCH] emmmc debug2 tsn config
+
+---
+ socfpga_agilex5_socdk.dts | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/socfpga_agilex5_socdk.dts b/socfpga_agilex5_socdk.dts
+index cf0a366007ad..41bcec8d02f9 100644
+--- a/socfpga_agilex5_socdk.dts
++++ b/socfpga_agilex5_socdk.dts
+@@ -46,7 +46,7 @@ &gpio0 {
+ };
+ 
+ &gmac0 {
+-	status = "disabled";
++	status = "okay";
+ 	phy-mode = "rgmii-id";
+ 	phy-handle = <&emac0_phy0>;
+ 
+@@ -56,14 +56,14 @@ mdio0 {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 		compatible = "snps,dwmac-mdio";
+-		emac0_phy0: ethernet-phy@1 {
+-			reg = <1>;
++		emac0_phy0: ethernet-phy@0 {
++			reg = <0>;
+ 		};
+ 	};
+ };
+ 
+ &gmac2 {
+-	status = "okay";
++	status = "disabled";
+ 	phy-mode = "rgmii-id";
+ 	phy-handle = <&emac2_phy0>;
+ 
+-- 
+2.34.1
+

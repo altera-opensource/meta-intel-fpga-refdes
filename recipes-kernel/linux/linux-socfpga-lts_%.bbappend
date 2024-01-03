@@ -15,8 +15,7 @@ SRC_URI:append:agilex5_mudv_bbr = " file://fit_kernel_agilex5_mudv_bbr.its"
 SRC_URI:append:agilex5_modular = " file://fit_kernel_agilex5_modular.its"
 SRC_URI:append:agilex5_mudv_pcr = " file://fit_kernel_agilex5_mudv_pcr.its"
 SRC_URI:append:agilex5_mudv_cvr = " file://fit_kernel_agilex5_mudv_cvr.its"
-SRC_URI:append:agilex5_mucv = " file://fit_kernel_agilex5_mucv.its \
-                                file://0001-AIC0-tsn-config.patch"
+SRC_URI:append:agilex5_mucv = " file://fit_kernel_agilex5_mucv.its"
 SRC_URI:append:agilex5_devkit = " file://fit_kernel_agilex5_devkit.its" 
 SRC_URI:append:stratix10 = " file://fit_kernel_stratix10.its"
 
@@ -93,20 +92,22 @@ do_deploy:append() {
 		# linux.dtb
 		cp ${LINUXDEPLOYDIR}/socfpga_${MACHINE}_socdk.dtb ${B}/socfpga_${MACHINE}_socdk.dtb
 		cp ${LINUXDEPLOYDIR}/socfpga_${MACHINE}_socdk_swvp.dtb ${B}/socfpga_${MACHINE}_socdk_swvp.dtb
-                cp ${B}/.config ${LINUXDEPLOYDIR}/kernel_config.txt
+        cp ${B}/.config ${LINUXDEPLOYDIR}/kernel_config.txt
 	elif [[ "${MACHINE}" == *"agilex5"* ]]; then
 		# linux.dtb
 		cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk.dtb ${B}
+		cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_nand.dtb ${B}
+		cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_aic0.dtb ${B}
+		cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_debug2.dtb ${B}
+		cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_emmc.dtb ${B}
 		cp ${DTBDEPLOYDIR}/socfpga_agilex5_vanilla.dtb ${B}
         #core.rbf
 		cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd.core.rbf ${B}
-
-		if [[ "${MACHINE}" == "agilex5_devkit"* ]]; then
-			cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_nand.dtb ${B}
-			cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/nand.core.rbf ${B}
-			cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/emmc.core.rbf ${B}
-		fi
-                cp ${B}/.config ${LINUXDEPLOYDIR}/kernel_config.txt
+	    cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/nand.core.rbf ${B}
+	    cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/emmc.core.rbf ${B}
+	    cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/aic0.core.rbf ${B}
+	    cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/debug2.core.rbf ${B}
+        cp ${B}/.config ${LINUXDEPLOYDIR}/kernel_config.txt
 	elif [[ "${MACHINE}" == "stratix10" ]]; then
 		# linux.dtb
 		cp ${DTBDEPLOYDIR}/socfpga_stratix10_socdk.dtb ${B}

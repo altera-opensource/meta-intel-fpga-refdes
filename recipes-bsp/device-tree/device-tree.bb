@@ -115,7 +115,7 @@ do_configure:append() {
 			# GSRD DTB Generation
 			# MMC
 			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex7m_socdk.dts ${WORKDIR}/socfpga_agilex7_socdk.dts
-			sed -i '/\#include \"socfpga_agilex.dtsi\"/a \#include \"socfpga_agilex7_ghrd.dtsi\"\n\#include \"socfpga_ilc.dtsi\"' ${WORKDIR}/socfpga_agilex7_socdk.dts
+			sed -i '/\#include \"socfpga_agilex_socdk.dts\"/a \#include \"socfpga_agilex7_ghrd.dtsi\"\n\#include \"socfpga_ilc.dtsi\"' ${WORKDIR}/socfpga_agilex7_socdk.dts
 		fi
 	fi
 }

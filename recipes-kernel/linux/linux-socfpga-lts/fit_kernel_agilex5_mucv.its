@@ -97,7 +97,7 @@
             type = "fpga";
             arch = "arm64";
             compression = "none";
-            load = <0xA000000>;
+            load = <0x8A000000>;
             hash {
                 algo = "crc32";
             };
@@ -109,7 +109,7 @@
             type = "fpga";
             arch = "arm64";
             compression = "none";
-            load = <0xA000000>;
+            load = <0x8A000000>;
             hash {
                 algo = "crc32";
             };
@@ -121,7 +121,7 @@
             type = "fpga";
             arch = "arm64";
             compression = "none";
-            load = <0xA000000>;
+            load = <0x8A000000>;
             hash {
                 algo = "crc32";
             };
@@ -133,7 +133,7 @@
             type = "fpga";
             arch = "arm64";
             compression = "none";
-            load = <0xA000000>;
+            load = <0x8A000000>;
             hash {
                 algo = "crc32";
             };
@@ -145,7 +145,7 @@
             type = "fpga";
             arch = "arm64";
             compression = "none";
-            load = <0xA000000>;
+            load = <0x8A000000>;
             hash {
                 algo = "crc32";
             };

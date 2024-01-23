@@ -6,6 +6,8 @@ inherit packagegroup
 PACKAGES = "packagegroup-common-essential"
 
 RDEPENDS:packagegroup-common-essential = "\
+	socfpga-intel-rsu-lib \
+	socfpga-intel-rsu-client \
 	socfpga-gsrd-apps \
 	socfpga-gsrd-initscripts \
 	socfpga-gsrd-pio-interrupt \

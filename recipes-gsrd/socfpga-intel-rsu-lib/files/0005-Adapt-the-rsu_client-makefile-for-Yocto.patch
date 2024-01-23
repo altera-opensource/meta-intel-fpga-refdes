@@ -1,0 +1,55 @@
+From cec7aeb95de377b9913cc1b896cfb4705819a6d0 Mon Sep 17 00:00:00 2001
+From: Kah Jing Lee <kah.jing.lee@intel.com>
+Date: Wed, 20 Sep 2023 17:24:29 +0800
+Subject: [PATCH] Adapt the rsu_client makefile for Yocto
+
+Signed-off-by: Kah Jing Lee <kah.jing.lee@intel.com>
+---
+ example/makefile | 20 +++++++-------------
+ 1 file changed, 7 insertions(+), 13 deletions(-)
+
+diff --git a/example/makefile b/example/makefile
+index 2935474..5021efa 100644
+--- a/example/makefile
++++ b/example/makefile
+@@ -2,30 +2,24 @@
+ 
+ # Intel Copyright 2018
+ 
+-INSTALL_PATH ?= /usr/bin
++INSTALL_BIN_PATH ?= /usr/bin
+ 
+ SRC := rsu_client.c
+ 
+ CFLAGS := -I../include/ -Wall -Wsign-compare -Wpedantic -Werror -Wfatal-errors
+ LDFLAGS := -L../lib/ -lrsu -lz
++LDFLAGS += $(EXTRA_LDFLAGS)
+ 
+ all: rsu_client
+ 
+-install: rsu_client lib
+-	cd ../lib/; make install
+-	cp rsu_client ${INSTALL_PATH}/rsu_client
++install: rsu_client
++	cp rsu_client ${INSTALL_BIN_PATH}/rsu_client
+ 
+-rsu_client: $(SRC:.c=.o) lib
+-	$(CROSS_COMPILE)gcc -o $@ $(SRC:.c=.o) $(LDFLAGS)
++rsu_client: $(SRC:.c=.o)
++	$(CC) $(LDFLAGS) -o $@ $(SRC:.c=.o)
+ 
+ %.o : %.c
+-	$(CROSS_COMPILE)gcc $(CFLAGS) -c $< -o $@
+-
+-lib: ../lib/librsu.so
+-
+-../lib/librsu.so:
+-	cd ../lib/; make all
++	$(CC) $(LDFLAGS) $(CFLAGS) -c $< -o $@
+ 
+ clean:
+ 	rm -rf $(SRC:.c=.o) rsu_client
+-	cd ../lib/; make clean
+-- 
+2.26.2
+

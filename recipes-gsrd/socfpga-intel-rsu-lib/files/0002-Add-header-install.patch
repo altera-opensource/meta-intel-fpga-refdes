@@ -1,0 +1,26 @@
+From 08e6d06ff909d4692587de6cda40133d138a75b5 Mon Sep 17 00:00:00 2001
+From: James Grant <james.grant@intel.com>
+Date: Wed, 30 Aug 2023 15:27:38 +0100
+Subject: [PATCH 2/4] Add header install
+
+---
+ lib/makefile | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/lib/makefile b/lib/makefile
+index 650baa9..29ff8c6 100644
+--- a/lib/makefile
++++ b/lib/makefile
+@@ -21,6 +21,9 @@ all: librsu.so
+ install: librsu.so
+ 	cp librsu.so $(INSTALL_PATH)/librsu.so.$(LIBRSU_VER)
+ 	ln -s librsu.so.$(LIBRSU_VER) $(INSTALL_PATH)/librsu.so
++ifdef INSTALL_HDR_PATH
++	cp ../include/librsu.h $(INSTALL_HDR_PATH)
++endif
+ 
+ librsu.so: $(SRC:.c=.o)
+ 	$(CROSS_COMPILE)gcc $(LDFLAGS) -o $@ $(SRC:.c=.o)
+-- 
+2.38.1
+

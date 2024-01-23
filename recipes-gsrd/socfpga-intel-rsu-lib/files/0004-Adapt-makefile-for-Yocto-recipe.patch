@@ -1,0 +1,37 @@
+From fc8daf2f305d22140b65d2fc3df938703b455dee Mon Sep 17 00:00:00 2001
+From: James Grant <james.grant@intel.com>
+Date: Wed, 30 Aug 2023 14:31:28 +0100
+Subject: [PATCH 4/4] Adapt makefile for Yocto recipe
+
+---
+ lib/makefile | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/lib/makefile b/lib/makefile
+index 816f6d4..0a0d2f6 100644
+--- a/lib/makefile
++++ b/lib/makefile
+@@ -15,6 +15,7 @@ CFLAGS += -Wformat -Wformat-security
+ LDFLAGS := -shared -Wl,-soname,librsu.so.$(LIBRSU_VER)
+ LDFLAGS += -z noexecstack
+ LDFLAGS += -z relro -z now
++LDFLAGS += $(EXTRA_LDFLAGS)
+ 
+ all: librsu.so
+ 
+@@ -26,10 +27,10 @@ ifdef INSTALL_HDR_PATH
+ endif
+ 
+ librsu.so: $(SRC:.c=.o)
+-	$(CROSS_COMPILE)gcc $(LDFLAGS) -o $@ $(SRC:.c=.o) -lz
++	$(CC) $(LDFLAGS) -o $@ $(SRC:.c=.o) -lz
+ 
+ %.o : %.c
+-	$(CROSS_COMPILE)gcc $(CFLAGS) -DLIBRSU_VER=$(LIBRSU_VER) -fPIC -c $< -o $@
++	$(CC) $(CFLAGS) -DLIBRSU_VER=$(LIBRSU_VER) -fPIC -c $< -o $@
+ 
+ clean:
+ 	rm -rf $(SRC:.c=.o) librsu.so
+-- 
+2.38.1
+

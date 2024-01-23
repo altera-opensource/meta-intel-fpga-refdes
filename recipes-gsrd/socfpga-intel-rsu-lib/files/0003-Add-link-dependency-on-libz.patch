@@ -1,0 +1,25 @@
+From 3a0fca2ff50d25002cc961dafdcce749c80e730c Mon Sep 17 00:00:00 2001
+From: James Grant <james.grant@intel.com>
+Date: Tue, 29 Aug 2023 14:23:00 +0100
+Subject: [PATCH 3/4] Add link dependency on libz
+
+---
+ lib/makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/lib/makefile b/lib/makefile
+index 29ff8c6..816f6d4 100644
+--- a/lib/makefile
++++ b/lib/makefile
+@@ -26,7 +26,7 @@ ifdef INSTALL_HDR_PATH
+ endif
+ 
+ librsu.so: $(SRC:.c=.o)
+-	$(CROSS_COMPILE)gcc $(LDFLAGS) -o $@ $(SRC:.c=.o)
++	$(CROSS_COMPILE)gcc $(LDFLAGS) -o $@ $(SRC:.c=.o) -lz
+ 
+ %.o : %.c
+ 	$(CROSS_COMPILE)gcc $(CFLAGS) -DLIBRSU_VER=$(LIBRSU_VER) -fPIC -c $< -o $@
+-- 
+2.38.1
+

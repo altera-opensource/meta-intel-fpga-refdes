@@ -1,0 +1,82 @@
+From dd36d3d49bb3d03ff3ed8e490de4daca3b6862c3 Mon Sep 17 00:00:00 2001
+From: "Romli, Khairul Anuar" <khairul.anuar.romli@intel.com>
+Date: Thu, 15 Feb 2024 19:56:53 +0800
+Subject: [PATCH] DO_NOT_MERGE: HSD #15015422541: ddr: altera: Bypass ddr
+ mismatch for mUDV
+
+Do not halt fsbl from loading uboot proper if ddr size mismatch
+for engineering platform.
+Change Number of Bank to 1
+
+Signed-off-by: Romli, Khairul Anuar <khairul.anuar.romli@intel.com>
+---
+ arch/arm/mach-socfpga/Kconfig      | 3 +++
+ configs/socfpga_agilex5_defconfig  | 5 +++--
+ drivers/ddr/altera/sdram_agilex5.c | 2 ++
+ 3 files changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/arch/arm/mach-socfpga/Kconfig b/arch/arm/mach-socfpga/Kconfig
+index c2c12e7a24..99c7f7d6ff 100644
+--- a/arch/arm/mach-socfpga/Kconfig
++++ b/arch/arm/mach-socfpga/Kconfig
+@@ -111,6 +111,9 @@ config TARGET_SOCFPGA_AGILEX5_TSN_AIC2
+ config TARGET_SOCFPGA_AGILEX5_SIMICS
+ 	bool "Enable build that bootable only on Agilex5 Simics platform"
+ 
++config TARGET_SOCFPGA_AGILEX5_MUDV
++	bool "Enable build configuration for Agilex5 Engineering platform"
++
+ config TARGET_SOCFPGA_ARRIA5
+ 	bool
+ 	select TARGET_SOCFPGA_GEN5
+diff --git a/configs/socfpga_agilex5_defconfig b/configs/socfpga_agilex5_defconfig
+index c67890ad41..c18b53924a 100644
+--- a/configs/socfpga_agilex5_defconfig
++++ b/configs/socfpga_agilex5_defconfig
+@@ -4,7 +4,7 @@ CONFIG_SYS_SPI_U_BOOT_OFFS=0x04000000
+ CONFIG_ARCH_SOCFPGA=y
+ CONFIG_TEXT_BASE=0x80200000
+ CONFIG_SYS_MALLOC_F_LEN=0x2000
+-CONFIG_NR_DRAM_BANKS=2
++CONFIG_NR_DRAM_BANKS=1
+ CONFIG_ENV_SIZE=0x2000
+ CONFIG_ENV_OFFSET=0x04100000
+ CONFIG_DM_GPIO=y
+@@ -12,6 +12,7 @@ CONFIG_DEFAULT_DEVICE_TREE="socfpga_agilex5_socdk"
+ CONFIG_SPL_MMC=y
+ CONFIG_TARGET_SOCFPGA_AGILEX5_SIMICS=y
+ CONFIG_TARGET_SOCFPGA_AGILEX5_SOCDK=y
++CONFIG_TARGET_SOCFPGA_AGILEX5_MUDV=y
+ CONFIG_QPDS_HPS_HANDOFF=y
+ CONFIG_IDENT_STRING="socfpga_agilex5"
+ CONFIG_SPL_FS_FAT=y
+@@ -130,7 +131,7 @@ CONFIG_SPI=y
+ CONFIG_CADENCE_QSPI=y
+ CONFIG_DESIGNWARE_SPI=y
+ CONFIG_USB=y
+-CONFIG_USB_DWC2=n
++CONFIG_USB_DWC2/=n
+ CONFIG_USB_DWC3=y
+ CONFIG_USB_XHCI_HCD=y
+ CONFIG_USB_XHCI_DWC3=y
+diff --git a/drivers/ddr/altera/sdram_agilex5.c b/drivers/ddr/altera/sdram_agilex5.c
+index 766439d503..d77efa877c 100644
+--- a/drivers/ddr/altera/sdram_agilex5.c
++++ b/drivers/ddr/altera/sdram_agilex5.c
+@@ -275,11 +275,13 @@ int sdram_mmr_init_full(struct udevice *dev)
+ 		       hw_size >> 20);
+ 	}
+ 
++#if !IS_ENABLED(CONFIG_TARGET_SOCFPGA_AGILEX5_MUDV)
+ 	if (gd->ram_size > hw_size) {
+ 		printf("DDR: Error: DRAM size from device tree is greater\n");
+ 		printf(" than hardware size.\n");
+ 		hang();
+ 	}
++#endif
+ 
+ 	printf("%s: %lld MiB\n", io96b_ctrl->ddr_type, gd->ram_size >> 20);
+ 
+-- 
+2.25.1
+

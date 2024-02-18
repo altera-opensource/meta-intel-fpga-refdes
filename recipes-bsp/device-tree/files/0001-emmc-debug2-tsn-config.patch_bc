@@ -20,16 +20,7 @@ index cf0a366007ad..41bcec8d02f9 100644
  	phy-mode = "rgmii-id";
  	phy-handle = <&emac0_phy0>;
  
-@@ -56,14 +56,14 @@ mdio0 {
- 		#address-cells = <1>;
- 		#size-cells = <0>;
- 		compatible = "snps,dwmac-mdio";
--		emac0_phy0: ethernet-phy@1 {
--			reg = <1>;
-+		emac0_phy0: ethernet-phy@0 {
-+			reg = <0>;
- 		};
- 	};
+@@ -63,7 +63,7 @@
  };
  
  &gmac2 {

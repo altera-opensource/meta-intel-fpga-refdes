@@ -14,8 +14,7 @@ SRC_URI:append:agilex7_dk_dev_agm039fes = " file://fit_kernel_agilex7_dk_dev_agm
 SRC_URI:append:agilex5 = " file://fit_kernel_agilex5.its"
 SRC_URI:append:agilex5_devkit = " file://fit_kernel_agilex5_devkit.its"
 SRC_URI:append:agilex5_mudv_cvr = " file://fit_kernel_agilex5_mudv_cvr.its"
-SRC_URI:append:agilex5_mucv = " file://fit_kernel_agilex5_mucv.its \
-                                file://0001-AIC0-tsn-config.patch"
+SRC_URI:append:agilex5_mucv = " file://fit_kernel_agilex5_mucv.its"
 SRC_URI:append:stratix10 = " file://fit_kernel_stratix10.its"
 
 SRC_URI:append:arria10 = " \
@@ -86,9 +85,15 @@ do_deploy:append() {
 		cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk.dtb ${B}
 		cp ${DTBDEPLOYDIR}/socfpga_agilex5_vanilla.dtb ${B}
 		cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_nand.dtb ${B}
+		cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_emmc.dtb ${B}
+		cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_aic0.dtb ${B}
+		cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_debug2.dtb ${B}
 		# core.rbf
 		cp ${DEPLOY_DIR_IMAGE}/agilex5_devkit_${IMAGE_TYPE}_ghrd/ghrd.core.rbf ${B}
 		cp ${DEPLOY_DIR_IMAGE}/agilex5_devkit_${IMAGE_TYPE}_ghrd/nand.core.rbf ${B}
+		cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/emmc.core.rbf ${B}
+		cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/aic0.core.rbf ${B}
+		cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/debug2.core.rbf ${B}
 	elif [[ "${MACHINE}" == "stratix10" ]]; then
 		# linux.dtb
 		cp ${DTBDEPLOYDIR}/socfpga_stratix10_socdk.dtb ${B}

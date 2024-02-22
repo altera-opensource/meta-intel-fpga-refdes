@@ -47,6 +47,17 @@
             };
         };
 		
+		fdt-2 {
+            description = "socfpga_socdk_emmc";
+            data = /incbin/("./socfpga_agilex5_socdk_emmc.dtb");
+            type = "flat_dt";
+            arch = "arm64";
+            compression = "none";
+			hash {
+                algo = "crc32";
+            };
+        };
+		
 		fdt-4 {
             description = "socfpga_socdk_combined";
             data = /incbin/("./socfpga_agilex5_socdk.dtb");
@@ -57,6 +68,28 @@
                 algo = "crc32";
             };
         };
+		
+		fdt-5 {
+			description = "socfpga_socdk_aic0";
+			data = /incbin/("./socfpga_agilex5_socdk_aic0.dtb");
+			type = "flat_dt";
+			arch = "arm64";
+			compression = "none";
+			hash {
+				algo = "crc32";
+			};
+		};
+
+		fdt-6 {
+			description = "socfpga_socdk_debug2";
+			data = /incbin/("./socfpga_agilex5_socdk_debug2.dtb");
+			type = "flat_dt";
+			arch = "arm64";
+			compression = "none";
+			hash {
+				algo = "crc32";
+			};
+		};
 		
 		fpga-1 {
             description = "FPGA bitstream for NAND";
@@ -70,9 +103,45 @@
             };
         };
 
+		fpga-2 {
+            description = "FPGA bitstream for EMMC";
+            data = /incbin/("./emmc.core.rbf");
+            type = "fpga";
+            arch = "arm64";
+            compression = "none";
+            load = <0xA000000>;
+            hash {
+                algo = "crc32";
+            };
+        };
+
         fpga-4 {
             description = "FPGA bitstream for GHRD";
             data = /incbin/("./ghrd.core.rbf");
+            type = "fpga";
+            arch = "arm64";
+            compression = "none";
+            load = <0xA000000>;
+            hash {
+                algo = "crc32";
+            };
+        };
+
+		fpga-5 {
+            description = "FPGA bitstream for aic0";
+            data = /incbin/("./aic0.core.rbf");
+            type = "fpga";
+            arch = "arm64";
+            compression = "none";
+            load = <0xA000000>;
+            hash {
+                algo = "crc32";
+            };
+        };
+
+        fpga-6 {
+            description = "FPGA bitstream for debug2";
+            data = /incbin/("./debug2.core.rbf");
             type = "fpga";
             arch = "arm64";
             compression = "none";
@@ -108,6 +177,18 @@
             };
         };
 
+		board-2 {
+            description = "board_2";
+            kernel = "kernel";
+            fdt = "fdt-2";
+            fpga = "fpga-2";
+            signature {
+                algo = "crc32";
+                key-name-hint = "dev";
+                sign-images = "fdt-2", "kernel", "fpga-2";
+            };
+        };
+
         board-4 {
             description = "board_4";
             kernel = "kernel";
@@ -117,6 +198,30 @@
                 algo = "crc32";
                 key-name-hint = "dev";
                 sign-images = "fdt-4", "kernel", "fpga-4";
+            };
+        };
+
+		board-5 {
+            description = "board_5";
+            kernel = "kernel";
+            fdt = "fdt-4";
+            fpga = "fpga-4";
+            signature {
+                algo = "crc32";
+                key-name-hint = "dev";
+                sign-images = "fdt-5", "kernel", "fpga-5";
+            };
+        };
+
+        board-6 {
+            description = "board_6";
+            kernel = "kernel";
+            fdt = "fdt-6";
+            fpga = "fpga-6";
+            signature {
+                algo = "crc32";
+                key-name-hint = "dev";
+                sign-images = "fdt-6", "kernel", "fpga-6";
             };
         };
 	};

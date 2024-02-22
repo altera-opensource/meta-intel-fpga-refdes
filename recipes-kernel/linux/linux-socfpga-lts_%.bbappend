@@ -75,6 +75,10 @@ do_deploy:append() {
 		# linux.dtb
 		cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk.dtb ${B}
 		cp ${DTBDEPLOYDIR}/socfpga_agilex5_vanilla.dtb ${B}
+		cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_nand.dtb ${B}
+		# core.rbf
+		cp ${DEPLOY_DIR_IMAGE}/agilex5_devkit_${IMAGE_TYPE}_ghrd/ghrd.core.rbf ${B}
+		cp ${DEPLOY_DIR_IMAGE}/agilex5_devkit_${IMAGE_TYPE}_ghrd/nand.core.rbf ${B}
 	elif [[ "${MACHINE}" == "stratix10" ]]; then
 		# linux.dtb
 		cp ${DTBDEPLOYDIR}/socfpga_stratix10_socdk.dtb ${B}

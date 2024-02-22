@@ -12,12 +12,10 @@ SRC_URI:append:agilex7_dk_si_agi027fa = " file://fit_kernel_agilex7_dk_si_agi027
 SRC_URI:append:agilex7_dk_dev_agf027f1es = " file://fit_kernel_agilex7_dk_dev_agf027f1es.its"
 SRC_URI:append:agilex7_dk_dev_agm039fes = " file://fit_kernel_agilex7_dk_dev_agm039fes.its" 
 SRC_URI:append:agilex5 = " file://fit_kernel_agilex5.its"
-SRC_URI:append:agilex5_devkit = " file://fit_kernel_agilex5_devkit.its \
-                                  file://0001-OOBE-daughter-card.patch"
-SRC_URI:append:agilex5_mudv_cvr = " file://fit_kernel_agilex5_mudv_cvr.its \
-                                    file://0001-OOBE-daughter-card.patch"
+SRC_URI:append:agilex5_devkit = " file://fit_kernel_agilex5_devkit.its"
+SRC_URI:append:agilex5_mudv_cvr = " file://fit_kernel_agilex5_mudv_cvr.its"
 SRC_URI:append:agilex5_mucv = " file://fit_kernel_agilex5_mucv.its \
-                                file://0001-xgmac0-only-dts-patch.patch"
+                                file://0001-AIC0-tsn-config.patch"
 SRC_URI:append:stratix10 = " file://fit_kernel_stratix10.its"
 
 SRC_URI:append:arria10 = " \
@@ -47,6 +45,7 @@ SRC_URI:append:agilex5_mudv_cvr = " file://initrd.scc \
                                     file://0001-libbpf-add-txtime-field-in-xdp_desc-struct.patch"
 SRC_URI:append:agilex5_mucv = " file://initrd.scc \
                                 file://xdp.scc \
+                                file://tsn.scc \
                                 file://0001-libbpf-add-txtime-field-in-xdp_desc-struct.patch"
 SRC_URI:append:stratix10 = " file://sgmii.scc file://ilc.scc"
 SRC_URI:append:arria10 = " file://tse.scc"

@@ -101,6 +101,7 @@ do_deploy:append() {
 		cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/emmc.core.rbf ${B}
 		cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/aic0.core.rbf ${B}
 		cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/debug2.core.rbf ${B}
+		cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_usb_peripheral.dtb ${B}
 	elif [[ "${MACHINE}" == "stratix10" ]]; then
 		# linux.dtb
 		cp ${DTBDEPLOYDIR}/socfpga_stratix10_socdk.dtb ${B}

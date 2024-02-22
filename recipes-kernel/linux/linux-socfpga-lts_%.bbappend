@@ -12,6 +12,9 @@ SRC_URI:append:agilex7_dk_si_agi027fa = " file://fit_kernel_agilex7_dk_si_agi027
 SRC_URI:append:agilex7_dk_dev_agf027f1es = " file://fit_kernel_agilex7_dk_dev_agf027f1es.its"
 SRC_URI:append:agilex7_dk_dev_agm039fes = " file://fit_kernel_agilex7_dk_dev_agm039fes.its" 
 SRC_URI:append:agilex5 = " file://fit_kernel_agilex5.its"
+SRC_URI:append:agilex5_devkit = " file://fit_kernel_agilex5_devkit.its"
+SRC_URI:append:agilex5_mudv_cvr = " file://fit_kernel_agilex5_mudv_cvr.its"
+SRC_URI:append:agilex5_mucv = " file://fit_kernel_agilex5_mucv.its"
 SRC_URI:append:stratix10 = " file://fit_kernel_stratix10.its"
 
 SRC_URI:append:arria10 = " \
@@ -30,7 +33,10 @@ SRC_URI:append:cyclone5 = " file://0001-socfpga_cyclone5_socdk-include-reference
 SRC_URI:append = " file://ubifs.scc"
 SRC_URI:append:agilex7_dk_si_agf014ea = " file://sgmii.scc file://ilc.scc"
 SRC_URI:append:agilex7_dk_si_agf014eb = " file://sgmii.scc file://ilc.scc"
-SRC_URI:append:agilex5 = " file://initrd.scc file://i3c.scc"
+SRC_URI:append:agilex5 = " file://initrd.scc"
+SRC_URI:append:agilex5_devkit = " file://initrd.scc"
+SRC_URI:append:agilex5_mudv_cvr = " file://initrd.scc"
+SRC_URI:append:agilex5_mucv = " file://initrd.scc"
 SRC_URI:append:stratix10 = " file://sgmii.scc file://ilc.scc"
 SRC_URI:append:arria10 = " file://tse.scc"
 SRC_URI:append:cyclone5 = " file://tse.scc"
@@ -64,7 +70,11 @@ do_deploy:append() {
 	elif [[ "${MACHINE}" == "agilex5" ]]; then
 		# linux.dtb
 		cp ${LINUXDEPLOYDIR}/socfpga_${MACHINE}_socdk.dtb ${B}/socfpga_${MACHINE}_socdk.dtb
-    cp ${LINUXDEPLOYDIR}/socfpga_${MACHINE}_socdk_swvp.dtb ${B}/socfpga_${MACHINE}_socdk_swvp.dtb
+		cp ${LINUXDEPLOYDIR}/socfpga_${MACHINE}_socdk_swvp.dtb ${B}/socfpga_${MACHINE}_socdk_swvp.dtb
+	elif [[ "${MACHINE}" == *"agilex5_"* ]]; then
+		# linux.dtb
+		cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk.dtb ${B}
+		cp ${DTBDEPLOYDIR}/socfpga_agilex5_vanilla.dtb ${B}
 	elif [[ "${MACHINE}" == "stratix10" ]]; then
 		# linux.dtb
 		cp ${DTBDEPLOYDIR}/socfpga_stratix10_socdk.dtb ${B}

@@ -15,7 +15,7 @@ inherit devicetree
 
 PROVIDES = "virtual/dtb"
 
-COMPATIBLE_MACHINE = "(agilex7_dk_si_agf014ea|agilex7_dk_si_agf014eb|agilex7_dk_si_agi027fb|agilex7_dk_si_agi027fa|agilex7_dk_dev_agf027f1es|agilex7_dk_dev_agm039fes|stratix10)"
+COMPATIBLE_MACHINE = "(agilex5_devkit|agilex5_mucv|agilex5_mudv_cvr|agilex7_dk_si_agf014ea|agilex7_dk_si_agf014eb|agilex7_dk_si_agi027fb|agilex7_dk_si_agi027fa|agilex7_dk_dev_agf027f1es|agilex7_dk_dev_agm039fes|stratix10)"
 
 SRC_URI:append:agilex7_dk_si_agf014ea = " \
 					file://socfpga_agilex7_ghrd_sgmii.dtsi \
@@ -62,6 +62,21 @@ SRC_URI:append:stratix10 = " \
 					file://stratix10_pr_persona0.dts \
 					file://stratix10_pr_persona1.dts \
 					file://socfpga_ilc.dtsi \
+					"
+
+SRC_URI:append:agilex5_devkit = " \
+					file://socfpga_agilex5_ghrd_sgmii.dtsi \
+					file://socfpga_agilex5_ghrd.dtsi \
+					"
+
+SRC_URI:append:agilex5_mudv_cvr = " \
+					file://socfpga_agilex5_ghrd_sgmii.dtsi \
+					file://socfpga_agilex5_ghrd.dtsi \
+					"
+
+SRC_URI:append:agilex5_mucv = " \
+					file://socfpga_agilex5_ghrd_sgmii.dtsi \
+					file://socfpga_agilex5_ghrd.dtsi \
 					"
 
 do_configure[depends] += "virtual/kernel:do_configure"
@@ -117,6 +132,21 @@ do_configure:append() {
 			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex7m_socdk.dts ${WORKDIR}/socfpga_agilex7_socdk.dts
 			sed -i '/\#include \"socfpga_agilex_socdk.dts\"/a \#include \"socfpga_agilex7_ghrd.dtsi\"\n\#include \"socfpga_ilc.dtsi\"' ${WORKDIR}/socfpga_agilex7_socdk.dts
 		fi
+	fi
+	
+	if [[ "${MACHINE}" == *"agilex5_"* ]]; then
+		# Vanilla DTB Generation
+		cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex5_socdk.dts ${WORKDIR}/socfpga_agilex5_vanilla.dts
+		cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex5.dtsi ${WORKDIR}/socfpga_agilex5.dtsi
+		
+		# GSRD DTB Generation
+		# MMC, QSPI
+		cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex5_socdk.dts ${WORKDIR}/socfpga_agilex5_socdk.dts
+		sed -i '/\#include \"socfpga_agilex5.dtsi\"/a \#include \"socfpga_agilex5_ghrd.dtsi\"' ${WORKDIR}/socfpga_agilex5_socdk.dts
+
+		# NAND
+		cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex5_socdk_nand.dts ${WORKDIR}/socfpga_agilex5_socdk_nand.dts
+		sed -i '/\#include \"socfpga_agilex5.dtsi\"/a \#include \"socfpga_agilex5_ghrd.dtsi\"' ${WORKDIR}/socfpga_agilex5_socdk_nand.dts
 	fi
 }
 

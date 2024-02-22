@@ -19,6 +19,24 @@ A10_GHRD_CORE_RBF = "ghrd_10as066n2.core.rbf"
 A10_GHRD_PERIPH_RBF = "ghrd_10as066n2.periph.rbf"
 C5_GHRD_CORE_RBF = "soc_system.rbf"
 
+SRC_URI:agilex5_devkit ?= "\
+		${GHRD_REPO}/agilex5_devkit_gsrd_${ARM64_GHRD_CORE_RBF};name=agilex5_devkit_gsrd_core \
+		${GHRD_REPO}/agilex5_devkit_nand_${ARM64_GHRD_CORE_RBF};name=agilex5_devkit_nand_core \
+		${GHRD_REPO}/agilex5_devkit_emmc_${ARM64_GHRD_CORE_RBF};name=agilex5_devkit_emmc_core \
+		"
+
+SRC_URI:agilex5_mudv_cvr ?= "\
+		${GHRD_REPO}/agilex5_devkit_gsrd_${ARM64_GHRD_CORE_RBF};name=agilex5_devkit_gsrd_core \
+		${GHRD_REPO}/agilex5_devkit_nand_${ARM64_GHRD_CORE_RBF};name=agilex5_devkit_nand_core \
+		${GHRD_REPO}/agilex5_devkit_emmc_${ARM64_GHRD_CORE_RBF};name=agilex5_devkit_emmc_core \
+		"
+
+SRC_URI:agilex5_mucv ?= "\
+		${GHRD_REPO}/agilex5_devkit_gsrd_${ARM64_GHRD_CORE_RBF};name=agilex5_devkit_gsrd_core \
+		${GHRD_REPO}/agilex5_devkit_nand_${ARM64_GHRD_CORE_RBF};name=agilex5_devkit_nand_core \
+		${GHRD_REPO}/agilex5_devkit_emmc_${ARM64_GHRD_CORE_RBF};name=agilex5_devkit_emmc_core \
+		"
+
 SRC_URI:agilex7_dk_si_agf014ea ?= "\
 		${GHRD_REPO}/agilex7_dk_si_agf014ea_gsrd_${ARM64_GHRD_CORE_RBF};name=agilex7_dk_si_agf014ea_gsrd_core \
 		${GHRD_REPO}/agilex7_dk_si_agf014ea_nand_${ARM64_GHRD_CORE_RBF};name=agilex7_dk_si_agf014ea_nand_core \
@@ -63,6 +81,10 @@ SRC_URI:arria10 ?= "\
 		"
 
 SRC_URI:cyclone5 ?= "${GHRD_REPO}/cyclone5_${IMAGE_TYPE}_${C5_GHRD_CORE_RBF};name=cyclone5_${IMAGE_TYPE}_core"
+
+SRC_URI[agilex5_devkit_gsrd_core.sha256sum] = "f0f1a01e843786f81879b6e864861b2f3816a55edee24db3403dbba4a396de61"
+SRC_URI[agilex5_devkit_nand_core.sha256sum] = "f0f1a01e843786f81879b6e864861b2f3816a55edee24db3403dbba4a396de61"
+SRC_URI[agilex5_devkit_emmc_core.sha256sum] = "f0f1a01e843786f81879b6e864861b2f3816a55edee24db3403dbba4a396de61"
 
 SRC_URI[agilex7_dk_si_agf014ea_gsrd_core.sha256sum] = "f0f1a01e843786f81879b6e864861b2f3816a55edee24db3403dbba4a396de61"
 SRC_URI[agilex7_dk_si_agf014ea_nand_core.sha256sum] = "64a9229927d642ad6a16550e386d578a5e4d843b561d2d7f7f0e4fd6c8001c37"
@@ -154,9 +176,21 @@ do_install () {
 		install -D -m 0644 ${WORKDIR}/${MACHINE}_${IMAGE_TYPE}_persona0.rbf ${D}${base_libdir}/firmware/persona0.rbf
 		install -D -m 0644 ${WORKDIR}/${MACHINE}_${IMAGE_TYPE}_persona1.rbf ${D}${base_libdir}/firmware/persona1.rbf
 	fi
+	
+	if [[ "${MACHINE}" == *"agilex5_"* ]]; then
+		install -D -m 0644 ${WORKDIR}/agilex5_devkit_gsrd_${ARM64_GHRD_CORE_RBF} ${D}/boot/${ARM64_GHRD_CORE_RBF}
+		install -D -m 0644 ${WORKDIR}/agilex5_devkit_nand_${ARM64_GHRD_CORE_RBF} ${D}/boot/nand.core.rbf
+		install -D -m 0644 ${WORKDIR}/agilex5_devkit_emmc_${ARM64_GHRD_CORE_RBF} ${D}/boot/emmc.core.rbf
+	fi
 }
 
 do_deploy () {
+	if [[ "${MACHINE}" == *"agilex5_"* ]]; then
+		install -D -m 0644 ${WORKDIR}/agilex5_devkit_gsrd_${ARM64_GHRD_CORE_RBF} ${DEPLOYDIR}/agilex5_devkit_gsrd_ghrd/${ARM64_GHRD_CORE_RBF}
+		install -D -m 0644 ${WORKDIR}/agilex5_devkit_nand_${ARM64_GHRD_CORE_RBF} ${DEPLOYDIR}/agilex5_devkit_${IMAGE_TYPE}_ghrd/${ARM64_GHRD_CORE_RBF}
+		install -D -m 0644 ${WORKDIR}/agilex5_devkit_emmc_${ARM64_GHRD_CORE_RBF} ${DEPLOYDIR}/agilex5_devkit_${IMAGE_TYPE}_ghrd/${ARM64_GHRD_CORE_RBF}
+	fi
+
 	if [[ "${MACHINE}" == *"agilex7_"* ]]; then
 		#TODO
     if [[ "${MACHINE}" == "agilex7_dk_si_agf014eb" ]]; then 

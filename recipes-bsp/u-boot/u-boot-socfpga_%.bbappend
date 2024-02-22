@@ -7,6 +7,9 @@ DEPENDS:append:agilex7_dk_si_agi027fa = " arm-trusted-firmware bash u-boot-socfp
 DEPENDS:append:agilex7_dk_dev_agf027f1es = " arm-trusted-firmware bash u-boot-socfpga-scr"
 DEPENDS:append:agilex7_dk_dev_agm039fes = " arm-trusted-firmware bash u-boot-socfpga-scr"
 DEPENDS:append:agilex5 = " arm-trusted-firmware bash u-boot-socfpga-scr"
+DEPENDS:append:agilex5_devkit = " arm-trusted-firmware bash u-boot-socfpga-scr"
+DEPENDS:append:agilex5_mudv_cvr = " arm-trusted-firmware bash u-boot-socfpga-scr"
+DEPENDS:append:agilex5_mucv = " arm-trusted-firmware bash u-boot-socfpga-scr"
 DEPENDS:append:stratix10 = " arm-trusted-firmware bash u-boot-socfpga-scr"
 DEPENDS:append:arria10 = " hw-ref-design"
 DEPENDS:append:n5x = " arm-trusted-firmware bash u-boot-socfpga-scr"
@@ -22,6 +25,18 @@ inherit deploy
 do_compile[deptask] = "do_deploy"
 
 do_configure:prepend:agilex5() {
+	sed -i -e '$aCONFIG_LEGACY_IMAGE_FORMAT=y' ${S}/configs/socfpga_agilex5_defconfig
+}
+
+do_configure:prepend:agilex5_devkit() {
+	sed -i -e '$aCONFIG_LEGACY_IMAGE_FORMAT=y' ${S}/configs/socfpga_agilex5_defconfig
+}
+
+do_configure:prepend:agilex5_mudv_cvr() {
+	sed -i -e '$aCONFIG_LEGACY_IMAGE_FORMAT=y' ${S}/configs/socfpga_agilex5_defconfig
+}
+
+do_configure:prepend:agilex5_mucv() {
 	sed -i -e '$aCONFIG_LEGACY_IMAGE_FORMAT=y' ${S}/configs/socfpga_agilex5_defconfig
 }
 

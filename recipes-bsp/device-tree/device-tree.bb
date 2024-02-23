@@ -141,7 +141,7 @@ do_configure:append() {
 		# Vanilla DTB Generation
 		cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex5_socdk.dts ${WORKDIR}/socfpga_agilex5_vanilla.dts
 		cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex5.dtsi ${WORKDIR}/socfpga_agilex5.dtsi
-		cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex5_socdk_usb_peripheral.dts ${WORKDIR}/socfpga_agilex5_socdk_usb_peripheral.dts
+		#cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex5_socdk_usb_peripheral.dts ${WORKDIR}/socfpga_agilex5_socdk_usb_peripheral.dts
 		
 		# GSRD DTB Generation
 		# MMC, QSPI

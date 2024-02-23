@@ -1,0 +1,44 @@
+From e271095a7b477512688611c08c87b6f324a03ab9 Mon Sep 17 00:00:00 2001
+From: drosdi <danish.ahmad.rosdi@intel.com>
+Date: Fri, 23 Feb 2024 11:17:25 +0800
+Subject: [PATCH] Revert "HSD #22019331429: arch: arm: dts: socfpga_agilex5:
+ Increase DDR Size to 8GB."
+
+This reverts commit ae95bdbf679a0532ba74f735f33ade2d25df4d83.
+---
+ arch/arm/dts/socfpga_agilex5_socdk-u-boot.dtsi | 5 ++---
+ configs/socfpga_agilex5_defconfig              | 2 +-
+ 2 files changed, 3 insertions(+), 4 deletions(-)
+
+diff --git a/arch/arm/dts/socfpga_agilex5_socdk-u-boot.dtsi b/arch/arm/dts/socfpga_agilex5_socdk-u-boot.dtsi
+index f2bdffb439..67ced06b89 100644
+--- a/arch/arm/dts/socfpga_agilex5_socdk-u-boot.dtsi
++++ b/arch/arm/dts/socfpga_agilex5_socdk-u-boot.dtsi
+@@ -22,9 +22,8 @@
+ 	};
+ 
+ 	memory {
+-		/* 8GB */
+-		reg = <0 0x80000000 0 0x80000000>,
+-		      <8 0x80000000 1 0x80000000>;
++		/* 1GB on Simics*/
++		reg = <0 0x80000000 0 0x40000000>;
+ 	};
+ 
+ 	chosen {
+diff --git a/configs/socfpga_agilex5_defconfig b/configs/socfpga_agilex5_defconfig
+index c67890ad41..26f6fad283 100644
+--- a/configs/socfpga_agilex5_defconfig
++++ b/configs/socfpga_agilex5_defconfig
+@@ -4,7 +4,7 @@ CONFIG_SYS_SPI_U_BOOT_OFFS=0x04000000
+ CONFIG_ARCH_SOCFPGA=y
+ CONFIG_TEXT_BASE=0x80200000
+ CONFIG_SYS_MALLOC_F_LEN=0x2000
+-CONFIG_NR_DRAM_BANKS=2
++CONFIG_NR_DRAM_BANKS=1
+ CONFIG_ENV_SIZE=0x2000
+ CONFIG_ENV_OFFSET=0x04100000
+ CONFIG_DM_GPIO=y
+-- 
+2.17.1
+

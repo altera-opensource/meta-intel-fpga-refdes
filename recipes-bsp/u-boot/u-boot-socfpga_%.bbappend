@@ -22,7 +22,7 @@ SRC_URI:append = " \
              file://0001-arm-stratix10-add-board-configuration.patch \
            "
 
-SRC_URI:append:agilex5_mudv_cvr = " file://0001-DO_NOT_MERGE-HSD-15015422541-ddr-altera-Bypass-ddr-m.patch"
+SRC_URI:append:agilex5_mucv = " file://0001-Revert-HSD-22019331429-arch-arm-dts-socfpga_agilex5-.patch"
 
 inherit deploy
 

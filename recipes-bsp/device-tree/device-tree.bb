@@ -65,21 +65,18 @@ SRC_URI:append:stratix10 = " \
 					"
 
 SRC_URI:append:agilex5_devkit = " \
-					file://socfpga_agilex5_ghrd_sgmii.dtsi \
 					file://socfpga_agilex5_ghrd.dtsi \
 					file://0001-AIC0-tsn-config.patch_bc \
 					file://0001-emmc-debug2-tsn-config.patch_bc \
 					"
 
 SRC_URI:append:agilex5_mudv_cvr = " \
-					file://socfpga_agilex5_ghrd_sgmii.dtsi \
 					file://socfpga_agilex5_ghrd.dtsi \
 					file://0001-AIC0-tsn-config.patch_bc \
 					file://0001-emmc-debug2-tsn-config.patch_bc \
 					"
 
 SRC_URI:append:agilex5_mucv = " \
-					file://socfpga_agilex5_ghrd_sgmii.dtsi \
 					file://socfpga_agilex5_ghrd.dtsi \
 					file://0001-AIC0-tsn-config.patch_bc \
 					file://0001-emmc-debug2-tsn-config.patch_bc \

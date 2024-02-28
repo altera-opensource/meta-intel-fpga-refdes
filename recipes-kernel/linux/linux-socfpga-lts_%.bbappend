@@ -96,8 +96,8 @@ do_deploy:append() {
 		cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_aic0.dtb ${B}
 		cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_debug2.dtb ${B}
 		# core.rbf
-		cp ${DEPLOY_DIR_IMAGE}/agilex5_devkit_${IMAGE_TYPE}_ghrd/ghrd.core.rbf ${B}
-		cp ${DEPLOY_DIR_IMAGE}/agilex5_devkit_${IMAGE_TYPE}_ghrd/nand.core.rbf ${B}
+		cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd.core.rbf ${B}
+		cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/nand.core.rbf ${B}
 		cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/emmc.core.rbf ${B}
 		cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/aic0.core.rbf ${B}
 		cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/debug2.core.rbf ${B}

@@ -1,0 +1,27 @@
+From 1d02d8109a0eed57889d2b03c296102cae47e386 Mon Sep 17 00:00:00 2001
+From: Kah Jing Lee <kah.jing.lee@intel.com>
+Date: Thu, 29 Feb 2024 14:44:27 +0800
+Subject: [PATCH] Revert "arch: arm: dts: socfpga_agilex5: Enable QSPI flash in
+ dts"
+
+This reverts commit 5716a002048d455a2b974d52a0eccfcf740b7dbf.
+---
+ arch/arm/dts/socfpga_agilex5_socdk-u-boot.dtsi | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/arch/arm/dts/socfpga_agilex5_socdk-u-boot.dtsi b/arch/arm/dts/socfpga_agilex5_socdk-u-boot.dtsi
+index a1aa05de8e..37ab55afc6 100644
+--- a/arch/arm/dts/socfpga_agilex5_socdk-u-boot.dtsi
++++ b/arch/arm/dts/socfpga_agilex5_socdk-u-boot.dtsi
+@@ -102,7 +102,7 @@
+ };
+ 
+ &qspi {
+-	status = "okay";
++	status = "disabled";
+ };
+ 
+ &nand {
+-- 
+2.26.2
+

@@ -59,7 +59,8 @@ SRC_URI:append:agilex5_mucv = " file://initrd.scc \
 			       	file://xdp.scc \
 			       	file://tsn.scc \
 					file://sensors.scc \
-			       	file://0001-libbpf-add-txtime-field-in-xdp_desc-struct.patch"
+					file://0001-libbpf-add-txtime-field-in-xdp_desc-struct.patch \
+					file://0001-Revert-dts-socfpga_agilex5-Enable-QSPI-in-device-tre.patch"
 SRC_URI:append:agilex5_modular = " file://initrd.scc \
 				   file://xdp.scc \
 			       file://tsn.scc \

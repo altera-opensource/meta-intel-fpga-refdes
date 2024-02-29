@@ -22,7 +22,10 @@ SRC_URI:append = " \
              file://0001-arm-stratix10-add-board-configuration.patch \
            "
 
-SRC_URI:append:agilex5_mucv = " file://0001-Revert-HSD-22019331429-arch-arm-dts-socfpga_agilex5-.patch"
+SRC_URI:append:agilex5_mucv = " \
+             file://0001-Revert-HSD-22019331429-arch-arm-dts-socfpga_agilex5-.patch \
+             file://0001-Revert-arch-arm-dts-socfpga_agilex5-Enable-QSPI-flas.patch \
+           "
 
 inherit deploy
 

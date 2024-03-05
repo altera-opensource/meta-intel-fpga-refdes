@@ -27,6 +27,8 @@ SRC_URI:append:agilex5_mucv = " \
              file://0001-Revert-arch-arm-dts-socfpga_agilex5-Enable-QSPI-flas.patch \
            "
 
+SRC_URI:append:agilex5_mudv_cvr = " file://0001-Revert-HSD-22019331429-arch-arm-dts-socfpga_agilex5-.patch"
+
 inherit deploy
 
 do_compile[deptask] = "do_deploy"

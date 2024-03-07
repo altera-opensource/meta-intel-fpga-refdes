@@ -1,0 +1,82 @@
+From dc9273ae5b43db2219b09e907a2175ea894e86ae Mon Sep 17 00:00:00 2001
+From: "Tham, Mun Yew" <mun.yew.tham@intel.com>
+Date: Tue, 5 Mar 2024 13:48:14 +0800
+Subject: [PATCH] Enable xgmac1 for TSN Config 2 with OOBE2
+
+This patch enables the xgmac1 for Si Dev Kit and
+enables the xgmac2 for OOBE2 daughter card.
+Xgmac1 will connect with Si Dev Kit on board PHY with address 0.
+
+Signed-off-by: Tham, Mun Yew <mun.yew.tham@intel.com>
+---
+ .../arm64/boot/dts/intel/socfpga_agilex5.dtsi | 183 +++++++++---------
+ .../boot/dts/intel/socfpga_agilex5_socdk.dts  |  99 ++++++++--
+ 2 files changed, 177 insertions(+), 105 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/intel/socfpga_agilex5_socdk.dts b/arch/arm64/boot/dts/intel/socfpga_agilex5_socdk.dts
+index 748873d1d69e..096bb7cf2366 100644
+--- a/arch/arm64/boot/dts/intel/socfpga_agilex5_socdk.dts
++++ b/arch/arm64/boot/dts/intel/socfpga_agilex5_socdk.dts
+@@ -10,7 +10,7 @@ / {
+ 
+ 	aliases {
+ 		serial0 = &uart0;
+-		ethernet0 = &gmac0;
++		ethernet1 = &gmac1;
+ 		ethernet2 = &gmac2;
+ 	};
+ 
+@@ -43,10 +43,10 @@ &gpio0 {
+ 	status = "okay";
+ };
+ 
+-&gmac0 {
+-	status = "disabled";
++&gmac2 {
++	status = "okay";
+ 	phy-mode = "rgmii-id";
+-	phy-handle = <&emac0_phy0>;
++	phy-handle = <&emac2_phy0>;
+ 
+ 	max-frame-size = <9000>;
+ 
+@@ -54,16 +54,16 @@ mdio0 {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 		compatible = "snps,dwmac-mdio";
+-		emac0_phy0: ethernet-phy@0 {
++		emac2_phy0: ethernet-phy@0 {
+ 			reg = <0>;
+ 		};
+ 	};
+ };
+ 
+-&gmac2 {
++&gmac1 {
+ 	status = "okay";
+ 	phy-mode = "rgmii-id";
+-	phy-handle = <&emac2_phy0>;
++	phy-handle = <&emac1_phy0>;
+ 
+ 	max-frame-size = <9000>;
+ 
+@@ -71,7 +71,7 @@ mdio0 {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 		compatible = "snps,dwmac-mdio";
+-		emac2_phy0: ethernet-phy@0 {
++		emac1_phy0: ethernet-phy@0 {
+ 			reg = <0>;
+ 		};
+ 	};
+@@ -148,7 +148,7 @@ &dwc3_0 {
+ };
+ 
+ &smmu {
+-	status = "okay";
++	status = "disabled";
+ };
+ 
+ &watchdog0 {
+-- 
+2.26.2

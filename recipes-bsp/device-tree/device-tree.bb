@@ -93,6 +93,8 @@ SRC_URI:append:agilex5_devkit = " \
 					file://socfpga_agilex5_ghrd.dtsi \
 					file://0001-AIC0-tsn-config.patch_bc \
 					file://0001-emmc-debug2-tsn-config.patch_bc \
+					file://0001-Enable-xgmac1-for-TSN-Config-2-with-OOBE2.patch_bc \
+					file://0002-Enable-xgmac1-for-TSN-Config-2-with-OOBE2.patch_bc \
 					"
 
 do_configure[depends] += "virtual/kernel:do_configure"
@@ -168,6 +170,13 @@ do_configure:append() {
 		    # Nand 
 		    cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex5_socdk_nand.dts ${WORKDIR}/socfpga_agilex5_socdk_nand.dts
 		    sed -i '/\#include \"socfpga_agilex5.dtsi\"/a \#include \"socfpga_agilex5_ghrd.dtsi\"' ${WORKDIR}/socfpga_agilex5_socdk_nand.dts
+			# TSN Config2
+			if [ "${MACHINE}" == "agilex5_devkit" ]; then
+				mv ${WORKDIR}/0001-Enable-xgmac1-for-TSN-Config-2-with-OOBE2.patch_bc ${WORKDIR}/0001-Enable-xgmac1-for-TSN-Config-2-with-OOBE2.patch
+				patch -p1 ${WORKDIR}/socfpga_agilex5.dtsi ${WORKDIR}/0001-Enable-xgmac1-for-TSN-Config-2-with-OOBE2.patch
+				mv ${WORKDIR}/0002-Enable-xgmac1-for-TSN-Config-2-with-OOBE2.patch_bc ${WORKDIR}/0002-Enable-xgmac1-for-TSN-Config-2-with-OOBE2.patch
+				patch -p1 ${WORKDIR}/socfpga_agilex5_socdk.dts ${WORKDIR}/0002-Enable-xgmac1-for-TSN-Config-2-with-OOBE2.patch
+			fi
 	  	fi
 
 		# if [[ "${MACHINE}" == "agilex5_devkit"* ]]; then

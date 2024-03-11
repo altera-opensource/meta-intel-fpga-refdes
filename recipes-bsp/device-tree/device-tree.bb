@@ -79,6 +79,7 @@ SRC_URI:append:agilex5_mudv_cvr = " \
 					file://socfpga_agilex5_ghrd.dtsi \
 					file://0001-AIC0-tsn-config.patch_bc \
 					file://0001-emmc-debug2-tsn-config.patch_bc \
+					file://0001-Revert-dts-socfpga_agilex5-Enable-QSPI-in-device-tre.patch_bc \
 					"
 
 SRC_URI:append:agilex5_mucv = " \
@@ -159,7 +160,11 @@ do_configure:append() {
 			# AIC0
 			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex5_socdk.dts ${WORKDIR}/socfpga_agilex5_socdk_aic0.dts
 			mv ${WORKDIR}/0001-AIC0-tsn-config.patch_bc ${WORKDIR}/0001-AIC0-tsn-config.patch
-			patch -p1 ${WORKDIR}/socfpga_agilex5_socdk_aic0.dts ${WORKDIR}/0001-AIC0-tsn-config.patch 
+			patch -p1 ${WORKDIR}/socfpga_agilex5_socdk_aic0.dts ${WORKDIR}/0001-AIC0-tsn-config.patch
+			if [ "${MACHINE}" == "agilex5_mudv_cvr" ]; then
+				mv ${WORKDIR}/0001-Revert-dts-socfpga_agilex5-Enable-QSPI-in-device-tre.patch_bc ${WORKDIR}/0001-Revert-dts-socfpga_agilex5-Enable-QSPI-in-device-tre.patch
+				patch -p1 ${WORKDIR}/socfpga_agilex5_socdk_aic0.dts ${WORKDIR}/0001-Revert-dts-socfpga_agilex5-Enable-QSPI-in-device-tre.patch
+			fi
 			# emmc
 			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex5_socdk.dts ${WORKDIR}/socfpga_agilex5_socdk_emmc.dts
 			mv  ${WORKDIR}/0001-emmc-debug2-tsn-config.patch_bc ${WORKDIR}/0001-emmc-debug2-tsn-config.patch    

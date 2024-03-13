@@ -21,17 +21,16 @@ FILES:${PN}-dbg = "/home/root/.debug /etc/.debug"
 
 do_compile () {
     export EXTRA_LDFLAGS="${LDFLAGS}"
+    oe_runmake -C lib
     oe_runmake -C example
 }
 
 do_install () {
     export INSTALL_BIN_PATH="${D}/home/root"
     export INSTALL_ETC_PATH="${D}/etc"
-    export INSTALL_HDR_PATH="${D}${includedir}"
     install -d ${INSTALL_BIN_PATH}
     install -d ${INSTALL_ETC_PATH}
-    install -d ${INSTALL_HDR_PATH}
-	oe_runmake -C ${S}/example install
+    oe_runmake -C ${S}/example install
     install -m 0755 ${S}/etc/qspi.rc ${D}/etc/librsu.rc
     install -m 0755 ${S}/example/rsu_client ${INSTALL_BIN_PATH}/rsu_client
 }

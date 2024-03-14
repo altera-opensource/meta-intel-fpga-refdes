@@ -17,7 +17,7 @@ DEPENDS += "zlib"
 S = "${WORKDIR}/git"
 LIBRSU_VER = "0"
 
-FILES:${PN} = "/lib/* \
+FILES:${PN} = "/usr/lib/* \
 	        /include/* \
 	       "
 
@@ -28,11 +28,12 @@ do_compile () {
 
 do_install () {
     cd ${S}
-    export INSTALL_PATH="${D}/lib"
+    export INSTALL_PATH="${D}/usr/lib"
     export INSTALL_HDR_PATH="${D}/include"
     install -d ${INSTALL_PATH}
     install -d ${INSTALL_HDR_PATH}
     install -m 0755 lib/librsu.so ${INSTALL_PATH}/librsu.so.${LIBRSU_VER}
-    ln -s ${INSTALL_PATH}/librsu.so.${LIBRSU_VER} ${INSTALL_PATH}/librsu.so
     install -m 0755 include/librsu.h ${INSTALL_HDR_PATH}/librsu.h
+    cd ${INSTALL_PATH}
+    ln -s librsu.so.${LIBRSU_VER} librsu.so
 }

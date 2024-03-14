@@ -1,0 +1,235 @@
+From 0072bb45ab3ea16e5b76aafc3011e19b77be9cda Mon Sep 17 00:00:00 2001
+From: Alif Zakuan Yuslaimi <alif.zakuan.yuslaimi@intel.com>
+Date: Tue, 5 Mar 2024 11:13:04 +0800
+Subject: [PATCH] HSD #15015566664: arm: socfpga: agilex5: Enable Peripherals
+
+Re-enable several peripherals; I2C, I3C, USB, watchdog, timer,
+SPI and NAND for Agilex5.
+
+Signed-off-by: Alif Zakuan Yuslaimi <alif.zakuan.yuslaimi@intel.com>
+---
+ arch/arm/dts/socfpga_agilex5_socdk.dts | 36 +++++++++++-----------
+ arch/arm/mach-socfpga/Makefile         | 10 +++---
+ configs/socfpga_agilex5_defconfig      | 42 +++++++++++++-------------
+ 3 files changed, 44 insertions(+), 44 deletions(-)
+
+diff --git a/arch/arm/dts/socfpga_agilex5_socdk.dts b/arch/arm/dts/socfpga_agilex5_socdk.dts
+index c3dd7bff50..073bd6f1f2 100644
+--- a/arch/arm/dts/socfpga_agilex5_socdk.dts
++++ b/arch/arm/dts/socfpga_agilex5_socdk.dts
+@@ -55,19 +55,19 @@
+ };
+ 
+ &i2c0 {
+-	status = "disabled";
++	status = "okay";
+ };
+ 
+ &i2c1 {
+-	status = "disabled";
++	status = "okay";
+ };
+ 
+ &i3c0 {
+-    status = "disabled";
++	status = "okay";
+ };
+ 
+ &i3c1 {
+-    status = "disabled";
++	status = "okay";
+ };
+ 
+ &mmc {
+@@ -87,7 +87,7 @@
+ };
+ 
+ &usb0 {
+-	status = "disabled";
++	status = "okay";
+ 	disable-over-current;
+ };
+ 
+@@ -96,51 +96,51 @@
+ };
+ 
+ &watchdog0 {
+-	status = "disabled";
++	status = "okay";
+ };
+ 
+ &watchdog1 {
+-	status = "disabled";
++	status = "okay";
+ };
+ 
+ &watchdog2 {
+-	status = "disabled";
++	status = "okay";
+ };
+ 
+ &watchdog3 {
+-	status = "disabled";
++	status = "okay";
+ };
+ 
+ &watchdog4 {
+-	status = "disabled";
++	status = "okay";
+ };
+ 
+ &timer0 {
+-	status = "disabled";
++	status = "okay";
+ };
+ 
+ &timer1 {
+-	status = "disabled";
++	status = "okay";
+ };
+ 
+ &timer2 {
+-	status = "disabled";
++	status = "okay";
+ };
+ 
+ &timer3 {
+-	status = "disabled";
++	status = "okay";
+ };
+ 
+ &spi0 {
+-	status = "disabled";
++	status = "okay";
+ };
+ 
+ &spi1 {
+-	status = "disabled";
++	status = "okay";
+ };
+ 
+ &nand {
+-	status = "disabled";
++	status = "okay";
+ 
+ 	flash1: flash@0 {
+ 		reg = <0>;
+@@ -194,7 +194,7 @@
+ };
+ 
+ &gmac0 {
+-	status = "disabled";
++	status = "okay";
+ 	phy-mode = "rgmii";
+ 	phy-handle = <&emac0_phy0>;
+ 
+diff --git a/arch/arm/mach-socfpga/Makefile b/arch/arm/mach-socfpga/Makefile
+index 94e26bd0ec..58c45c86ab 100644
+--- a/arch/arm/mach-socfpga/Makefile
++++ b/arch/arm/mach-socfpga/Makefile
+@@ -98,15 +98,15 @@ obj-$(CONFIG_SOCFPGA_SECURE_VAB_AUTH)	+= vab.o
+ obj-y	+= wrap_handoff_soc64.o
+ obj-y	+= wrap_pll_config_soc64.o
+ ifndef CONFIG_SPL_BUILD
+-#obj-y   += rsu.o
+-#obj-y   += rsu_ll_qspi.o
+-#obj-y   += rsu_misc.o
+-#obj-y	+= rsu_s10.o
++obj-y   += rsu.o
++obj-y   += rsu_ll_qspi.o
++obj-y   += rsu_misc.o
++obj-y	+= rsu_s10.o
+ obj-$(CONFIG_ARMV8_PSCI) += psci.o
+ obj-$(CONFIG_ARMV8_PSCI) += smc_ecc_dbe_s10.o
+ obj-$(CONFIG_ARMV8_PSCI) += smc_fpga_reconfig_s10.o
+ obj-$(CONFIG_ARMV8_PSCI) += smc_registers_s10.o
+-#obj-$(CONFIG_ARMV8_PSCI) += smc_rsu_s10.o
++obj-$(CONFIG_ARMV8_PSCI) += smc_rsu_s10.o
+ endif
+ endif
+ 
+diff --git a/configs/socfpga_agilex5_defconfig b/configs/socfpga_agilex5_defconfig
+index 75c107a71b..8f3ddbc6b5 100644
+--- a/configs/socfpga_agilex5_defconfig
++++ b/configs/socfpga_agilex5_defconfig
+@@ -34,7 +34,7 @@ CONFIG_SYS_PROMPT="SOCFPGA_AGILEX5 # "
+ CONFIG_CMD_NVEDIT_SELECT=y
+ CONFIG_CMD_MEMTEST=y
+ CONFIG_CMD_GPIO=y
+-CONFIG_CMD_I2C=n
++CONFIG_CMD_I2C=y
+ CONFIG_CMD_MMC=y
+ CONFIG_CMD_SF=y
+ CONFIG_PHY=y
+@@ -77,8 +77,8 @@ CONFIG_SPL_DOS_PARTITION=y
+ CONFIG_CMD_MTD=y
+ CONFIG_SPL_SYS_DCACHE_OFF=y
+ # CONFIG_SPI_FLASH_USE_4K_SECTORS is not set
+-CONFIG_CMD_NAND_TRIMFFS=n
+-CONFIG_CMD_NAND_LOCK_UNLOCK=n
++CONFIG_CMD_NAND_TRIMFFS=y
++CONFIG_CMD_NAND_LOCK_UNLOCK=y
+ CONFIG_CMD_SPI=y
+ CONFIG_CMD_USB=y
+ CONFIG_CMD_CACHE=y
+@@ -106,11 +106,11 @@ CONFIG_SPL_DM_SEQ_ALIAS=y
+ CONFIG_SPL_ALTERA_SDRAM=y
+ CONFIG_FPGA_INTEL_PR=y
+ CONFIG_DWAPB_GPIO=y
+-CONFIG_DM_I2C=n
+-CONFIG_SYS_I2C_DW=n
++CONFIG_DM_I2C=y
++CONFIG_SYS_I2C_DW=y
+ CONFIG_MISC=y
+ CONFIG_MISC_INIT_R=y
+-CONFIG_MMC_DW=n
++CONFIG_MMC_DW=y
+ CONFIG_MTD=y
+ CONFIG_DM_MTD=y
+ CONFIG_SYS_NAND_U_BOOT_LOCATIONS=y
+@@ -139,13 +139,13 @@ CONFIG_UBIFS_SILENCE_MSG=y
+ CONFIG_PANIC_HANG=y
+ CONFIG_SPL_SPI_LOAD=y
+ CONFIG_SYS_LOAD_ADDR=0x82000000
+-CONFIG_WDT=n
+-CONFIG_CMD_WDT=n
+-CONFIG_DESIGNWARE_WATCHDOG=n
+-CONFIG_SPL_WDT=n
+-CONFIG_WATCHDOG_AUTOSTART=n
+-CONFIG_TIMER=n
+-CONFIG_DESIGNWARE_APB_TIMER=n
++CONFIG_WDT=y
++CONFIG_CMD_WDT=y
++CONFIG_DESIGNWARE_WATCHDOG=y
++CONFIG_SPL_WDT=y
++CONFIG_WATCHDOG_AUTOSTART=y
++CONFIG_TIMER=y
++CONFIG_DESIGNWARE_APB_TIMER=y
+ CONFIG_HAS_CUSTOM_SYS_INIT_SP_ADDR=y
+ CONFIG_CUSTOM_SYS_INIT_SP_ADDR=0x80300000
+ CONFIG_SPL_MAX_SIZE=0x40000
+@@ -159,14 +159,14 @@ CONFIG_CUSTOM_SYS_SPL_MALLOC_ADDR=0xbfa00000
+ CONFIG_SYS_SPL_MALLOC_SIZE=0x500000
+ CONFIG_SPL_BSS_MAX_SIZE=0x100000
+ # CONFIG_EFI_LOADER is not set
+-CONFIG_I3C=n
+-CONFIG_DW_I3C_MASTER=n
+-CONFIG_CMD_I3C=n
+-CONFIG_MTD_RAW_NAND=n
+-CONFIG_NAND_CADENCE=n
+-CONFIG_SPL_NAND_SUPPORT=n
+-CONFIG_SPL_NAND_FRAMEWORK=n
+-CONFIG_SPL_NAND_CADENCE=n
++CONFIG_I3C=y
++CONFIG_DW_I3C_MASTER=y
++CONFIG_CMD_I3C=y
++CONFIG_MTD_RAW_NAND=y
++CONFIG_NAND_CADENCE=y
++CONFIG_SPL_NAND_SUPPORT=y
++CONFIG_SPL_NAND_FRAMEWORK=y
++CONFIG_SPL_NAND_CADENCE=y
+ CONFIG_SYS_MAXARGS=32
+ CONFIG_CMD_TIMER=y
+ CONFIG_SYS_NAND_ONFI_DETECTION=y
+-- 
+2.25.1

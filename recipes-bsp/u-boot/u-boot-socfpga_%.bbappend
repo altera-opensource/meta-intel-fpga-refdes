@@ -20,6 +20,8 @@ SRC_URI:append = " \
              file://0001-arm-stratix10-add-board-configuration.patch \
            "
 
+SRC_URI:append:agilex5 = " file://0001-HSD-15015566664-arm-socfpga-agilex5-Enable-Periphera.patch"
+
 inherit deploy
 
 do_compile[deptask] = "do_deploy"

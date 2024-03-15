@@ -12,14 +12,14 @@ diff --git a/socfpga_agilex5_socdk.dts b/socfpga_agilex5_socdk.dts
 index f8598980c30d..c3be216528ff 100644
 --- a/socfpga_agilex5_socdk.dts
 +++ b/socfpga_agilex5_socdk.dts
-@@ -55,7 +55,7 @@
+@@ -46,7 +46,7 @@ &gpio0 {
+ };
  
  &gmac0 {
- 	status = "okay";
--	phy-mode = "rgmii";
-+	phy-mode = "rgmii-id";
+-	status = "disabled";
++	status = "okay";
+ 	phy-mode = "rgmii-id";
  	phy-handle = <&emac0_phy0>;
  
- 	max-frame-size = <9000>;
 -- 
 2.34.1

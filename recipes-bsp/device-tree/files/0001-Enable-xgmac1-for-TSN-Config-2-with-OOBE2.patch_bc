@@ -1,4 +1,4 @@
-From dc9273ae5b43db2219b09e907a2175ea894e86ae Mon Sep 17 00:00:00 2001
+From a9ca3c37885eafced26b139ff9d0dbfd17811136 Mon Sep 17 00:00:00 2001
 From: "Tham, Mun Yew" <mun.yew.tham@intel.com>
 Date: Tue, 5 Mar 2024 13:48:14 +0800
 Subject: [PATCH] Enable xgmac1 for TSN Config 2 with OOBE2
@@ -9,15 +9,15 @@ Xgmac1 will connect with Si Dev Kit on board PHY with address 0.
 
 Signed-off-by: Tham, Mun Yew <mun.yew.tham@intel.com>
 ---
- .../arm64/boot/dts/intel/socfpga_agilex5.dtsi | 183 +++++++++---------
- .../boot/dts/intel/socfpga_agilex5_socdk.dts  |  99 ++++++++--
- 2 files changed, 177 insertions(+), 105 deletions(-)
+ .../arm64/boot/dts/intel/socfpga_agilex5.dtsi | 174 +++++++++---------
+ .../boot/dts/intel/socfpga_agilex5_socdk.dts  |  20 +-
+ 2 files changed, 97 insertions(+), 97 deletions(-)
 
 diff --git a/arch/arm64/boot/dts/intel/socfpga_agilex5.dtsi b/arch/arm64/boot/dts/intel/socfpga_agilex5.dtsi
-index fd7ed5783199..fdcd3077f89d 100644
+index 3c02717f30ef..2c62ded572aa 100644
 --- a/arch/arm64/boot/dts/intel/socfpga_agilex5.dtsi
 +++ b/arch/arm64/boot/dts/intel/socfpga_agilex5.dtsi
-@@ -175,28 +175,28 @@ clkmgr: clock-controller@10d10000 {
+@@ -231,28 +231,28 @@
  			#clock-cells = <1>;
  		};
  
@@ -65,7 +65,7 @@ index fd7ed5783199..fdcd3077f89d 100644
  			interrupt-names = "macirq",
  					  "macirq_tx0",
  					  "macirq_tx1",
-@@ -214,9 +214,9 @@ gmac0: ethernet@10810000 {
+@@ -270,9 +270,9 @@
  					  "macirq_rx5",
  					  "macirq_rx6",
  					  "macirq_rx7";
@@ -77,7 +77,7 @@ index fd7ed5783199..fdcd3077f89d 100644
  				 <&clkmgr AGILEX5_EMAC_PTP_CLK>;
  			clock-names = "stmmaceth", "ptp_ref";
  			mac-address = [00 00 00 00 00 00];
-@@ -224,27 +224,27 @@ gmac0: ethernet@10810000 {
+@@ -280,27 +280,27 @@
  			rx-fifo-depth = <16384>;
  			snps,multicast-filter-bins = <64>;
  			snps,perfect-filter-entries = <64>;
@@ -112,7 +112,7 @@ index fd7ed5783199..fdcd3077f89d 100644
  				snps,rx-queues-to-use = <8>;
  				snps,rx-sched-sp;
  				queue0 {
-@@ -281,7 +281,7 @@ queue7 {
+@@ -337,7 +337,7 @@
  				};
  			};
  
@@ -121,7 +121,7 @@ index fd7ed5783199..fdcd3077f89d 100644
  				snps,tx-queues-to-use = <8>;
  				snps,tx-queues-with-coe = <2>;
  				snps,tx-sched-wrr;
-@@ -322,28 +322,28 @@ queue7 {
+@@ -378,28 +378,28 @@
  			};
  		};
  
@@ -169,7 +169,7 @@ index fd7ed5783199..fdcd3077f89d 100644
  			interrupt-names = "macirq",
  					  "macirq_tx0",
  					  "macirq_tx1",
-@@ -361,9 +361,9 @@ gmac1: ethernet@10820000 {
+@@ -417,9 +417,9 @@
  					  "macirq_rx5",
  					  "macirq_rx6",
  					  "macirq_rx7";
@@ -181,7 +181,7 @@ index fd7ed5783199..fdcd3077f89d 100644
  				 <&clkmgr AGILEX5_EMAC_PTP_CLK>;
  			clock-names = "stmmaceth", "ptp_ref";
  			mac-address = [00 00 00 00 00 00];
-@@ -371,27 +371,27 @@ gmac1: ethernet@10820000 {
+@@ -427,27 +427,27 @@
  			rx-fifo-depth = <16384>;
  			snps,multicast-filter-bins = <64>;
  			snps,perfect-filter-entries = <64>;
@@ -216,7 +216,7 @@ index fd7ed5783199..fdcd3077f89d 100644
  				snps,rx-queues-to-use = <8>;
  				snps,rx-sched-sp;
  				queue0 {
-@@ -428,7 +428,7 @@ queue7 {
+@@ -484,7 +484,7 @@
  				};
  			};
  
@@ -225,7 +225,7 @@ index fd7ed5783199..fdcd3077f89d 100644
  				snps,tx-queues-to-use = <8>;
  				snps,tx-queues-with-coe = <2>;
  				snps,tx-sched-wrr;
-@@ -469,28 +469,28 @@ queue7 {
+@@ -525,28 +525,28 @@
  			};
  		};
  
@@ -273,7 +273,7 @@ index fd7ed5783199..fdcd3077f89d 100644
  			interrupt-names = "macirq",
  					  "macirq_tx0",
  					  "macirq_tx1",
-@@ -508,9 +508,9 @@ gmac2: ethernet@10830000 {
+@@ -564,9 +564,9 @@
  					  "macirq_rx5",
  					  "macirq_rx6",
  					  "macirq_rx7";
@@ -285,7 +285,7 @@ index fd7ed5783199..fdcd3077f89d 100644
  				 <&clkmgr AGILEX5_EMAC_PTP_CLK>;
  			clock-names = "stmmaceth", "ptp_ref";
  			mac-address = [00 00 00 00 00 00];
-@@ -518,27 +518,27 @@ gmac2: ethernet@10830000 {
+@@ -574,27 +574,27 @@
  			rx-fifo-depth = <16384>;
  			snps,multicast-filter-bins = <64>;
  			snps,perfect-filter-entries = <64>;
@@ -320,7 +320,7 @@ index fd7ed5783199..fdcd3077f89d 100644
  				snps,rx-queues-to-use = <8>;
  				snps,rx-sched-sp;
  				queue0 {
-@@ -575,7 +575,7 @@ queue7 {
+@@ -631,7 +631,7 @@
  				};
  			};
  

@@ -1,4 +1,4 @@
-From dc9273ae5b43db2219b09e907a2175ea894e86ae Mon Sep 17 00:00:00 2001
+From a9ca3c37885eafced26b139ff9d0dbfd17811136 Mon Sep 17 00:00:00 2001
 From: "Tham, Mun Yew" <mun.yew.tham@intel.com>
 Date: Tue, 5 Mar 2024 13:48:14 +0800
 Subject: [PATCH] Enable xgmac1 for TSN Config 2 with OOBE2
@@ -9,15 +9,15 @@ Xgmac1 will connect with Si Dev Kit on board PHY with address 0.
 
 Signed-off-by: Tham, Mun Yew <mun.yew.tham@intel.com>
 ---
- .../arm64/boot/dts/intel/socfpga_agilex5.dtsi | 183 +++++++++---------
- .../boot/dts/intel/socfpga_agilex5_socdk.dts  |  99 ++++++++--
- 2 files changed, 177 insertions(+), 105 deletions(-)
+ .../arm64/boot/dts/intel/socfpga_agilex5.dtsi | 174 +++++++++---------
+ .../boot/dts/intel/socfpga_agilex5_socdk.dts  |  20 +-
+ 2 files changed, 97 insertions(+), 97 deletions(-)
 
 diff --git a/arch/arm64/boot/dts/intel/socfpga_agilex5_socdk.dts b/arch/arm64/boot/dts/intel/socfpga_agilex5_socdk.dts
-index 748873d1d69e..096bb7cf2366 100644
+index 2ed3e1c3dd23..ea11de5f6d7e 100644
 --- a/arch/arm64/boot/dts/intel/socfpga_agilex5_socdk.dts
 +++ b/arch/arm64/boot/dts/intel/socfpga_agilex5_socdk.dts
-@@ -10,7 +10,7 @@ / {
+@@ -10,7 +10,7 @@
  
  	aliases {
  		serial0 = &uart0;
@@ -26,7 +26,7 @@ index 748873d1d69e..096bb7cf2366 100644
  		ethernet2 = &gmac2;
  	};
  
-@@ -43,10 +43,10 @@ &gpio0 {
+@@ -43,10 +43,10 @@
  	status = "okay";
  };
  
@@ -40,7 +40,7 @@ index 748873d1d69e..096bb7cf2366 100644
  
  	max-frame-size = <9000>;
  
-@@ -54,16 +54,16 @@ mdio0 {
+@@ -54,16 +54,16 @@
  		#address-cells = <1>;
  		#size-cells = <0>;
  		compatible = "snps,dwmac-mdio";
@@ -54,13 +54,14 @@ index 748873d1d69e..096bb7cf2366 100644
 -&gmac2 {
 +&gmac1 {
  	status = "okay";
- 	phy-mode = "rgmii-id";
+-	phy-mode = "rgmii-id";
 -	phy-handle = <&emac2_phy0>;
++	phy-mode = "gmii";
 +	phy-handle = <&emac1_phy0>;
  
  	max-frame-size = <9000>;
  
-@@ -71,7 +71,7 @@ mdio0 {
+@@ -71,7 +71,7 @@
  		#address-cells = <1>;
  		#size-cells = <0>;
  		compatible = "snps,dwmac-mdio";
@@ -69,7 +70,7 @@ index 748873d1d69e..096bb7cf2366 100644
  			reg = <0>;
  		};
  	};
-@@ -148,7 +148,7 @@ &dwc3_0 {
+@@ -148,7 +148,7 @@
  };
  
  &smmu {

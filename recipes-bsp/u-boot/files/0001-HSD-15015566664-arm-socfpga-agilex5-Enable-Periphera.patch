@@ -1,4 +1,4 @@
-From 0072bb45ab3ea16e5b76aafc3011e19b77be9cda Mon Sep 17 00:00:00 2001
+From 9c0e94005e6117a51f2e15d8ff8f731430fa43b0 Mon Sep 17 00:00:00 2001
 From: Alif Zakuan Yuslaimi <alif.zakuan.yuslaimi@intel.com>
 Date: Tue, 5 Mar 2024 11:13:04 +0800
 Subject: [PATCH] HSD #15015566664: arm: socfpga: agilex5: Enable Peripherals
@@ -149,7 +149,7 @@ index 94e26bd0ec..58c45c86ab 100644
  endif
  
 diff --git a/configs/socfpga_agilex5_defconfig b/configs/socfpga_agilex5_defconfig
-index 75c107a71b..8f3ddbc6b5 100644
+index 75c107a71b..be8d212693 100644
 --- a/configs/socfpga_agilex5_defconfig
 +++ b/configs/socfpga_agilex5_defconfig
 @@ -34,7 +34,7 @@ CONFIG_SYS_PROMPT="SOCFPGA_AGILEX5 # "
@@ -202,7 +202,7 @@ index 75c107a71b..8f3ddbc6b5 100644
 +CONFIG_CMD_WDT=y
 +CONFIG_DESIGNWARE_WATCHDOG=y
 +CONFIG_SPL_WDT=y
-+CONFIG_WATCHDOG_AUTOSTART=y
++# CONFIG_WATCHDOG_AUTOSTART is not set
 +CONFIG_TIMER=y
 +CONFIG_DESIGNWARE_APB_TIMER=y
  CONFIG_HAS_CUSTOM_SYS_INIT_SP_ADDR=y

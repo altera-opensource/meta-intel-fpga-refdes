@@ -88,7 +88,7 @@ do_configure:append() {
 	if [[ "${MACHINE}" == *"agilex7_"* ]]; then
 		# Vanilla DTB Generation
 		cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex_socdk.dts ${WORKDIR}/socfpga_agilex7_vanilla.dts
-		cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex.dtsi ${WORKDIR}/socfpga_agilex7.dtsi
+		cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex.dtsi ${WORKDIR}/socfpga_agilex.dtsi
 
     # AGILEX7 DK-SI-AGF014EB
 		if [[ "${MACHINE}" == "agilex7_dk_si_agf014eb" ]]; then
@@ -130,6 +130,10 @@ do_configure:append() {
 		fi
 		# Agilex7 DK-DEV-AGM039FES
 		if [[ "${MACHINE}" == "agilex7_dk_dev_agm039fes" ]]; then
+			# Vanilla DTB Generation for Agilex7 DK-DEV-AGM039FES
+			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex7m_socdk.dts ${WORKDIR}/socfpga_agilex7_vanilla.dts
+			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex_socdk.dts ${WORKDIR}/socfpga_agilex_socdk.dts
+			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex.dtsi ${WORKDIR}/socfpga_agilex.dtsi
 			# GSRD DTB Generation
 			# MMC
 			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex7m_socdk.dts ${WORKDIR}/socfpga_agilex7_socdk.dts

@@ -20,7 +20,6 @@ SRC_URI:append = " \
              file://0001-arm-stratix10-add-board-configuration.patch \
            "
 
-SRC_URI:append:agilex5 = " file://0001-HSD-15015566664-arm-socfpga-agilex5-Enable-Periphera.patch"
 SRC_URI:append:agilex5_mucv = " file://0001-Revert-HSD-22019331429-arch-arm-dts-socfpga_agilex5-.patch"
 SRC_URI:append:agilex5_mudv_cvr = " file://0001-Revert-HSD-22019331429-arch-arm-dts-socfpga_agilex5-.patch"
 

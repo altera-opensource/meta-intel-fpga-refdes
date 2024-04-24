@@ -9,6 +9,7 @@ SRC_URI:append:agilex7_dk_si_agf014ea = " file://fit_kernel_agilex7_dk_si_agf014
 SRC_URI:append:agilex7_dk_si_agf014eb = " file://fit_kernel_agilex7_dk_si_agf014eb.its"
 SRC_URI:append:agilex7_dk_si_agi027fb = " file://fit_kernel_agilex7_dk_si_agi027fb.its"
 SRC_URI:append:agilex7_dk_si_agi027fa = " file://fit_kernel_agilex7_dk_si_agi027fa.its"
+SRC_URI:append:agilex7_dk_si_agi027fc = " file://fit_kernel_agilex7_dk_si_agi027fc.its"
 SRC_URI:append:agilex7_dk_dev_agf027f1es = " file://fit_kernel_agilex7_dk_dev_agf027f1es.its"
 SRC_URI:append:agilex7_dk_dev_agm039fes = " file://fit_kernel_agilex7_dk_dev_agm039fes.its" 
 SRC_URI:append:agilex5 = " file://fit_kernel_agilex5.its"

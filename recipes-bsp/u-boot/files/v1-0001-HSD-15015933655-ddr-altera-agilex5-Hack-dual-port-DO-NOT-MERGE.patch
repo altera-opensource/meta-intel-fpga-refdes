@@ -1,0 +1,27 @@
+From 264b1c1516292e5053d8fcaebf9877fde07208a0 Mon Sep 17 00:00:00 2001
+From: "Meng, Tingting" <tingting.meng@intel.com>
+Date: Fri, 26 Apr 2024 16:00:00 +0800
+Subject: [FP8 PO DDR v1 1/1] HSD #15015933655: ddr: altera: agilex5: Hack dual
+ port to off temporarily
+
+---
+ drivers/ddr/altera/sdram_agilex5.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/ddr/altera/sdram_agilex5.c b/drivers/ddr/altera/sdram_agilex5.c
+index 552c353b58..52a879c125 100644
+--- a/drivers/ddr/altera/sdram_agilex5.c
++++ b/drivers/ddr/altera/sdram_agilex5.c
+@@ -101,7 +101,8 @@ int populate_ddr_handoff(struct udevice *dev, struct io96b_info *io96b_ctrl)
+ 	socfpga_handoff_read((void *)SOC64_HANDOFF_SDRAM, handoff_table, len);
+ 
+ 	/* Read handoff - dual port */
+-	plat->dualport = FIELD_GET(BIT(0), handoff_table[PORT_EMIF_CONFIG_OFFSET]);
++	//plat->dualport = FIELD_GET(BIT(0), handoff_table[PORT_EMIF_CONFIG_OFFSET]);
++	plat->dualport = 0;
+ 	debug("%s: dualport from handoff: 0x%x\n", __func__, plat->dualport);
+ 
+ 	if (plat->dualport)
+-- 
+2.25.1
+

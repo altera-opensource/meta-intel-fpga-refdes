@@ -21,6 +21,8 @@ SRC_URI:append = " \
              file://0001-arm-stratix10-add-board-configuration.patch \
            "
 
+SRC_URI:append:agilex5_devkit = " file://v1-0001-HSD-15015933655-ddr-altera-agilex5-Hack-dual-port-DO-NOT-MERGE.patch"
+
 SRC_URI:append:agilex5_mucv = " file://0001-Revert-HSD-22019331429-arch-arm-dts-socfpga_agilex5-.patch"
 SRC_URI:append:agilex5_mudv_cvr = " file://0001-Revert-HSD-22019331429-arch-arm-dts-socfpga_agilex5-.patch"
 

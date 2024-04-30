@@ -95,17 +95,19 @@ do_configure:append() {
 		cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex_socdk.dts ${WORKDIR}/socfpga_agilex7_vanilla.dts
 		cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex.dtsi ${WORKDIR}/socfpga_agilex.dtsi
 
-    # AGILEX7 DK-SI-AGF014EB
+		# AGILEX7 DK-SI-AGF014EB
 		if [[ "${MACHINE}" == "agilex7_dk_si_agf014eb" ]]; then
+			# GSRD DTB Generation
+			# MMC, QSPI
 			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex_socdk.dts ${WORKDIR}/socfpga_agilex7_socdk.dts
-			sed -i '/\#include \"socfpga_agilex.dtsi\"/a \#include \"socfpga_agilex7_ghrd.dtsi\"\n\#include \"socfpga_ilc.dtsi\"' ${WORKDIR}/socfpga_agilex7_socdk.dts
+			sed -i '/\#include \"socfpga_agilex.dtsi\"/a \#include \"socfpga_agilex7_ghrd_sgmii.dtsi\"\n\#include \"socfpga_ilc.dtsi\"' ${WORKDIR}/socfpga_agilex7_socdk.dts
 			# NAND
 			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex_socdk_nand.dts ${WORKDIR}/socfpga_agilex7_socdk_nand.dts
 			sed -i '/\#include \"socfpga_agilex.dtsi\"/a \#include \"socfpga_agilex7_ghrd_sgmii.dtsi\"\n\#include \"socfpga_ilc.dtsi\"' ${WORKDIR}/socfpga_agilex7_socdk_nand.dts
 			# PR
 			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex_socdk.dts ${WORKDIR}/socfpga_agilex7_socdk_pr.dts
 			sed -i '/\#include \"socfpga_agilex.dtsi\"/a \#include \"socfpga_agilex7_ghrd.dtsi\"\n\#include \"socfpga_ilc.dtsi\"' ${WORKDIR}/socfpga_agilex7_socdk_pr.dts
-    fi
+		fi
 		# AGILEX7 DK-SI-AGF014EA
 		if [[ "${MACHINE}" == "agilex7_dk_si_agf014ea" ]]; then
 			# GSRD DTB Generation

@@ -53,6 +53,10 @@ SRC_URI:agilex7_dk_si_agf014ea ?= "\
 
 SRC_URI:agilex7_dk_si_agf014eb ?= "\
 		${GHRD_REPO}/agilex7_dk_si_agf014eb_gsrd_${ARM64_GHRD_CORE_RBF};name=agilex7_dk_si_agf014eb_gsrd_core \
+		${GHRD_REPO}/agilex7_dk_si_agf014eb_nand_${ARM64_GHRD_CORE_RBF};name=agilex7_dk_si_agf014eb_nand_core \
+		${GHRD_REPO}/agilex7_dk_si_agf014eb_pr_${ARM64_GHRD_CORE_RBF};name=agilex7_dk_si_agf014eb_pr_core \
+		${GHRD_REPO}/agilex7_dk_si_agf014eb_pr_persona0.rbf;name=agilex7_dk_si_agf014eb_pr_persona0 \
+		${GHRD_REPO}/agilex7_dk_si_agf014eb_pr_persona1.rbf;name=agilex7_dk_si_agf014eb_pr_persona1 \
 		"
 
 SRC_URI:agilex7_dk_si_agi027fb ?= "\
@@ -102,11 +106,16 @@ SRC_URI[agilex7_dk_si_agf014ea_pr_core.sha256sum] = "8251f5c9f7e5879545dca74d2db
 SRC_URI[agilex7_dk_si_agf014ea_pr_persona0.sha256sum] = "50a0b8c9e0fc91af87d5901fb2b74db15adcbf8a3ee3527f824409c45197e046"
 SRC_URI[agilex7_dk_si_agf014ea_pr_persona1.sha256sum] = "654edd0b54b17a5610f1aac01f1a14073f08e849fd44c18ea23e37fe0c6a98be"
 
+#TO DO: UPDATE AGILEX7 DK-SI-AGF014EB HASH
 SRC_URI[agilex7_dk_si_agf014eb_gsrd_core.sha256sum] = "58cfdd9814e832332acbbfddc2fa55268fdb1ac75be38f2e65f809f9402899f0"
+SRC_URI[agilex7_dk_si_agf014eb_nand_core.sha256sum] = "1f4d191696c98905551b824dae93980819fbd1d2e9e492711954b00f7366cdf2"
+SRC_URI[agilex7_dk_si_agf014eb_pr_core.sha256sum] = "8251f5c9f7e5879545dca74d2dbef3fe5d58661ec83b054bb45ee341c4894c2a"
+SRC_URI[agilex7_dk_si_agf014eb_pr_persona0.sha256sum] = "50a0b8c9e0fc91af87d5901fb2b74db15adcbf8a3ee3527f824409c45197e046"
+SRC_URI[agilex7_dk_si_agf014eb_pr_persona1.sha256sum] = "654edd0b54b17a5610f1aac01f1a14073f08e849fd44c18ea23e37fe0c6a98be"
 
 SRC_URI[agilex7_dk_si_agi027fb_gsrd_core.sha256sum] = "18d55f3991d6efeec06748267140dee7654c4f5664c0def3ada5fb052ae5cd3c"
 SRC_URI[agilex7_dk_si_agi027fa_gsrd_core.sha256sum] = "37548ea13a19f0ef681de00af8aa8f01878fd7a0c93df9bcd15cc5752a389e81"
-#TO DO: ADD AGILEX7 FM87 LINEAR C0 HASH 
+#TO DO: UPDATE AGILEX7 DK-SI-AGI027FC HASH 
 #SRC_URI[agilex7_dk_si_agi027fc_gsrd_core.sha256sum] = "37548ea13a19f0ef681de00af8aa8f01878fd7a0c93df9bcd15cc5752a389e81"
 SRC_URI[agilex7_dk_dev_agf027f1es_gsrd_core.sha256sum] = "5484361052460d2b627f2518b0f6a19a8435e9891aaf676adc29def8f3ae9035"
 
@@ -158,18 +167,13 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 do_install () {
 	if [[ "${MACHINE}" == *"agilex7_"* ]]; then
-    #TODO
-    if [[ "${MACHINE}" == "agilex7_dk_si_agf014eb" ]]; then 
-		   install -D -m 0644 ${WORKDIR}/${MACHINE}_gsrd_${ARM64_GHRD_CORE_RBF} ${D}/boot/${ARM64_GHRD_CORE_RBF}
-    else
-		   install -D -m 0644 ${WORKDIR}/${MACHINE}_gsrd_${ARM64_GHRD_CORE_RBF} ${D}/boot/${ARM64_GHRD_CORE_RBF}
-	  fi
-
-		if [[ "${MACHINE}" == "agilex7_dk_si_agf014ea" ]]; then
+		if [[ "${MACHINE}" == *"agilex7_dk_si_agf014e"* ]]; then
 			install -D -m 0644 ${WORKDIR}/${MACHINE}_nand_${ARM64_GHRD_CORE_RBF} ${D}/boot/nand.core.rbf
 			install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_${ARM64_GHRD_CORE_RBF} ${D}/boot/ghrd_pr.core.rbf
 			install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_persona0.rbf ${D}${base_libdir}/firmware/persona0.rbf
 			install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_persona1.rbf ${D}${base_libdir}/firmware/persona1.rbf
+		else
+			install -D -m 0644 ${WORKDIR}/${MACHINE}_gsrd_${ARM64_GHRD_CORE_RBF} ${D}/boot/${ARM64_GHRD_CORE_RBF}
 		fi
 	fi
 
@@ -208,18 +212,13 @@ do_deploy () {
 	fi
 
 	if [[ "${MACHINE}" == *"agilex7_"* ]]; then
-		#TODO
-    if [[ "${MACHINE}" == "agilex7_dk_si_agf014eb" ]]; then 
-		   install -D -m 0644 ${WORKDIR}/${MACHINE}_gsrd_${ARM64_GHRD_CORE_RBF} ${DEPLOYDIR}/${MACHINE}_gsrd_ghrd/${ARM64_GHRD_CORE_RBF}
-    else
-		   install -D -m 0644 ${WORKDIR}/${MACHINE}_gsrd_${ARM64_GHRD_CORE_RBF} ${DEPLOYDIR}/${MACHINE}_gsrd_ghrd/${ARM64_GHRD_CORE_RBF}
-	  fi
-
-		if [[ "${MACHINE}" == "agilex7_dk_si_agf014ea" ]]; then
+		if [[ "${MACHINE}" == *"agilex7_dk_si_agf014e"* ]]; then
 			install -D -m 0644 ${WORKDIR}/${MACHINE}_nand_${ARM64_GHRD_CORE_RBF} ${DEPLOYDIR}/${MACHINE}_${IMAGE_TYPE}_ghrd/nand.core.rbf
 			install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_${ARM64_GHRD_CORE_RBF} ${DEPLOYDIR}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd_pr.core.rbf
 			install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_persona0.rbf ${DEPLOYDIR}/${MACHINE}_${IMAGE_TYPE}_ghrd/persona0.rbf
 			install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_persona1.rbf ${DEPLOYDIR}/${MACHINE}_${IMAGE_TYPE}_ghrd/persona1.rbf
+		else
+			install -D -m 0644 ${WORKDIR}/${MACHINE}_gsrd_${ARM64_GHRD_CORE_RBF} ${DEPLOYDIR}/${MACHINE}_gsrd_ghrd/${ARM64_GHRD_CORE_RBF}
 		fi
 	fi
 

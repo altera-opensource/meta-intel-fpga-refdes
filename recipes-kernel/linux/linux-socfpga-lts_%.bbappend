@@ -80,7 +80,7 @@ do_deploy:append() {
 		fi
 		# core.rbf
 		cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd.core.rbf ${B}
-		if [[ "${MACHINE}" == "agilex7_dk_si_agf014ea" ]]; then
+		if [[ "${MACHINE}" == *"agilex7_dk_si_agf014e"* ]]; then
 			cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/nand.core.rbf ${B}
 			cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd_pr.core.rbf ${B}
 		fi

@@ -43,6 +43,7 @@ SRC_URI:append:agilex5_devkit = " file://initrd.scc \
                                   file://xdp.scc \
 								  file://tsn.scc \
 								  file://sensors.scc \
+								  file://edac.scc \
                                   file://0001-libbpf-add-txtime-field-in-xdp_desc-struct.patch"
 SRC_URI:append:agilex5_mudv_cvr = " file://initrd.scc \
                                     file://xdp.scc \

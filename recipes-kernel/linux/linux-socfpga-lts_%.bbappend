@@ -92,6 +92,7 @@ do_deploy:append() {
 		# linux.dtb
 		cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk.dtb ${B}
 		cp ${DTBDEPLOYDIR}/socfpga_agilex5_vanilla.dtb ${B}
+		cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_nand_vanilla.dtb ${B}
 		cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_nand.dtb ${B}
 		cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_emmc.dtb ${B}
 		cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_aic0.dtb ${B}

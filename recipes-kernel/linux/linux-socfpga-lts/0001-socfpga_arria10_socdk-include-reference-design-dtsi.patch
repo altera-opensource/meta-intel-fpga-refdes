@@ -7,16 +7,16 @@ Upstream-Status: Pending
 
 Signed-off-by: Chew, Chiau Ee <chiau.ee.chew@intel.com>
 ---
- arch/arm/boot/dts/socfpga_arria10_ghrd.dtsi  | 155 +++++++++++++++++++
- arch/arm/boot/dts/socfpga_arria10_socdk.dtsi |   1 +
+ arch/arm/boot/dts/intel/socfpga/socfpga_arria10_ghrd.dtsi  | 155 +++++++++++++++++++
+ arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk.dtsi |   1 +
  2 files changed, 156 insertions(+)
  create mode 100644 arch/arm/boot/dts/socfpga_arria10_ghrd.dtsi
 
-diff --git a/arch/arm/boot/dts/socfpga_arria10_ghrd.dtsi b/arch/arm/boot/dts/socfpga_arria10_ghrd.dtsi
+diff --git a/arch/arm/boot/dts/intel/socfpga/socfpga_arria10_ghrd.dtsi b/arch/arm/boot/dts/intel/socfpga/socfpga_arria10_ghrd.dtsi
 new file mode 100644
 index 000000000000..7eaf188fd509
 --- /dev/null
-+++ b/arch/arm/boot/dts/socfpga_arria10_ghrd.dtsi
++++ b/arch/arm/boot/dts/intel/socfpga/socfpga_arria10_ghrd.dtsi
 @@ -0,0 +1,155 @@
 +/*
 +* Add this piece of dtsi fragment as #include "socfpga_arria10_ghrd.dtsi"
@@ -173,10 +173,10 @@ index 000000000000..7eaf188fd509
 +};
 +
 +
-diff --git a/arch/arm/boot/dts/socfpga_arria10_socdk.dtsi b/arch/arm/boot/dts/socfpga_arria10_socdk.dtsi
+diff --git a/arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk.dtsi b/arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk.dtsi
 index 1ff37b89b109..001e33c83303 100644
---- a/arch/arm/boot/dts/socfpga_arria10_socdk.dtsi
-+++ b/arch/arm/boot/dts/socfpga_arria10_socdk.dtsi
+--- a/arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk.dtsi
++++ b/arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk.dtsi
 @@ -3,6 +3,7 @@
   * Copyright (C) 2015 Altera Corporation <www.altera.com>
   */

@@ -18,6 +18,7 @@ SRC_URI:agilex7_dk_dev_agf027f1es = "file://uboot.txt file://uboot_script.its"
 SRC_URI:agilex7_dk_dev_agm039fes = "file://uboot.txt file://uboot_script.its"
 SRC_URI:agilex5 = "file://agilex5_uboot.txt file://agilex5_uboot_script.its"
 SRC_URI:agilex5_devkit = "file://uboot.txt file://uboot_script.its"
+SRC_URI:agilex5_modular = "file://uboot.txt file://uboot_script.its"
 SRC_URI:agilex5_mudv_cvr = "file://uboot.txt file://uboot_script.its"
 SRC_URI:agilex5_mucv = "file://uboot.txt file://uboot_script.its"
 SRC_URI:stratix10 = "file://uboot.txt file://uboot_script.its"
@@ -43,6 +44,10 @@ do_compile:agilex5() {
 }
 
 do_compile:agilex5_devkit() {
+	mkimage -f "${WORKDIR}/uboot_script.its" ${WORKDIR}/boot.scr.uimg
+}
+
+do_compile:agilex5_modular() {
 	mkimage -f "${WORKDIR}/uboot_script.its" ${WORKDIR}/boot.scr.uimg
 }
 

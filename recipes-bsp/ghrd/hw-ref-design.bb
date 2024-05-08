@@ -27,6 +27,10 @@ SRC_URI:agilex5_devkit ?= "\
 		file://agilex5_devkit_debug2_ghrd.core.rbf \
 		"
 
+SRC_URI:agilex5_modular ?= "\
+		${GHRD_REPO}/agilex5_modular_gsrd_${ARM64_GHRD_CORE_RBF};name=agilex5_modular_gsrd_core \
+		"
+
 SRC_URI:agilex5_mudv_cvr ?= "\
 		${GHRD_REPO}/agilex5_devkit_gsrd_${ARM64_GHRD_CORE_RBF};name=agilex5_devkit_gsrd_core \
 		${GHRD_REPO}/agilex5_devkit_nand_${ARM64_GHRD_CORE_RBF};name=agilex5_devkit_nand_core \
@@ -99,6 +103,9 @@ SRC_URI:cyclone5 ?= "${GHRD_REPO}/cyclone5_${IMAGE_TYPE}_${C5_GHRD_CORE_RBF};nam
 SRC_URI[agilex5_devkit_gsrd_core.sha256sum] = "bf11c8cb3b6d9487f93ce0e055b1e5256998a25b25ac4690bef3fcd6225ee1ae"
 SRC_URI[agilex5_devkit_nand_core.sha256sum] = "91735040db8fb39149f91756b0b19b87ed712af2e4723623fd17b527c95f7b82"
 SRC_URI[agilex5_devkit_emmc_core.sha256sum] = "2412a7fa89955d8856eb528507822605bb2065117765b9b9dc77dfaff3af1bb6"
+
+#TO DO: UPDATE AGILEX5 MODULAR HASH
+SRC_URI[agilex5_modular_gsrd_core.sha256sum] = "bf11c8cb3b6d9487f93ce0e055b1e5256998a25b25ac4690bef3fcd6225ee1ae"
 
 SRC_URI[agilex7_dk_si_agf014ea_gsrd_core.sha256sum] = "a5f012e84ad337527e8a8c28a1650aea484e51887765b8c9f0ab25c497c62827"
 SRC_URI[agilex7_dk_si_agf014ea_nand_core.sha256sum] = "1f4d191696c98905551b824dae93980819fbd1d2e9e492711954b00f7366cdf2"
@@ -195,21 +202,29 @@ do_install () {
 	fi
 	
 	if [[ "${MACHINE}" == *"agilex5_"* ]]; then
-		install -D -m 0644 ${WORKDIR}/agilex5_devkit_gsrd_${ARM64_GHRD_CORE_RBF} ${D}/boot/${ARM64_GHRD_CORE_RBF}
-		install -D -m 0644 ${WORKDIR}/agilex5_devkit_nand_${ARM64_GHRD_CORE_RBF} ${D}/boot/nand.core.rbf
-		install -D -m 0644 ${WORKDIR}/agilex5_devkit_emmc_${ARM64_GHRD_CORE_RBF} ${D}/boot/emmc.core.rbf
-		install -D -m 0644 ${WORKDIR}/agilex5_devkit_aic0_ghrd.core.rbf ${D}/boot/aic0.core.rbf
-		install -D -m 0644 ${WORKDIR}/agilex5_devkit_debug2_ghrd.core.rbf ${D}/boot/debug2.core.rbf
+		if [[ "${MACHINE}" == "agilex5_modular" ]]; then
+			install -D -m 0644 ${WORKDIR}/${MACHINE}_gsrd_${ARM64_GHRD_CORE_RBF} ${D}/boot/${ARM64_GHRD_CORE_RBF}
+		else
+			install -D -m 0644 ${WORKDIR}/agilex5_devkit_gsrd_${ARM64_GHRD_CORE_RBF} ${D}/boot/${ARM64_GHRD_CORE_RBF}
+			install -D -m 0644 ${WORKDIR}/agilex5_devkit_nand_${ARM64_GHRD_CORE_RBF} ${D}/boot/nand.core.rbf
+			install -D -m 0644 ${WORKDIR}/agilex5_devkit_emmc_${ARM64_GHRD_CORE_RBF} ${D}/boot/emmc.core.rbf
+			install -D -m 0644 ${WORKDIR}/agilex5_devkit_aic0_ghrd.core.rbf ${D}/boot/aic0.core.rbf
+			install -D -m 0644 ${WORKDIR}/agilex5_devkit_debug2_ghrd.core.rbf ${D}/boot/debug2.core.rbf
+		fi
 	fi
 }
 
 do_deploy () {
 	if [[ "${MACHINE}" == *"agilex5_"* ]]; then
-		install -D -m 0644 ${WORKDIR}/agilex5_devkit_gsrd_${ARM64_GHRD_CORE_RBF} ${DEPLOYDIR}/${MACHINE}_${IMAGE_TYPE}_ghrd/${ARM64_GHRD_CORE_RBF}
-		install -D -m 0644 ${WORKDIR}/agilex5_devkit_nand_${ARM64_GHRD_CORE_RBF} ${DEPLOYDIR}/${MACHINE}_${IMAGE_TYPE}_ghrd/nand.core.rbf
-		install -D -m 0644 ${WORKDIR}/agilex5_devkit_emmc_${ARM64_GHRD_CORE_RBF} ${DEPLOYDIR}/${MACHINE}_${IMAGE_TYPE}_ghrd/emmc.core.rbf
-		install -D -m 0644 ${WORKDIR}/agilex5_devkit_aic0_ghrd.core.rbf ${DEPLOYDIR}/${MACHINE}_${IMAGE_TYPE}_ghrd/aic0.core.rbf
-		install -D -m 0644 ${WORKDIR}/agilex5_devkit_debug2_ghrd.core.rbf ${DEPLOYDIR}/${MACHINE}_${IMAGE_TYPE}_ghrd/debug2.core.rbf
+		if [[ "${MACHINE}" == "agilex5_modular" ]]; then
+			install -D -m 0644 ${WORKDIR}/${MACHINE}_${IMAGE_TYPE}_${ARM64_GHRD_CORE_RBF} ${DEPLOYDIR}/${MACHINE}_${IMAGE_TYPE}_ghrd/${ARM64_GHRD_CORE_RBF}
+		else
+			install -D -m 0644 ${WORKDIR}/agilex5_devkit_gsrd_${ARM64_GHRD_CORE_RBF} ${DEPLOYDIR}/${MACHINE}_${IMAGE_TYPE}_ghrd/${ARM64_GHRD_CORE_RBF}
+			install -D -m 0644 ${WORKDIR}/agilex5_devkit_nand_${ARM64_GHRD_CORE_RBF} ${DEPLOYDIR}/${MACHINE}_${IMAGE_TYPE}_ghrd/nand.core.rbf
+			install -D -m 0644 ${WORKDIR}/agilex5_devkit_emmc_${ARM64_GHRD_CORE_RBF} ${DEPLOYDIR}/${MACHINE}_${IMAGE_TYPE}_ghrd/emmc.core.rbf
+			install -D -m 0644 ${WORKDIR}/agilex5_devkit_aic0_ghrd.core.rbf ${DEPLOYDIR}/${MACHINE}_${IMAGE_TYPE}_ghrd/aic0.core.rbf
+			install -D -m 0644 ${WORKDIR}/agilex5_devkit_debug2_ghrd.core.rbf ${DEPLOYDIR}/${MACHINE}_${IMAGE_TYPE}_ghrd/debug2.core.rbf
+		fi
 	fi
 
 	if [[ "${MACHINE}" == *"agilex7_"* ]]; then

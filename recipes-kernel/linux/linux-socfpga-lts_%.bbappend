@@ -14,6 +14,7 @@ SRC_URI:append:agilex7_dk_dev_agf027f1es = " file://fit_kernel_agilex7_dk_dev_ag
 SRC_URI:append:agilex7_dk_dev_agm039fes = " file://fit_kernel_agilex7_dk_dev_agm039fes.its" 
 SRC_URI:append:agilex5 = " file://fit_kernel_agilex5.its"
 SRC_URI:append:agilex5_devkit = " file://fit_kernel_agilex5_devkit.its"
+SRC_URI:append:agilex5_modular = " file://fit_kernel_agilex5_modular.its"
 SRC_URI:append:agilex5_mudv_cvr = " file://fit_kernel_agilex5_mudv_cvr.its"
 SRC_URI:append:agilex5_mucv = " file://fit_kernel_agilex5_mucv.its"
 SRC_URI:append:stratix10 = " file://fit_kernel_stratix10.its"
@@ -45,6 +46,12 @@ SRC_URI:append:agilex5_devkit = " file://initrd.scc \
 								  file://sensors.scc \
 								  file://edac.scc \
                                   file://0001-libbpf-add-txtime-field-in-xdp_desc-struct.patch"
+SRC_URI:append:agilex5_modular = " file://initrd.scc \
+                                   file://xdp.scc \
+								   file://tsn.scc \
+								   file://sensors.scc \
+								   file://edac.scc \
+                                   file://0001-libbpf-add-txtime-field-in-xdp_desc-struct.patch"
 SRC_URI:append:agilex5_mudv_cvr = " file://initrd.scc \
                                     file://xdp.scc \
 									file://tsn.scc \
@@ -90,20 +97,28 @@ do_deploy:append() {
 		cp ${LINUXDEPLOYDIR}/socfpga_${MACHINE}_socdk.dtb ${B}/socfpga_${MACHINE}_socdk.dtb
 		cp ${LINUXDEPLOYDIR}/socfpga_${MACHINE}_socdk_swvp.dtb ${B}/socfpga_${MACHINE}_socdk_swvp.dtb
 	elif [[ "${MACHINE}" == *"agilex5_"* ]]; then
-		# linux.dtb
-		cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk.dtb ${B}
-		cp ${DTBDEPLOYDIR}/socfpga_agilex5_vanilla.dtb ${B}
-		cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_nand.dtb ${B}
-		cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_emmc.dtb ${B}
-		cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_aic0.dtb ${B}
-		cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_debug2.dtb ${B}
-		# core.rbf
-		cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd.core.rbf ${B}
-		cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/nand.core.rbf ${B}
-		cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/emmc.core.rbf ${B}
-		cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/aic0.core.rbf ${B}
-		cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/debug2.core.rbf ${B}
-		#cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_usb_peripheral.dtb ${B}
+		if [[ "${MACHINE}" == "agilex5_modular" ]]; then
+			# linux.dtb
+			cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk.dtb ${B}
+			cp ${DTBDEPLOYDIR}/socfpga_agilex5_vanilla.dtb ${B}
+			# core.rbf
+			cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd.core.rbf ${B}
+		else
+			# linux.dtb
+			cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk.dtb ${B}
+			cp ${DTBDEPLOYDIR}/socfpga_agilex5_vanilla.dtb ${B}
+			cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_nand.dtb ${B}
+			cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_emmc.dtb ${B}
+			cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_aic0.dtb ${B}
+			cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_debug2.dtb ${B}
+			# core.rbf
+			cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd.core.rbf ${B}
+			cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/nand.core.rbf ${B}
+			cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/emmc.core.rbf ${B}
+			cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/aic0.core.rbf ${B}
+			cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/debug2.core.rbf ${B}
+			#cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_usb_peripheral.dtb ${B}
+		fi
 	elif [[ "${MACHINE}" == "stratix10" ]]; then
 		# linux.dtb
 		cp ${DTBDEPLOYDIR}/socfpga_stratix10_socdk.dtb ${B}

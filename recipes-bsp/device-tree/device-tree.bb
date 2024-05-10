@@ -140,14 +140,16 @@ do_configure:append() {
 			sed -i '/\#include \"socfpga_agilex_socdk.dts\"/a \#include \"socfpga_agilex7_ghrd.dtsi\"\n\#include \"socfpga_ilc.dtsi\"' ${WORKDIR}/socfpga_agilex7_socdk.dts
 		fi
 	fi
-	
+
 	if [[ "${MACHINE}" == *"agilex5_"* ]]; then
 		# Vanilla DTB Generation
 		cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex5_socdk.dts ${WORKDIR}/socfpga_agilex5_vanilla.dts
 		cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex5.dtsi ${WORKDIR}/socfpga_agilex5.dtsi
 		cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex5_socdk_nand.dts ${WORKDIR}/socfpga_agilex5_socdk_nand_vanilla.dts
+		cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex5_socdk_emmc.dts ${WORKDIR}/socfpga_agilex5_socdk_emmc_vanilla.dts
+		cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex5_socdk_debug.dts ${WORKDIR}/socfpga_agilex5_socdk_debug_vanilla.dts
 		#cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex5_socdk_usb_peripheral.dts ${WORKDIR}/socfpga_agilex5_socdk_usb_peripheral.dts
-		
+
 		# GSRD DTB Generation
 		# MMC, QSPI
 		cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex5_socdk.dts ${WORKDIR}/socfpga_agilex5_socdk.dts
@@ -157,12 +159,11 @@ do_configure:append() {
 		mv ${WORKDIR}/0001-AIC0-tsn-config.patch_bc ${WORKDIR}/0001-AIC0-tsn-config.patch
 		patch -p1 ${WORKDIR}/socfpga_agilex5_socdk_aic0.dts ${WORKDIR}/0001-AIC0-tsn-config.patch 
 		# EMMC
-		cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex5_socdk.dts ${WORKDIR}/socfpga_agilex5_socdk_emmc.dts
-		mv  ${WORKDIR}/0001-emmc-debug2-tsn-config.patch_bc ${WORKDIR}/0001-emmc-debug2-tsn-config.patch    
-		patch -p1 ${WORKDIR}/socfpga_agilex5_socdk_emmc.dts ${WORKDIR}/0001-emmc-debug2-tsn-config.patch
+		cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex5_socdk_emmc.dts ${WORKDIR}/socfpga_agilex5_socdk_emmc.dts
+		sed -i '/\#include \"socfpga_agilex5.dtsi\"/a \#include \"socfpga_agilex5_ghrd.dtsi\"' ${WORKDIR}/socfpga_agilex5_socdk_emmc.dts
 		# DEBUG2
-		cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex5_socdk.dts ${WORKDIR}/socfpga_agilex5_socdk_debug2.dts
-		patch -p1 ${WORKDIR}/socfpga_agilex5_socdk_debug2.dts ${WORKDIR}/0001-emmc-debug2-tsn-config.patch
+		cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex5_socdk_debug.dts ${WORKDIR}/socfpga_agilex5_socdk_debug.dts
+		sed -i '/\#include \"socfpga_agilex5.dtsi\"/a \#include \"socfpga_agilex5_ghrd.dtsi\"' ${WORKDIR}/socfpga_agilex5_socdk_debug.dts
 		# NAND
 		cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex5_socdk_nand.dts ${WORKDIR}/socfpga_agilex5_socdk_nand.dts
 		sed -i '/\#include \"socfpga_agilex5.dtsi\"/a \#include \"socfpga_agilex5_ghrd.dtsi\"' ${WORKDIR}/socfpga_agilex5_socdk_nand.dts

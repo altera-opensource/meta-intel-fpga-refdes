@@ -81,25 +81,21 @@ SRC_URI:append:stratix10_htile = " \
 SRC_URI:append:agilex5_devkit = " \
 					file://socfpga_agilex5_ghrd.dtsi \
 					file://0001-AIC0-tsn-config.patch_bc \
-					file://0001-emmc-debug2-tsn-config.patch_bc \
 					"
 
 SRC_URI:append:agilex5_modular = " \
 					file://socfpga_agilex5_ghrd.dtsi \
 					file://0001-AIC0-tsn-config.patch_bc \
-					file://0001-emmc-debug2-tsn-config.patch_bc \
 					"
 
 SRC_URI:append:agilex5_mudv_cvr = " \
 					file://socfpga_agilex5_ghrd.dtsi \
 					file://0001-AIC0-tsn-config.patch_bc \
-					file://0001-emmc-debug2-tsn-config.patch_bc \
 					"
 
 SRC_URI:append:agilex5_mucv = " \
 					file://socfpga_agilex5_ghrd.dtsi \
 					file://0001-AIC0-tsn-config.patch_bc \
-					file://0001-emmc-debug2-tsn-config.patch_bc \
 					"
 
 do_configure[depends] += "virtual/kernel:do_configure"

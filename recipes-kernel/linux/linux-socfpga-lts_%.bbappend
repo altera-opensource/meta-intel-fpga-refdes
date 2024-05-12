@@ -53,6 +53,10 @@ SRC_URI:append:agilex5_mucv = " file://initrd.scc \
 SRC_URI:append:stratix10 = " file://sgmii.scc file://ilc.scc"
 SRC_URI:append:arria10 = " file://tse.scc"
 SRC_URI:append:cyclone5 = " file://tse.scc"
+SRC_URI:append:agilex7_dk_dev_agm039fes = " \
+    ${@bb.utils.contains("IMAGE_TYPE", "rped", "file://nvme.scc", "", d)} \
+    "
+
 
 inherit deploy
 

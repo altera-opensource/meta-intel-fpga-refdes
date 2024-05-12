@@ -131,10 +131,15 @@ do_configure:append() {
 			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex7m_socdk.dts ${WORKDIR}/socfpga_agilex7_vanilla.dts
 			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex_socdk.dts ${WORKDIR}/socfpga_agilex_socdk.dts
 			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex.dtsi ${WORKDIR}/socfpga_agilex.dtsi
-			# GSRD DTB Generation
-			# MMC
-			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex7m_socdk.dts ${WORKDIR}/socfpga_agilex7_socdk.dts
-			sed -i '/\#include \"socfpga_agilex_socdk.dts\"/a \#include \"socfpga_agilex7_ghrd.dtsi\"\n\#include \"socfpga_ilc.dtsi\"' ${WORKDIR}/socfpga_agilex7_socdk.dts
+			if [[ "${IMAGE_TYPE}" == "rped" ]]; then
+				cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex7m_socdk_pcie_root_port.dts ${WORKDIR}/socfpga_agilex7_socdk.dts
+				sed -i '/\#include \"socfpga_agilex7m_socdk.dts\"/a \#include \"socfpga_agilex7_ghrd.dtsi\"\n\#include \"socfpga_ilc.dtsi\"' ${WORKDIR}/socfpga_agilex7_socdk.dts
+			else
+				# GSRD DTB Generation
+				# MMC
+				cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex7m_socdk.dts ${WORKDIR}/socfpga_agilex7_socdk.dts
+				sed -i '/\#include \"socfpga_agilex_socdk.dts\"/a \#include \"socfpga_agilex7_ghrd.dtsi\"\n\#include \"socfpga_ilc.dtsi\"' ${WORKDIR}/socfpga_agilex7_socdk.dts
+			fi
 		fi
 	fi
 

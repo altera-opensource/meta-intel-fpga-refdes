@@ -68,7 +68,8 @@ SRC_URI:agilex7_dk_dev_agf027f1es ?= "\
 		"
 
 SRC_URI:agilex7_dk_dev_agm039fes ?= "\
-		${GHRD_REPO}/agilex7_dk_dev_agm039fes_gsrd_${ARM64_GHRD_CORE_RBF};name=agilex7_dk_dev_agm039fes_gsrd_core \
+		${@bb.utils.contains("IMAGE_TYPE", "gsrd", "${GHRD_REPO}/agilex7_dk_dev_agm039fes_gsrd_${ARM64_GHRD_CORE_RBF};name=agilex7_dk_dev_agm039fes_gsrd_core", "", d)} \
+		${@bb.utils.contains("IMAGE_TYPE", "rped", "file://agilex7_dk_dev_agm039fes_rped_${ARM64_GHRD_CORE_RBF}", "", d)} \
 		"
 
 SRC_URI:stratix10 ?= "\
@@ -105,6 +106,7 @@ SRC_URI[agilex7_dk_si_agi027fa_gsrd_core.sha256sum] = "37548ea13a19f0ef681de00af
 SRC_URI[agilex7_dk_dev_agf027f1es_gsrd_core.sha256sum] = "5484361052460d2b627f2518b0f6a19a8435e9891aaf676adc29def8f3ae9035"
 
 SRC_URI[agilex7_dk_dev_agm039fes_gsrd_core.sha256sum] = "ec26555c759a0de0e1e1d2024ab07208d35f44e0ce32791ebfefcfcf7970054f"
+SRC_URI[agilex7_dk_dev_agm039fes_rped_core.sha256sum] = "caaa8852bb67af6d86b523634f90e933036e9ebdc88e13b7587ad8e1b13780b3"
 
 SRC_URI[stratix10_gsrd_core.sha256sum] = "4ec219828c3fc357ffbb3c8dc2ddbead5630dfbf8221c2ea2b7ebd9b3a86cc89"
 SRC_URI[stratix10_nand_core.sha256sum] = "f48a1dd9eb88bd672e2ef246b0c7f78ffa5148a7b7b272b9e84274f416e09de3"
@@ -152,12 +154,7 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 do_install () {
 	if [[ "${MACHINE}" == *"agilex7_"* ]]; then
-    #TODO
-    if [[ "${MACHINE}" == "agilex7_dk_si_agf014eb" ]]; then 
-		   install -D -m 0644 ${WORKDIR}/${MACHINE}_gsrd_${ARM64_GHRD_CORE_RBF} ${D}/boot/${ARM64_GHRD_CORE_RBF}
-    else
-		   install -D -m 0644 ${WORKDIR}/${MACHINE}_gsrd_${ARM64_GHRD_CORE_RBF} ${D}/boot/${ARM64_GHRD_CORE_RBF}
-	  fi
+		install -D -m 0644 ${WORKDIR}/${MACHINE}_${IMAGE_TYPE}_${ARM64_GHRD_CORE_RBF} ${DEPLOYDIR}/${MACHINE}_${IMAGE}_ghrd/${ARM64_GHRD_CORE_RBF}
 
 		if [[ "${MACHINE}" == "agilex7_dk_si_agf014ea" ]]; then
 			install -D -m 0644 ${WORKDIR}/${MACHINE}_nand_${ARM64_GHRD_CORE_RBF} ${D}/boot/nand.core.rbf
@@ -202,12 +199,7 @@ do_deploy () {
 	fi
 
 	if [[ "${MACHINE}" == *"agilex7_"* ]]; then
-		#TODO
-    if [[ "${MACHINE}" == "agilex7_dk_si_agf014eb" ]]; then 
-		   install -D -m 0644 ${WORKDIR}/${MACHINE}_gsrd_${ARM64_GHRD_CORE_RBF} ${DEPLOYDIR}/${MACHINE}_gsrd_ghrd/${ARM64_GHRD_CORE_RBF}
-    else
-		   install -D -m 0644 ${WORKDIR}/${MACHINE}_gsrd_${ARM64_GHRD_CORE_RBF} ${DEPLOYDIR}/${MACHINE}_gsrd_ghrd/${ARM64_GHRD_CORE_RBF}
-	  fi
+		install -D -m 0644 ${WORKDIR}/${MACHINE}_${IMAGE_TYPE}_${ARM64_GHRD_CORE_RBF} ${DEPLOYDIR}/${MACHINE}_${IMAGE_TYPE}_ghrd/${ARM64_GHRD_CORE_RBF}
 
 		if [[ "${MACHINE}" == "agilex7_dk_si_agf014ea" ]]; then
 			install -D -m 0644 ${WORKDIR}/${MACHINE}_nand_${ARM64_GHRD_CORE_RBF} ${DEPLOYDIR}/${MACHINE}_${IMAGE_TYPE}_ghrd/nand.core.rbf

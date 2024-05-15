@@ -1,0 +1,59 @@
+From 9a84abdb6b1f288e75c8a96da07e147e3e1d90f2 Mon Sep 17 00:00:00 2001
+From: Rohan G Thomas <rohan.g.thomas@intel.com>
+Date: Wed, 15 May 2024 13:35:32 +0800
+Subject: [PATCH 1/2] run: Fix for unsupported utils
+
+Fix for unsupported utils.
+
+Upstream-Status: Inappropriate
+
+Signed-off-by: Rohan G Thomas <rohan.g.thomas@intel.com>
+---
+ shell/helpers.sh | 4 ++--
+ shell/vs1b.sh    | 2 ++
+ 2 files changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/shell/helpers.sh b/shell/helpers.sh
+index 6dcfab1..5d5aafc 100644
+--- a/shell/helpers.sh
++++ b/shell/helpers.sh
+@@ -437,7 +437,7 @@ run_iperf3_bg_client(){
+         #    run for 30000s
+         #     always use CPU0, general purpose core
+ 
+-        if [ ! -z "$SSH_CLIENT" ]; then
++        if [[ ! -z "$SSH_CLIENT" || ! `which xterm &> /dev/null` ]]; then
+                 # Headless mode, use ssh root@127.0.0.1 to trigger loopback if required
+                 echo "[CMD] iperf3 -c $TARGET_IP_ADDR -u -b $IPERF_BITRATE -l 1440 -f m -i 10 -t 30000 -A $IPERF_CPU_AFFINITY &"
+                 iperf3 -c $TARGET_IP_ADDR -u -b $IPERF_BITRATE -l 1440 -f m -i 10 -t 30000 -A $IPERF_CPU_AFFINITY &
+@@ -461,7 +461,7 @@ run_iperf3_bg_server(){
+         #     output interval 10s
+         #     always use CPU0, general purpose core
+ 
+-        if [ ! -z "$SSH_CLIENT" ]; then
++        if [[ ! -z "$SSH_CLIENT" || ! `which xterm &> /dev/null` ]]; then
+                 # Headless mode, use ssh root@127.0.0.1 to trigger loopback if required
+                 iperf3 -s -B $IFACE_IP_ADDR -i 10 -1 -A $IPERF_CPU_AFFINITY &
+         else
+diff --git a/shell/vs1b.sh b/shell/vs1b.sh
+index ccc5d95..7ff6a74 100755
+--- a/shell/vs1b.sh
++++ b/shell/vs1b.sh
+@@ -211,6 +211,7 @@ else
+     napi_switch_off $IFACE
+ fi
+ 
++<< comment
+ echo "PHASE 3: Calculating.."
+ pkill gnuplot
+ 
+@@ -248,5 +249,6 @@ fi
+ 
+ while [[ ! -s plot_pic.png ]]; do sleep 5; done
+ cp plot_pic.png results-$ID/$PLAT-plot-$(basename $0 .sh)-$KERNEL_VER-$NUMPKTS-$SIZE-$INTERVAL-$XDP_INTERVAL-$IDD.png
++comment
+ 
+ exit 0
+-- 
+2.26.2
+

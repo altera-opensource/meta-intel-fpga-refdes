@@ -1,83 +1,56 @@
-From 37969633c2e522d888f7e8a7d391788acdf0f16e Mon Sep 17 00:00:00 2001
+From 8f2cfa9f134a13f7494a15d4c2dda7b0903f1dc7 Mon Sep 17 00:00:00 2001
 From: Rohan G Thomas <rohan.g.thomas@intel.com>
 Date: Thu, 6 Jul 2023 15:14:59 +0800
-Subject: [PATCH 1/3] src: txrx: Update libxdp support
+Subject: [PATCH 1/3] src: txrx: Fix txrx reference app
 
-Updat libxdp support.
+Fix txrx reference app:
+ * Update libxdp header file
+ * Fix queue count check
+
+Upstream-Status: Inappropriate
 
 Signed-off-by: Rohan G Thomas <rohan.g.thomas@intel.com>
 ---
- src/txrx-afxdp.c | 12 ++++++++----
- src/txrx.c       |  3 ++-
- src/txrx.h       |  3 ++-
- 3 files changed, 12 insertions(+), 6 deletions(-)
+ src/txrx-afxdp.c | 2 +-
+ src/txrx.c       | 2 +-
+ src/txrx.h       | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/src/txrx-afxdp.c b/src/txrx-afxdp.c
-index aff5942..32c5729 100644
+index a1c2f99..8233494 100644
 --- a/src/txrx-afxdp.c
 +++ b/src/txrx-afxdp.c
-@@ -65,7 +65,8 @@
+@@ -65,7 +65,7 @@
  #include <linux/if_link.h>
  #include "linux/if_xdp.h"
  #include <bpf/libbpf.h>
 -#include <bpf/xsk.h>
-+// #include <bpf/xsk.h>
 +#include <xdp/xsk.h>
  #include <bpf/bpf.h>
  
  #include "txrx-afxdp.h"
-@@ -89,13 +90,15 @@ void remove_xdp_program(void)
- {
- 	uint32_t curr_prog_id = 0;
- 
--	if (bpf_get_link_xdp_id(glob_ifindex, &curr_prog_id, glob_xdp_flags)) {
-+	// if (bpf_get_link_xdp_id(glob_ifindex, &curr_prog_id, glob_xdp_flags)) {
-+	if (bpf_xdp_query_id(glob_ifindex, glob_xdp_flags, &curr_prog_id)) {
- 		fprintf(stderr, "exit: bpf_get_link_xdp_id failed\n");
- 		exit(EXIT_FAILURE);
- 	}
- 
- 	if (glob_xskinfo_ptr && glob_xskinfo_ptr->bpf_prog_id == curr_prog_id)
--		bpf_set_link_xdp_fd(glob_ifindex, -1, glob_xdp_flags);
-+		// bpf_set_link_xdp_fd(glob_ifindex, -1, glob_xdp_flags);
-+		bpf_xdp_attach(glob_ifindex, -1, glob_xdp_flags, NULL);
- 	else if (!glob_xskinfo_ptr)
- 		fprintf(stderr, "exit: socket creation incomplete. " \
- 				"Possibly due toincompatible queue.\n");
-@@ -201,7 +204,8 @@ static struct xsk_info *create_xsk_info(struct user_opt *opt, struct pkt_buffer
- 	if (ret)
- 		afxdp_exit_with_error(-ret);
- 
--	ret = bpf_get_link_xdp_id(opt->ifindex, &temp_xsk->bpf_prog_id, opt->x_opt.xdp_flags);
-+	// ret = bpf_get_link_xdp_id(opt->ifindex, &temp_xsk->bpf_prog_id, opt->x_opt.xdp_flags);
-+	ret = bpf_xdp_query_id(opt->ifindex, opt->x_opt.xdp_flags, &temp_xsk->bpf_prog_id);
- 	if (ret)
- 		afxdp_exit_with_error(-ret);
- 
 diff --git a/src/txrx.c b/src/txrx.c
-index a2d56be..e0a4191 100644
+index d2762be..0e747f2 100644
 --- a/src/txrx.c
 +++ b/src/txrx.c
-@@ -285,7 +285,8 @@ static struct argp argp = { options, parser, usage, summary };
- 
- static void copy_file(char *src_file, char *dst_file, bool clear_src)
- {
--	char ch;
-+	// char ch;
-+	 signed char ch;
- 	FILE *src, *dst;
- 
- 	if (src_file == NULL || dst_file == NULL) {
+@@ -180,7 +180,7 @@ static error_t parser(int key, char *arg, struct argp_state *state)
+ 	case 'q':
+ 		len = strlen(arg);
+ 		res = strtol((const char *)arg, &str_end, 10);
+-		if (errno || res < 0 || res >= 7 || str_end != &arg[len])
++		if (errno || res < 0 || res > 7 || str_end != &arg[len])
+ 			exit_with_error("Invalid queue number/socket priority. Check --help");
+ 		opt->socket_prio = (uint32_t)res;
+ #ifdef WITH_XDP
 diff --git a/src/txrx.h b/src/txrx.h
-index 594c7b1..c667f5c 100644
+index b78ba39..4dc0033 100644
 --- a/src/txrx.h
 +++ b/src/txrx.h
-@@ -35,7 +35,8 @@
+@@ -35,7 +35,7 @@
  
  #include <stdio.h>
  #ifdef WITH_XDP
 -#include <bpf/xsk.h>
-+// #include <bpf/xsk.h>
 +#include <xdp/xsk.h>
  #endif
  #include <time.h>
@@ -86,12 +59,14 @@ index 594c7b1..c667f5c 100644
 2.26.2
 
 
-From 89f2b7ee645ad984a29f6c6c4bef3e79a88df97f Mon Sep 17 00:00:00 2001
+From 93c587a6c38d9d6eeccb6a47f760ca41bcd7d7b7 Mon Sep 17 00:00:00 2001
 From: Rohan G Thomas <rohan.g.thomas@intel.com>
 Date: Thu, 6 Jul 2023 15:19:59 +0800
 Subject: [PATCH 2/3] build: Add support for cross-compilation
 
 Add support for cross-compilation.
+
+Upstream-Status: Inappropriate
 
 Signed-off-by: Rohan G Thomas <rohan.g.thomas@intel.com>
 ---
@@ -101,7 +76,7 @@ Signed-off-by: Rohan G Thomas <rohan.g.thomas@intel.com>
  3 files changed, 18 insertions(+), 4 deletions(-)
 
 diff --git a/Makefile.am b/Makefile.am
-index a01de47..b8fdf80 100644
+index a01de47..4f1c38e 100644
 --- a/Makefile.am
 +++ b/Makefile.am
 @@ -23,7 +23,7 @@ opcua_server_SOURCES=src/opcua-tsn/multicallback_server.c   \
@@ -109,12 +84,12 @@ index a01de47..b8fdf80 100644
  			src/opcua-tsn/opcua_publish.c	\
  			src/opcua-tsn/opcua_subscribe.c
 -txrx_tsn_LDADD = $(libbpf_LIBS) $(libelf_LIBS) -lpthread
-+txrx_tsn_LDADD = $(libbpf_LIBS) $(libelf_LIBS) $(libz_LIBS) -lpthread 
++txrx_tsn_LDADD = $(libbpf_LIBS) $(libelf_LIBS) $(libz_LIBS) -lpthread
  opcua_server_LDADD = $(open62451_LIBS) $(libjson_LIBS) $(libbpf_LIBS) $(libelf_LIBS) -lpthread
  
  AM_CPPFLAGS = -O2 -g -fstack-protector-strong -fPIE -fPIC -D_FORTIFY_SOURCE=2 \
 diff --git a/build.sh b/build.sh
-index 778b28a..0d12ac4 100755
+index ced29ec..d15dfa8 100755
 --- a/build.sh
 +++ b/build.sh
 @@ -75,8 +75,11 @@ export version=0
@@ -161,14 +136,14 @@ index 778b28a..0d12ac4 100755
  # Ideally, just use git reset HEAD --hard
  echo -e "\nBUILD.SH: Clean up automake artifacts."
 diff --git a/configure.ac b/configure.ac
-index 700846f..0a45b78 100644
+index 700846f..983e4ca 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -1,6 +1,7 @@
  AC_INIT([iotg-tsn-ref-sw], [1.0])
  AM_INIT_AUTOMAKE([-Wall -Werror foreign subdir-objects])
  AC_PROG_CC
-+AM_PROG_CC_C_O 
++AM_PROG_CC_C_O
  
  # Check for XDP header file
  AC_CHECK_HEADERS([linux/if_xdp.h], [HAVE_XDP=yes], [HAVE_XDP=no])
@@ -193,40 +168,46 @@ index 700846f..0a45b78 100644
 2.26.2
 
 
-From 75c989bd9f87812fbd975c1440d5b76f382f8367 Mon Sep 17 00:00:00 2001
+From 22effb3d6573fb7de4e0a3d4cdc3cf7c1bde799a Mon Sep 17 00:00:00 2001
 From: Rohan G Thomas <rohan.g.thomas@intel.com>
 Date: Thu, 6 Jul 2023 15:29:01 +0800
 Subject: [PATCH 3/3] run: agilex5: Add agilex5 platform support
 
 Add agilex5 platform support.
 
+Upstream-Status: Inappropriate
+
 Signed-off-by: Rohan G Thomas <rohan.g.thomas@intel.com>
 ---
  run.sh                     |  4 +-
- shell/agilex5/tsq1a.config | 36 +++++++++++++++++
- shell/agilex5/tsq1b.config | 36 +++++++++++++++++
- shell/agilex5/vs1a.config  | 82 ++++++++++++++++++++++++++++++++++++++
- shell/agilex5/vs1b.config  | 67 +++++++++++++++++++++++++++++++
- 5 files changed, 223 insertions(+), 2 deletions(-)
+ shell/agilex5/tsq1a.config | 36 ++++++++++++++++
+ shell/agilex5/tsq1b.config | 36 ++++++++++++++++
+ shell/agilex5/vs1a.config  | 85 ++++++++++++++++++++++++++++++++++++++
+ shell/agilex5/vs1b.config  | 69 +++++++++++++++++++++++++++++++
+ shell/helpers.sh           |  9 +++-
+ shell/tsq1a.sh             |  2 +
+ shell/vs1a.sh              | 16 ++++---
+ shell/vs1b.sh              |  8 +++-
+ 9 files changed, 253 insertions(+), 12 deletions(-)
  create mode 100644 shell/agilex5/tsq1a.config
  create mode 100644 shell/agilex5/tsq1b.config
  create mode 100644 shell/agilex5/vs1a.config
  create mode 100644 shell/agilex5/vs1b.config
 
 diff --git a/run.sh b/run.sh
-index c9988cf..a646199 100755
+index 731e3ed..d7a9372 100755
 --- a/run.sh
 +++ b/run.sh
 @@ -76,7 +76,7 @@ main() {
      IFACE=$2
  
      # Check for valid <PLAT>
--    if [[ "$1" == "tglu" || "$1" == "ehl" || "$1" == "tglh" || "$1" == "i225" || "$1" == "adls" || "$1" == "adln" || "$1" == "rplp" || "$1" == "rpls" ]]; then
-+    if [[ "$1" == "tglu" || "$1" == "ehl" || "$1" == "tglh" || "$1" == "i225" || "$1" == "adls" || "$1" == "adln" || "$1" == "rplp" || "$1" == "rpls" || "$1" == "agilex5" ]]; then
+-    if [[ "$1" == "tglu" || "$1" == "ehl" || "$1" == "tglh" || "$1" == "i225" || "$1" == "adls" || "$1" == "adln" || "$1" == "rplp" || "$1" == "rpls" || "$1" == "asl" ]]; then
++    if [[ "$1" == "tglu" || "$1" == "ehl" || "$1" == "tglh" || "$1" == "i225" || "$1" == "adls" || "$1" == "adln" || "$1" == "rplp" || "$1" == "rpls" || "$1" == "asl" || "$1" == "agilex5" ]]; then
          IFACE2=""
          CONFIG=$3
          ACTION=$4
-@@ -275,7 +275,7 @@ save_gcl_info() {
+@@ -295,7 +295,7 @@ save_gcl_info() {
  }
  
  save_board_info(){
@@ -321,10 +302,10 @@ index 0000000..97a1f8f
 +TEST_PERIOD=60
 diff --git a/shell/agilex5/vs1a.config b/shell/agilex5/vs1a.config
 new file mode 100644
-index 0000000..ad4ad2c
+index 0000000..284c282
 --- /dev/null
 +++ b/shell/agilex5/vs1a.config
-@@ -0,0 +1,82 @@
+@@ -0,0 +1,85 @@
 +#!/bin/bash
 +
 +###############################################################################
@@ -353,8 +334,8 @@ index 0000000..ad4ad2c
 +# Phase: Setup
 +
 +TAPRIO_MAP="0 1 2 3 4 5 6 7 0 0 0 0 0 0 0 0"
-+TAPRIO_SCHED=("sched-entry S 43 500000"
-+              "sched-entry S 42 500000"
++TAPRIO_SCHED=("sched-entry S ff 500000"
++              "sched-entry S fe 500000"
 +             )
 +
 +# NOTE : Value 0x2 : FPE ON. Turning off fpe-qmask as per now, q0 is preemptible by default in stmmac
@@ -378,8 +359,12 @@ index 0000000..ad4ad2c
 +ETF_DELTA=700000
 +#ETF_FLAGS="deadline_mode"
 +
-+IPERF_BITRATE=200M
-+CPU_AFFINITY=0
++#IPERF_BITRATE=200M
++# Iperf bitrate set as 20M. Revisit once Rx troughput issue got fixed.
++IPERF_BITRATE=20M
++IPERF_CPU_AFFINITY=0
++PTP_CPU_AFFINITY=1
++TXRX_TSN_AFFINITY=4
 +
 +###############################################################################
 +# Runtime
@@ -397,22 +382,21 @@ index 0000000..ad4ad2c
 +RX_XDP_Q=2
 +
 +TXTIME_OFFSET=20000
-+NUMPKTS=1000
++NUMPKTS=30000
 +SIZE=64
 +
 +INTERVAL=1000000
 +EARLY_OFFSET=700000
 +
-+#XDP_MODE="zT" #Zero-copy with LaunchTime
-+XDP_MODE="z" #Zero-copy with LaunchTime not supported by Simics
++XDP_MODE="zT" #Zero-copy with LaunchTime
 +XDP_INTERVAL=200000
 +XDP_EARLY_OFFSET=100000
 diff --git a/shell/agilex5/vs1b.config b/shell/agilex5/vs1b.config
 new file mode 100644
-index 0000000..d5a799f
+index 0000000..87c56f2
 --- /dev/null
 +++ b/shell/agilex5/vs1b.config
-@@ -0,0 +1,67 @@
+@@ -0,0 +1,69 @@
 +#!/bin/bash
 +
 +###############################################################################
@@ -455,7 +439,9 @@ index 0000000..d5a799f
 +PTP_TX_Q=1
 +PTP_RX_Q=1
 +
-+CPU_AFFINITY=0
++IPERF_CPU_AFFINITY=0
++PTP_CPU_AFFINITY=1
++TXRX_TSN_AFFINITY=8
 +
 +###############################################################################
 +# Runtime
@@ -471,7 +457,7 @@ index 0000000..d5a799f
 +RX_XDP_Q=2
 +
 +TXTIME_OFFSET=20000
-+NUMPKTS=1000
++NUMPKTS=30000
 +SIZE=64
 +
 +INTERVAL=1000000
@@ -480,7 +466,105 @@ index 0000000..d5a799f
 +XDP_MODE="z" #Zero-copy
 +XDP_INTERVAL=200000
 +XDP_EARLY_OFFSET=100000
+diff --git a/shell/helpers.sh b/shell/helpers.sh
+index aabd3fb..6dcfab1 100644
+--- a/shell/helpers.sh
++++ b/shell/helpers.sh
+@@ -123,7 +123,7 @@ init_interface(){
+         ip link set $IFACE down
+         ip link set dev $IFACE address $IFACE_MAC_ADDR
+         ip link set dev $IFACE up
+-        sleep 3
++        sleep 12
+ 
+         # Set VLAN ID to 3, all traffic fixed to one VLAN ID, but vary the VLAN Priority
+         ip link delete dev $IFACE.vlan 2> /dev/null
+@@ -175,7 +175,12 @@ napi_deferral_needed(){
+                 NAPI_DEFERRAL_NEEDED=1
+                 ;;
+             *)  # This is for kernel 5.4 & 5.19
+-                NAPI_DEFERRAL_NEEDED=0
++                # Seems agilex5 can't handle XDP packets at the receiving rate
++                if [[ $PLAT == agilex5 ]]; then
++                        NAPI_DEFERRAL_NEEDED=1
++                else
++                        NAPI_DEFERRAL_NEEDED=0
++                fi
+                 ;;
+         esac
+ }
+diff --git a/shell/tsq1a.sh b/shell/tsq1a.sh
+index 31110fb..3ab7acc 100755
+--- a/shell/tsq1a.sh
++++ b/shell/tsq1a.sh
+@@ -91,5 +91,7 @@ fi
+ 
+ # Let listener, talker and gnuplot run until the test_period is over.
+ sleep $TEST_PERIOD
++sleep 5
++trap 'kill $(jobs -p)' EXIT
+ 
+ exit 0
+diff --git a/shell/vs1a.sh b/shell/vs1a.sh
+index 16a5a83..23a7813 100755
+--- a/shell/vs1a.sh
++++ b/shell/vs1a.sh
+@@ -106,10 +106,6 @@ else
+ 
+     echo "PHASE 2: AF_XDP transmit $XDP_SLEEP_SEC seconds)"
+ 
+-    if [ "$RUN_IPERF3_XDP" = "y" ]; then
+-        run_iperf3_bg_client
+-    fi
+-
+     # This is targeting for kernel 5.* only
+     # For kernel 5.*, we will run the txrx-tsn before running the interface and clock configuration.
+     # For kernel 6.* and above, we will run the txrx-tsn after the interface and clock configuration.
+@@ -138,8 +134,12 @@ else
+         setup_taprio $IFACE
+         setup_etf $IFACE
+         # Disable the coalesce
+-        echo "[Kernel_${KERNEL_VER}_XDP] Disable coalescence."
+-        ethtool --per-queue $IFACE queue_mask 0x0F --coalesce rx-usecs 21 rx-frames 1 tx-usecs 1 tx-frames 1
++        if [[ $PLAT == agilex5 ]]; then
++                ethtool --per-queue $IFACE queue_mask 0xFF --coalesce rx-usecs 21 rx-frames 1
++        else
++                echo "[Kernel_${KERNEL_VER}_XDP] Disable coalescence."
++                ethtool --per-queue $IFACE queue_mask 0x0F --coalesce rx-usecs 21 rx-frames 1 tx-usecs 1 tx-frames 1
++        fi
+         sleep 2
+         setup_vlanrx_xdp $IFACE
+         $DIR/clock-setup.sh $IFACE
+@@ -154,6 +154,10 @@ else
+         sleep 40
+     fi
+ 
++    if [ "$RUN_IPERF3_XDP" = "y" ]; then
++        run_iperf3_bg_client
++    fi
++
+     # This is targeting for kernel others than 5.*
+     if [[ $KERNEL_VER != 5.* ]]; then
+         echo "CMD: ./txrx-tsn -X -$XDP_MODE -ti $IFACE -q $TX_XDP_Q -n $NUMPKTS -l $SIZE -y $XDP_INTERVAL -e $XDP_EARLY_OFFSET -o $TXTIME_OFFSET"
+diff --git a/shell/vs1b.sh b/shell/vs1b.sh
+index f1f1482..ccc5d95 100755
+--- a/shell/vs1b.sh
++++ b/shell/vs1b.sh
+@@ -145,8 +145,12 @@ else
+             sleep 7
+             setup_vlanrx_xdp $IFACE
+             # Disable the coalesce
+-            echo "[Kernel_${KERNEL_VER}_XDP] Disable coalescence."
+-            ethtool --per-queue $IFACE queue_mask 0x0F --coalesce rx-usecs 21 rx-frames 1 tx-usecs 1 tx-frames 1
++            if [[ $PLAT == agilex5 ]]; then
++                ethtool --per-queue $IFACE queue_mask 0xFF --coalesce rx-usecs 21 rx-frames 1
++            else
++                echo "[Kernel_${KERNEL_VER}_XDP] Disable coalescence."
++                ethtool --per-queue $IFACE queue_mask 0x0F --coalesce rx-usecs 21 rx-frames 1 tx-usecs 1 tx-frames 1
++            fi
+             sleep 2
+             $DIR/clock-setup.sh $IFACE
+             sleep 20
 -- 
 2.26.2
-
 

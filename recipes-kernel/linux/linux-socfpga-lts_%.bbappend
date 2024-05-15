@@ -36,24 +36,20 @@ SRC_URI:append:agilex7_dk_si_agf014eb = " file://sgmii.scc file://ilc.scc"
 SRC_URI:append:agilex5 = " file://initrd.scc \
                            file://xdp.scc \
 						   file://tsn.scc \
-						   file://sensors.scc \
-                           file://0001-libbpf-add-txtime-field-in-xdp_desc-struct.patch"
+						   file://sensors.scc"
 SRC_URI:append:agilex5_devkit = " file://initrd.scc \
                                   file://xdp.scc \
 								  file://tsn.scc \
 								  file://sensors.scc \
-								  file://edac.scc \
-                                  file://0001-libbpf-add-txtime-field-in-xdp_desc-struct.patch"
+								  file://edac.scc"
 SRC_URI:append:agilex5_mudv_cvr = " file://initrd.scc \
                                     file://xdp.scc \
 									file://tsn.scc \
-									file://sensors.scc \
-                                    file://0001-libbpf-add-txtime-field-in-xdp_desc-struct.patch"
+									file://sensors.scc"
 SRC_URI:append:agilex5_mucv = " file://initrd.scc \
                                 file://xdp.scc \
                                 file://tsn.scc \
-								file://sensors.scc \
-                                file://0001-libbpf-add-txtime-field-in-xdp_desc-struct.patch"
+								file://sensors.scc"
 SRC_URI:append:stratix10 = " file://sgmii.scc file://ilc.scc"
 SRC_URI:append:arria10 = " file://tse.scc"
 SRC_URI:append:cyclone5 = " file://tse.scc"

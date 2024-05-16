@@ -69,6 +69,15 @@ SRC_URI:append:stratix10 = " \
 					file://socfpga_ilc.dtsi \
 					"
 
+SRC_URI:append:stratix10_htile = " \
+					file://socfpga_stratix10_qse_sgmii_ghrd.dtsi \
+					file://socfpga_stratix10_qse_sgmii_ghrd_nand.dtsi \
+					file://stratix10_pr_fpga_static_region.dts \
+					file://stratix10_pr_persona0.dts \
+					file://stratix10_pr_persona1.dts \
+					file://socfpga_ilc.dtsi \
+					"
+
 SRC_URI:append:agilex5_devkit = " \
 					file://socfpga_agilex5_ghrd.dtsi \
 					file://0001-AIC0-tsn-config.patch_bc \
@@ -193,6 +202,21 @@ do_configure:append() {
 }
 
 do_configure:append:stratix10() {
+	# Vanilla DTB Generation
+	cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/altera/socfpga_stratix10_socdk.dts ${WORKDIR}/socfpga_stratix10_vanilla.dts
+	cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/altera/socfpga_stratix10.dtsi ${WORKDIR}
+
+	# GSRD DTB Generation
+	# MMC, QSPI
+	cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/altera/socfpga_stratix10_socdk.dts ${WORKDIR}
+	sed -i '/\#include \"socfpga_stratix10.dtsi\"/a \#include \"socfpga_stratix10_qse_sgmii_ghrd.dtsi\"\n\#include \"socfpga_ilc.dtsi\"' ${WORKDIR}/socfpga_stratix10_socdk.dts
+	sed -i '/\#include \"socfpga_stratix10_qse.dtsi\"/d' ${WORKDIR}/socfpga_stratix10_socdk.dts
+	# NAND
+	cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/altera/socfpga_stratix10_socdk_nand.dts ${WORKDIR}
+	sed -i '/\#include \"socfpga_stratix10.dtsi\"/a \#include \"socfpga_stratix10_qse_sgmii_ghrd_nand.dtsi\"\n\#include \"socfpga_ilc.dtsi\"' ${WORKDIR}/socfpga_stratix10_socdk_nand.dts
+}
+
+do_configure:append:stratix10_htile() {
 	# Vanilla DTB Generation
 	cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/altera/socfpga_stratix10_socdk.dts ${WORKDIR}/socfpga_stratix10_vanilla.dts
 	cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/altera/socfpga_stratix10.dtsi ${WORKDIR}

@@ -18,6 +18,7 @@ SRC_URI:append:agilex5_modular = " file://fit_kernel_agilex5_modular.its"
 SRC_URI:append:agilex5_mudv_cvr = " file://fit_kernel_agilex5_mudv_cvr.its"
 SRC_URI:append:agilex5_mucv = " file://fit_kernel_agilex5_mucv.its"
 SRC_URI:append:stratix10 = " file://fit_kernel_stratix10.its"
+SRC_URI:append:stratix10 = " file://fit_kernel_stratix10_htile.its"
 
 SRC_URI:append:arria10 = " \
 			${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://0001-socfpga_arria10_socdk-include-reference-design-dtsi.patch", "", d)} \
@@ -63,6 +64,7 @@ SRC_URI:append:agilex5_mucv = " file://initrd.scc \
 								file://sensors.scc \
                                 file://0001-libbpf-add-txtime-field-in-xdp_desc-struct.patch"
 SRC_URI:append:stratix10 = " file://sgmii.scc file://ilc.scc"
+SRC_URI:append:stratix10_htile = " file://sgmii.scc file://ilc.scc"
 SRC_URI:append:arria10 = " file://tse.scc"
 SRC_URI:append:cyclone5 = " file://tse.scc"
 
@@ -119,7 +121,7 @@ do_deploy:append() {
 			cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/debug2.core.rbf ${B}
 			#cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_usb_peripheral.dtb ${B}
 		fi
-	elif [[ "${MACHINE}" == "stratix10" ]]; then
+	elif [[ "${MACHINE}" == *"stratix10"* ]]; then
 		# linux.dtb
 		cp ${DTBDEPLOYDIR}/socfpga_stratix10_socdk.dtb ${B}
 		cp ${DTBDEPLOYDIR}/socfpga_stratix10_vanilla.dtb ${B}
@@ -130,7 +132,7 @@ do_deploy:append() {
 	fi
 
 	# Generate and deploy kernel.itb
-	if [[ "${MACHINE}" == *"agilex"* || "${MACHINE}" == "stratix10" ]]; then
+	if [[ "${MACHINE}" == *"agilex"* || "${MACHINE}" == *"stratix10"* ]]; then
 		# kernel.its
 		cp ${WORKDIR}/fit_kernel_${MACHINE}.its ${B}
 		# Image

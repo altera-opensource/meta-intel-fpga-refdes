@@ -40,7 +40,7 @@ if [ "$1" == "fpga_static_region.dtbo" ]; then
                 else
                         :
                 fi
-		elif [ "$MACHINE" == "stratix10" ]; then
+		elif [[ "$MACHINE" == "stratix10"* ]]; then
                 if [ "$2" == "start" ]; then
                         dtbt -p /boot/devicetree -a stratix10_pr_fpga_static_region.dtbo
                 elif [ "$2" == "stop" ]; then
@@ -71,7 +71,7 @@ if [ "$1" == "persona0.dtbo" ]; then
                 else
                         :
                 fi
-		elif [ "$MACHINE" == "stratix10" ]; then
+		elif [[ "$MACHINE" == "stratix10"* ]]; then
                 if [ "$2" == "start" ]; then
                         dtbt -p /boot/devicetree -a stratix10_pr_persona0.dtbo
                 elif [ "$2" == "stop" ]; then
@@ -102,7 +102,7 @@ if [ "$1" == "persona1.dtbo" ]; then
                 else
                         :
                 fi
-		elif [ "$MACHINE" == "stratix10" ]; then
+		elif [[ "$MACHINE" == "stratix10"* ]]; then
                 if [ "$2" == "start" ]; then
                         dtbt -p /boot/devicetree -a stratix10_pr_persona1.dtbo
                 elif [ "$2" == "stop" ]; then

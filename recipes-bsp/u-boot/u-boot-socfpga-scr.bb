@@ -22,6 +22,7 @@ SRC_URI:agilex5_modular = "file://uboot.txt file://uboot_script.its"
 SRC_URI:agilex5_mudv_cvr = "file://uboot.txt file://uboot_script.its"
 SRC_URI:agilex5_mucv = "file://uboot.txt file://uboot_script.its"
 SRC_URI:stratix10 = "file://uboot.txt file://uboot_script.its"
+SRC_URI:stratix10_htile = "file://uboot.txt file://uboot_script.its"
 SRC_URI:arria10 = "file://arria10_u-boot.txt"
 SRC_URI:cyclone5 = "file://cyclone5_u-boot.txt"
 SRC_URI:n5x = "file://n5x_u-boot.txt"
@@ -63,6 +64,10 @@ do_compile:stratix10() {
 	mkimage -f "${WORKDIR}/uboot_script.its" ${WORKDIR}/boot.scr.uimg
 }
 
+do_compile:stratix10_htile() {
+	mkimage -f "${WORKDIR}/uboot_script.its" ${WORKDIR}/boot.scr.uimg
+}
+
 do_compile:cyclone5() {
 	mkimage -A arm -O linux -T script -C none -a 0 -e 0 -n "Cyclone5 Script" -d "${WORKDIR}/${MACHINE}_u-boot.txt" ${WORKDIR}/u-boot.scr
 }
@@ -76,7 +81,7 @@ do_deploy() {
 	if [[ "${MACHINE}" == "arria10" ]]; then
 		install -m 0755 ${WORKDIR}/${MACHINE}_u-boot.txt ${DEPLOYDIR}/u-boot.txt
 		install -m 0644 ${WORKDIR}/boot.scr ${DEPLOYDIR}/boot.scr
-	elif [[ "${MACHINE}" == *"agilex7_"* ]] || [[ "${MACHINE}" == "stratix10" ]]; then
+	elif [[ "${MACHINE}" == *"agilex7_"* ]] || [[ "${MACHINE}" == *"stratix10"* ]]; then
 		install -m 0755 ${WORKDIR}/uboot.txt ${DEPLOYDIR}/u-boot.txt
 		install -m 0644 ${WORKDIR}/boot.scr.uimg ${DEPLOYDIR}/boot.scr.uimg
 	elif [[ "${MACHINE}" == "agilex5" ]]; then

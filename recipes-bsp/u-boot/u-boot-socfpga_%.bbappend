@@ -13,6 +13,7 @@ DEPENDS:append:agilex5_modular = " arm-trusted-firmware bash u-boot-socfpga-scr"
 DEPENDS:append:agilex5_mudv_cvr = " arm-trusted-firmware bash u-boot-socfpga-scr"
 DEPENDS:append:agilex5_mucv = " arm-trusted-firmware bash u-boot-socfpga-scr"
 DEPENDS:append:stratix10 = " arm-trusted-firmware bash u-boot-socfpga-scr"
+DEPENDS:append:stratix10_htile = " arm-trusted-firmware bash u-boot-socfpga-scr"
 DEPENDS:append:arria10 = " hw-ref-design"
 DEPENDS:append:n5x = " arm-trusted-firmware bash u-boot-socfpga-scr"
 

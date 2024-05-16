@@ -90,6 +90,13 @@ SRC_URI:stratix10 ?= "\
 		${GHRD_REPO}/stratix10_pr_persona1.rbf;name=stratix10_pr_persona1 \
 		"
 
+SRC_URI:stratix10_htile ?= "\
+		${GHRD_REPO}/stratix10_htile_gsrd_${ARM64_GHRD_CORE_RBF};name=stratix10_htile_gsrd_core \
+		${GHRD_REPO}/stratix10_htile_nand_${ARM64_GHRD_CORE_RBF};name=stratix10_htile_nand_core \
+		${GHRD_REPO}/stratix10_htile_pr_persona0.rbf;name=stratix10_htile_pr_persona0 \
+		${GHRD_REPO}/stratix10_htile_pr_persona1.rbf;name=stratix10_htile_pr_persona1 \
+		"
+
 SRC_URI:arria10 ?= "\
 		${GHRD_REPO}/arria10_${IMAGE_TYPE}_hps.xml;name=arria10_${IMAGE_TYPE}_hps_xml \
 		${GHRD_REPO}/arria10_${IMAGE_TYPE}_${A10_GHRD_CORE_RBF};name=arria10_${IMAGE_TYPE}_core \
@@ -132,6 +139,12 @@ SRC_URI[stratix10_gsrd_core.sha256sum] = "4ec219828c3fc357ffbb3c8dc2ddbead5630df
 SRC_URI[stratix10_nand_core.sha256sum] = "f48a1dd9eb88bd672e2ef246b0c7f78ffa5148a7b7b272b9e84274f416e09de3"
 SRC_URI[stratix10_pr_persona0.sha256sum] = "a8ac5962e79254ba8a12f6b72a5c2088ca28e60e73292366460f44f99a55d65e"
 SRC_URI[stratix10_pr_persona1.sha256sum] = "94cefba1b9de7a4c57eec5c8c0779aa7d65b26352e4b1232c14fea261cd29c73"
+
+#TO DO: UPDATE STRATIX10 H-TILE HASH
+SRC_URI[stratix10_htile_gsrd_core.sha256sum] = "4ec219828c3fc357ffbb3c8dc2ddbead5630dfbf8221c2ea2b7ebd9b3a86cc89"
+SRC_URI[stratix10_htile_nand_core.sha256sum] = "f48a1dd9eb88bd672e2ef246b0c7f78ffa5148a7b7b272b9e84274f416e09de3"
+SRC_URI[stratix10_htile_pr_persona0.sha256sum] = "a8ac5962e79254ba8a12f6b72a5c2088ca28e60e73292366460f44f99a55d65e"
+SRC_URI[stratix10_htile_pr_persona1.sha256sum] = "94cefba1b9de7a4c57eec5c8c0779aa7d65b26352e4b1232c14fea261cd29c73"
 
 SRC_URI[arria10_gsrd_core.sha256sum] = "81c827cca0eb491e631a291f3ab4df6e36979b32c25f063cbb92c30c701034a2"
 SRC_URI[arria10_gsrd_periph.sha256sum] = "91dd91750599221c715b6de9b81bd3abe8e75d6f709b408110573e7ea27f67fb"
@@ -192,6 +205,13 @@ do_install () {
 		install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_persona1.rbf ${D}${base_libdir}/firmware/persona1.rbf
 	fi
 
+	if ${@bb.utils.contains("MACHINE", "stratix10_htile", "true", "false", d)}; then
+		install -D -m 0644 ${WORKDIR}/${MACHINE}_gsrd_${ARM64_GHRD_CORE_RBF} ${D}/boot/${ARM64_GHRD_CORE_RBF}
+		install -D -m 0644 ${WORKDIR}/${MACHINE}_nand_${ARM64_GHRD_CORE_RBF} ${D}/boot/nand.core.rbf
+		install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_persona0.rbf ${D}${base_libdir}/firmware/persona0.rbf
+		install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_persona1.rbf ${D}${base_libdir}/firmware/persona1.rbf
+	fi
+
 	if ${@bb.utils.contains("MACHINE", "cyclone5", "true", "false", d)}; then
 		install -D -m 0644 ${WORKDIR}/${MACHINE}_${IMAGE_TYPE}_${C5_GHRD_CORE_RBF} ${D}/boot/${C5_GHRD_CORE_RBF}
 	fi
@@ -240,6 +260,13 @@ do_deploy () {
 	fi
 
 	if ${@bb.utils.contains("MACHINE", "stratix10", "true", "false", d)}; then
+		install -D -m 0644 ${WORKDIR}/${MACHINE}_gsrd_${ARM64_GHRD_CORE_RBF} ${DEPLOYDIR}/${MACHINE}_gsrd_ghrd/${ARM64_GHRD_CORE_RBF}
+		install -D -m 0644 ${WORKDIR}/${MACHINE}_nand_${ARM64_GHRD_CORE_RBF} ${DEPLOYDIR}/${MACHINE}_${IMAGE_TYPE}_ghrd/nand.core.rbf
+		install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_persona0.rbf ${DEPLOYDIR}/${MACHINE}_${IMAGE_TYPE}_ghrd/persona0.rbf
+		install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_persona1.rbf ${DEPLOYDIR}/${MACHINE}_${IMAGE_TYPE}_ghrd/persona1.rbf
+	fi
+
+	if ${@bb.utils.contains("MACHINE", "stratix10_htile", "true", "false", d)}; then
 		install -D -m 0644 ${WORKDIR}/${MACHINE}_gsrd_${ARM64_GHRD_CORE_RBF} ${DEPLOYDIR}/${MACHINE}_gsrd_ghrd/${ARM64_GHRD_CORE_RBF}
 		install -D -m 0644 ${WORKDIR}/${MACHINE}_nand_${ARM64_GHRD_CORE_RBF} ${DEPLOYDIR}/${MACHINE}_${IMAGE_TYPE}_ghrd/nand.core.rbf
 		install -D -m 0644 ${WORKDIR}/${MACHINE}_pr_persona0.rbf ${DEPLOYDIR}/${MACHINE}_${IMAGE_TYPE}_ghrd/persona0.rbf

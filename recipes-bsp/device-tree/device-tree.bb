@@ -15,7 +15,7 @@ inherit devicetree
 
 PROVIDES = "virtual/dtb"
 
-COMPATIBLE_MACHINE = "(agilex5_devkit|agilex5_modular|agilex5_mucv|agilex5_mudv_cvr|agilex7_dk_si_agf014ea|agilex7_dk_si_agf014eb|agilex7_dk_si_agi027fb|agilex7_dk_si_agi027fa|agilex7_dk_si_agi027fc|agilex7_dk_dev_agf027f1es|agilex7_dk_dev_agm039fes|stratix10)"
+COMPATIBLE_MACHINE = "(agilex5_devkit|agilex5_modular|agilex5_mucv|agilex5_mudv_cvr|agilex7_dk_si_agf014ea|agilex7_dk_si_agf014eb|agilex7_dk_si_agi027fb|agilex7_dk_si_agi027fa|agilex7_dk_si_agi027fc|agilex7_dk_dev_agf027f1es|agilex7_dk_dev_agm039fes|stratix10|stratix10_htile)"
 
 SRC_URI:append:agilex7_dk_si_agf014ea = " \
 					file://socfpga_agilex7_ghrd_sgmii.dtsi \

@@ -18,7 +18,7 @@ SRC_URI:append:agilex5_modular = " file://fit_kernel_agilex5_modular.its"
 SRC_URI:append:agilex5_mudv_cvr = " file://fit_kernel_agilex5_mudv_cvr.its"
 SRC_URI:append:agilex5_mucv = " file://fit_kernel_agilex5_mucv.its"
 SRC_URI:append:stratix10 = " file://fit_kernel_stratix10.its"
-SRC_URI:append:stratix10 = " file://fit_kernel_stratix10_htile.its"
+SRC_URI:append:stratix10_htile = " file://fit_kernel_stratix10_htile.its"
 
 SRC_URI:append:arria10 = " \
 			${@bb.utils.contains("IMAGE_TYPE", "gsrd", "file://0001-socfpga_arria10_socdk-include-reference-design-dtsi.patch", "", d)} \

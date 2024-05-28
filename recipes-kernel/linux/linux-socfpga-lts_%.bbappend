@@ -14,6 +14,7 @@ SRC_URI:append:agilex7_dk_dev_agf027f1es = " file://fit_kernel_agilex7_dk_dev_ag
 SRC_URI:append:agilex7_dk_dev_agm039fes = " file://fit_kernel_agilex7_dk_dev_agm039fes.its" 
 SRC_URI:append:agilex5 = " file://fit_kernel_agilex5.its"
 SRC_URI:append:agilex5_dk_a5e065bb32aes1 = " file://fit_kernel_agilex5_dk_a5e065bb32aes1.its"
+SRC_URI:append:agilex5_dk_a5e013bb32aesi0 = " file://fit_kernel_agilex5_dk_a5e013bb32aesi0.its"
 SRC_URI:append:agilex5_modular = " file://fit_kernel_agilex5_modular.its"
 SRC_URI:append:agilex5_mudv_cvr = " file://fit_kernel_agilex5_mudv_cvr.its"
 SRC_URI:append:agilex5_mucv = " file://fit_kernel_agilex5_mucv.its"
@@ -41,6 +42,11 @@ SRC_URI:append:agilex5 = " file://initrd.scc \
 						   file://tsn.scc \
 						   file://sensors.scc"
 SRC_URI:append:agilex5_dk_a5e065bb32aes1 = " file://initrd.scc \
+                                  file://xdp.scc \
+								  file://tsn.scc \
+								  file://sensors.scc \
+								  file://edac.scc"
+SRC_URI:append:agilex5_dk_a5e013bb32aesi0 = " file://initrd.scc \
                                   file://xdp.scc \
 								  file://tsn.scc \
 								  file://sensors.scc \
@@ -94,7 +100,7 @@ do_deploy:append() {
 		cp ${LINUXDEPLOYDIR}/socfpga_${MACHINE}_socdk.dtb ${B}/socfpga_${MACHINE}_socdk.dtb
 		cp ${LINUXDEPLOYDIR}/socfpga_${MACHINE}_socdk_swvp.dtb ${B}/socfpga_${MACHINE}_socdk_swvp.dtb
 	elif [[ "${MACHINE}" == *"agilex5_"* ]]; then
-		if [[ "${MACHINE}" == "agilex5_modular" ]]; then
+		if [[ "${MACHINE}" == "agilex5_modular" || "${MACHINE}" == "agilex5_dk_a5e013bb32aesi0" ]]; then
 			# linux.dtb
 			cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk.dtb ${B}
 			cp ${DTBDEPLOYDIR}/socfpga_agilex5_vanilla.dtb ${B}

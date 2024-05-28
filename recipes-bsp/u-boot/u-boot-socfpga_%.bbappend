@@ -8,7 +8,7 @@ DEPENDS:append:agilex7_dk_si_agi027fc = " arm-trusted-firmware bash u-boot-socfp
 DEPENDS:append:agilex7_dk_dev_agf027f1es = " arm-trusted-firmware bash u-boot-socfpga-scr"
 DEPENDS:append:agilex7_dk_dev_agm039fes = " arm-trusted-firmware bash u-boot-socfpga-scr"
 DEPENDS:append:agilex5 = " arm-trusted-firmware bash u-boot-socfpga-scr"
-DEPENDS:append:agilex5_devkit = " arm-trusted-firmware bash u-boot-socfpga-scr"
+DEPENDS:append:agilex5_dk_a5e065bb32aes1 = " arm-trusted-firmware bash u-boot-socfpga-scr"
 DEPENDS:append:agilex5_modular = " arm-trusted-firmware bash u-boot-socfpga-scr"
 DEPENDS:append:agilex5_mudv_cvr = " arm-trusted-firmware bash u-boot-socfpga-scr"
 DEPENDS:append:agilex5_mucv = " arm-trusted-firmware bash u-boot-socfpga-scr"
@@ -23,7 +23,7 @@ SRC_URI:append = " \
              file://0001-arm-stratix10-add-board-configuration.patch \
            "
 
-SRC_URI:append:agilex5_devkit = " file://v1-0001-HSD-15015933655-ddr-altera-agilex5-Hack-dual-port-DO-NOT-MERGE.patch"
+SRC_URI:append:agilex5_dk_a5e065bb32aes1 = " file://v1-0001-HSD-15015933655-ddr-altera-agilex5-Hack-dual-port-DO-NOT-MERGE.patch"
 
 SRC_URI:append:agilex5_mucv = " file://0001-Revert-HSD-22019331429-arch-arm-dts-socfpga_agilex5-.patch"
 SRC_URI:append:agilex5_mudv_cvr = " file://0001-Revert-HSD-22019331429-arch-arm-dts-socfpga_agilex5-.patch"

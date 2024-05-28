@@ -49,7 +49,7 @@ agilex7_dk_si_agi027fa)
 agilex5)
 	DEVKIT_NAME="Agilex5 SoC Development Kit"
 	;;
-agilex5_devkit)
+agilex5_dk_a5e065bb32aes1)
 	DEVKIT_NAME="Agilex5 devkit SoC Development Kit"
 	;;
 agilex5_mudv_cvr)

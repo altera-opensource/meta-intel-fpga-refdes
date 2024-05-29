@@ -31,10 +31,10 @@ SRC_URI:stratix10 = "\
 			 "
 
 SRC_URI:stratix10_htile = "\
-			 ${@bb.utils.contains("UBOOT_CONFIG", "stratix10_htile-socdk", "file://stratix10-socdk_u-boot-env.txt", "", d)} \
-			 ${@bb.utils.contains("UBOOT_CONFIG", "stratix10_htile-socdk-atf", "file://stratix10-socdk-atf_u-boot-env.txt", "", d)} \
-			 ${@bb.utils.contains("UBOOT_CONFIG", "stratix10_htile-socdk-qspi", "file://stratix10-socdk-qspi_u-boot-env.txt", "", d)} \
-			 ${@bb.utils.contains("UBOOT_CONFIG", "stratix10_htile-socdk-qspi-atf", "file://stratix10-socdk-qspi-atf_u-boot-env.txt", "", d)} \
+			 ${@bb.utils.contains("UBOOT_CONFIG", "stratix10-socdk", "file://stratix10-socdk_u-boot-env.txt", "", d)} \
+			 ${@bb.utils.contains("UBOOT_CONFIG", "stratix10-socdk-atf", "file://stratix10-socdk-atf_u-boot-env.txt", "", d)} \
+			 ${@bb.utils.contains("UBOOT_CONFIG", "stratix10-socdk-qspi", "file://stratix10-socdk-qspi_u-boot-env.txt", "", d)} \
+			 ${@bb.utils.contains("UBOOT_CONFIG", "stratix10-socdk-qspi-atf", "file://stratix10-socdk-qspi-atf_u-boot-env.txt", "", d)} \
 			 "
 
 SRC_URI:arria10 = "\

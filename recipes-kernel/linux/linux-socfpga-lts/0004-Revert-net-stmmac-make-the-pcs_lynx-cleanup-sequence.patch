@@ -1,0 +1,58 @@
+From 64a5db1121777a104464ab9fc430a839dc18c458 Mon Sep 17 00:00:00 2001
+From: "Tham, Mun Yew" <mun.yew.tham@intel.com>
+Date: Tue, 4 Jun 2024 20:00:40 +0800
+Subject: [PATCH 4/4] Revert "net: stmmac: make the pcs_lynx cleanup sequence
+ specific to dwmac_socfpga"
+
+This reverts commit a8dd7404c21447b46e792a483f4d73af66ccaf8d.
+---
+ drivers/net/ethernet/stmicro/stmmac/common.h        |  1 +
+ drivers/net/ethernet/stmicro/stmmac/dwmac-socfpga.c | 13 +------------
+ 2 files changed, 2 insertions(+), 12 deletions(-)
+
+diff --git a/drivers/net/ethernet/stmicro/stmmac/common.h b/drivers/net/ethernet/stmicro/stmmac/common.h
+index dd37f5b94934..9481eebde107 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/common.h
++++ b/drivers/net/ethernet/stmicro/stmmac/common.h
+@@ -16,6 +16,7 @@
+ #include <linux/stmmac.h>
+ #include <linux/phy.h>
+ #include <linux/pcs/pcs-xpcs.h>
++#include <linux/pcs-lynx.h>
+ #include <linux/module.h>
+ #if IS_ENABLED(CONFIG_VLAN_8021Q)
+ #define STMMAC_VLAN_TAG_USED
+diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-socfpga.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-socfpga.c
+index 28bb84e653e6..596ec63ecb9d 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/dwmac-socfpga.c
++++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-socfpga.c
+@@ -592,17 +592,6 @@ static int socfpga_dwmac_probe(struct platform_device *pdev)
+ 	return ret;
+ }
+ 
+-static void socfpga_dwmac_remove(struct platform_device *pdev)
+-{
+-	struct net_device *ndev = platform_get_drvdata(pdev);
+-	struct stmmac_priv *priv = netdev_priv(ndev);
+-	struct phylink_pcs *pcs = priv->hw->lynx_pcs;
+-
+-	stmmac_pltfr_remove(pdev);
+-
+-	lynx_pcs_destroy(pcs);
+-}
+-
+ #ifdef CONFIG_PM_SLEEP
+ static int socfpga_dwmac_resume(struct device *dev)
+ {
+@@ -674,7 +663,7 @@ MODULE_DEVICE_TABLE(of, socfpga_dwmac_match);
+ 
+ static struct platform_driver socfpga_dwmac_driver = {
+ 	.probe  = socfpga_dwmac_probe,
+-	.remove_new = socfpga_dwmac_remove,
++	.remove_new = stmmac_pltfr_remove,
+ 	.driver = {
+ 		.name           = "socfpga-dwmac",
+ 		.pm		= &socfpga_dwmac_pm_ops,
+-- 
+2.25.1
+

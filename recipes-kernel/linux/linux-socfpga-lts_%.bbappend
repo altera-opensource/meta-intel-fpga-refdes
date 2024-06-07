@@ -34,7 +34,11 @@ SRC_URI:append:arria10 = " \
 SRC_URI:append:cyclone5 = " file://0001-socfpga_cyclone5_socdk-include-reference-design-dtsi.patch"
 
 # Append GSRD specific kernel config fragments
-SRC_URI:append = " file://ubifs.scc"
+SRC_URI:append = " file://ubifs.scc \
+                   file://0001-Revert-net-stmmac-dwmac-sogfpga-use-the-lynx-pcs-dri.patch \
+                   file://0002-Revert-net-ethernet-altera-tse-Convert-to-mdio-regma.patch \
+                   file://0003-Revert-net-mdio-Introduce-a-regmap-based-mdio-driver.patch \
+                   file://0004-Revert-net-stmmac-make-the-pcs_lynx-cleanup-sequence.patch"
 SRC_URI:append:agilex7_dk_si_agf014ea = " file://sgmii.scc file://ilc.scc"
 SRC_URI:append:agilex7_dk_si_agf014eb = " file://sgmii.scc file://ilc.scc"
 SRC_URI:append:agilex5 = " file://initrd.scc \

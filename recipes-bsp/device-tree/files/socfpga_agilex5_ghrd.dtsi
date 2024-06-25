@@ -5,7 +5,7 @@
 */
 
 /{
-	soc {
+	soc@0 {
 
 		led_pio: gpio@20010080 {
 				compatible = "altr,pio-1.0";

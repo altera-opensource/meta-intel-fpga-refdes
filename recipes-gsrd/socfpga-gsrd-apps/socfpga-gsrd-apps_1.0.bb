@@ -42,7 +42,7 @@ do_install() {
 	install -d ${D}/home/root/intelFPGA
 	install -m 0755 hello/hello ${D}/home/root/intelFPGA/hello
 	install -m 0755 syschk/syschk ${D}/home/root/intelFPGA/syschk
-	if [[ "${MACHINE}" != *"agilex5"* ]]; then
+	if [[ "${MACHINE}" != "agilex5" ]]; then
 		install -m 0755 blink/blink ${D}/www/pages/cgi-bin/blink
 		install -m 0755 scroll_server/scroll_server ${D}/www/pages/cgi-bin/scroll_server
 		install -m 0755 scroll_client/scroll_client ${D}/www/pages/cgi-bin/scroll_client

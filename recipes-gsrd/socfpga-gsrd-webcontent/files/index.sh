@@ -200,7 +200,7 @@ elif [[ "$MACHINE" == "agilex7_dk_si_agi027f"* ]]; then
         echo -e "<div><img src=\"../agilex7_dk_si_agi027fb-board-image.jpg\" style=\"width:640px;height:478px;\"></div>"
 fi
 
-if [ "$MACHINE" != *"agilex5"* ]; then
+if [ "$MACHINE" != "agilex5" ]; then
 	##
 	echo -e "<div id=\"interactive\" class=\"bup-form\">"
 	echo "<hr style=\"border: 1px solid; color:#06c\"><br>"

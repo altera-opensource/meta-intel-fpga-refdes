@@ -1,0 +1,44 @@
+
+mmc info
+fatls mmc 0:1
+
+fatload mmc 0:1 0xa000000 xen
+fatload mmc 0:1 0x8000000 devicetree/socfpga_agilex7_vanilla.dtb
+fatload mmc 0:1 0x3000000 Image
+
+setenv xen_bootargs 'dom0_mem=2048M'
+fdt addr 0x8000000
+fdt resize
+
+fdt rm /soc/ethernet@ff802000 \iommus
+fdt rm /soc/ethernet@ff804000 \iommus
+fdt set /chosen \#address-cells <1>
+fdt set /chosen \#size-cells <1>
+fdt set /chosen \xen,xen-bootargs "console=dtuart dtuart=serial0 $xen_bootargs bootscrub=0 log_level=debug dom0_max_vcpus=2 dom0_vcpus_pin watchdog_timeout=0 timer_slop=0  iommu=verbose iommu=debug "
+fdt set /chosen \xen,dom0-bootargs "rdinit=/bin/sh console=hvc0 earlycon=xen earlyprintk=xen root=/dev/mmcblk0p2 rw rootwait "
+
+fdt mknod /chosen dom0
+fdt set /chosen/dom0 compatible "multiboot,kernel" "multiboot,module"
+fdt set /chosen/dom0 reg <0x3000000 0x${filesize}>
+
+fdt mknod /chosen dom1
+fdt set /chosen/dom1 compatible "multiboot,ramdisk" "multiboot,module"
+fdt set /chosen/dom1 reg <0xb000000 0x8000000>
+
+fdt set /soc/ethernet@ff800000 \iommus <8 0x401>
+fdt set /soc/mmc@ff808000 \iommus <8 0x805>
+fdt set /soc/usb@ffb00000 \iommus <8 0x806>
+
+fdt rm /soc/usb@ffb40000 \iommus
+fdt set /soc/usb@ffb40000 status "disabled"
+
+fdt rm /soc/iommu@fa000000 \interrupts
+fdt set /soc/iommu@fa000000  \interrupts <0x00 0x80 0x04 0x00 0x81 0x04 0x00 0x8a 0x04 0x00 0x8b 0x04 0x00 0x8c 0x04 0x00 0x8d 0x04>
+fdt set /soc/iommu@fa000000 status "okay"
+
+echo "Device tree updated for Xen Hypervisor."
+echo "Device tree load address  - 0x8000000"
+echo "Kernel Image load address - 0x3000000"
+echo "Xen image load address    - 0xa000000"
+
+echo "Run 'booti 0x0a000000 - 0x08000000' command to load Xen Hypervisor"

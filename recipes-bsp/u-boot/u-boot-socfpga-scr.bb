@@ -9,6 +9,8 @@ DEPENDS = "u-boot-mkimage-native dtc-native"
 inherit deploy nopackages
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
+HYP_BUILD ??= "0"
+
 SRC_URI:agilex7_dk_si_agf014ea = "file://uboot.txt file://uboot_script.its"
 SRC_URI:agilex7_dk_si_agf014eb = "file://uboot.txt file://uboot_script.its"
 SRC_URI:agilex7_dk_si_agi027fb = "file://uboot.txt file://uboot_script.its"
@@ -28,6 +30,12 @@ SRC_URI:arria10 = "file://arria10_u-boot.txt"
 SRC_URI:cyclone5 = "file://cyclone5_u-boot.txt"
 SRC_URI:n5x = "file://n5x_u-boot.txt"
 
+SRC_URI:append:agilex5_dk_a5e065bb32aes1 = " ${@bb.utils.contains('HYP_BUILD', '1', 'file://agilex5_uboot_xen.txt file://agilex5_uboot_script_xen.its', '', d)}"
+SRC_URI:append:agilex5_dk_a5e013bb32aesi0 = " ${@bb.utils.contains('HYP_BUILD', '1', 'file://agilex5_uboot_xen.txt file://agilex5_uboot_script_xen.its', '', d)}"
+SRC_URI:append:agilex5_modular = " ${@bb.utils.contains('HYP_BUILD', '1', 'file://agilex5_uboot_xen.txt file://agilex5_uboot_script_xen.its', '', d)}"
+SRC_URI:append:agilex7_dk_si_agf014ea = " ${@bb.utils.contains('HYP_BUILD', '1', 'file://agilex7_uboot_xen.txt file://agilex7_uboot_script_xen.its', '', d)}"
+SRC_URI:append:agilex7_dk_si_agf014eb = " ${@bb.utils.contains('HYP_BUILD', '1', 'file://agilex7_uboot_xen.txt file://agilex7_uboot_script_xen.its', '', d)}"
+
 do_configure[noexec] = "1"
 do_install[noexec] = "1"
 
@@ -38,6 +46,10 @@ do_compile:n5x() {
 do_compile() {
 	if [[ "${MACHINE}" == *"agilex7_"* ]]; then
 		mkimage -f "${WORKDIR}/uboot_script.its" ${WORKDIR}/boot.scr.uimg
+		export HYP_BUILD="${@bb.utils.contains('HYP_BUILD', '1', '1', '0', d)}"
+		if [[ "${HYP_BUILD}" = "1" ]]; then
+			mkimage -f "${WORKDIR}/agilex7_uboot_script_xen.its" ${WORKDIR}/boot.scr.xen.uimg
+		fi
 	fi
 }
 
@@ -47,14 +59,26 @@ do_compile:agilex5() {
 
 do_compile:agilex5_dk_a5e065bb32aes1() {
 	mkimage -f "${WORKDIR}/uboot_script.its" ${WORKDIR}/boot.scr.uimg
+	export HYP_BUILD="${@bb.utils.contains('HYP_BUILD', '1', '1', '0', d)}"
+	if [[ "${HYP_BUILD}" = "1" ]]; then
+		mkimage -f "${WORKDIR}/agilex5_uboot_script_xen.its" ${WORKDIR}/boot.scr.xen.uimg
+	fi
 }
 
 do_compile:agilex5_dk_a5e013bb32aesi0() {
 	mkimage -f "${WORKDIR}/uboot_script.its" ${WORKDIR}/boot.scr.uimg
+	export HYP_BUILD="${@bb.utils.contains('HYP_BUILD', '1', '1', '0', d)}"
+	if [[ "${HYP_BUILD}" = "1" ]]; then
+		mkimage -f "${WORKDIR}/agilex5_uboot_script_xen.its" ${WORKDIR}/boot.scr.xen.uimg
+	fi
 }
 
 do_compile:agilex5_modular() {
 	mkimage -f "${WORKDIR}/uboot_script.its" ${WORKDIR}/boot.scr.uimg
+        export HYP_BUILD="${@bb.utils.contains('HYP_BUILD', '1', '1', '0', d)}"
+        if [[ "${HYP_BUILD}" = "1" ]]; then
+                mkimage -f "${WORKDIR}/agilex5_uboot_script_xen.its" ${WORKDIR}/boot.scr.xen.uimg
+        fi
 }
 
 do_compile:agilex5_mudv_cvr() {
@@ -82,6 +106,7 @@ do_compile:arria10() {
 }
 
 do_deploy() {
+	export HYP_BUILD="${@bb.utils.contains('HYP_BUILD', '1', '1', '0', d)}"
 	install -d ${DEPLOYDIR}
 	if [[ "${MACHINE}" == "arria10" ]]; then
 		install -m 0755 ${WORKDIR}/${MACHINE}_u-boot.txt ${DEPLOYDIR}/u-boot.txt
@@ -89,12 +114,20 @@ do_deploy() {
 	elif [[ "${MACHINE}" == *"agilex7_"* ]] || [[ "${MACHINE}" == *"stratix10"* ]]; then
 		install -m 0755 ${WORKDIR}/uboot.txt ${DEPLOYDIR}/u-boot.txt
 		install -m 0644 ${WORKDIR}/boot.scr.uimg ${DEPLOYDIR}/boot.scr.uimg
+		if [[ "${HYP_BUILD}" = "1" ]]; then
+			install -m 0755 ${WORKDIR}/agilex7_uboot_xen.txt ${DEPLOYDIR}/u-boot_xen.txt
+			install -m 0644 ${WORKDIR}/boot.scr.xen.uimg ${DEPLOYDIR}/boot.scr.xen.uimg
+		fi
 	elif [[ "${MACHINE}" == "agilex5" ]]; then
 		install -m 0755 ${WORKDIR}/agilex5_uboot.txt ${DEPLOYDIR}/u-boot.txt
 		install -m 0644 ${WORKDIR}/boot.scr.uimg ${DEPLOYDIR}/boot.scr.uimg
 	elif [[ "${MACHINE}" == *"agilex5_"* ]]; then
 		install -m 0755 ${WORKDIR}/uboot.txt ${DEPLOYDIR}/u-boot.txt
 		install -m 0644 ${WORKDIR}/boot.scr.uimg ${DEPLOYDIR}/boot.scr.uimg
+		if [[ "${HYP_BUILD}" = "1" ]]; then
+			install -m 0755 ${WORKDIR}/agilex5_uboot_xen.txt ${DEPLOYDIR}/u-boot_xen.txt
+			install -m 0644 ${WORKDIR}/boot.scr.xen.uimg ${DEPLOYDIR}/boot.scr.xen.uimg
+		fi
 	elif [[ "${MACHINE}" == "n5x" ]] || [[ "${MACHINE}" == "cyclone5" ]]; then
 		install -m 0755 ${WORKDIR}/${MACHINE}_u-boot.txt ${DEPLOYDIR}/u-boot.txt
 		install -m 0644 ${WORKDIR}/u-boot.scr ${DEPLOYDIR}/u-boot.scr

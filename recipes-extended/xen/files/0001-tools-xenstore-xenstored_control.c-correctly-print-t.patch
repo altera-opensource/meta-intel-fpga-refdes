@@ -1,0 +1,34 @@
+From c7c43c4531fe1cd188f62d9905c3f5c7a29a6fb0 Mon Sep 17 00:00:00 2001
+From: Alexander Kanavin <alex@linutronix.de>
+Date: Wed, 12 Apr 2023 10:30:18 +0200
+Subject: [PATCH] tools/xenstore/xenstored_control.c: correctly print time_t
+
+On 32 bit systems with 64 bit time_t (hello, Y2038 problem),
+the following error occurs otherwise:
+
+| xenstored_control.c: In function 'lu_reject_reason':
+| xenstored_control.c:646:70: error: format '%ld' expects argument of type 'long int', but argument 5 has type 'time_t' {aka 'long long int'} [-Werror=format=]
+
+Upstream-Status: Submitted [by email to xen-devel@lists.xenproject.org and maintainers as suggested by add_maintainers.pl script]
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+---
+ tools/xenstore/xenstored_control.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/tools/xenstore/xenstored_control.c b/tools/xenstore/xenstored_control.c
+index d1aaa00bf4..8d318c0399 100644
+--- a/tools/xenstore/xenstored_control.c
++++ b/tools/xenstore/xenstored_control.c
+@@ -643,10 +643,10 @@ static const char *lu_reject_reason(const void *ctx)
+ 	list_for_each_entry(conn, &connections, list) {
+ 		if (conn->ta_start_time &&
+ 		    (now - conn->ta_start_time >= lu_status->timeout)) {
+-			ret = talloc_asprintf(ctx, "%s\nDomain %u: %ld s",
++			ret = talloc_asprintf(ctx, "%s\nDomain %u: %jd s",
+ 					      ret ? : "Domains with long running transactions:",
+ 					      conn->id,
+-					      now - conn->ta_start_time);
++					      (intmax_t)now - conn->ta_start_time);
+ 		}
+ 	}
+ 

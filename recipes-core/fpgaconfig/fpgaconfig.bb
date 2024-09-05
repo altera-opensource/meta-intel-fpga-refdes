@@ -28,4 +28,4 @@ do_install () {
 NATIVE_SYSTEMD_SUPPORT = "1"
 SYSTEMD_PACKAGES = "${PN}"
 
-FILES:${PN} += "${@bb.utils.contains('MACHINE', "agilex5_dk_a5e065bb32aes1", "/usr/lib/systemd", "${base_libdir}/systemd",	d)}"
+FILES:${PN} += "${@"/usr/lib/systemd" if d.getVar('MACHINE', True).startswith('agilex5_dk_a5e') else "${base_libdir}/systemd"}"

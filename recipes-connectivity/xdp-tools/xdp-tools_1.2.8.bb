@@ -27,7 +27,7 @@ SRCREV = "d4ff1f9bcf8b03556b625ab6e16958598482e861"
 
 S = "${WORKDIR}/git"
 
-FILES:${PN} += "${@bb.utils.contains('MACHINE', "agilex5_dk_a5e065bb32aes1", "${libdir}/bpf/* /usr/lib/custom_bpf/*", "${libdir}/bpf/* ${libdir}/custom_bpf/*",	d)}"
+FILES:${PN} += "${@"${libdir}/bpf/* /usr/lib/custom_bpf/*" if d.getVar('MACHINE', True).startswith('agilex5_dk_a5e') else "${libdir}/bpf/* ${libdir}/custom_bpf/*"}"
 
 INHIBIT_PACKAGE_STRIP = "1"
 INHIBIT_SYSROOT_STRIP = "1"

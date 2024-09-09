@@ -31,3 +31,6 @@ RDEPENDS:packagegroup-dev-tools-essential = "\
 	bc \
 	tcpreplay \
 	"
+
+RDEPENDS:packagegroup-dev-tools-essential:append= "\
+	${@'spidev-test' if d.getVar('MACHINE', True).startswith('agilex5') else ''}"

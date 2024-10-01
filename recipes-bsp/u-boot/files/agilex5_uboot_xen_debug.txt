@@ -1,7 +1,7 @@
 mmc info
 fatls mmc 0:1
 fatload mmc 0:1 0x8a000000 xen
-fatload mmc 0:1 0x88000000 devicetree/socfpga_agilex5_vanilla.dtb
+fatload mmc 0:1 0x88000000 devicetree/socfpga_agilex5_debug_vanilla.dtb
 fatload mmc 0:1 0x83000000 Image
 
 setenv xen_bootargs 'dom0_mem=2048M'
@@ -9,7 +9,7 @@ fdt addr 0x88000000
 fdt resize
 
 fdt rm /soc@0/eccmgr
-fdt rm /soc@0/ethernet@10830000 dma-coherent
+fdt rm /soc@0/ethernet@10810000 dma-coherent
 fdt rm /soc@0/mmc0@10808000 dma-coherent
 
 fdt rm /chosen bootargs

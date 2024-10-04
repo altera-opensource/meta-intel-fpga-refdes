@@ -16,6 +16,7 @@ IMAGE_INSTALL:remove = " \
 # Add mtdutils to the image
 IMAGE_INSTALL:append = " \
 	mtd-utils \
+	devmem2 \
 "
 
 # Add to IMAGE_FEATURES to exclude debug symbols and other non-essential features

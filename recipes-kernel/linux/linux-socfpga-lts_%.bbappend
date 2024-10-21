@@ -17,6 +17,7 @@ SRC_URI:append:agilex7_dk_dev_agm039fes = " file://fit_kernel_agilex7_dk_dev_agm
 SRC_URI:append:agilex5 = " file://fit_kernel_agilex5.its"
 SRC_URI:append:agilex5_dk_a5e065bb32aes1 = " file://fit_kernel_agilex5_dk_a5e065bb32aes1.its ${@bb.utils.contains('HYP_BUILD', '1', 'file://xen.scc', '', d)}"
 SRC_URI:append:agilex5_dk_a5e013bb32aesi0 = " file://fit_kernel_agilex5_dk_a5e013bb32aesi0.its ${@bb.utils.contains('HYP_BUILD', '1', 'file://xen.scc', '', d)}"
+SRC_URI:append:agilex5_dk_a5e013bb32aes = " file://fit_kernel_agilex5_dk_a5e013bb32aes.its ${@bb.utils.contains('HYP_BUILD', '1', 'file://xen.scc', '', d)}"
 SRC_URI:append:agilex5_modular = " file://fit_kernel_agilex5_modular.its ${@bb.utils.contains('HYP_BUILD', '1', 'file://xen.scc', '', d)}"
 SRC_URI:append:agilex5_mudv_cvr = " file://fit_kernel_agilex5_mudv_cvr.its"
 SRC_URI:append:agilex5_mucv = " file://fit_kernel_agilex5_mucv.its"
@@ -53,6 +54,11 @@ SRC_URI:append:agilex5_dk_a5e065bb32aes1 = " file://initrd.scc \
 								  file://sensors.scc \
 								  file://edac.scc"
 SRC_URI:append:agilex5_dk_a5e013bb32aesi0 = " file://initrd.scc \
+                                  file://xdp.scc \
+								  file://tsn.scc \
+								  file://sensors.scc \
+								  file://edac.scc"
+SRC_URI:append:agilex5_dk_a5e013bb32aes = " file://initrd.scc \
                                   file://xdp.scc \
 								  file://tsn.scc \
 								  file://sensors.scc \

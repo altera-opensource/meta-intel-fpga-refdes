@@ -15,7 +15,7 @@ inherit devicetree
 
 PROVIDES = "virtual/dtb"
 
-COMPATIBLE_MACHINE = "(agilex5_dk_a5e065bb32aes1|agilex5_dk_a5e013bb32aesi0|agilex5_modular|agilex5_mucv|agilex5_mudv_cvr|agilex7_dk_si_agf014ea|agilex7_dk_si_agf014eb|agilex7_dk_si_agi027fb|agilex7_dk_si_agi027fa|agilex7_dk_si_agi027fc|agilex7_dk_dev_agf027f1es|agilex7_dk_dev_agm039fes|stratix10|stratix10_htile)"
+COMPATIBLE_MACHINE = "(agilex5_dk_a5e065bb32aes1|agilex5_dk_a5e013bb32aesi0|agilex5_dk_a5e013bb32aes|agilex5_modular|agilex5_mucv|agilex5_mudv_cvr|agilex7_dk_si_agf014ea|agilex7_dk_si_agf014eb|agilex7_dk_si_agi027fb|agilex7_dk_si_agi027fa|agilex7_dk_si_agi027fc|agilex7_dk_dev_agf027f1es|agilex7_dk_dev_agm039fes|stratix10|stratix10_htile)"
 
 SRC_URI:append:agilex7_dk_si_agf014ea = " \
 					file://socfpga_agilex7_ghrd_sgmii.dtsi \
@@ -85,6 +85,10 @@ SRC_URI:append:agilex5_dk_a5e065bb32aes1 = " \
 SRC_URI:append:agilex5_dk_a5e013bb32aesi0 = " \
 					file://socfpga_agilex5_ghrd.dtsi \
 					file://0001-AIC0-tsn-config.patch_bc \
+					"
+
+SRC_URI:append:agilex5_dk_a5e013bb32aes = " \
+					file://socfpga_agilex5_ghrd.dtsi \
 					"
 
 SRC_URI:append:agilex5_modular = " \
@@ -173,7 +177,7 @@ do_configure:append() {
 			# MMC, QSPI
 			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex5_socdk.dts ${WORKDIR}/socfpga_agilex5_socdk.dts
 			sed -i '/\#include \"socfpga_agilex5.dtsi\"/a \#include \"socfpga_agilex5_ghrd.dtsi\"' ${WORKDIR}/socfpga_agilex5_socdk.dts
-		elif [[ "${MACHINE}" == "agilex5_dk_a5e013bb32aesi0" ]]; then
+		elif [[ "${MACHINE}" == *"agilex5_dk_a5e013bb32aes"* ]]; then
 			# Vanilla DTB Generation
 			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex5_socdk_b0.dts ${WORKDIR}/socfpga_agilex5_vanilla.dts
 			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex5.dtsi ${WORKDIR}/socfpga_agilex5.dtsi

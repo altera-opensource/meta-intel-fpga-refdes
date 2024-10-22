@@ -17,6 +17,8 @@ IMAGE_INSTALL:remove = " \
 IMAGE_INSTALL:append = " \
 	mtd-utils \
 	devmem2 \
+	linuxptp \
+	iperf3 \
 "
 
 # Add to IMAGE_FEATURES to exclude debug symbols and other non-essential features

@@ -19,6 +19,7 @@ IMAGE_INSTALL:append = " \
 	devmem2 \
 	linuxptp \
 	iperf3 \
+	ethtool \
 "
 
 # Add to IMAGE_FEATURES to exclude debug symbols and other non-essential features

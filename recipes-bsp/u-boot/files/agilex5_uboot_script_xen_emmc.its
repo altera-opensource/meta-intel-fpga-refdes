@@ -12,7 +12,7 @@
          default = "script";
          script {
              description = "u-boot xen script for nand dc";
-             data = /incbin/("./agilex5_uboot_xen_nand.txt");
+             data = /incbin/("./agilex5_uboot_xen_emmc.txt");
              type = "script";
              compression = "none";
              hash {

@@ -1,7 +1,7 @@
 mmc info
 fatls mmc 0:1
 fatload mmc 0:1 0x8a000000 xen
-fatload mmc 0:1 0x88000000 devicetree/socfpga_agilex5_debug_vanilla.dtb
+fatload mmc 0:1 0x88000000 devicetree/socfpga_agilex5_socdk_debug_vanilla.dtb
 fatload mmc 0:1 0x83000000 Image
 
 setenv xen_bootargs 'dom0_mem=2048M'
@@ -25,6 +25,11 @@ fdt set /chosen/dom0 reg <0x83000000 0x${filesize}>
 fdt mknod /chosen dom1
 fdt set /chosen/dom1 compatible "multiboot,ramdisk" "multiboot,module"
 fdt set /chosen/dom1 reg <0x8b000000 0x8000000>
+
+fdt rm /soc@0/gpio@20010060
+fdt rm /soc@0/gpio@20010080
+fdt rm /soc@0/gpio@20010070
+fdt rm /soc@0/leds
 
 echo "Device tree updated for Xen Hypervisor."
 echo "Device tree load address  - 0x88000000"

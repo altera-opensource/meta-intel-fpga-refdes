@@ -86,6 +86,8 @@ inherit deploy
 LINUXDEPLOYDIR = "${WORKDIR}/deploy-${PN}"
 DTBDEPLOYDIR = "${DEPLOY_DIR_IMAGE}/devicetree"
 
+INSANE_SKIP:${PN}-src = "buildpaths"
+
 do_deploy:append() {
 	# Stage required binaries for kernel.itb
 	# Supported device family:
@@ -157,7 +159,7 @@ do_deploy:append() {
 	# Generate and deploy kernel.itb
 	if [[ "${MACHINE}" == *"agilex"* || "${MACHINE}" == *"stratix10"* ]]; then
 		# kernel.its
-		cp ${WORKDIR}/fit_kernel_${MACHINE}.its ${B}
+		cp ${WORKDIR}/sources-unpack/fit_kernel_${MACHINE}.its ${B}
 		# Image
 		cp ${LINUXDEPLOYDIR}/Image ${B}
 		# Compress Image to lzma format

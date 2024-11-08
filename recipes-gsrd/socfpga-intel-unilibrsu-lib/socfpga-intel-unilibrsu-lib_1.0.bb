@@ -12,6 +12,9 @@ FILES:${PN} = " /usr/lib/* \
                 /usr/include/* \
                 /etc/* "
 
+INSANE_SKIP:${PN} = "libdir"
+INSANE_SKIP:${PN}-dbg = "libdir"
+
 S = "${WORKDIR}/git"
 
 inherit cmake

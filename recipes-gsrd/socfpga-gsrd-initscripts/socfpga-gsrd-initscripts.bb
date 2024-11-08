@@ -19,8 +19,8 @@ do_install() {
 	install -d ${D}${systemd_unitdir}/system
 	install -d ${D}/${bindir}/
 
-	install -m 0644 ${WORKDIR}/socfpga-gsrd.service ${D}${systemd_unitdir}/system/
-	install -m 0744 ${WORKDIR}/socfpga-gsrd-init.sh ${D}/${bindir}/
+	install -m 0644 ${WORKDIR}/sources-unpack/socfpga-gsrd.service ${D}${systemd_unitdir}/system/
+	install -m 0744 ${WORKDIR}/sources-unpack/socfpga-gsrd-init.sh ${D}/${bindir}/
 }
 
 NATIVE_SYSTEMD_SUPPORT = "1"

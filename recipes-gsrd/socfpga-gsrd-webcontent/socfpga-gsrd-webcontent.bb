@@ -32,7 +32,8 @@ SRC_URI:append = " \
 		file://agilex7_dk_dev_agm039fes-board-image.jpg \
 	    "
 
-S = "${WORKDIR}"
+S = "${WORKDIR}/sources"
+UNPACKDIR = "${S}"
 
 do_install() {
 	install -d ${D}/www/pages/cgi-bin

@@ -36,15 +36,16 @@ INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
 inherit pkgconfig
 EXTRA_OEMAKE += "-I${STAGING_INCDIR} PREFIX=${D}${prefix} LIBDIR=${D}${libdir}"
 
-CFLAGS += "-fPIC"
-INSANE_SKIP:${PN} = "dev-so staticdev"
+CFLAGS += "-fPIC -Wno-error=calloc-transposed-args"
+INSANE_SKIP:${PN}-staticdev = "buildpaths"
+INSANE_SKIP:${PN} = "dev-so dev-deps staticdev buildpaths libdir"
 export STAGING_INCDIR
 CFLAGS += "-I${STAGING_INCDIR} -I${D}${libdir}"
 
 do_configure:append() {
     # workaround to patch libbpf submodule
-    cp ${WORKDIR}/0001-workaround-the-install-libbpf-header-to-local ${S}/lib/libbpf/0001-workaround-the-install-libbpf-header-to-local.patch
-    cp ${WORKDIR}/0001-add-txtime-in-if_xdp.h-for-libbpf-library ${S}/lib/libbpf/0001-add-txtime-in-if_xdp.h-for-libbpf-library.patch
+    cp ${WORKDIR}/sources-unpack/0001-workaround-the-install-libbpf-header-to-local ${S}/lib/libbpf/0001-workaround-the-install-libbpf-header-to-local.patch
+    cp ${WORKDIR}/sources-unpack/0001-add-txtime-in-if_xdp.h-for-libbpf-library ${S}/lib/libbpf/0001-add-txtime-in-if_xdp.h-for-libbpf-library.patch
     pushd ${S}/lib/libbpf
     git am 0001-workaround-the-install-libbpf-header-to-local.patch
     git am 0001-add-txtime-in-if_xdp.h-for-libbpf-library.patch

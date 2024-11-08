@@ -29,6 +29,7 @@ FILES:${PN} = "/www/pages/* \
 	      "
 
 FILES:${PN}-dbg = "/www/pages/cgi-bin/.debug/ /usr /home/root/intelFPGA/.debug"
+INSANE_SKIP:${PN}-dbg = "buildpaths"
 
 do_compile() {
 	echo "Compiling GSRD Reference Applications"
@@ -53,9 +54,9 @@ do_install() {
 	fi
 
 	if [[ "${MACHINE}" == "agilex7_dk_dev_agf027f1es" ]]; then
-		install -m 0755 ${WORKDIR}/README_agilex7_dk_dev_agf027f1es ${D}/home/root/README
+		install -m 0755 ${WORKDIR}/sources-unpack/README_agilex7_dk_dev_agf027f1es ${D}/home/root/README
 	elif [[ "${MACHINE}" == *"agilex5"* ]]; then
-		install -m 0755 ${WORKDIR}/README_agilex5 ${D}/home/root/README
+		install -m 0755 ${WORKDIR}/sources-unpack/README_agilex5 ${D}/home/root/README
 	else
 		install -m 0755 doc/README ${D}/home/root/
 	fi

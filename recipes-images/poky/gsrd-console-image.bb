@@ -28,5 +28,5 @@ mask_udev(){
 	ln -sf ${IMAGE_ROOTFS}/dev/null ${IMAGE_ROOTFS}/lib/systemd/network/99-default.link
 }
 
-IMAGE_INSTALL:append = " ${@bb.utils.contains('HYP_BUILD', '1', 'libvirt libvirt-libvirtd libvirt-virsh', '', d)}"
+IMAGE_INSTALL:append = " ${@bb.utils.contains('HYP_BUILD', '1', 'libvirt', '', d)}"
 

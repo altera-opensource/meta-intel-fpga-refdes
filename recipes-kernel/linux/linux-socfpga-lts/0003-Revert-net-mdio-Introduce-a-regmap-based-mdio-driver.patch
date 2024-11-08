@@ -3,6 +3,8 @@ From: "Tham, Mun Yew" <mun.yew.tham@intel.com>
 Date: Tue, 4 Jun 2024 19:03:11 +0800
 Subject: [PATCH 3/4] Revert "net: mdio: Introduce a regmap-based mdio driver"
 
+Upstream-Status: Pending
+
 This reverts commit 642af0f92cbe01c4b05eb38a0fe94867a3798b34.
 ---
  MAINTAINERS                      |  7 ---

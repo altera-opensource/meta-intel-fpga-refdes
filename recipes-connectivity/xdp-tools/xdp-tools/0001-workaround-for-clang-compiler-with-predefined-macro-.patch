@@ -4,6 +4,8 @@ Date: Mon, 31 Jul 2023 14:45:43 +0800
 Subject: [PATCH] workaround for clang compiler with predefined macro
  __aarch64__
 
+Upstream-Status: Pending
+
 Signed-off-by: Swee Leong Ching <leong.ching.swee@intel.com>
 ---
  headers/bits/wordsize.h | 32 ++++++++++++++++++++++++++++++++

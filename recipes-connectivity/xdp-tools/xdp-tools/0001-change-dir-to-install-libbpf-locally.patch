@@ -3,7 +3,7 @@ From: Swee Leong Ching <leong.ching.swee@intel.com>
 Date: Wed, 23 Aug 2023 10:02:34 +0800
 Subject: [PATCH] change dir to install libbpf locally
 
-Upstream-Status:Inappropriate
+Upstream-Status: Pending
 
 Signed-off-by: Swee Leong Ching <leong.ching.swee@intel.com>
 ---

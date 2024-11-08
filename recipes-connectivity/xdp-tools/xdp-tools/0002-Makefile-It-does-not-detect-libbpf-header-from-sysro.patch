@@ -5,7 +5,7 @@ Subject: [PATCH 2/4] Makefile: It does not detect libbpf header from sysroot
 
 So adding sysroot headers path.
 
-Upstream-Status: OE-Specific
+Upstream-Status: Pending
 
 Signed-off-by: Naveen Saini <naveen.kumar.saini@intel.com>
 ---

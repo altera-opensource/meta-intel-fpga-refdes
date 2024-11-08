@@ -3,6 +3,8 @@ From: Swee Leong Ching <leong.ching.swee@intel.com>
 Date: Sun, 30 Jul 2023 14:34:52 +0800
 Subject: [PATCH] Workaround to remove pcap test function 
 
+Upstream-Status: Pending
+
 Signed-off-by: Swee Leong Ching <leong.ching.swee@intel.com>
 ---
  configure | 38 +++++++++++++++++++-------------------

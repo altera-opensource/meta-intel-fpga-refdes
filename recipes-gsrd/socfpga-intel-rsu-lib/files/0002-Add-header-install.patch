@@ -3,6 +3,8 @@ From: James Grant <james.grant@intel.com>
 Date: Wed, 30 Aug 2023 15:27:38 +0100
 Subject: [PATCH 2/4] Add header install
 
+Upstream-Status: Pending
+
 ---
  lib/makefile | 3 +++
  1 file changed, 3 insertions(+)

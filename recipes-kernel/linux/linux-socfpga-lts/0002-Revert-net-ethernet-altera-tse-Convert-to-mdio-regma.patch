@@ -4,6 +4,8 @@ Date: Tue, 4 Jun 2024 19:01:24 +0800
 Subject: [PATCH 2/4] Revert "net: ethernet: altera-tse: Convert to mdio-regmap
  and use PCS Lynx"
 
+Upstream-Status: Pending
+
 This reverts commit db48abbaa18e571106711b42affe68ca6f36ca5a.
 ---
  drivers/net/ethernet/altera/Kconfig           | 2 --

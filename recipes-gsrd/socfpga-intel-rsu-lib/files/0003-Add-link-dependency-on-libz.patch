@@ -3,6 +3,8 @@ From: James Grant <james.grant@intel.com>
 Date: Tue, 29 Aug 2023 14:23:00 +0100
 Subject: [PATCH 3/4] Add link dependency on libz
 
+Upstream-Status: Pending
+
 ---
  lib/makefile | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)

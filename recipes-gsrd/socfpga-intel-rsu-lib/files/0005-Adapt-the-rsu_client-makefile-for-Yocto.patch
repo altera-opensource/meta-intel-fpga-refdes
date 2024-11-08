@@ -3,6 +3,8 @@ From: Kah Jing Lee <kah.jing.lee@intel.com>
 Date: Wed, 20 Sep 2023 17:24:29 +0800
 Subject: [PATCH] Adapt the rsu_client makefile for Yocto
 
+Upstream-Status: Pending
+
 Signed-off-by: Kah Jing Lee <kah.jing.lee@intel.com>
 ---
  example/makefile | 20 +++++++-------------

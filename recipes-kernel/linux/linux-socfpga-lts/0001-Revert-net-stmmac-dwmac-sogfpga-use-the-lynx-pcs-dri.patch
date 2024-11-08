@@ -4,6 +4,8 @@ Date: Tue, 4 Jun 2024 18:45:07 +0800
 Subject: [PATCH 1/4] Revert "net: stmmac: dwmac-sogfpga: use the lynx pcs
  driver"
 
+Upstream-Status: Pending
+
 This reverts commit 5d1f3fe7d2d54d04b44aa5b9b62b305fdcf653ec.
 ---
  drivers/net/ethernet/stmicro/stmmac/Kconfig   |   3 -

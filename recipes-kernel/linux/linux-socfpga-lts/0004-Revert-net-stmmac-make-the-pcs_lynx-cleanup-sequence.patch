@@ -4,6 +4,8 @@ Date: Tue, 4 Jun 2024 20:00:40 +0800
 Subject: [PATCH 4/4] Revert "net: stmmac: make the pcs_lynx cleanup sequence
  specific to dwmac_socfpga"
 
+Upstream-Status: Pending
+
 This reverts commit a8dd7404c21447b46e792a483f4d73af66ccaf8d.
 ---
  drivers/net/ethernet/stmicro/stmmac/common.h        |  1 +

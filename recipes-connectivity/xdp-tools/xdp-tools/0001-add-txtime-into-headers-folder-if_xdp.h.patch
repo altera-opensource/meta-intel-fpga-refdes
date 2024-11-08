@@ -3,6 +3,8 @@ From: Swee Leong Ching <leong.ching.swee@intel.com>
 Date: Tue, 29 Aug 2023 15:46:12 +0800
 Subject: [PATCH] add txtime into headers folder if_xdp.h
 
+Upstream-Status: Pending
+
 Signed-off-by: Swee Leong Ching <leong.ching.swee@intel.com>
 ---
  headers/linux/if_xdp.h | 1 +

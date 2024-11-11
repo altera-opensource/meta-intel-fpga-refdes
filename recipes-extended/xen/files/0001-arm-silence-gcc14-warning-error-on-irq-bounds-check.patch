@@ -1,0 +1,65 @@
+From 2258853a19b2d0b1fafd901cddf69f730c38d450 Mon Sep 17 00:00:00 2001
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Fri, 31 May 2024 14:50:33 +0000
+Subject: [PATCH] arm: silence gcc14 warning (error) on irq bounds check
+
+While we wait for upstream to update to gcc14, we add a quick
+check to avoid gcc14 not being able to confirm that IRQ is
+greater than 0 and hence throws a warning, which leads to an
+error.
+
+| In function '__irq_to_desc',
+|     inlined from 'route_irq_to_guest' at arch/arm/irq.c:467:12:
+| arch/arm/irq.c:65:16: error: array subscript -2 is below array bounds of 'irq_desc_t[32]' {aka 'struct irq_desc[32]'} [-Werror=array-bounds=]
+|    65 |         return &this_cpu(local_irq_desc)[irq];
+|       |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Upstream-Status: Pending [the xen folks understand the code and the right fix .. I don't]
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+---
+ xen/arch/arm/irq.c | 19 ++++++++++++-------
+ 1 file changed, 12 insertions(+), 7 deletions(-)
+
+Index: git/xen/arch/arm/irq.c
+===================================================================
+--- git.orig/xen/arch/arm/irq.c
++++ git/xen/arch/arm/irq.c
+@@ -48,8 +48,13 @@ void irq_end_none(struct irq_desc *irq)
+ static irq_desc_t irq_desc[NR_IRQS];
+ static DEFINE_PER_CPU(irq_desc_t[NR_LOCAL_IRQS], local_irq_desc);
+ 
++
+ struct irq_desc *__irq_to_desc(int irq)
+ {
++    /* silence gcc14 warning */
++    if ( irq < 0 )
++        return &this_cpu(local_irq_desc)[0];
++
+     if ( irq < NR_LOCAL_IRQS )
+         return &this_cpu(local_irq_desc)[irq];
+ 
+@@ -722,16 +727,16 @@ int platform_get_irq(const struct dt_dev
+ 
+ int platform_get_irq_byname(const struct dt_device_node *np, const char *name)
+ {
+-	int index;
++        int index;
+ 
+-	if ( unlikely(!name) )
+-		return -EINVAL;
++        if ( unlikely(!name) )
++                return -EINVAL;
+ 
+-	index = dt_property_match_string(np, "interrupt-names", name);
+-	if ( index < 0 )
+-		return index;
++        index = dt_property_match_string(np, "interrupt-names", name);
++        if ( index < 0 )
++                return index;
+ 
+-	return platform_get_irq(np, index);
++        return platform_get_irq(np, index);
+ }
+ 
+ /*

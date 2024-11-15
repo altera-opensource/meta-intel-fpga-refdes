@@ -58,6 +58,9 @@ agilex5_dk_a5e013bb32aesi0)
 agilex5_dk_a5e013bb32aes)
 	DEVKIT_NAME="Agilex5 devkit SoC Development Kit"
 	;;
+agilex5_dk_a5e013bb32aes_5s)
+	DEVKIT_NAME="Agilex5 devkit SoC Development Kit"
+	;;
 agilex5_mudv_cvr)
 	DEVKIT_NAME="Agilex5 mUDV CVR SoC Development Kit"
 	;;

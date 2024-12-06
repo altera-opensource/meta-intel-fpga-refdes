@@ -20,6 +20,11 @@ IMAGE_INSTALL:append = " \
 	linuxptp \
 	iperf3 \
 	ethtool \
+	stress \
+	sysbench \
+	perf \
+	fio \
+	coremark \
 "
 
 # Add to IMAGE_FEATURES to exclude debug symbols and other non-essential features

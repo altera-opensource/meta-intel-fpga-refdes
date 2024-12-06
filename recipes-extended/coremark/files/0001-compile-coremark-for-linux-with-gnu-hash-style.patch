@@ -1,0 +1,47 @@
+From fe66e27330db2ee0217900c1e1c3b29d004e82b8 Mon Sep 17 00:00:00 2001
+From: "Maheswarudu, Vuggu" <vuggu.maheswarudu@intel.com>
+Date: Thu, 5 Dec 2024 13:39:53 +0800
+Subject: [PATCH] compile coremark for linux with gnu hash style
+
+Signed-off-by: Maheswarudu, Vuggu <vuggu.maheswarudu@intel.com>
+
+Upstream-Status: Pending
+
+---
+ Makefile              | 3 +++
+ posix/core_portme.mak | 4 ++--
+ 2 files changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index c2db7cc..84d7285 100644
+--- a/Makefile
++++ b/Makefile
+@@ -17,6 +17,9 @@
+ # Make sure the default target is to simply build and run the benchmark.
+ RSTAMP = v1.0
+ 
++PORT_DIR=linux
++SEPARATE_COMPILE = 1
++
+ .PHONY: run score
+ run: $(OUTFILE) rerun score
+ 
+diff --git a/posix/core_portme.mak b/posix/core_portme.mak
+index 2852069..445d400 100755
+--- a/posix/core_portme.mak
++++ b/posix/core_portme.mak
+@@ -72,9 +72,9 @@ EXE = .exe
+ # In this case, you also need to define below how to create an object file, and how to link.
+ ifdef SEPARATE_COMPILE
+ 
+-LD		= gcc
++LD		= $(CC)
+ OBJOUT 	= -o
+-LFLAGS 	=
++LFLAGS 	= -Wl,--hash-style=gnu
+ OFLAG 	= -o
+ COUT 	= -c
+ # Flag: PORT_OBJS
+-- 
+2.25.1
+

@@ -54,17 +54,17 @@
 
 			led_fpga0: fpga0 {
 					label = "fpga_led0";
-					gpios = <&led_pio 0 1>;
+					gpios = <&led_pio 0 0>;
 			}; //end fpga0 (led_fpga0)
 
 			led_fpga1: fpga1 {
 					label = "fpga_led1";
-					gpios = <&led_pio 1 1>;
+					gpios = <&led_pio 1 0>;
 			}; //end fpga1 (led_fpga1)
 
 			led_fpga2: fpga2 {
 					label = "fpga_led2";
-					gpios = <&led_pio 2 1>;
+					gpios = <&led_pio 2 0>;
 			}; //end fpga2 (led_fpga2)
 
 		};

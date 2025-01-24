@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Proprietary;md5=0557f9d92cf58f2
 
 IMAGE_TYPE ?= "gsrd"
 
-RBO_RELEASE_VER ?= "2024.11"
+RBO_RELEASE_VER ?= "2025.01"
 GHRD_REPO ?= "https://releases.rocketboards.org/release/${RBO_RELEASE_VER}/rbf-source"
 
 ARM64_GHRD_CORE_RBF = "ghrd.core.rbf"
@@ -128,16 +128,16 @@ SRC_URI:arria10 ?= "\
 
 SRC_URI:cyclone5 ?= "${GHRD_REPO}/cyclone5_${IMAGE_TYPE}_${C5_GHRD_CORE_RBF};name=cyclone5_${IMAGE_TYPE}_core"
 
-SRC_URI[agilex5_dk_a5e065bb32aes1_gsrd_core.sha256sum] = "1230138507080e46b3c11d082400592d8b07d2a69f7d1af8e60e32fd98ad2b81"
-SRC_URI[agilex5_dk_a5e065bb32aes1_nand_core.sha256sum] = "bddf3a7b5d21c9410f383e049920434c0aeb8f8a462d9ecb5bf0789c7a2de896"
-SRC_URI[agilex5_dk_a5e065bb32aes1_emmc_core.sha256sum] = "daf32a6e3c5aeef59c8bbafc25de8a8d43cc431753d0df3ee3d1754d13d8254b"
-SRC_URI[agilex5_dk_a5e065bb32aes1_tsnconfig2_core.sha256sum] = "e9ef9e7501c6e92d688592be7aaaeb2dd108994d350315e5faefa6e3fa93551e"
+SRC_URI[agilex5_dk_a5e065bb32aes1_gsrd_core.sha256sum] = "490b357be98a8377b4aae8befbc7db97c4e332fb3f4ced74cc00df1a1a452db3"
+SRC_URI[agilex5_dk_a5e065bb32aes1_nand_core.sha256sum] = "adce9818cd9301970c6853d3d00357733c146607ef83a75801fbf7e0be3d2dc7"
+SRC_URI[agilex5_dk_a5e065bb32aes1_emmc_core.sha256sum] = "1cf6d070a28dc5507e3ec6ae4b5f1e37d9a167b8c521ccf39301be7befe24741"
+SRC_URI[agilex5_dk_a5e065bb32aes1_tsnconfig2_core.sha256sum] = "f2520125f8e95a99735186ae5e8c853b174a7d7d294617b1331c8794434364ea"
 
-SRC_URI[agilex5_dk_a5e013bb32aesi0_gsrd_core.sha256sum] = "8cbbf7a53714d7202477b6b9df4e54b71433609d1afdb627a88c27c08df8b3a1"
-SRC_URI[agilex5_dk_a5e013bb32aesi0_nand_core.sha256sum] = "4e8a53c03bacf62a880370b41510f91ac8d35d78fb5c9d4c27bb33e84ea756df"
-SRC_URI[agilex5_dk_a5e013bb32aesi0_emmc_core.sha256sum] = "c42f21fe19cb1ea2848a9264e251acf2aa349c75bb8b46adb3a1281a3403c533"
+SRC_URI[agilex5_dk_a5e013bb32aesi0_gsrd_core.sha256sum] = "86d5f729a391bf0088d659efbe0315f3a5bf8df4717d07466708c29ebc8ddb25"
+SRC_URI[agilex5_dk_a5e013bb32aesi0_nand_core.sha256sum] = "a19baf58fcaeacc210508480b14ccc8dc3889be74c8f43da535a11e37a61a6dd"
+SRC_URI[agilex5_dk_a5e013bb32aesi0_emmc_core.sha256sum] = "70d1aab9bf5e567246176cbda3513e644b11e2a54c01375d730dfbd3fb8ebc46"
 
-SRC_URI[agilex5_modular_gsrd_core.sha256sum] = "1c9cde70f459c25790c727ac2ea3f40b45b35c2045931b54f02d2e5e0257545c"
+SRC_URI[agilex5_modular_gsrd_core.sha256sum] = "0b329eee22c0ffe23365753c830e6561f68f27317ede29b86c707be0339d569a"
 
 SRC_URI[agilex7_dk_si_agf014ea_gsrd_core.sha256sum] = "01f79cff0d311332a41198df48f74d0c9b63081f5b403b7bbed0336f032ac9f7"
 SRC_URI[agilex7_dk_si_agf014ea_nand_core.sha256sum] = "d05a7c8f21b529af09a9ba63a65049bb8e2c2109189af9be1cd8fe024a718927"
@@ -145,18 +145,18 @@ SRC_URI[agilex7_dk_si_agf014ea_pr_core.sha256sum] = "a1943611b9274d9033e0305381e
 SRC_URI[agilex7_dk_si_agf014ea_pr_persona0.sha256sum] = "b03f4af553561629f67e55b7de5f0a3ea961251e258fc3955fc8e564f7f93e3c"
 SRC_URI[agilex7_dk_si_agf014ea_pr_persona1.sha256sum] = "0038ec9dd08a544bf845dd6579e1d4287db9b881b0f51186da1e7fcdcc6edbcd"
 
-SRC_URI[agilex7_dk_si_agf014eb_gsrd_core.sha256sum] = "606fd31705de6bc79aeaeb767ebe0f9c146c7bae7292dbb30dfb0e51bd4d7a47"
-SRC_URI[agilex7_dk_si_agf014eb_nand_core.sha256sum] = "6236c12c4f26cc71a17aa651379e3bc4145182b4b4b020e3f72a827a8eadcafe"
-SRC_URI[agilex7_dk_si_agf014eb_pr_core.sha256sum] = "51026dea2b4023cd6e517105c15c8ecca5142d29978f676c54befff30a6c9f91"
-SRC_URI[agilex7_dk_si_agf014eb_pr_persona0.sha256sum] = "f6712b11632433c104a6f2fe7172b6e6001e6b3b1dcc7a546e6c6f52d5cd3d89"
-SRC_URI[agilex7_dk_si_agf014eb_pr_persona1.sha256sum] = "4700d91be03b087058a576ca080fc3fdd17a53cf70720ac4aadfde87e2627ed0"
+SRC_URI[agilex7_dk_si_agf014eb_gsrd_core.sha256sum] = "dcd026d8156c245f8e3582b406c421492a882c2e231caad3711e3fbd9ee83092"
+SRC_URI[agilex7_dk_si_agf014eb_nand_core.sha256sum] = "272513e971a8d210a918f088d845eff4c53a30e7b62bd718062f86a8696e2ba2"
+SRC_URI[agilex7_dk_si_agf014eb_pr_core.sha256sum] = "ec5b10028ad15f44c7f711bd70e9fb736f03588b4a37222a6995e11ccef38f2a"
+SRC_URI[agilex7_dk_si_agf014eb_pr_persona0.sha256sum] = "435517a95e62a45e04a31bcd1f603d8eff05a0f71819964454471b4daeeab826"
+SRC_URI[agilex7_dk_si_agf014eb_pr_persona1.sha256sum] = "b1755707e99803bce4a6d6572fe3c44b368af7ccee062d5d0b9ec5380f1ac6cc"
 
-SRC_URI[agilex7_dk_si_agi027fb_gsrd_core.sha256sum] = "7849a7c3d48171e5d40ae73f48f758acf24b1d2dc16cc874c2e3f382d64e73c4"
-SRC_URI[agilex7_dk_si_agi027fa_gsrd_core.sha256sum] = "49d872baad28f677cc209754d00bb771817a225c74b26f5e792734cebfad4c83"
-SRC_URI[agilex7_dk_si_agi027fc_gsrd_core.sha256sum] = "beed095d7a40a80cfb17f2c9bc87c4728117bae0edf1c09c12ed3f07e7b27e1f"
-SRC_URI[agilex7_dk_dev_agf027f1es_gsrd_core.sha256sum] = "c92bee88df55bc118fcfeed66a63b8241de18cf20e88387adf27dee1778958cb"
+SRC_URI[agilex7_dk_si_agi027fb_gsrd_core.sha256sum] = "f6b92a4212effc8f924585881b231a3c2fbd612ac27bb2c96f96c2b33e3666a4"
+SRC_URI[agilex7_dk_si_agi027fa_gsrd_core.sha256sum] = "e848226b8fb34ecf5075c4da98c88e0b16c96837014a26fed1a9f6eebd5d31bb"
+SRC_URI[agilex7_dk_si_agi027fc_gsrd_core.sha256sum] = "c471925996f5328a39a4c16cfc87bb54629fa89eff19d549fd9ee19d1512eef7"
+SRC_URI[agilex7_dk_dev_agf027f1es_gsrd_core.sha256sum] = "7d024b6c0c3ad1a3faf83b2d6818523dd2322ee2f3952424f97ea2a30b4bf496"
 
-SRC_URI[agilex7_dk_dev_agm039fes_gsrd_core.sha256sum] = "b4dfd48933937348b600315c373a0d9b33c9494627e43cd7dce90ca99e7746a9"
+SRC_URI[agilex7_dk_dev_agm039fes_gsrd_core.sha256sum] = "54c9ec7ed39f2cbdc920dbdc0dd27e6916f17c96b8804d2aea0f262289a5caf3"
 
 SRC_URI[stratix10_gsrd_core.sha256sum] = "c43c9726f605016778694e8caa34a52223774e3b0db5c842f24a72df36bcafab"
 SRC_URI[stratix10_nand_core.sha256sum] = "18b9cb459cc056b5324744b36f8f4a12aee771c361106ce574615eed8dae819c"

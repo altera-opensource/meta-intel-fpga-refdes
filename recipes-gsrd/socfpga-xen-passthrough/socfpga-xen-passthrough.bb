@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-2.0-only;md5=801f80980d171d
 
 SRCREV = "${AUTOREV}"
 XEN_DTB_BRANCH ?= "master"
-XEN_DTB_REPO ?= "git://github.com/intel-innersource/applications.fpga.soc.xen-passthrough-examples.git"
+XEN_DTB_REPO ?= "git://github.com/altera-opensource/xen-passthrough-examples.git"
 XEN_DTB_PROT ?= "http"
 
 SRC_URI = "${XEN_DTB_REPO};protocol=${XEN_DTB_PROT};branch=${XEN_DTB_BRANCH}"

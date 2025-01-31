@@ -1,6 +1,6 @@
 SRCREV = "${AUTOREV}"
 
-XEN_REPO ?= "git://github.com/intel-innersource/applications.fpga.soc.xen-hypervisor.git"
+XEN_REPO ?= "git://github.com/altera-opensource/xen-hypervisor.git"
 XEN_PROT ?= "http"
 XEN_REL ?= "4.19"
 XEN_BRANCH ?= "stable-4.19"

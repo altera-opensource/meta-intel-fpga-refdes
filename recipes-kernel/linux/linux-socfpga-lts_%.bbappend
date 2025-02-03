@@ -22,6 +22,7 @@ SRC_URI:append:agilex5_dk_a5e013bb32aes_5s = " file://fit_kernel_agilex5_dk_a5e0
 SRC_URI:append:agilex5_modular = " file://fit_kernel_agilex5_modular.its ${@bb.utils.contains('HYP_BUILD', '1', 'file://xen.scc', '', d)}"
 SRC_URI:append:agilex5_mudv_cvr = " file://fit_kernel_agilex5_mudv_cvr.its"
 SRC_URI:append:agilex5_mucv = " file://fit_kernel_agilex5_mucv.its"
+SRC_URI:append:agilex3 = " file://fit_kernel_agilex3.its ${@bb.utils.contains('HYP_BUILD', '1', 'file://xen.scc', '', d)}"
 SRC_URI:append:stratix10 = " file://fit_kernel_stratix10.its"
 SRC_URI:append:stratix10_htile = " file://fit_kernel_stratix10_htile.its"
 
@@ -74,6 +75,11 @@ SRC_URI:append:agilex5_modular = " file://initrd.scc \
 								   file://tsn.scc \
 								   file://sensors.scc \
 								   file://edac.scc"
+SRC_URI:append:agilex3 = " file://initrd.scc \
+                           file://xdp.scc \
+                           file://tsn.scc \
+                           file://sensors.scc \
+                           file://edac.scc"
 SRC_URI:append:agilex5_mudv_cvr = " file://initrd.scc \
                                     file://xdp.scc \
 									file://tsn.scc \
@@ -117,6 +123,12 @@ do_deploy:append() {
 		# linux.dtb
 		cp ${LINUXDEPLOYDIR}/socfpga_${MACHINE}_socdk.dtb ${B}/socfpga_${MACHINE}_socdk.dtb
 		cp ${LINUXDEPLOYDIR}/socfpga_${MACHINE}_socdk_swvp.dtb ${B}/socfpga_${MACHINE}_socdk_swvp.dtb
+	elif [[ "${MACHINE}" == "agilex3" ]]; then
+		# linux.dtb
+		cp ${DTBDEPLOYDIR}/socfpga_agilex3_socdk.dtb ${B}
+		cp ${DTBDEPLOYDIR}/socfpga_agilex3_vanilla.dtb ${B}
+		# core.rbf
+		cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd.core.rbf ${B}
 	elif [[ "${MACHINE}" == *"agilex5_"* ]]; then
 		if [[ "${MACHINE}" == "agilex5_modular" ]]; then
 			# linux.dtb

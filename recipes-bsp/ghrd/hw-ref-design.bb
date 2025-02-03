@@ -126,6 +126,10 @@ SRC_URI:arria10 ?= "\
 		${@bb.utils.contains("IMAGE_TYPE", "pr", "${GHRD_REPO}/arria10_${IMAGE_TYPE}_persona1.rbf;name=arria10_pr_persona1", "", d)} \
 		"
 
+SRC_URI:agilex3 ?= "\
+		${GHRD_REPO}/agilex3_gsrd_${ARM64_GHRD_CORE_RBF};name=agilex3_gsrd_core \
+		"
+
 SRC_URI:cyclone5 ?= "${GHRD_REPO}/cyclone5_${IMAGE_TYPE}_${C5_GHRD_CORE_RBF};name=cyclone5_${IMAGE_TYPE}_core"
 
 SRC_URI[agilex5_dk_a5e065bb32aes1_gsrd_core.sha256sum] = "490b357be98a8377b4aae8befbc7db97c4e332fb3f4ced74cc00df1a1a452db3"
@@ -268,9 +272,17 @@ do_install () {
 			install -D -m 0644 ${WORKDIR}/sources/agilex5_dk_a5e065bb32aes1_debug2_ghrd.core.rbf ${D}/boot/debug2.core.rbf
 		fi
 	fi
+
+	if [[ "${MACHINE}" == *"agilex3"* ]]; then
+		install -D -m 0644 ${WORKDIR}/sources/${MACHINE}_gsrd_${ARM64_GHRD_CORE_RBF} ${D}/boot/${ARM64_GHRD_CORE_RBF}
+	fi
 }
 
 do_deploy () {
+	if [[ "${MACHINE}" == *"agilex3"* ]]; then
+		install -D -m 0644 ${WORKDIR}/sources/${MACHINE}_${IMAGE_TYPE}_${ARM64_GHRD_CORE_RBF} ${DEPLOYDIR}/${MACHINE}_${IMAGE_TYPE}_ghrd/${ARM64_GHRD_CORE_RBF}
+	fi
+
 	if [[ "${MACHINE}" == *"agilex5_"* ]]; then
 		if [ "${MACHINE}" == "agilex5_modular" ]; then
 			install -D -m 0644 ${WORKDIR}/sources/${MACHINE}_${IMAGE_TYPE}_${ARM64_GHRD_CORE_RBF} ${DEPLOYDIR}/${MACHINE}_${IMAGE_TYPE}_ghrd/${ARM64_GHRD_CORE_RBF}

@@ -1,0 +1,73 @@
+/*
+* Add this piece of dtsi fragment as #include "socfpga_agilex3_ghrd.dtsi"
+* in the file socfpga_agilex3_socdk.dts. Compile it in the kernel along with
+* socfpga_agilex5.dtsi.
+*/
+
+/{
+	soc@0 {
+
+		led_pio: gpio@20010080 {
+				compatible = "altr,pio-1.0";
+				reg = <0x20010080 0x8>;
+				altr,gpio-bank-width = <4>;
+				#gpio-cells = <2>;
+				gpio-controller;
+				resetvalue = <0>;
+		};
+
+		button_pio: gpio@20010060 {
+				compatible = "altr,pio-1.0";
+				reg = <0x20010060 0x10>;
+				interrupt-parent = <&intc>;
+				interrupts = <0 18 4>;
+				altr,gpio-bank-width = <4>;
+				altr,interrupt-type = <2>;
+               altr,interrupt_type = <2>;
+				#gpio-cells = <2>;
+				gpio-controller;
+		};
+
+		dipsw_pio: gpio@20010070 {
+				compatible = "altr,pio-1.0";
+				reg = <0x20010070 0x10>;
+				interrupt-parent = <&intc>;
+				interrupts = <0 17 4>;
+				altr,gpio-bank-width = <4>;
+				altr,interrupt-type = <3>;
+               altr,interrupt_type = <3>;
+				#gpio-cells = <2>;
+				gpio-controller;
+		};
+/*
+		trigger_pio: gpio@f9001040 {
+				compatible = "altr,pio-1.0";
+				reg = <0xf9001040 0x20>;
+				altr,gpio-bank-width = <4>;
+				#gpio-cells = <2>;
+				gpio-controller;
+				resetvalue = <0>;
+		};
+*/
+		soc_leds: leds {
+			compatible = "gpio-leds";
+
+			led_fpga0: fpga0 {
+					label = "fpga_led0";
+					gpios = <&led_pio 0 0>;
+			}; //end fpga0 (led_fpga0)
+
+			led_fpga1: fpga1 {
+					label = "fpga_led1";
+					gpios = <&led_pio 1 0>;
+			}; //end fpga1 (led_fpga1)
+
+			led_fpga2: fpga2 {
+					label = "fpga_led2";
+					gpios = <&led_pio 2 0>;
+			}; //end fpga2 (led_fpga2)
+
+		};
+
+	};
+};

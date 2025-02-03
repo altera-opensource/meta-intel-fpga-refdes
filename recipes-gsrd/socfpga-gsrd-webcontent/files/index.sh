@@ -67,6 +67,9 @@ agilex5_mudv_cvr)
 agilex5_mucv)
 	DEVKIT_NAME="Agilex5 mUCV SoC Development Kit"
 	;;
+agilex3)
+	DEVKIT_NAME="Agilex3 SoC Development Kit"
+	;;
 undef)
 	DEVKIT_NAME="Unknown Development Kit"
 	exit -1
@@ -172,6 +175,13 @@ echo -e "<ul>"
 echo -e "</ul>"
 echo -e "</div>"
 elif [ "$MACHINE" == *"agilex5"* ]; then
+echo -e "<div class=\"bup-links\">"
+echo -e "<h4>Developer Resources</h4>"
+echo -e "<ul>"
+        echo -e "<li><a href=\"http://www.rocketboards.org\" target=\"_blank\">Rocketboards.org</a></li> "
+echo -e "</ul>"
+echo -e "</div>"
+elif [ "$MACHINE" == "agilex3" ]; then
 echo -e "<div class=\"bup-links\">"
 echo -e "<h4>Developer Resources</h4>"
 echo -e "<ul>"

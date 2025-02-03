@@ -19,8 +19,12 @@ do_compile() {
 	for dts_file in ${S}/agilex5/*.dts; do
 		dtc -O dtb -I dts -o ${B}/$(basename ${dts_file} .dts).dtb ${dts_file}
 	done
-    else
+	elif [[ "${MACHINE}" == *"agilex7_"* ]]; then
 	for dts_file in ${S}/agilex7/*.dts; do
+		dtc -O dtb -I dts -o ${B}/$(basename ${dts_file} .dts).dtb ${dts_file}
+	done
+    else
+	for dts_file in ${S}/agilex3/*.dts; do
 		dtc -O dtb -I dts -o ${B}/$(basename ${dts_file} .dts).dtb ${dts_file}
 	done
     fi
@@ -38,8 +42,12 @@ do_install() {
 	for cfg_file in ${S}/agilex5/*.cfg; do
 		install -m 0644 ${cfg_file} ${D}/home/root/xen/$(basename ${cfg_file})
 	done
-    else
+	elif [[ "${MACHINE}" == *"agilex7_"* ]]; then
 	for cfg_file in ${S}/agilex7/*.cfg; do
+		install -m 0644 ${cfg_file} ${D}/home/root/xen/$(basename ${cfg_file})
+	done
+    else
+	for cfg_file in ${S}/agilex3/*.cfg; do
 		install -m 0644 ${cfg_file} ${D}/home/root/xen/$(basename ${cfg_file})
 	done
     fi

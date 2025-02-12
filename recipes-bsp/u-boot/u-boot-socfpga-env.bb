@@ -6,20 +6,40 @@ FILESEXTRAPATHS:prepend := "${THISDIR}/env:"
 
 DEPENDS = "u-boot-mkenvimage-native"
 
+PACKAGES:remove = "u-boot-socfpga-env"
+
 inherit deploy nopackages
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
-SRC_URI:agilex7_dk_si_agf014ea = "\
+SRC_URI:agilex7_dk_si_agf014eb = "\
 			 ${@bb.utils.contains("UBOOT_CONFIG", "agilex-socdk", "file://agilex-socdk_u-boot-env.txt", "", d)} \
 			 ${@bb.utils.contains("UBOOT_CONFIG", "agilex-socdk-atf", "file://agilex-socdk-atf_u-boot-env.txt", "", d)} \
 			 ${@bb.utils.contains("UBOOT_CONFIG", "agilex-socdk-qspi", "file://agilex-socdk-qspi_u-boot-env.txt", "", d)} \
 			 ${@bb.utils.contains("UBOOT_CONFIG", "agilex-socdk-qspi-atf", "file://agilex-socdk-qspi-atf_u-boot-env.txt", "", d)} \
 			 "
 
-SRC_URI:agilex7_dk_si_agf014eb = "\
-			 ${@bb.utils.contains("UBOOT_CONFIG", "agilex-socdk", "file://agilex-socdk_u-boot-env.txt", "", d)} \
+SRC_URI:agilex7_dk_dev_agf027f1es = "\
 			 ${@bb.utils.contains("UBOOT_CONFIG", "agilex-socdk-atf", "file://agilex-socdk-atf_u-boot-env.txt", "", d)} \
-			 ${@bb.utils.contains("UBOOT_CONFIG", "agilex-socdk-qspi", "file://agilex-socdk-qspi_u-boot-env.txt", "", d)} \
+			 ${@bb.utils.contains("UBOOT_CONFIG", "agilex-socdk-qspi-atf", "file://agilex-socdk-qspi-atf_u-boot-env.txt", "", d)} \
+			 "
+
+SRC_URI:agilex7_dk_dev_agm039fes = "\
+			 ${@bb.utils.contains("UBOOT_CONFIG", "agilex-socdk-atf", "file://agilex-socdk-atf_u-boot-env.txt", "", d)} \
+			 ${@bb.utils.contains("UBOOT_CONFIG", "agilex-socdk-qspi-atf", "file://agilex-socdk-qspi-atf_u-boot-env.txt", "", d)} \
+			 "
+
+SRC_URI:agilex7_dk_si_agi027fa = "\
+			 ${@bb.utils.contains("UBOOT_CONFIG", "agilex-socdk-atf", "file://agilex-socdk-atf_u-boot-env.txt", "", d)} \
+			 ${@bb.utils.contains("UBOOT_CONFIG", "agilex-socdk-qspi-atf", "file://agilex-socdk-qspi-atf_u-boot-env.txt", "", d)} \
+			 "
+
+SRC_URI:agilex7_dk_si_agi027fb = "\
+			 ${@bb.utils.contains("UBOOT_CONFIG", "agilex-socdk-atf", "file://agilex-socdk-atf_u-boot-env.txt", "", d)} \
+			 ${@bb.utils.contains("UBOOT_CONFIG", "agilex-socdk-qspi-atf", "file://agilex-socdk-qspi-atf_u-boot-env.txt", "", d)} \
+			 "
+
+SRC_URI:agilex7_dk_si_agi027fc = "\
+			 ${@bb.utils.contains("UBOOT_CONFIG", "agilex-socdk-atf", "file://agilex-socdk-atf_u-boot-env.txt", "", d)} \
 			 ${@bb.utils.contains("UBOOT_CONFIG", "agilex-socdk-qspi-atf", "file://agilex-socdk-qspi-atf_u-boot-env.txt", "", d)} \
 			 "
 

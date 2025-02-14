@@ -5,7 +5,7 @@
 */
 
 /{
-	soc {
+	soc@0 {
 		led_pio: gpio@f9001080 {
 				compatible = "altr,pio-1.0";
 				reg = <0xf9001080 0x8>;

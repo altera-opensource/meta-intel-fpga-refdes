@@ -194,7 +194,7 @@ SRC_URI[arria10_tse_core.sha256sum] = "4f14d2265adb85e21a71a84d98700bd2968f6ca0f
 SRC_URI[arria10_tse_periph.sha256sum] = "f6a35d6303c375f41d7ca0efb2a12aadf0b4f535a3a77efa5a4c5ae0e6df8704"
 SRC_URI[arria10_tse_hps_xml.sha256sum] = "c321a42f188789c1d68ccf30e54dc6a91d0db4fb33771f7102088093c7467cf8"
 
-SRC_URI[cyclone5_gsrd_core.sha256sum] = "0498c9c97e48e2e6de97410b998d6f9d751c630e233071234b146d2ee399f268"
+SRC_URI[cyclone5_gsrd_core.sha256sum] = "3decce7cfeff2b33882d96fcceeb7f48d99140815cfe083bf3d65a86f71f7548"
 
 S = "${WORKDIR}/sources"
 UNPACKDIR = "${S}"

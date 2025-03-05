@@ -41,6 +41,8 @@ SRC_URI:append:agilex5_modular = " ${@bb.utils.contains('HYP_BUILD', '1', 'file:
 SRC_URI:append:agilex7_dk_si_agf014ea = " ${@bb.utils.contains('HYP_BUILD', '1', 'file://agilex7_uboot_xen.txt file://agilex7_uboot_script_xen.its', '', d)}"
 SRC_URI:append:agilex7_dk_si_agf014eb = " ${@bb.utils.contains('HYP_BUILD', '1', 'file://agilex7_uboot_xen.txt file://agilex7_uboot_script_xen.its', '', d)}"
 
+S = "${WORKDIR}/sources-unpack"
+
 do_configure[noexec] = "1"
 do_install[noexec] = "1"
 

@@ -11,6 +11,8 @@ inherit allarch systemd
 SRC_URI = "file://socfpga-gsrd.service \
 	   file://socfpga-gsrd-init.sh"
 
+S = "${WORKDIR}/sources-unpack"
+
 do_compile() {
 	:
 }

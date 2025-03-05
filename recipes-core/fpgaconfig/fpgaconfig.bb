@@ -11,6 +11,8 @@ SRC_URI = "file://fpgaconfig.sh \
 	   file://fpgaconfig@persona1.service \
           "
 
+S = "${WORKDIR}/sources-unpack"
+
 do_compile() {
 	:
 }

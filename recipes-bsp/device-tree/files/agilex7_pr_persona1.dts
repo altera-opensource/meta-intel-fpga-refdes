@@ -2,7 +2,7 @@
 /plugin/;
 / {
 	fragment@1 {
-		target-path = "/soc/base_fpga_region/fpga_pr_region0";
+		target-path = "/fpga-region/fpga_pr_region0";
 		#address-cells = <0x2>;
 		#size-cells = <0x2>;
 		__overlay__ {

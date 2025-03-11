@@ -94,8 +94,6 @@ inherit deploy
 LINUXDEPLOYDIR = "${WORKDIR}/deploy-${PN}"
 DTBDEPLOYDIR = "${DEPLOY_DIR_IMAGE}/devicetree"
 
-INSANE_SKIP:${PN}-src = "buildpaths"
-
 do_deploy:append() {
 	# Stage required binaries for kernel.itb
 	# Supported device family:

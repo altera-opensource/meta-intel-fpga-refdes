@@ -94,6 +94,12 @@ inherit deploy
 LINUXDEPLOYDIR = "${WORKDIR}/deploy-${PN}"
 DTBDEPLOYDIR = "${DEPLOY_DIR_IMAGE}/devicetree"
 
+# Force dependency on hw-ref-design due to inclusion of "rbf" files
+do_deploy[depends] += "hw-ref-design:do_deploy"
+
+# Force dependency on device-tree due to inclusion of "dtb" files which are deployed by device-tree.bb
+do_deploy[depends] += "device-tree:do_deploy"
+
 do_deploy:append() {
 	# Stage required binaries for kernel.itb
 	# Supported device family:
@@ -174,6 +180,9 @@ do_deploy:append() {
 		# Image
 		cp ${LINUXDEPLOYDIR}/Image ${B}
 		# Compress Image to lzma format
+		if [ -e ${B}/Image.lzma ]; then
+			rm ${B}/Image.lzma
+		fi
 		xz --format=lzma ${B}/Image
 		# Generate kernel.itb
 		mkimage -f ${B}/fit_kernel_${MACHINE}.its ${B}/kernel.itb

@@ -94,7 +94,7 @@ inherit deploy
 LINUXDEPLOYDIR = "${WORKDIR}/deploy-${PN}"
 DTBDEPLOYDIR = "${DEPLOY_DIR_IMAGE}/devicetree"
 
-do_deploy[depends] += "${@'' if d.getVar('MACHINE') in ['arria10', 'cyclone5'] else 'hw-ref-design:do_deploy device-tree:do_deploy'}"
+do_deploy[depends] += "${@'' if d.getVar('MACHINE') in ['agilex5', 'arria10', 'cyclone5', 'n5x'] else 'hw-ref-design:do_deploy device-tree:do_deploy'}"
 
 do_deploy:append() {
 	# Stage required binaries for kernel.itb

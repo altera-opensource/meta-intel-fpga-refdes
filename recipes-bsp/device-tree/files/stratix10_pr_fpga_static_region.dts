@@ -5,14 +5,12 @@
 		target-path = "/fpga-region";
 		#address-cells = <0x2>;
 		#size-cells = <0x2>;
+
 		__overlay__ {
 			#address-cells = <0x2>;
 			#size-cells = <0x2>;
-
-			ranges = <0x00000000 0x0 0xF9000000 0x0 0x00200000>;
-
+			ranges = <0x0 0x0 0x0 0xF9000000 0x0 0x00200000>;
 			external-fpga-config;
-
 			clocks = <&clk_0>;
 			clock-names = "fpga_clock";
 
@@ -31,7 +29,7 @@
 				#size-cells = <0x2>;
 			};
 
-			freeze_controller_0: freeze_controller@0x0450 {
+			freeze_controller_0: freeze_controller@450 {
 				compatible = "altr,freeze_controller-16.1", "altr,freeze-bridge-controller";
 				reg = <0x0 0x00000450 0x0 0x00000010>;
 				interrupt-parent = <&intc>;

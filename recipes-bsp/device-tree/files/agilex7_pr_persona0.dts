@@ -5,12 +5,12 @@
 		target-path = "/fpga-region/fpga_pr_region0";
 		#address-cells = <0x2>;
 		#size-cells = <0x2>;
+
 		__overlay__ {
 			partial-fpga-config;
 			firmware-name = "persona0.rbf";
 			#address-cells = <0x2>;
 			#size-cells = <0x2>;
-
 			region-unfreeze-timeout-us = <5000>;
 			region-freeze-timeout-us = <5000>;
 			config-complete-timeout-us = <2000000>;
@@ -22,7 +22,7 @@
 				clock-output-names = "pr_region_0_pr_clk_100-clk";
 			};
 
-			pr_region_0_pr_sysid_qsys_0: sysid@0x0800 {
+			pr_region_0_pr_sysid_qsys_0: sysid@800 {
 				compatible = "altr,sysid-16.1", "altr,sysid-1.0";
 				reg = <0x0 0x00000800 0x0 0x00000008>;
 				clocks = <&pr_region_0_pr_clk_100>;

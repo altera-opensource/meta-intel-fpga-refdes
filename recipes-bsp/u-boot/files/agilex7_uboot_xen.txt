@@ -25,9 +25,9 @@ fdt mknod /chosen dom1
 fdt set /chosen/dom1 compatible "multiboot,ramdisk" "multiboot,module"
 fdt set /chosen/dom1 reg <0xb000000 0x8000000>
 
-fdt set /soc/ethernet@ff800000 \iommus <8 0x401>
-fdt set /soc/mmc@ff808000 \iommus <8 0x805>
-fdt set /soc/usb@ffb00000 \iommus <8 0x806>
+fdt set /soc/ethernet@ff800000 \iommus <9 0x401>
+fdt set /soc/mmc@ff808000 \iommus <9 0x805>
+fdt set /soc/usb@ffb00000 \iommus <9 0x806>
 
 fdt rm /soc/usb@ffb40000 \iommus
 fdt set /soc/usb@ffb40000 status "disabled"

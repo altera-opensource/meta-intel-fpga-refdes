@@ -46,8 +46,8 @@ SRC_URI:agilex5_dk_a5e013bb32aes_5s ?= "\
 		${GHRD_REPO}/agilex5_dk_a5e013bb32aes_5s_emmc_${ARM64_GHRD_CORE_RBF};name=agilex5_dk_a5e013bb32aes_5s_emmc_core \
 		"
 
-SRC_URI:agilex5_modular ?= "\
-		${GHRD_REPO}/agilex5_modular_gsrd_${ARM64_GHRD_CORE_RBF};name=agilex5_modular_gsrd_core \
+SRC_URI:agilex5_mk_a5e065bb32aes1 ?= "\
+		${GHRD_REPO}/agilex5_mk_a5e065bb32aes1_gsrd_${ARM64_GHRD_CORE_RBF};name=agilex5_mk_a5e065bb32aes1_gsrd_core \
 		"
 
 SRC_URI:agilex5_mudv_cvr ?= "\
@@ -141,7 +141,7 @@ SRC_URI[agilex5_dk_a5e013bb32aesi0_gsrd_core.sha256sum] = "86d5f729a391bf0088d65
 SRC_URI[agilex5_dk_a5e013bb32aesi0_nand_core.sha256sum] = "a19baf58fcaeacc210508480b14ccc8dc3889be74c8f43da535a11e37a61a6dd"
 SRC_URI[agilex5_dk_a5e013bb32aesi0_emmc_core.sha256sum] = "70d1aab9bf5e567246176cbda3513e644b11e2a54c01375d730dfbd3fb8ebc46"
 
-SRC_URI[agilex5_modular_gsrd_core.sha256sum] = "0b329eee22c0ffe23365753c830e6561f68f27317ede29b86c707be0339d569a"
+SRC_URI[agilex5_mk_a5e065bb32aes1_gsrd_core.sha256sum] = "0b329eee22c0ffe23365753c830e6561f68f27317ede29b86c707be0339d569a"
 
 SRC_URI[agilex7_dk_si_agf014ea_gsrd_core.sha256sum] = "01f79cff0d311332a41198df48f74d0c9b63081f5b403b7bbed0336f032ac9f7"
 SRC_URI[agilex7_dk_si_agf014ea_nand_core.sha256sum] = "d05a7c8f21b529af09a9ba63a65049bb8e2c2109189af9be1cd8fe024a718927"
@@ -253,7 +253,7 @@ do_install () {
 	fi
 	
 	if [[ "${MACHINE}" == *"agilex5_"* ]]; then
-		if [ "${MACHINE}" == "agilex5_modular" ]; then
+		if [ "${MACHINE}" == "agilex5_mk_a5e065bb32aes1" ]; then
 			install -D -m 0644 ${WORKDIR}/sources/${MACHINE}_gsrd_${ARM64_GHRD_CORE_RBF} ${D}/boot/${ARM64_GHRD_CORE_RBF}
 		elif [[ "${MACHINE}" == *"agilex5_dk_a5e"* ]]; then
 			install -D -m 0644 ${WORKDIR}/sources/${MACHINE}_gsrd_${ARM64_GHRD_CORE_RBF} ${D}/boot/${ARM64_GHRD_CORE_RBF}
@@ -284,7 +284,7 @@ do_deploy () {
 	fi
 
 	if [[ "${MACHINE}" == *"agilex5_"* ]]; then
-		if [ "${MACHINE}" == "agilex5_modular" ]; then
+		if [ "${MACHINE}" == "agilex5_mk_a5e065bb32aes1" ]; then
 			install -D -m 0644 ${WORKDIR}/sources/${MACHINE}_${IMAGE_TYPE}_${ARM64_GHRD_CORE_RBF} ${DEPLOYDIR}/${MACHINE}_${IMAGE_TYPE}_ghrd/${ARM64_GHRD_CORE_RBF}
 		elif [[ "${MACHINE}" == *"agilex5_dk_a5e"* ]]; then
 			install -D -m 0644 ${WORKDIR}/sources/${MACHINE}_gsrd_${ARM64_GHRD_CORE_RBF} ${DEPLOYDIR}/${MACHINE}_${IMAGE_TYPE}_ghrd/${ARM64_GHRD_CORE_RBF}

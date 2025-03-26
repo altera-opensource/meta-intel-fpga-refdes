@@ -1,4 +1,4 @@
-The official Yocto Project BSP layer for Intel SoCFPGA Golden Software Reference Design (GSRD)
+The official Yocto Project BSP layer for Altera SoCFPGA Golden Software Reference Design (GSRD)
 
 This layer works with Yocto Project Poky layer
 
@@ -24,7 +24,7 @@ Supported Image Types
 =====================
 * console-image-minimal
 
-    Consists of basic boot up essentials packages for Intel SoCFPGA platforms.
+    Consists of basic boot up essentials packages for Altera SoCFPGA platforms.
 
 * gsrd-console-image
 
@@ -38,5 +38,5 @@ Contribution
 ============
 Submit patches via github pull requests, Use github issues to report problems or to send comments
 
-Maintainer(s): Teoh, Ji Sheng <ji.sheng.teoh@intel.com>
+Maintainer(s): drosdi <danish.ahmad.rosdi@intel.com>
 

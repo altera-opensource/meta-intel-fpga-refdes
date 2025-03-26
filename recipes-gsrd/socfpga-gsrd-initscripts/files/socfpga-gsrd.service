@@ -2,7 +2,7 @@
 WantedBy=multi-user.target
 
 [Unit]
-Description=Intel SoCFPGA GSRD initialization
+Description=Altera SoCFPGA GSRD initialization
 
 [Service]
 Type=oneshot

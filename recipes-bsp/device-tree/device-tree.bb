@@ -15,7 +15,7 @@ inherit devicetree
 
 PROVIDES = "virtual/dtb"
 
-COMPATIBLE_MACHINE = "(agilex3|agilex5_dk_a5e065bb32aes1|agilex5_dk_a5e013bb32aesi0|agilex5_dk_a5e013bb32aes|agilex5_dk_a5e013bb32aes_5s|agilex5_mk_a5e065bb32aes1|agilex5_mucv|agilex5_mudv_cvr|agilex7_dk_si_agf014ea|agilex7_dk_si_agf014eb|agilex7_dk_si_agi027fb|agilex7_dk_si_agi027fa|agilex7_dk_si_agi027fc|agilex7_dk_dev_agf027f1es|agilex7_dk_dev_agm039fes|stratix10|stratix10_htile)"
+COMPATIBLE_MACHINE = "(agilex3|agilex5_dk_a5e065bb32aes1|agilex5_dk_a5e013bb32aesi0|agilex5_dk_a5e013bb32aes|agilex5_dk_a5e013bb32aes_5s|agilex5_mk_a5e065bb32aes1|agilex5_mucv|agilex5_mudv_cvr|agilex7_dk_si_agf014ea|agilex7_dk_si_agf014eb|agilex7_dk_si_agi027fb|agilex7_dk_si_agi027fa|agilex7_dk_si_agi027fc|agilex7_dk_dev_agf027f1es|agilex7_dk_dev_agm039fes|agilex7_dk_dev_agf023fa|stratix10|stratix10_htile)"
 
 SRC_URI:append:agilex7_dk_si_agf014ea = " \
 					file://socfpga_agilex7_ghrd_sgmii.dtsi \
@@ -50,12 +50,17 @@ SRC_URI:append:agilex7_dk_si_agi027fc = " \
 					"
 
 SRC_URI:append:agilex7_dk_dev_agf027f1es = " \
-					file://socfpga_agilex7_dk_dev_agf027f1es_ghrd.dtsi \
+					file://socfpga_agilex7_dk_dev_agf_ghrd.dtsi \
 					file://socfpga_ilc.dtsi \
 					"
 
 SRC_URI:append:agilex7_dk_dev_agm039fes = " \
 					file://socfpga_agilex7_ghrd.dtsi \
+					file://socfpga_ilc.dtsi \
+					"
+
+SRC_URI:append:agilex7_dk_dev_agf023fa = " \
+					file://socfpga_agilex7_dk_dev_agf_ghrd.dtsi \
 					file://socfpga_ilc.dtsi \
 					"
 
@@ -155,12 +160,12 @@ do_configure:append() {
 			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex_socdk.dts ${WORKDIR}/sources/socfpga_agilex7_socdk.dts
 			sed -i '/\#include \"socfpga_agilex.dtsi\"/a \#include \"socfpga_agilex7_ghrd.dtsi\"\n\#include \"socfpga_ilc.dtsi\"' ${WORKDIR}/sources/socfpga_agilex7_socdk.dts
 		fi
-		# AGILEX7 DK-DEV-AGF027F1ES
-		if [[ "${MACHINE}" == "agilex7_dk_dev_agf027f1es" ]]; then
+		# AGILEX7 DK-DEV-AGF027F1ES & AGILEX7 DK-DEV-AGF023FA
+		if [[ "${MACHINE}" == "agilex7_dk_dev_agf02"* ]]; then
 			# GSRD DTB Generation
 			# MMC
 			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex_socdk.dts ${WORKDIR}/sources/socfpga_agilex7_socdk.dts
-			sed -i '/\#include \"socfpga_agilex.dtsi\"/a \#include \"socfpga_agilex7_dk_dev_agf027f1es_ghrd.dtsi\"\n\#include \"socfpga_ilc.dtsi\"' ${WORKDIR}/sources/socfpga_agilex7_socdk.dts
+			sed -i '/\#include \"socfpga_agilex.dtsi\"/a \#include \"socfpga_agilex7_dk_dev_agf_ghrd.dtsi\"\n\#include \"socfpga_ilc.dtsi\"' ${WORKDIR}/sources/socfpga_agilex7_socdk.dts
 		fi
 		# Agilex7 DK-DEV-AGM039FES
 		if [[ "${MACHINE}" == "agilex7_dk_dev_agm039fes" ]]; then

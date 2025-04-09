@@ -22,3 +22,6 @@ RDEPENDS:packagegroup-common-essential = "\
 
 RDEPENDS:packagegroup-common-essential:append= "\
 	${@'socfpga-intel-unilibrsu-lib socfpga-intel-unilibrsu-client' if d.getVar('MACHINE', True).startswith('agilex5') else 'socfpga-intel-rsu-client socfpga-intel-rsu-lib'}"
+
+RDEPENDS:packagegroup-common-essential:append= "\
+	${@'socfpga-intel-fcs-lib socfpga-intel-fcs-client' if d.getVar('MACHINE', True).startswith('agilex') else ''}"

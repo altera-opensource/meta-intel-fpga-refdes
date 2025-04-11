@@ -9,7 +9,7 @@ inherit module
 PR = "r0"
 PV = "0.1"
 
-REFDES_REPO ?= "git://github.com/altera-opensource/linux-refdesigns.git"
+REFDES_REPO ?= "git://github.com/altera-fpga/linux-refdesigns.git"
 REFDES_PROT ?= "http"
 REFDES_BRANCH ?= "master"
 SRCREV = "57b44fdf88bb344491118db066142938344ee3c3"

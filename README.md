@@ -14,7 +14,7 @@ Dependencies
 Supported U-Boot and Linux Kernels
 ==================================
 It is important to understand the support and release of u-boot-socfpga
-and linux-socfpga in the github.com/altera-opensource repositories.  Only
+and linux-socfpga in the github.com/altera-fpga repositories.  Only
 currently supported and maintained releases/branches are available in the
 repository. As such, supported kernel and u-boot releases are updated regularly
 in currently supported meta-altera branches.  Kernel and u-boot releases

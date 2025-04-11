@@ -8,7 +8,7 @@ S = "${WORKDIR}/git"
 
 DEPENDS = "ncurses"
 
-REFDES_REPO ?= "git://github.com/altera-opensource/linux-refdesigns.git"
+REFDES_REPO ?= "git://github.com/altera-fpga/linux-refdesigns.git"
 REFDES_PROT ?= "http"
 REFDES_BRANCH ?= "master"
 

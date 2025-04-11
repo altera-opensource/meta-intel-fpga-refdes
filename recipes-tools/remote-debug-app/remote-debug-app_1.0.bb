@@ -3,12 +3,12 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=ffdc9513cf50bcd13342db84911931b8"
 
 inherit pkgconfig cmake
 
-REMOTE_DBG_REPO ?= "git://github.com/altera-opensource/remote-debug-for-intel-fpga.git"
+REMOTE_DBG_REPO ?= "git://github.com/altera-fpga/remote-debug-for-intel-fpga.git"
 REMOTE_DBG_PROT ?= "https"
 REMOTE_DBG_BRANCH ?= "main"
 
 SRC_URI = "${REMOTE_DBG_REPO};protocol=${REMOTE_DBG_PROT};branch=${REMOTE_DBG_BRANCH} \
-           git://github.com/altera-opensource/fpga-ip-access.git;protocol=https;branch=main;name=fpga-ip-access;subdir=git/fpga-ip-access \
+           git://github.com/altera-fpga/fpga-ip-access.git;protocol=https;branch=main;name=fpga-ip-access;subdir=git/fpga-ip-access \
           "
 
 SRCREV_default = "3a3eb126321429c0845276ef9c200df7786dbf74"

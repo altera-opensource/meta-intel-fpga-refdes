@@ -1,6 +1,6 @@
 SUMMARY="Intel FPGA Crypto Service client"
 LICENSE = "MIT-0"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=08e5b346f14e1877a2c2a2de82d2d4a1"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=6f25b4c3a6d23285f956387ab54830ad"
 
 SRC_URI = "git://github.com/intel-innersource/libraries.fpga.libfcs.git;protocol=https;branch=main;"
 

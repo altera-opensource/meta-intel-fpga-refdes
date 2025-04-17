@@ -28,6 +28,11 @@ SRC_URI:agilex7_dk_dev_agm039fes = "\
 			 ${@bb.utils.contains("UBOOT_CONFIG", "agilex-socdk-qspi-atf", "file://agilex-socdk-qspi-atf_u-boot-env.txt", "", d)} \
 			 "
 
+SRC_URI:agilex7_dk_dev_agm039fb = "\
+			 ${@bb.utils.contains("UBOOT_CONFIG", "agilex-socdk-atf", "file://agilex-socdk-atf_u-boot-env.txt", "", d)} \
+			 ${@bb.utils.contains("UBOOT_CONFIG", "agilex-socdk-qspi-atf", "file://agilex-socdk-qspi-atf_u-boot-env.txt", "", d)} \
+			 "
+
 SRC_URI:agilex7_dk_dev_agf023fa = "\
 			 ${@bb.utils.contains("UBOOT_CONFIG", "agilex-socdk-atf", "file://agilex-socdk-atf_u-boot-env.txt", "", d)} \
 			 ${@bb.utils.contains("UBOOT_CONFIG", "agilex-socdk-qspi-atf", "file://agilex-socdk-qspi-atf_u-boot-env.txt", "", d)} \

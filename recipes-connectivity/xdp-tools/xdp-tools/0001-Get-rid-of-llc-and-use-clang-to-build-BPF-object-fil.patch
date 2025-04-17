@@ -1,0 +1,163 @@
+From cf04a49f8071151a9e7139a2608af58fdb55a15a Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Toke=20H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>
+Date: Fri, 14 Mar 2025 11:30:01 +0100
+Subject: [PATCH] Get rid of llc and use clang to build BPF object files
+ directly
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+It turns out we pass both -S and -c to clang, which has become an error
+starting from clang 20. The two-stage build using 'clang -S' followed by
+llc was used in the early days of BPF development, but these days, clang
+is perfectly happy to produce BPF object files directly.
+
+So use this opportunity to get rid of llc entirely, and simplify the BPF
+object build rules while we're add it, by moving all of the -W* defines
+to BPF_CFLAGS.
+
+Upstream-Status: Backport
+
+Signed-off-by: Toke Høiland-Jørgensen <toke@redhat.com>
+---
+ .github/workflows/covscan.yml   |  1 -
+ .github/workflows/selftests.yml |  1 -
+ configure                       |  5 +----
+ lib/common.mk                   | 12 +-----------
+ lib/defines.mk                  |  4 +++-
+ lib/libxdp/Makefile             | 12 +-----------
+ packaging/rpm/xdp-tools.spec    |  1 -
+ 7 files changed, 6 insertions(+), 30 deletions(-)
+
+diff --git a/.github/workflows/covscan.yml b/.github/workflows/covscan.yml
+index adc110b..b1aa0aa 100644
+--- a/.github/workflows/covscan.yml
++++ b/.github/workflows/covscan.yml
+@@ -38,7 +38,6 @@ jobs:
+         run: ./configure
+         env:
+           CLANG: clang-10
+-          LLC: llc-10
+ 
+       - name: Build with cov-build
+         run: |
+diff --git a/.github/workflows/selftests.yml b/.github/workflows/selftests.yml
+index e4a2127..0580814 100644
+--- a/.github/workflows/selftests.yml
++++ b/.github/workflows/selftests.yml
+@@ -22,7 +22,6 @@ jobs:
+       KERNEL_VERSION: ${{ matrix.KERNEL_VERSION }}
+       KERNEL_PATCH_VERSION: ${{ matrix.KERNEL_PATCH_VERSION }}
+       CLANG: clang-10
+-      LLC: llc-10
+ 
+     steps:
+       - name: Check out repository code
+diff --git a/configure b/configure
+index 48d1ea5..ade95f3 100755
+--- a/configure
++++ b/configure
+@@ -33,12 +33,11 @@ check_toolchain()
+     : ${LD=ld}
+     : ${OBJCOPY=objcopy}
+     : ${CLANG=clang}
+-    : ${LLC=llc}
+     : ${M4=m4}
+     : ${EMACS=emacs}
+     : ${ARCH_INCLUDES=}
+ 
+-    #for TOOL in $PKG_CONFIG $CC $LD $OBJCOPY $CLANG $LLC $M4; do
++    #for TOOL in $PKG_CONFIG $CC $LD $OBJCOPY $CLANG $M4; do
+     #    if [ ! $(command -v ${TOOL} 2>/dev/null) ]; then
+     #        echo "*** ERROR: Cannot find tool ${TOOL}" ;
+     #        exit 1;
+@@ -83,7 +82,6 @@ check_toolchain()
+     echo "LD:=${LD}" >>$CONFIG
+     echo "OBJCOPY:=${OBJCOPY}" >>$CONFIG
+     echo "CLANG:=${CLANG}" >>$CONFIG
+-    echo "LLC:=${LLC}" >>$CONFIG
+     echo "M4:=${M4}" >>$CONFIG
+     echo "EMACS:=${EMACS}" >>$CONFIG
+     echo "ARCH_INCLUDES:=$ARCH_INCLUDES" >> $CONFIG
+@@ -357,7 +355,6 @@ endif
+ ifeq (\$(VERBOSE), 0)
+     QUIET_CC       = @echo '    CC       '\$@;
+     QUIET_CLANG    = @echo '    CLANG    '\$@;
+-    QUIET_LLC      = @echo '    LLC      '\$@;
+     QUIET_LINK     = @echo '    LINK     '\$@;
+     QUIET_INSTALL  = @echo '    INSTALL  '\$@;
+     QUIET_M4       = @echo '    M4       '\$@;
+diff --git a/lib/common.mk b/lib/common.mk
+index 56c0406..e1b1523 100644
+--- a/lib/common.mk
++++ b/lib/common.mk
+@@ -105,17 +105,7 @@ $(ALL_EXEC_TARGETS): %: %.c  $(OBJECT_LIBBPF) $(OBJECT_LIBXDP) $(LIBMK) $(LIB_OB
+ 	 $< $(LDLIBS)
+ 
+ $(XDP_OBJ): %.o: %.c $(KERN_USER_H) $(EXTRA_DEPS) $(BPF_HEADERS) $(LIBMK)
+-	$(QUIET_CLANG)$(CLANG) -S \
+-	    -target $(BPF_TARGET) \
+-	    -D __BPF_TRACING__ \
+-	    $(BPF_CFLAGS) \
+-	    -Wall \
+-	    -Wno-unused-value \
+-	    -Wno-pointer-sign \
+-	    -Wno-compare-distinct-pointer-types \
+-	    -Werror \
+-	    -O2 -emit-llvm -c -g -o ${@:.o=.ll} $<
+-	$(QUIET_LLC)$(LLC) -march=$(BPF_TARGET) -filetype=obj -o $@ ${@:.o=.ll}
++	$(QUIET_CLANG)$(CLANG) -target $(BPF_TARGET) $(BPF_CFLAGS) -O2 -c -g -o $@ $<
+ 
+ .PHONY: man
+ ifeq ($(EMACS),)
+diff --git a/lib/defines.mk b/lib/defines.mk
+index f134c43..7648d30 100644
+--- a/lib/defines.mk
++++ b/lib/defines.mk
+@@ -1,5 +1,7 @@
+ CFLAGS ?= -O2 -g
+-BPF_CFLAGS ?= -Wno-visibility
++BPF_CFLAGS ?= -Wall -Wno-unused-value -Wno-pointer-sign \
++	      -Wno-compare-distinct-pointer-types \
++	      -Wno-visibility -Werror -fno-stack-protector
+ BPF_TARGET ?= bpf
+ 
+ HAVE_FEATURES :=
+diff --git a/lib/libxdp/Makefile b/lib/libxdp/Makefile
+index 358b751..74f2627 100644
+--- a/lib/libxdp/Makefile
++++ b/lib/libxdp/Makefile
+@@ -136,17 +136,7 @@ $(EMBEDDED_XDP_OBJS): %.embed.o: %.o
+ 	$(Q)$(OBJCOPY)  --rename-section .data=.rodata,alloc,load,readonly,data,contents $@
+ 
+ $(XDP_OBJS): %.o: %.c $(BPF_HEADERS) $(LIBMK)
+-	$(QUIET_CLANG)$(CLANG) -S \
+-	    -target $(BPF_TARGET) \
+-	    -D __BPF_TRACING__ \
+-	    $(BPF_CFLAGS) \
+-	    -Wall \
+-	    -Wno-unused-value \
+-	    -Wno-pointer-sign \
+-	    -Wno-compare-distinct-pointer-types \
+-	    -Werror \
+-	    -O2 -emit-llvm -c -g -o ${@:.o=.ll} $<
+-	$(QUIET_LLC)$(LLC) -march=$(BPF_TARGET) -filetype=obj -o $@ ${@:.o=.ll}
++	$(QUIET_CLANG)$(CLANG) -target $(BPF_TARGET) $(BPF_CFLAGS) -O2 -c -g -o $@ $<
+ 
+ .PHONY: man
+ ifeq ($(EMACS),)
+diff --git a/packaging/rpm/xdp-tools.spec b/packaging/rpm/xdp-tools.spec
+index 71a6304..b37e095 100644
+--- a/packaging/rpm/xdp-tools.spec
++++ b/packaging/rpm/xdp-tools.spec
+@@ -67,7 +67,6 @@ export LDFLAGS='%{build_ldflags}'
+ export LIBDIR='%{_libdir}'
+ export RUNDIR='%{_rundir}'
+ export CLANG=%{_bindir}/clang
+-export LLC=%{_bindir}/llc
+ export PRODUCTION=1
+ export DYNAMIC_LIBXDP=1
+ export FORCE_SYSTEM_LIBBPF=1
+-- 
+2.17.1
+

@@ -15,7 +15,7 @@ inherit devicetree
 
 PROVIDES = "virtual/dtb"
 
-COMPATIBLE_MACHINE = "(agilex3|agilex5_dk_a5e065bb32aes1|agilex5_dk_a5e013bb32aesi0|agilex5_dk_a5e013bb32aes|agilex5_dk_a5e013bb32aes_5s|agilex5_mk_a5e065bb32aes1|agilex5_mucv|agilex5_mudv_cvr|agilex7_dk_si_agf014ea|agilex7_dk_si_agf014eb|agilex7_dk_si_agi027fb|agilex7_dk_si_agi027fa|agilex7_dk_si_agi027fc|agilex7_dk_dev_agf027f1es|agilex7_dk_dev_agm039fes|agilex7_dk_dev_agf023fa|stratix10|stratix10_htile)"
+COMPATIBLE_MACHINE = "(agilex3|agilex5_dk_a5e065bb32aes1|agilex5_dk_a5e013bb32aesi0|agilex5_dk_a5e013bb32aes|agilex5_dk_a5e013bb32aes_5s|agilex5_mk_a5e065bb32aes1|agilex5_mucv|agilex5_mudv_cvr|agilex7_dk_si_agf014ea|agilex7_dk_si_agf014eb|agilex7_dk_si_agi027fb|agilex7_dk_si_agi027fa|agilex7_dk_si_agi027fc|agilex7_dk_dev_agf027f1es|agilex7_dk_dev_agm039fes|agilex7_dk_dev_agm039fb|agilex7_dk_dev_agf023fa|stratix10|stratix10_htile)"
 
 SRC_URI:append:agilex7_dk_si_agf014ea = " \
 					file://socfpga_agilex7_ghrd_sgmii.dtsi \
@@ -55,6 +55,11 @@ SRC_URI:append:agilex7_dk_dev_agf027f1es = " \
 					"
 
 SRC_URI:append:agilex7_dk_dev_agm039fes = " \
+					file://socfpga_agilex7_ghrd.dtsi \
+					file://socfpga_ilc.dtsi \
+					"
+
+SRC_URI:append:agilex7_dk_dev_agm039fb = " \
 					file://socfpga_agilex7_ghrd.dtsi \
 					file://socfpga_ilc.dtsi \
 					"
@@ -167,9 +172,9 @@ do_configure:append() {
 			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex_socdk.dts ${WORKDIR}/socfpga_agilex7_socdk.dts
 			sed -i '/\#include \"socfpga_agilex.dtsi\"/a \#include \"socfpga_agilex7_dk_dev_agf_ghrd.dtsi\"\n\#include \"socfpga_ilc.dtsi\"' ${WORKDIR}/socfpga_agilex7_socdk.dts
 		fi
-		# Agilex7 DK-DEV-AGM039FES
-		if [[ "${MACHINE}" == "agilex7_dk_dev_agm039fes" ]]; then
-			# Vanilla DTB Generation for Agilex7 DK-DEV-AGM039FES
+		# Agilex7 DK-DEV-AGM039F
+		if [[ "${MACHINE}" == "agilex7_dk_dev_agm039f"* ]]; then
+			# Vanilla DTB Generation for Agilex7 DK-DEV-AGM039F
 			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex7m_socdk.dts ${WORKDIR}/socfpga_agilex7_vanilla.dts
 			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex_socdk.dts ${WORKDIR}/socfpga_agilex_socdk.dts
 			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex.dtsi ${WORKDIR}/socfpga_agilex.dtsi

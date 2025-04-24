@@ -46,46 +46,56 @@ SRC_URI:append:agilex7_dk_si_agf014ea = " file://sgmii.scc file://ilc.scc file:/
 SRC_URI:append:agilex7_dk_si_agf014eb = " file://sgmii.scc file://ilc.scc file://blk_dev_ram.scc"
 SRC_URI:append:agilex5 = " file://initrd.scc \
                            file://xdp.scc \
-						   file://tsn.scc \
-						   file://sensors.scc"
+                           file://tsn.scc \
+                           file://sensors.scc \
+                           ${@bb.utils.contains('IMAGE_TYPE', 'gsrd', 'file://usbedac.scc', '', d)}"
 SRC_URI:append:agilex5_dk_a5e065bb32aes1 = " file://initrd.scc \
                                   file://xdp.scc \
-								  file://tsn.scc \
-								  file://sensors.scc \
-								  file://edac.scc"
+                                  file://tsn.scc \
+                                  file://sensors.scc \
+                                  file://edac.scc \
+                                  ${@bb.utils.contains('IMAGE_TYPE', 'gsrd', 'file://usbedac.scc', '', d)}"
 SRC_URI:append:agilex5_dk_a5e013bb32aesi0 = " file://initrd.scc \
                                   file://xdp.scc \
-								  file://tsn.scc \
-								  file://sensors.scc \
-								  file://edac.scc"
+                                  file://tsn.scc \
+                                  file://sensors.scc \
+                                  file://edac.scc \
+                                  ${@bb.utils.contains('IMAGE_TYPE', 'gsrd', 'file://usbedac.scc', '', d)}"
 SRC_URI:append:agilex5_dk_a5e013bb32aes = " file://initrd.scc \
                                   file://xdp.scc \
-								  file://tsn.scc \
-								  file://sensors.scc \
-								  file://edac.scc"
+                                  file://tsn.scc \
+                                  file://sensors.scc \
+                                  file://edac.scc \
+                                  ${@bb.utils.contains('IMAGE_TYPE', 'gsrd', 'file://usbedac.scc', '', d)}"
 SRC_URI:append:agilex5_dk_a5e013bb32aes_5s = " file://initrd.scc \
                                   file://xdp.scc \
-								  file://tsn.scc \
-								  file://sensors.scc \
-								  file://edac.scc"
+                                  file://tsn.scc \
+                                  file://sensors.scc \
+                                  file://edac.scc \
+                                  ${@bb.utils.contains('IMAGE_TYPE', 'gsrd', 'file://usbedac.scc', '', d)}"
 SRC_URI:append:agilex5_mk_a5e065bb32aes1 = " file://initrd.scc \
                                    file://xdp.scc \
-								   file://tsn.scc \
-								   file://sensors.scc \
-								   file://edac.scc"
+                                   file://tsn.scc \
+                                   file://sensors.scc \
+                                   file://edac.scc \
+                                   ${@bb.utils.contains('IMAGE_TYPE', 'gsrd', 'file://usbedac.scc', '', d)}"
 SRC_URI:append:agilex3 = " file://initrd.scc \
                            file://xdp.scc \
                            file://tsn.scc \
                            file://sensors.scc \
-                           file://edac.scc"
+                           file://edac.scc \
+                           ${@bb.utils.contains('IMAGE_TYPE', 'gsrd', 'file://usbedac.scc', '', d)}"
 SRC_URI:append:agilex5_mudv_cvr = " file://initrd.scc \
                                     file://xdp.scc \
-									file://tsn.scc \
-									file://sensors.scc"
+                                    file://tsn.scc \
+                                    file://sensors.scc \
+                                    ${@bb.utils.contains('IMAGE_TYPE', 'gsrd', 'file://usbedac.scc', '', d)}"
 SRC_URI:append:agilex5_mucv = " file://initrd.scc \
                                 file://xdp.scc \
                                 file://tsn.scc \
-								file://sensors.scc"
+                                file://sensors.scc \
+                                ${@bb.utils.contains('IMAGE_TYPE', 'gsrd', 'file://usbedac.scc', '', d)}"
+
 SRC_URI:append:stratix10 = " file://sgmii.scc file://ilc.scc"
 SRC_URI:append:stratix10_htile = " file://sgmii.scc file://ilc.scc"
 SRC_URI:append:arria10 = " file://tse.scc"

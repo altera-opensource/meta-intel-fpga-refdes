@@ -1,5 +1,5 @@
-SUMMARY = "Intel SoCFPGA GSRD customization"
-DESCRIPTION = "Intel SoCFPGA GSRD lighttpd configuration customization to enable cgi and set 404 page"
+SUMMARY = "Altera SoCFPGA GSRD customization"
+DESCRIPTION = "Altera SoCFPGA GSRD lighttpd configuration customization to enable cgi and set 404 page"
 AUTHOR = "Tien Hock Loh <tien.hock.loh@intel.com>"
 SECTION = "gsrd"
 LICENSE = "BSD-3-Clause"

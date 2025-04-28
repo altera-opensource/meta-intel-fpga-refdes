@@ -1,4 +1,4 @@
-DESCRIPTION = "Intel SoCFPGA GSRD pio interrupt module"
+DESCRIPTION = "Altera SoCFPGA GSRD pio interrupt module"
 AUTHOR = "Tien Hock Loh <tien.hock.loh@intel.com>"
 SECTION = "gsrd"
 LICENSE = "GPL-2.0-only"

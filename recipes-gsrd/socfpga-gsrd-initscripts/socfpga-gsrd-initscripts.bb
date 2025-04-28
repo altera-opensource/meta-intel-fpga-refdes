@@ -1,4 +1,4 @@
-DESCRIPTION = "Intel SoCFPGA GSRD Initialization Script"
+DESCRIPTION = "Altera SoCFPGA GSRD Initialization Script"
 AUTHOR = "Tien Hock Loh <tien.hock.loh@intel.com>"
 SECTION = "gsrd"
 LICENSE = "BSD-3-Clause"

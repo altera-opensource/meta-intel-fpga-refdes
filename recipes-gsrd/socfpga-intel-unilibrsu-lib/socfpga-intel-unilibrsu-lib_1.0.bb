@@ -1,4 +1,4 @@
-SUMMARY="Intel unified LibRSU (Remote System Update) library"
+SUMMARY="Altera unified LibRSU (Remote System Update) library"
 LICENSE = "MIT-0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=08e5b346f14e1877a2c2a2de82d2d4a1"
 

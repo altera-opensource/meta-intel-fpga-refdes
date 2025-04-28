@@ -1,4 +1,4 @@
-DESCRIPTION = "Intel SoCFPGA GSRD web content"
+DESCRIPTION = "Altera SoCFPGA GSRD web content"
 AUTHOR = "Tien Hock Loh <tien.hock.loh@intel.com>"
 SECTION = "gsrd"
 LICENSE = "BSD-3-Clause"

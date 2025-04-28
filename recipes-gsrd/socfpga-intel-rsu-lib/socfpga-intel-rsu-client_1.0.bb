@@ -1,4 +1,4 @@
-SUMMARY="Intel RSU (Remote System Update) library"
+SUMMARY="Altera RSU (Remote System Update) library"
 LICENSE = "BSD-2-Clause"
 LIC_FILES_CHKSUM = "file://license.txt;md5=7005039580caaa9ee46ed0edec5ea222"
 

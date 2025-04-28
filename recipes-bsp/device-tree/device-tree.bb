@@ -1,5 +1,5 @@
-SUMMARY = "Intel SoCFPGA Development Kit devicetrees"
-DESCRIPTION = "Devicetree addons for Intel SoCFPGA Development Kit examples"
+SUMMARY = "Altera SoCFPGA Development Kit devicetrees"
+DESCRIPTION = "Devicetree addons for Altera SoCFPGA Development Kit examples"
 SECTION = "bsp"
 
 LICENSE = "MIT & GPL-2.0-only"

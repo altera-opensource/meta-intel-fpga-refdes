@@ -1,4 +1,4 @@
-DESCRIPTION = "Intel SoCFPGA GSRD custom applications"
+DESCRIPTION = "Altera SoCFPGA GSRD custom applications"
 AUTHOR = "Tien Hock Loh <tien.hock.loh@intel.com>"
 SECTION = "gsrd"
 LICENSE = "BSD-3-Clause"

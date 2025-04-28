@@ -1,4 +1,4 @@
-SUMMARY = "Intel SoCFPGA Golden Hardware Reference Design (GHRD)"
+SUMMARY = "Altera SoCFPGA Golden Hardware Reference Design (GHRD)"
 DESCRIPTION = "Prebuilt FPGA bitstream for SOC Development Kit"
 SECTION = "bsp"
 

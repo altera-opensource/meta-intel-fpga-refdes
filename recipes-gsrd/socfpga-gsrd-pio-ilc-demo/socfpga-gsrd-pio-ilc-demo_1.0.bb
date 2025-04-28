@@ -1,4 +1,4 @@
-DESCRIPTION = "Intel SoCFPGA GSRD pio ilc custom module"
+DESCRIPTION = "Altera SoCFPGA GSRD pio ilc custom module"
 AUTHOR = "Rod Frazer<rod.frazer@intel.com>"
 SECTION = "gsrd"
 LICENSE = "GPL-2.0-only"

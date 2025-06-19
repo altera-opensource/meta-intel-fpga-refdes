@@ -28,7 +28,7 @@ SRC_URI:agilex5_dk_a5e013bb32aes_5s = "file://uboot.txt file://uboot_script.its"
 SRC_URI:agilex5_mk_a5e065bb32aes1 = "file://uboot.txt file://uboot_script.its"
 SRC_URI:agilex5_mudv_cvr = "file://uboot.txt file://uboot_script.its"
 SRC_URI:agilex5_mucv = "file://uboot.txt file://uboot_script.its"
-SRC_URI:agilex3 = "file://uboot.txt file://uboot_script.its"
+SRC_URI:agilex3 = "file://agilex3_uboot.txt file://agilex3_uboot_script.its"
 SRC_URI:stratix10 = "file://uboot.txt file://uboot_script.its"
 SRC_URI:stratix10_htile = "file://uboot.txt file://uboot_script.its"
 SRC_URI:arria10 = "file://arria10_u-boot.txt"
@@ -123,7 +123,7 @@ do_compile:agilex5_mucv() {
 }
 
 do_compile:agilex3() {
-	mkimage -f "${WORKDIR}/uboot_script.its" ${WORKDIR}/boot.scr.uimg
+	mkimage -f "${WORKDIR}/agilex3_uboot_script.its" ${WORKDIR}/boot.scr.uimg
 }
 
 do_compile:stratix10() {
@@ -170,7 +170,7 @@ do_deploy() {
 			install -m 0644 ${WORKDIR}/boot.scr.xen.debug.uimg ${DEPLOYDIR}/boot.scr.xen.debug.uimg
 		fi
 	elif [[ "${MACHINE}" == *"agilex3"* ]]; then
-		install -m 0755 ${WORKDIR}/uboot.txt ${DEPLOYDIR}/u-boot.txt
+		install -m 0755 ${WORKDIR}/agilex3_uboot.txt ${DEPLOYDIR}/u-boot.txt
 		install -m 0644 ${WORKDIR}/boot.scr.uimg ${DEPLOYDIR}/boot.scr.uimg
 	elif [[ "${MACHINE}" == "n5x" ]] || [[ "${MACHINE}" == "cyclone5" ]]; then
 		install -m 0755 ${WORKDIR}/${MACHINE}_u-boot.txt ${DEPLOYDIR}/u-boot.txt

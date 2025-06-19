@@ -292,7 +292,7 @@ do_install () {
 
 do_deploy () {
 	if [[ "${MACHINE}" == *"agilex3"* ]]; then
-		install -D -m 0644 ${WORKDIR}/sources/${MACHINE}_${IMAGE_TYPE}_${ARM64_GHRD_CORE_RBF} ${DEPLOYDIR}/${MACHINE}_${IMAGE_TYPE}_ghrd/${ARM64_GHRD_CORE_RBF}
+		install -D -m 0644 ${WORKDIR}/sources/${MACHINE}_gsrd_${ARM64_GHRD_CORE_RBF} ${DEPLOYDIR}/${MACHINE}_${IMAGE_TYPE}_ghrd/${ARM64_GHRD_CORE_RBF}
 	fi
 
 	if [[ "${MACHINE}" == *"agilex5_"* ]]; then

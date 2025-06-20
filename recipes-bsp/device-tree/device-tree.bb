@@ -251,13 +251,12 @@ do_configure:append() {
 	if [[ "${MACHINE}" == *"agilex3"* ]]; then
 		# Vanilla DTB Generation
 		cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex3_socdk.dts ${WORKDIR}/sources/socfpga_agilex3_vanilla.dts
-		cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex5_socdk.dts ${WORKDIR}/sources/socfpga_agilex5_socdk.dts
 		cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex5.dtsi ${WORKDIR}/sources/socfpga_agilex5.dtsi
 
 		# GSRD DTB Generation
 		# MMC, QSPI
 		cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex3_socdk.dts ${WORKDIR}/sources/socfpga_agilex3_socdk.dts
-		sed -i '/\#include \"socfpga_agilex5_socdk.dts\"/a \#include \"socfpga_agilex3_ghrd.dtsi\"' ${WORKDIR}/sources/socfpga_agilex3_socdk.dts
+		sed -i '/\#include \"socfpga_agilex5.dtsi\"/a \#include \"socfpga_agilex3_ghrd.dtsi\"' ${WORKDIR}/sources/socfpga_agilex3_socdk.dts
 	fi
 }
 

@@ -19,6 +19,6 @@ if test ${target} = "qspi"; then
 	ubi readvol ${loadaddr} kernel;
 	ubi detach;
 	setenv bootargs "earlycon panic=-1 ubi.mtd=1 root=ubi0:rootfs rootfstype=ubifs rw rootwait";
-	bootm ${loadaddr}#board-${board_id};
+	bootm ${loadaddr};
 fi
 

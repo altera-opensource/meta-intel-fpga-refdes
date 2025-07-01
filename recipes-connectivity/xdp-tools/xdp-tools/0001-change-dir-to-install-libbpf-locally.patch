@@ -1,4 +1,4 @@
-From decc08e0aaf7bede59b5cfdee4344dbe9595e95c Mon Sep 17 00:00:00 2001
+From 852e2a27c39da2717ad32d1120ea882d495417da Mon Sep 17 00:00:00 2001
 From: Swee Leong Ching <leong.ching.swee@intel.com>
 Date: Wed, 23 Aug 2023 10:02:34 +0800
 Subject: [PATCH] change dir to install libbpf locally
@@ -24,7 +24,7 @@ index 5ee035d..37fa0af 100644
  libbpf: $(OBJECT_LIBBPF)
  
 diff --git a/lib/defines.mk b/lib/defines.mk
-index f134c43..5bb39d8 100644
+index f3ff3d3..960fd44 100644
 --- a/lib/defines.mk
 +++ b/lib/defines.mk
 @@ -20,6 +20,7 @@ BPF_OBJECT_DIR ?=$(LIBDIR)/bpf
@@ -36,5 +36,5 @@ index f134c43..5bb39d8 100644
  LIBXDP_DIR := $(LIB_DIR)/libxdp
  LIBBPF_DIR := $(LIB_DIR)/libbpf
 -- 
-2.34.1
+2.25.1
 

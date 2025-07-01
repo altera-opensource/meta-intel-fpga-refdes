@@ -1,4 +1,4 @@
-From cf04a49f8071151a9e7139a2608af58fdb55a15a Mon Sep 17 00:00:00 2001
+From 3a3ab5a81857516b587cffd29a18e206a65fec8c Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Toke=20H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>
 Date: Fri, 14 Mar 2025 11:30:01 +0100
 Subject: [PATCH] Get rid of llc and use clang to build BPF object files
@@ -20,66 +20,83 @@ Upstream-Status: Backport
 
 Signed-off-by: Toke Høiland-Jørgensen <toke@redhat.com>
 ---
- .github/workflows/covscan.yml   |  1 -
- .github/workflows/selftests.yml |  1 -
- configure                       |  5 +----
- lib/common.mk                   | 12 +-----------
- lib/defines.mk                  |  4 +++-
- lib/libxdp/Makefile             | 12 +-----------
- packaging/rpm/xdp-tools.spec    |  1 -
- 7 files changed, 6 insertions(+), 30 deletions(-)
+ .github/scripts/run_tests_in_vm.sh |  2 +-
+ .github/workflows/covscan.yml      |  1 -
+ .github/workflows/selftests.yml    |  1 -
+ configure                          |  4 ----
+ lib/common.mk                      | 12 +-----------
+ lib/defines.mk                     |  4 +++-
+ lib/libxdp/Makefile                | 12 +-----------
+ lib/libxdp/tests/Makefile          | 12 +-----------
+ lib/util/Makefile                  | 12 +-----------
+ packaging/rpm/xdp-tools.spec       |  1 -
+ 10 files changed, 8 insertions(+), 53 deletions(-)
 
+diff --git a/.github/scripts/run_tests_in_vm.sh b/.github/scripts/run_tests_in_vm.sh
+index b6f9826..7fe2a9d 100755
+--- a/.github/scripts/run_tests_in_vm.sh
++++ b/.github/scripts/run_tests_in_vm.sh
+@@ -1,6 +1,6 @@
+ #!/bin/bash
+ 
+-ENVVARS="KERNEL_VERSION DID_UNSHARE CLANG LLC"
++ENVVARS="KERNEL_VERSION DID_UNSHARE CLANG"
+ 
+ touch ENVVARS
+ for v in $ENVVARS; do
 diff --git a/.github/workflows/covscan.yml b/.github/workflows/covscan.yml
-index adc110b..b1aa0aa 100644
+index 3a21116..10db761 100644
 --- a/.github/workflows/covscan.yml
 +++ b/.github/workflows/covscan.yml
-@@ -38,7 +38,6 @@ jobs:
-         run: ./configure
-         env:
-           CLANG: clang-10
--          LLC: llc-10
- 
-       - name: Build with cov-build
-         run: |
-diff --git a/.github/workflows/selftests.yml b/.github/workflows/selftests.yml
-index e4a2127..0580814 100644
---- a/.github/workflows/selftests.yml
-+++ b/.github/workflows/selftests.yml
-@@ -22,7 +22,6 @@ jobs:
-       KERNEL_VERSION: ${{ matrix.KERNEL_VERSION }}
-       KERNEL_PATCH_VERSION: ${{ matrix.KERNEL_PATCH_VERSION }}
-       CLANG: clang-10
--      LLC: llc-10
- 
+@@ -11,7 +11,6 @@ jobs:
+     env:
+       LLVM_VERSION: 19
+       CLANG: clang-19
+-      LLC: llc-19
      steps:
        - name: Check out repository code
+         uses: actions/checkout@v4
+diff --git a/.github/workflows/selftests.yml b/.github/workflows/selftests.yml
+index d0390d2..3b80c44 100644
+--- a/.github/workflows/selftests.yml
++++ b/.github/workflows/selftests.yml
+@@ -30,7 +30,6 @@ jobs:
+       KERNEL_VERSION: ${{ matrix.KERNEL_VERSION }}
+       LLVM_VERSION: ${{ matrix.LLVM_VERSION }}
+       CLANG: clang-${{ matrix.LLVM_VERSION }}
+-      LLC: llc-${{ matrix.LLVM_VERSION }}
+       LLVM_STRIP: llvm-strip-${{ matrix.LLVM_VERSION }}
+       # can't use unshare on old kernels
+       DID_UNSHARE: ${{ (startsWith(matrix.KERNEL_VERSION, '5.6') || startsWith(matrix.KERNEL_VERSION, '5.11')) && 1 || 0 }}
 diff --git a/configure b/configure
-index 48d1ea5..ade95f3 100755
+index 65e06ce..cbad22b 100755
 --- a/configure
 +++ b/configure
-@@ -33,12 +33,11 @@ check_toolchain()
-     : ${LD=ld}
+@@ -61,7 +61,6 @@ check_toolchain()
+     : ${CC=gcc}
      : ${OBJCOPY=objcopy}
      : ${CLANG=clang}
 -    : ${LLC=llc}
      : ${M4=m4}
      : ${EMACS=emacs}
-     : ${ARCH_INCLUDES=}
+     : ${BPFTOOL=bpftool}
+@@ -70,7 +69,6 @@ check_toolchain()
+     : ${ARCH_NAME=}
  
--    #for TOOL in $PKG_CONFIG $CC $LD $OBJCOPY $CLANG $LLC $M4; do
-+    #for TOOL in $PKG_CONFIG $CC $LD $OBJCOPY $CLANG $M4; do
+     CLANG=$(find_tool clang "$CLANG")
+-    LLC=$(find_tool llc "$LLC")
+ 
+     #for TOOL in $PKG_CONFIG $CC $OBJCOPY $CLANG $LLC $M4 $READELF; do
      #    if [ ! $(command -v ${TOOL} 2>/dev/null) ]; then
-     #        echo "*** ERROR: Cannot find tool ${TOOL}" ;
-     #        exit 1;
-@@ -83,7 +82,6 @@ check_toolchain()
-     echo "LD:=${LD}" >>$CONFIG
+@@ -131,7 +129,6 @@ check_toolchain()
+     echo "CC:=${CC}" >>$CONFIG
      echo "OBJCOPY:=${OBJCOPY}" >>$CONFIG
      echo "CLANG:=${CLANG}" >>$CONFIG
 -    echo "LLC:=${LLC}" >>$CONFIG
      echo "M4:=${M4}" >>$CONFIG
      echo "EMACS:=${EMACS}" >>$CONFIG
      echo "ARCH_INCLUDES:=$ARCH_INCLUDES" >> $CONFIG
-@@ -357,7 +355,6 @@ endif
+@@ -447,7 +444,6 @@ endif
  ifeq (\$(VERBOSE), 0)
      QUIET_CC       = @echo '    CC       '\$@;
      QUIET_CLANG    = @echo '    CLANG    '\$@;
@@ -88,11 +105,11 @@ index 48d1ea5..ade95f3 100755
      QUIET_INSTALL  = @echo '    INSTALL  '\$@;
      QUIET_M4       = @echo '    M4       '\$@;
 diff --git a/lib/common.mk b/lib/common.mk
-index 56c0406..e1b1523 100644
+index a3ec479..4571fd7 100644
 --- a/lib/common.mk
 +++ b/lib/common.mk
-@@ -105,17 +105,7 @@ $(ALL_EXEC_TARGETS): %: %.c  $(OBJECT_LIBBPF) $(OBJECT_LIBXDP) $(LIBMK) $(LIB_OB
- 	 $< $(LDLIBS)
+@@ -108,17 +108,7 @@ $(ALL_EXEC_TARGETS): %: %.c  $(OBJECT_LIBBPF) $(OBJECT_LIBXDP) $(LIBMK) $(LIB_OB
+ 	 $< $(USER_EXTRA_C) $(LDLIBS)
  
  $(XDP_OBJ): %.o: %.c $(KERN_USER_H) $(EXTRA_DEPS) $(BPF_HEADERS) $(LIBMK)
 -	$(QUIET_CLANG)$(CLANG) -S \
@@ -108,15 +125,15 @@ index 56c0406..e1b1523 100644
 -	$(QUIET_LLC)$(LLC) -march=$(BPF_TARGET) -filetype=obj -o $@ ${@:.o=.ll}
 +	$(QUIET_CLANG)$(CLANG) -target $(BPF_TARGET) $(BPF_CFLAGS) -O2 -c -g -o $@ $<
  
- .PHONY: man
- ifeq ($(EMACS),)
+ $(BPF_SKEL_H): %.skel.h: %.bpf.o
+ 	$(QUIET_GEN)$(BPFTOOL) gen skeleton $< name $(notdir ${@:.skel.h=}) > $@
 diff --git a/lib/defines.mk b/lib/defines.mk
-index f134c43..7648d30 100644
+index 960fd44..5ad9827 100644
 --- a/lib/defines.mk
 +++ b/lib/defines.mk
 @@ -1,5 +1,7 @@
  CFLAGS ?= -O2 -g
--BPF_CFLAGS ?= -Wno-visibility
+-BPF_CFLAGS ?= -Wno-visibility -fno-stack-protector
 +BPF_CFLAGS ?= -Wall -Wno-unused-value -Wno-pointer-sign \
 +	      -Wno-compare-distinct-pointer-types \
 +	      -Wno-visibility -Werror -fno-stack-protector
@@ -124,7 +141,7 @@ index f134c43..7648d30 100644
  
  HAVE_FEATURES :=
 diff --git a/lib/libxdp/Makefile b/lib/libxdp/Makefile
-index 358b751..74f2627 100644
+index baff553..ba967ac 100644
 --- a/lib/libxdp/Makefile
 +++ b/lib/libxdp/Makefile
 @@ -136,17 +136,7 @@ $(EMBEDDED_XDP_OBJS): %.embed.o: %.o
@@ -146,11 +163,57 @@ index 358b751..74f2627 100644
  
  .PHONY: man
  ifeq ($(EMACS),)
+diff --git a/lib/libxdp/tests/Makefile b/lib/libxdp/tests/Makefile
+index ddc0585..54989fb 100644
+--- a/lib/libxdp/tests/Makefile
++++ b/lib/libxdp/tests/Makefile
+@@ -70,17 +70,7 @@ $(ALL_EXEC_TARGETS): %: %.c  $(OBJECT_LIBBPF) $(OBJECT_LIBXDP) $(LIBMK) $(LIB_OB
+ 	 $< $(LDLIBS)
+ 
+ $(BPF_OBJS): %.o: %.c $(BPF_HEADERS) $(LIBMK) $(EXTRA_DEPS)
+-	$(QUIET_CLANG)$(CLANG) -S \
+-	    -target $(BPF_TARGET) \
+-	    -D __BPF_TRACING__ \
+-	    $(BPF_CFLAGS) \
+-	    -Wall \
+-	    -Wno-unused-value \
+-	    -Wno-pointer-sign \
+-	    -Wno-compare-distinct-pointer-types \
+-	    -Werror \
+-	    -O2 -emit-llvm -c -g -o ${@:.o=.ll} $<
+-	$(QUIET_LLC)$(LLC) -march=$(BPF_TARGET) -filetype=obj -o $@ ${@:.o=.ll}
++	$(QUIET_CLANG)$(CLANG) -target $(BPF_TARGET) $(BPF_CFLAGS) -O2 -c -g -o $@ $<
+ 
+ run: all
+ 	$(Q)env CC="$(CC)" CFLAGS="$(CFLAGS) $(LDFLAGS)" CPPFLAGS="$(CPPFLAGS)" LDLIBS="$(LDLIBS)" V=$(V) $(TEST_RUNNER) $(TEST_FILE) $(RUN_TESTS)
+diff --git a/lib/util/Makefile b/lib/util/Makefile
+index 5ddccd5..64a6efc 100644
+--- a/lib/util/Makefile
++++ b/lib/util/Makefile
+@@ -18,17 +18,7 @@ clean:
+ BPF_CFLAGS += -I$(HEADER_DIR) $(ARCH_INCLUDES)
+ 
+ $(UTIL_BPF_OBJS): %.o: %.c $(KERN_USER_H) $(BPF_HEADERS) $(LIBMK)
+-	$(QUIET_CLANG)$(CLANG) -S \
+-	    -target $(BPF_TARGET) \
+-	    -D __BPF_TRACING__ \
+-	    $(BPF_CFLAGS) \
+-	    -Wall \
+-	    -Wno-unused-value \
+-	    -Wno-pointer-sign \
+-	    -Wno-compare-distinct-pointer-types \
+-	    -Werror \
+-	    -O2 -emit-llvm -c -g -o ${@:.o=.ll} $<
+-	$(QUIET_LLC)$(LLC) -march=$(BPF_TARGET) -filetype=obj -o $@ ${@:.o=.ll}
++	$(QUIET_CLANG)$(CLANG) -target $(BPF_TARGET) $(BPF_CFLAGS) -O2 -c -g -o $@ $<
+ 
+ $(UTIL_SKEL_H): %.skel.h: %.bpf.o
+ 	$(QUIET_GEN)$(BPFTOOL) gen skeleton $< name ${@:.skel.h=} > $@
 diff --git a/packaging/rpm/xdp-tools.spec b/packaging/rpm/xdp-tools.spec
-index 71a6304..b37e095 100644
+index 3f77aa3..f67b49b 100644
 --- a/packaging/rpm/xdp-tools.spec
 +++ b/packaging/rpm/xdp-tools.spec
-@@ -67,7 +67,6 @@ export LDFLAGS='%{build_ldflags}'
+@@ -72,7 +72,6 @@ export LDFLAGS='%{build_ldflags}'
  export LIBDIR='%{_libdir}'
  export RUNDIR='%{_rundir}'
  export CLANG=%{_bindir}/clang
@@ -159,5 +222,5 @@ index 71a6304..b37e095 100644
  export DYNAMIC_LIBXDP=1
  export FORCE_SYSTEM_LIBBPF=1
 -- 
-2.17.1
+2.25.1
 

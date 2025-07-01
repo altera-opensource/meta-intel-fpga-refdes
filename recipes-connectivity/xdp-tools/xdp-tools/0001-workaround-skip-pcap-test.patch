@@ -11,10 +11,10 @@ Signed-off-by: Swee Leong Ching <leong.ching.swee@intel.com>
  1 file changed, 19 insertions(+), 19 deletions(-)
 
 diff --git a/configure b/configure
-index 70fdfdf..5336f9f 100755
+index ff9b969..38b6802 100755
 --- a/configure
 +++ b/configure
-@@ -129,25 +129,25 @@ check_pcap()
+@@ -180,25 +180,25 @@ check_pcap()
          LIBPCAP_LDLIBS="-lpcap"
      fi
  
@@ -58,7 +58,7 @@ index 70fdfdf..5336f9f 100755
 +#     fi
  }
  
- 
+ check_cap_ng()
 -- 
-2.34.1
+2.25.1
 

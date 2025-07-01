@@ -1,4 +1,4 @@
-From 46b3ff797135574aa0ee42f633a281d44f48da95 Mon Sep 17 00:00:00 2001
+From 074dbaecae8a11ff74471f4d1417025baf6f3cae Mon Sep 17 00:00:00 2001
 From: Naveen Saini <naveen.kumar.saini@intel.com>
 Date: Mon, 17 Oct 2022 16:05:15 +0800
 Subject: [PATCH 4/4] Makefile: fix libxdp.pc error
@@ -15,7 +15,7 @@ Signed-off-by: Naveen Saini <naveen.kumar.saini@intel.com>
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/lib/libxdp/Makefile b/lib/libxdp/Makefile
-index 9a340a3..bc39177 100644
+index a4e187d..baff553 100644
 --- a/lib/libxdp/Makefile
 +++ b/lib/libxdp/Makefile
 @@ -76,8 +76,8 @@ $(OBJDIR)/libxdp.so.$(LIBXDP_VERSION): $(SHARED_OBJS)

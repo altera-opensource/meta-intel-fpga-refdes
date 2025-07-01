@@ -9,14 +9,13 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=9ee53f8d06bbdb4c11b1557ecc4f8cd5 \
 DEPENDS += " clang-native zlib elfutils libpcap"
 RUNTIME = "llvm"
 
-SRC_URI = "gitsm://github.com/xdp-project/xdp-tools.git;branch=v1.2;protocol=https \
+SRC_URI = "gitsm://github.com/xdp-project/xdp-tools.git;branch=main;protocol=https \
            file://0001-configure-skip-toolchain-checks.patch \
            file://0001-workaround-for-clang-compiler-with-predefined-macro-.patch \
            file://0001-workaround-skip-pcap-test.patch \
            file://0002-Makefile-It-does-not-detect-libbpf-header-from-sysro.patch \
            file://0003-Makefile-fix-KeyError-failure.patch \
            file://0004-Makefile-fix-libxdp.pc-error.patch \
-           file://0001-Backport-patch-to-resolve-section-name-issue.patch \
            file://0001-change-dir-to-install-libbpf-locally.patch \
            file://0001-add-txtime-into-headers-folder-if_xdp.h.patch \
            file://0001-workaround-the-install-libbpf-header-to-local \
@@ -24,7 +23,7 @@ SRC_URI = "gitsm://github.com/xdp-project/xdp-tools.git;branch=v1.2;protocol=htt
            file://0001-Get-rid-of-llc-and-use-clang-to-build-BPF-object-fil.patch \
            "
 
-SRCREV = "d4ff1f9bcf8b03556b625ab6e16958598482e861"
+SRCREV = "1cb08b9d2d6390bbdaa8a82458c4d6a5c5bee828"
 
 S = "${WORKDIR}/git"
 

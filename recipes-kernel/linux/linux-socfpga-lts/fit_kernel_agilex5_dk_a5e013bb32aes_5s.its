@@ -27,7 +27,7 @@
 
 		fdt-0 {
 			description = "socfpga_socdk_vanilla";
-			data = /incbin/("./socfpga_agilex5_vanilla_b0.dtb");
+			data = /incbin/("./socfpga_agilex5_vanilla.dtb");
 			type = "flat_dt";
 			arch = "arm64";
 			compression = "none";
@@ -38,7 +38,7 @@
 
 		fdt-2 {
             description = "socfpga_socdk_emmc";
-            data = /incbin/("./socfpga_agilex5_socdk_emmc_b0.dtb");
+            data = /incbin/("./socfpga_agilex5_socdk_emmc.dtb");
             type = "flat_dt";
             arch = "arm64";
             compression = "none";
@@ -49,7 +49,7 @@
 
 		fdt-4 {
             description = "socfpga_socdk_combined";
-            data = /incbin/("./socfpga_agilex5_socdk_b0.dtb");
+            data = /incbin/("./socfpga_agilex5_socdk.dtb");
             type = "flat_dt";
             arch = "arm64";
             compression = "none";
@@ -60,7 +60,7 @@
 
 		fdt-10 {
             description = "socfpga_socdk_tsn_cfg2";
-            data = /incbin/("./socfpga_agilex5_socdk_tsn_cfg2_b0.dtb");
+            data = /incbin/("./socfpga_agilex5_socdk_tsn_cfg2.dtb");
             type = "flat_dt";
             arch = "arm64";
             compression = "none";

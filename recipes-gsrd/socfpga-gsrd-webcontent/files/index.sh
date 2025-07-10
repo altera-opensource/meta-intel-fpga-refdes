@@ -25,14 +25,8 @@ arria5)
 arria10)
 	DEVKIT_NAME="Arria 10 SoC Development Kit"
 	;;
-stratix10)
-	DEVKIT_NAME="Stratix 10 SoC Development Kit"
-	;;
 stratix10_htile)
 	DEVKIT_NAME="Stratix 10 SoC Development Kit"
-	;;
-agilex7_dk_si_agf014ea)
-	DEVKIT_NAME="Agilex7 DK-SI-AGF014EA SoC Development Kit"
 	;;
 agilex7_dk_si_agf014eb)
 	DEVKIT_NAME="Agilex7 DK-SI-AGF014EB (LINEAR) SoC Development Kit"
@@ -55,20 +49,11 @@ agilex5)
 agilex5_dk_a5e065bb32aes1)
 	DEVKIT_NAME="Agilex5 devkit SoC Development Kit"
 	;;
-agilex5_dk_a5e013bb32aesi0)
-	DEVKIT_NAME="Agilex5 devkit SoC Development Kit"
-	;;
 agilex5_dk_a5e013bb32aes)
 	DEVKIT_NAME="Agilex5 devkit SoC Development Kit"
 	;;
 agilex5_dk_a5e013bb32aes_5s)
 	DEVKIT_NAME="Agilex5 devkit SoC Development Kit"
-	;;
-agilex5_mudv_cvr)
-	DEVKIT_NAME="Agilex5 mUDV CVR SoC Development Kit"
-	;;
-agilex5_mucv)
-	DEVKIT_NAME="Agilex5 mUCV SoC Development Kit"
 	;;
 agilex3)
 	DEVKIT_NAME="Agilex3 SoC Development Kit"

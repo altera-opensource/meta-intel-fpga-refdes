@@ -1,6 +1,5 @@
 FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
-DEPENDS:append:agilex7_dk_si_agf014ea = " arm-trusted-firmware bash u-boot-socfpga-scr"
 DEPENDS:append:agilex7_dk_si_agf014eb = " arm-trusted-firmware bash u-boot-socfpga-scr"
 DEPENDS:append:agilex7_dk_si_agi027fb = " arm-trusted-firmware bash u-boot-socfpga-scr"
 DEPENDS:append:agilex7_dk_si_agi027fa = " arm-trusted-firmware bash u-boot-socfpga-scr"
@@ -11,20 +10,13 @@ DEPENDS:append:agilex7_dk_dev_agm039fb = " arm-trusted-firmware bash u-boot-socf
 DEPENDS:append:agilex7_dk_dev_agf023fa = " arm-trusted-firmware bash u-boot-socfpga-scr"
 DEPENDS:append:agilex5 = " arm-trusted-firmware bash u-boot-socfpga-scr"
 DEPENDS:append:agilex5_dk_a5e065bb32aes1 = " arm-trusted-firmware bash u-boot-socfpga-scr"
-DEPENDS:append:agilex5_dk_a5e013bb32aesi0 = " arm-trusted-firmware bash u-boot-socfpga-scr"
 DEPENDS:append:agilex5_dk_a5e013bb32aes = " arm-trusted-firmware bash u-boot-socfpga-scr"
 DEPENDS:append:agilex5_dk_a5e013bb32aes_5s = " arm-trusted-firmware bash u-boot-socfpga-scr"
 DEPENDS:append:agilex5_mk_a5e065bb32aes1 = " arm-trusted-firmware bash u-boot-socfpga-scr"
-DEPENDS:append:agilex5_mudv_cvr = " arm-trusted-firmware bash u-boot-socfpga-scr"
-DEPENDS:append:agilex5_mucv = " arm-trusted-firmware bash u-boot-socfpga-scr"
 DEPENDS:append:agilex3 = " arm-trusted-firmware bash u-boot-socfpga-scr"
-DEPENDS:append:stratix10 = " arm-trusted-firmware bash u-boot-socfpga-scr"
 DEPENDS:append:stratix10_htile = " arm-trusted-firmware bash u-boot-socfpga-scr"
 DEPENDS:append:arria10 = " hw-ref-design"
 DEPENDS:append:n5x = " arm-trusted-firmware bash u-boot-socfpga-scr"
-
-SRC_URI:append:agilex5_mucv = " file://0001-Revert-HSD-22019331429-arch-arm-dts-socfpga_agilex5-.patch"
-SRC_URI:append:agilex5_mudv_cvr = " file://0001-Revert-HSD-22019331429-arch-arm-dts-socfpga_agilex5-.patch"
 
 inherit deploy
 

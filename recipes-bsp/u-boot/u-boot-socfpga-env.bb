@@ -53,13 +53,6 @@ SRC_URI:agilex7_dk_si_agi027fc = "\
 			 ${@bb.utils.contains("UBOOT_CONFIG", "agilex-socdk-qspi-atf", "file://agilex-socdk-qspi-atf_u-boot-env.txt", "", d)} \
 			 "
 
-SRC_URI:stratix10 = "\
-			 ${@bb.utils.contains("UBOOT_CONFIG", "stratix10-socdk", "file://stratix10-socdk_u-boot-env.txt", "", d)} \
-			 ${@bb.utils.contains("UBOOT_CONFIG", "stratix10-socdk-atf", "file://stratix10-socdk-atf_u-boot-env.txt", "", d)} \
-			 ${@bb.utils.contains("UBOOT_CONFIG", "stratix10-socdk-qspi", "file://stratix10-socdk-qspi_u-boot-env.txt", "", d)} \
-			 ${@bb.utils.contains("UBOOT_CONFIG", "stratix10-socdk-qspi-atf", "file://stratix10-socdk-qspi-atf_u-boot-env.txt", "", d)} \
-			 "
-
 SRC_URI:stratix10_htile = "\
 			 ${@bb.utils.contains("UBOOT_CONFIG", "stratix10-socdk", "file://stratix10-socdk_u-boot-env.txt", "", d)} \
 			 ${@bb.utils.contains("UBOOT_CONFIG", "stratix10-socdk-atf", "file://stratix10-socdk-atf_u-boot-env.txt", "", d)} \

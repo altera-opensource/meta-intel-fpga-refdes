@@ -15,16 +15,7 @@ inherit devicetree
 
 PROVIDES = "virtual/dtb"
 
-COMPATIBLE_MACHINE = "(agilex3|agilex5_dk_a5e065bb32aes1|agilex5_dk_a5e013bb32aesi0|agilex5_dk_a5e013bb32aes|agilex5_dk_a5e013bb32aes_5s|agilex5_mk_a5e065bb32aes1|agilex5_mucv|agilex5_mudv_cvr|agilex7_dk_si_agf014ea|agilex7_dk_si_agf014eb|agilex7_dk_si_agi027fb|agilex7_dk_si_agi027fa|agilex7_dk_si_agi027fc|agilex7_dk_dev_agf027f1es|agilex7_dk_dev_agm039fes|agilex7_dk_dev_agm039fb|agilex7_dk_dev_agf023fa|stratix10|stratix10_htile)"
-
-SRC_URI:append:agilex7_dk_si_agf014ea = " \
-					file://socfpga_agilex7_ghrd_sgmii.dtsi \
-					file://socfpga_agilex7_ghrd.dtsi \
-					file://agilex7_pr_fpga_static_region.dts \
-					file://agilex7_pr_persona0.dts \
-					file://agilex7_pr_persona1.dts \
-					file://socfpga_ilc.dtsi \
-					"
+COMPATIBLE_MACHINE = "(agilex3|agilex5_dk_a5e065bb32aes1|agilex5_dk_a5e013bb32aes|agilex5_dk_a5e013bb32aes_5s|agilex5_mk_a5e065bb32aes1|agilex7_dk_si_agf014eb|agilex7_dk_si_agi027fb|agilex7_dk_si_agi027fa|agilex7_dk_si_agi027fc|agilex7_dk_dev_agf027f1es|agilex7_dk_dev_agm039fes|agilex7_dk_dev_agm039fb|agilex7_dk_dev_agf023fa|stratix10_htile)"
 
 SRC_URI:append:agilex7_dk_si_agf014eb = " \
 					file://socfpga_agilex7_ghrd.dtsi \
@@ -69,15 +60,6 @@ SRC_URI:append:agilex7_dk_dev_agf023fa = " \
 					file://socfpga_ilc.dtsi \
 					"
 
-SRC_URI:append:stratix10 = " \
-					file://socfpga_stratix10_qse_sgmii_ghrd.dtsi \
-					file://socfpga_stratix10_qse_sgmii_ghrd_nand.dtsi \
-					file://stratix10_pr_fpga_static_region.dts \
-					file://stratix10_pr_persona0.dts \
-					file://stratix10_pr_persona1.dts \
-					file://socfpga_ilc.dtsi \
-					"
-
 SRC_URI:append:stratix10_htile = " \
 					file://socfpga_stratix10_qse_sgmii_ghrd.dtsi \
 					file://socfpga_stratix10_qse_sgmii_ghrd_nand.dtsi \
@@ -88,11 +70,6 @@ SRC_URI:append:stratix10_htile = " \
 					"
 
 SRC_URI:append:agilex5_dk_a5e065bb32aes1 = " \
-					file://socfpga_agilex5_ghrd.dtsi \
-					file://0001-AIC0-tsn-config.patch_bc \
-					"
-
-SRC_URI:append:agilex5_dk_a5e013bb32aesi0 = " \
 					file://socfpga_agilex5_ghrd.dtsi \
 					file://0001-AIC0-tsn-config.patch_bc \
 					"
@@ -114,16 +91,6 @@ SRC_URI:append:agilex3 = " \
 					file://socfpga_agilex3_ghrd.dtsi \
 					"
 
-SRC_URI:append:agilex5_mudv_cvr = " \
-					file://socfpga_agilex5_ghrd.dtsi \
-					file://0001-AIC0-tsn-config.patch_bc \
-					"
-
-SRC_URI:append:agilex5_mucv = " \
-					file://socfpga_agilex5_ghrd.dtsi \
-					file://0001-AIC0-tsn-config.patch_bc \
-					"
-
 do_configure[depends] += "virtual/kernel:do_configure"
 
 do_configure:append() {
@@ -141,19 +108,6 @@ do_configure:append() {
 			# NAND
 			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex_socdk_nand.dts ${WORKDIR}/socfpga_agilex7_socdk_nand.dts
 			sed -i '/\#include \"socfpga_agilex.dtsi\"/a \#include \"socfpga_agilex7_ghrd.dtsi\"\n\#include \"socfpga_ilc.dtsi\"' ${WORKDIR}/socfpga_agilex7_socdk_nand.dts
-			# PR
-			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex_socdk.dts ${WORKDIR}/socfpga_agilex7_socdk_pr.dts
-			sed -i '/\#include \"socfpga_agilex.dtsi\"/a \#include \"socfpga_agilex7_ghrd.dtsi\"\n\#include \"socfpga_ilc.dtsi\"' ${WORKDIR}/socfpga_agilex7_socdk_pr.dts
-		fi
-		# AGILEX7 DK-SI-AGF014EA
-		if [[ "${MACHINE}" == "agilex7_dk_si_agf014ea" ]]; then
-			# GSRD DTB Generation
-			# MMC, QSPI
-			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex_socdk.dts ${WORKDIR}/socfpga_agilex7_socdk.dts
-			sed -i '/\#include \"socfpga_agilex.dtsi\"/a \#include \"socfpga_agilex7_ghrd_sgmii.dtsi\"\n\#include \"socfpga_ilc.dtsi\"' ${WORKDIR}/socfpga_agilex7_socdk.dts
-			# NAND
-			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex_socdk_nand.dts ${WORKDIR}/socfpga_agilex7_socdk_nand.dts
-			sed -i '/\#include \"socfpga_agilex.dtsi\"/a \#include \"socfpga_agilex7_ghrd_sgmii.dtsi\"\n\#include \"socfpga_ilc.dtsi\"' ${WORKDIR}/socfpga_agilex7_socdk_nand.dts
 			# PR
 			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex_socdk.dts ${WORKDIR}/socfpga_agilex7_socdk_pr.dts
 			sed -i '/\#include \"socfpga_agilex.dtsi\"/a \#include \"socfpga_agilex7_ghrd.dtsi\"\n\#include \"socfpga_ilc.dtsi\"' ${WORKDIR}/socfpga_agilex7_socdk_pr.dts
@@ -263,23 +217,6 @@ do_configure:append() {
 		cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex3_socdk.dts ${WORKDIR}/socfpga_agilex3_socdk.dts
 		sed -i '/\#include \"socfpga_agilex5.dtsi\"/a \#include \"socfpga_agilex3_ghrd.dtsi\"' ${WORKDIR}/socfpga_agilex3_socdk.dts
 	fi
-}
-
-do_configure:append:stratix10() {
-	# Vanilla DTB Generation
-	cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/altera/socfpga_stratix10_socdk.dts ${WORKDIR}/socfpga_stratix10_vanilla.dts
-	cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/altera/socfpga_stratix10.dtsi ${WORKDIR}
-
-	# GSRD DTB Generation
-	# MMC, QSPI
-	cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/altera/socfpga_stratix10_socdk.dts ${WORKDIR}
-	sed -i '/\#include \"socfpga_stratix10.dtsi\"/a \#include \"socfpga_stratix10_qse_sgmii_ghrd.dtsi\"\n\#include \"socfpga_ilc.dtsi\"' ${WORKDIR}/socfpga_stratix10_socdk.dts
-	sed -i '/\#include \"socfpga_stratix10_qse.dtsi\"/d' ${WORKDIR}/socfpga_stratix10_socdk.dts
-	# NAND
-	cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/altera/socfpga_stratix10_socdk_nand.dts ${WORKDIR}
-	sed -i '/\#include \"socfpga_stratix10.dtsi\"/a \#include \"socfpga_stratix10_qse_sgmii_ghrd_nand.dtsi\"\n\#include \"socfpga_ilc.dtsi\"' ${WORKDIR}/socfpga_stratix10_socdk_nand.dts
-	# PR
-	cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/altera/socfpga_stratix10_socdk.dts ${WORKDIR}/socfpga_stratix10_socdk_pr.dts
 }
 
 do_configure:append:stratix10_htile() {

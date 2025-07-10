@@ -141,37 +141,52 @@ do_deploy:append() {
 	elif [[ "${MACHINE}" == *"agilex5_"* ]]; then
 		if [[ "${MACHINE}" == "agilex5_mk_a5e065bb32aes1" ]]; then
 			# linux.dtb
-			cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk.dtb ${B}
-			cp ${DTBDEPLOYDIR}/socfpga_agilex5_vanilla.dtb ${B}
+			cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_a0.dtb ${B}
+			cp ${DTBDEPLOYDIR}/socfpga_agilex5_vanilla_a0.dtb ${B}
 			# core.rbf
 			cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd.core.rbf ${B}
-		else
+		elif [[ "${MACHINE}" == "agilex5_dk_a5e013bb32aes_5s" || "${MACHINE}" == "agilex5_dk_a5e013bb32aes_5s" ]]; then
 			# linux.dtb
-			cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk*.dtb ${B}
-			cp ${DTBDEPLOYDIR}/socfpga_agilex5_vanilla*.dtb ${B}
-			cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_emmc_vanilla*.dtb ${B}
-			cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_emmc*.dtb ${B}
-			cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_tsn_cfg2*.dtb ${B}
+			cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk.dtb ${B}
+			cp ${DTBDEPLOYDIR}/socfpga_agilex5_vanilla.dtb ${B}
+			cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_emmc_vanilla.dtb ${B}
+			cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_emmc.dtb ${B}
+			cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_tsn_cfg2.dtb ${B}
 			# core.rbf
 			cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd.core.rbf ${B}
 			cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/emmc.core.rbf ${B}
+			cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/tsnconfig2.core.rbf ${B}
 			#NAND dtb and core.rbf
 			if [ "${IMAGE_TYPE}" == "nand" ]; then
-				cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_nand_vanilla*.dtb ${B}
-				cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_nand*.dtb ${B}
+				cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_nand_vanilla.dtb ${B}
+				cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_nand.dtb ${B}
 				cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/nand.core.rbf ${B}
 			fi
-			if [ "${MACHINE}" != "agilex5_dk_a5e013bb32aesi0" ]; then
-				cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/tsnconfig2.core.rbf ${B}
-				if [[ "${MACHINE}" == "agilex5_dk_a5e065bb32aes1" || "${MACHINE}" == *"agilex5_mu"* ]]; then
-					# linux.dtb
-					cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_debug_vanilla.dtb ${B}
-					cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_aic0.dtb ${B}
-					cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_debug.dtb ${B}
-					# core.rbf
-					cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/aic0.core.rbf ${B}
-					cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/debug2.core.rbf ${B}
-				fi
+		else
+			# linux.dtb
+			cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_a0.dtb ${B}
+			cp ${DTBDEPLOYDIR}/socfpga_agilex5_vanilla_a0.dtb ${B}
+			cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_emmc_vanilla_a0.dtb ${B}
+			cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_emmc_a0.dtb ${B}
+			cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_tsn_cfg2_a0.dtb ${B}
+			# core.rbf
+			cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd.core.rbf ${B}
+			cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/emmc.core.rbf ${B}
+			cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/tsnconfig2.core.rbf ${B}
+			#NAND dtb and core.rbf
+			if [ "${IMAGE_TYPE}" == "nand" ]; then
+				cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_nand_vanilla_a0.dtb ${B}
+				cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_nand_a0.dtb ${B}
+				cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/nand.core.rbf ${B}
+			fi
+			if [[ "${MACHINE}" == "agilex5_dk_a5e065bb32aes1" || "${MACHINE}" == *"agilex5_mu"* ]]; then
+				# linux.dtb
+				cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_debug_vanilla_a0.dtb ${B}
+				cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_aic0_a0.dtb ${B}
+				cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_debug_a0.dtb ${B}
+				# core.rbf
+				cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/aic0.core.rbf ${B}
+				cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/debug2.core.rbf ${B}
 			fi
 		fi
 	elif [[ "${MACHINE}" == *"stratix10"* ]]; then

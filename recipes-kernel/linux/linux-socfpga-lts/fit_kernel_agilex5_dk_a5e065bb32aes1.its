@@ -27,7 +27,7 @@
 
 		fdt-0 {
 			description = "socfpga_socdk_vanilla";
-			data = /incbin/("./socfpga_agilex5_vanilla.dtb");
+			data = /incbin/("./socfpga_agilex5_vanilla_a0.dtb");
 			type = "flat_dt";
 			arch = "arm64";
 			compression = "none";
@@ -38,7 +38,7 @@
 
 		fdt-2 {
             		description = "socfpga_socdk_emmc";
-            		data = /incbin/("./socfpga_agilex5_socdk_emmc.dtb");
+            		data = /incbin/("./socfpga_agilex5_socdk_emmc_a0.dtb");
             		type = "flat_dt";
             		arch = "arm64";
             		compression = "none";
@@ -49,7 +49,7 @@
 		
 		fdt-4 {
             		description = "socfpga_socdk_combined";
-            		data = /incbin/("./socfpga_agilex5_socdk.dtb");
+            		data = /incbin/("./socfpga_agilex5_socdk_a0.dtb");
             		type = "flat_dt";
             		arch = "arm64";
             		compression = "none";
@@ -60,7 +60,7 @@
 		
 		fdt-5 {
 			description = "socfpga_socdk_debug";
-			data = /incbin/("./socfpga_agilex5_socdk_debug.dtb");
+			data = /incbin/("./socfpga_agilex5_socdk_debug_a0.dtb");
 			type = "flat_dt";
 			arch = "arm64";
 			compression = "none";
@@ -71,7 +71,7 @@
 
 		fdt-8 {
 			description = "vanilla-socfpga_socdk_emmc.dtb";
-			data = /incbin/("./socfpga_agilex5_socdk_emmc_vanilla.dtb");
+			data = /incbin/("./socfpga_agilex5_socdk_emmc_vanilla_a0.dtb");
 			type = "flat_dt";
 			arch = "arm64";
 			compression = "none";
@@ -82,7 +82,7 @@
 
 		fdt-9 {
 			description = "vanilla-socfpga_socdk_debug.dtb";
-			data = /incbin/("./socfpga_agilex5_socdk_debug_vanilla.dtb");
+			data = /incbin/("./socfpga_agilex5_socdk_debug_vanilla_a0.dtb");
 			type = "flat_dt";
 			arch = "arm64";
 			compression = "none";
@@ -93,7 +93,7 @@
 
                 fdt-10 {
                         description = "socfpga_socdk_tsn_cfg2.dtb";
-                        data = /incbin/("./socfpga_agilex5_socdk_tsn_cfg2.dtb");
+                        data = /incbin/("./socfpga_agilex5_socdk_tsn_cfg2_a0.dtb");
                         type = "flat_dt";
                         arch = "arm64";
                         compression = "none";

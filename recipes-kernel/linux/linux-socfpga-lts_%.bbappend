@@ -17,6 +17,7 @@ SRC_URI:append:agilex7_dk_dev_agm039fes = " file://fit_kernel_agilex7_dk_dev_agm
 SRC_URI:append:agilex7_dk_dev_agm039fb = " file://fit_kernel_agilex7_dk_dev_agm039fb.its"
 SRC_URI:append:agilex5 = " file://fit_kernel_agilex5.its"
 SRC_URI:append:agilex5_dk_a5e065bb32aes1 = " ${@bb.utils.contains('IMAGE_TYPE', 'nand', 'file://fit_kernel_agilex5_dk_a5e065bb32aes1_nand.its', 'file://fit_kernel_agilex5_dk_a5e065bb32aes1.its', d)} ${@bb.utils.contains('HYP_BUILD', '1', 'file://xen.scc', '', d)}"
+SRC_URI:append:agilex5_dk_a5e013bm16aea = " file://fit_kernel_agilex5_dk_a5e013bm16aea.its ${@bb.utils.contains('HYP_BUILD', '1', 'file://xen.scc', '', d)}"
 SRC_URI:append:agilex5_dk_a5e013bb32aes = " ${@bb.utils.contains('IMAGE_TYPE', 'nand', 'file://fit_kernel_agilex5_dk_a5e013bb32aes_nand.its', 'file://fit_kernel_agilex5_dk_a5e013bb32aes.its', d)} ${@bb.utils.contains('HYP_BUILD', '1', 'file://xen.scc', '', d)}"
 SRC_URI:append:agilex5_dk_a5e013bb32aes_5s = " ${@bb.utils.contains('IMAGE_TYPE', 'nand', 'file://fit_kernel_agilex5_dk_a5e013bb32aes_5s_nand.its', 'file://fit_kernel_agilex5_dk_a5e013bb32aes_5s.its', d)} ${@bb.utils.contains('HYP_BUILD', '1', 'file://xen.scc', '', d)}"
 SRC_URI:append:agilex5_mk_a5e065bb32aes1 = " file://fit_kernel_agilex5_mk_a5e065bb32aes1.its ${@bb.utils.contains('HYP_BUILD', '1', 'file://xen.scc', '', d)}"
@@ -45,6 +46,12 @@ SRC_URI:append:agilex5 = " file://initrd.scc \
                            file://sensors.scc \
                            ${@bb.utils.contains('IMAGE_TYPE', 'gsrd', 'file://usbedac.scc', '', d)}"
 SRC_URI:append:agilex5_dk_a5e065bb32aes1 = " file://initrd.scc \
+                                  file://xdp.scc \
+                                  file://tsn.scc \
+                                  file://sensors.scc \
+                                  file://edac.scc \
+                                  ${@bb.utils.contains('IMAGE_TYPE', 'gsrd', 'file://usbedac.scc', '', d)}"
+SRC_URI:append:agilex5_dk_a5e013bm16aea = " file://initrd.scc \
                                   file://xdp.scc \
                                   file://tsn.scc \
                                   file://sensors.scc \
@@ -120,6 +127,12 @@ do_deploy:append() {
 			# linux.dtb
 			cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_a0.dtb ${B}
 			cp ${DTBDEPLOYDIR}/socfpga_agilex5_vanilla_a0.dtb ${B}
+			# core.rbf
+			cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd.core.rbf ${B}
+		elif [[ "${MACHINE}" == "agilex5_dk_a5e013bm16aea" ]]; then
+			# linux.dtb
+			cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_013b.dtb ${B}
+			cp ${DTBDEPLOYDIR}/socfpga_agilex5_vanilla_013b.dtb ${B}
 			# core.rbf
 			cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd.core.rbf ${B}
 		elif [[ "${MACHINE}" == "agilex5_dk_a5e013bb32aes_5s" || "${MACHINE}" == "agilex5_dk_a5e013bb32aes_5s" ]]; then

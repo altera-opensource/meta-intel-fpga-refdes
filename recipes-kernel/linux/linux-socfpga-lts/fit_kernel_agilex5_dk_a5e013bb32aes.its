@@ -36,17 +36,6 @@
 			};
 		};
 
-		fdt-1 {
-            description = "socfpga_socdk_nand";
-            data = /incbin/("./socfpga_agilex5_socdk_nand_b0.dtb");
-            type = "flat_dt";
-            arch = "arm64";
-            compression = "none";
-            hash {
-                algo = "crc32";
-            };
-        };
-		
 		fdt-2 {
             description = "socfpga_socdk_emmc";
             data = /incbin/("./socfpga_agilex5_socdk_emmc_b0.dtb");
@@ -79,18 +68,6 @@
 				algo = "crc32";
 			};
 		};
-
-		fpga-1 {
-            description = "FPGA bitstream for NAND";
-            data = /incbin/("./nand.core.rbf");
-            type = "fpga";
-            arch = "arm64";
-            compression = "none";
-            load = <0x8A000000>;
-            hash {
-                algo = "crc32";
-            };
-        };
 
 		fpga-2 {
             description = "FPGA bitstream for EMMC";
@@ -142,18 +119,6 @@
 				sign-images = "fdt-0", "kernel";
 			};
 		};
-
-		board-1 {
-            description = "board_1";
-            kernel = "kernel";
-            fdt = "fdt-1";
-            fpga = "fpga-1";
-            signature {
-                algo = "crc32";
-                key-name-hint = "dev";
-                sign-images = "fdt-1", "kernel", "fpga-1";
-            };
-        };
 
 		board-2 {
             description = "board_2";

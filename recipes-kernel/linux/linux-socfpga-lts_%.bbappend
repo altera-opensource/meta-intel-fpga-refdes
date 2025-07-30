@@ -17,10 +17,10 @@ SRC_URI:append:agilex7_dk_dev_agf023fa = " file://fit_kernel_agilex7_dk_dev_agf0
 SRC_URI:append:agilex7_dk_dev_agm039fes = " file://fit_kernel_agilex7_dk_dev_agm039fes.its"
 SRC_URI:append:agilex7_dk_dev_agm039fb = " file://fit_kernel_agilex7_dk_dev_agm039fb.its"
 SRC_URI:append:agilex5 = " file://fit_kernel_agilex5.its"
-SRC_URI:append:agilex5_dk_a5e065bb32aes1 = " file://fit_kernel_agilex5_dk_a5e065bb32aes1.its ${@bb.utils.contains('HYP_BUILD', '1', 'file://xen.scc', '', d)}"
+SRC_URI:append:agilex5_dk_a5e065bb32aes1 = " ${@bb.utils.contains('IMAGE_TYPE', 'nand', 'file://fit_kernel_agilex5_dk_a5e065bb32aes1_nand.its', 'file://fit_kernel_agilex5_dk_a5e065bb32aes1.its', d)} ${@bb.utils.contains('HYP_BUILD', '1', 'file://xen.scc', '', d)}"
 SRC_URI:append:agilex5_dk_a5e013bb32aesi0 = " file://fit_kernel_agilex5_dk_a5e013bb32aesi0.its ${@bb.utils.contains('HYP_BUILD', '1', 'file://xen.scc', '', d)}"
-SRC_URI:append:agilex5_dk_a5e013bb32aes = " file://fit_kernel_agilex5_dk_a5e013bb32aes.its ${@bb.utils.contains('HYP_BUILD', '1', 'file://xen.scc', '', d)}"
-SRC_URI:append:agilex5_dk_a5e013bb32aes_5s = " file://fit_kernel_agilex5_dk_a5e013bb32aes_5s.its ${@bb.utils.contains('HYP_BUILD', '1', 'file://xen.scc', '', d)}"
+SRC_URI:append:agilex5_dk_a5e013bb32aes = " ${@bb.utils.contains('IMAGE_TYPE', 'nand', 'file://fit_kernel_agilex5_dk_a5e013bb32aes_nand.its', 'file://fit_kernel_agilex5_dk_a5e013bb32aes.its', d)} ${@bb.utils.contains('HYP_BUILD', '1', 'file://xen.scc', '', d)}"
+SRC_URI:append:agilex5_dk_a5e013bb32aes_5s = " ${@bb.utils.contains('IMAGE_TYPE', 'nand', 'file://fit_kernel_agilex5_dk_a5e013bb32aes_5s_nand.its', 'file://fit_kernel_agilex5_dk_a5e013bb32aes_5s.its', d)} ${@bb.utils.contains('HYP_BUILD', '1', 'file://xen.scc', '', d)}"
 SRC_URI:append:agilex5_mk_a5e065bb32aes1 = " file://fit_kernel_agilex5_mk_a5e065bb32aes1.its ${@bb.utils.contains('HYP_BUILD', '1', 'file://xen.scc', '', d)}"
 SRC_URI:append:agilex5_mudv_cvr = " file://fit_kernel_agilex5_mudv_cvr.its"
 SRC_URI:append:agilex5_mucv = " file://fit_kernel_agilex5_mucv.its"
@@ -149,15 +149,18 @@ do_deploy:append() {
 			# linux.dtb
 			cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk*.dtb ${B}
 			cp ${DTBDEPLOYDIR}/socfpga_agilex5_vanilla*.dtb ${B}
-			cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_nand_vanilla*.dtb ${B}
 			cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_emmc_vanilla*.dtb ${B}
-			cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_nand*.dtb ${B}
 			cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_emmc*.dtb ${B}
 			cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_tsn_cfg2*.dtb ${B}
 			# core.rbf
 			cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd.core.rbf ${B}
-			cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/nand.core.rbf ${B}
 			cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/emmc.core.rbf ${B}
+			#NAND dtb and core.rbf
+			if [ "${IMAGE_TYPE}" == "nand" ]; then
+				cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_nand_vanilla*.dtb ${B}
+				cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_nand*.dtb ${B}
+				cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/nand.core.rbf ${B}
+			fi
 			if [ "${MACHINE}" != "agilex5_dk_a5e013bb32aesi0" ]; then
 				cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/tsnconfig2.core.rbf ${B}
 				if [[ "${MACHINE}" == "agilex5_dk_a5e065bb32aes1" || "${MACHINE}" == *"agilex5_mu"* ]]; then
@@ -186,7 +189,11 @@ do_deploy:append() {
 	# Generate and deploy kernel.itb
 	if [[ "${MACHINE}" == *"agilex"* || "${MACHINE}" == *"stratix10"* ]]; then
 		# kernel.its
-		cp ${WORKDIR}/sources-unpack/fit_kernel_${MACHINE}.its ${B}
+		if [ "${IMAGE_TYPE}" == "nand" ]; then
+			cp ${WORKDIR}/sources-unpack/fit_kernel_${MACHINE}_nand.its ${B}/fit_kernel_${MACHINE}.its
+		else
+			cp ${WORKDIR}/sources-unpack/fit_kernel_${MACHINE}.its ${B}
+		fi
 		# Image
 		cp ${LINUXDEPLOYDIR}/Image ${B}
 		# Compress Image to lzma format

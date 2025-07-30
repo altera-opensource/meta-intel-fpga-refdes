@@ -35,18 +35,7 @@
 				algo = "crc32";
 			};
 		};
-		
-		fdt-1 {
-            		description = "socfpga_socdk_nand";
-            		data = /incbin/("./socfpga_agilex5_socdk_nand.dtb");
-            		type = "flat_dt";
-            		arch = "arm64";
-            		compression = "none";
-            		hash {
-                		algo = "crc32";
-            		};
-        	};
-		
+				
 		fdt-2 {
             		description = "socfpga_socdk_emmc";
             		data = /incbin/("./socfpga_agilex5_socdk_emmc.dtb");
@@ -72,17 +61,6 @@
 		fdt-5 {
 			description = "socfpga_socdk_debug";
 			data = /incbin/("./socfpga_agilex5_socdk_debug.dtb");
-			type = "flat_dt";
-			arch = "arm64";
-			compression = "none";
-			hash {
-				algo = "crc32";
-			};
-		};
-
-		fdt-7 {
-			description = "vanilla-socfpga_socdk_nand.dtb";
-			data = /incbin/("./socfpga_agilex5_socdk_nand_vanilla.dtb");
 			type = "flat_dt";
 			arch = "arm64";
 			compression = "none";
@@ -123,18 +101,6 @@
                                 algo = "crc32";
                         };
                 };
-
-		fpga-1 {
-            		description = "FPGA bitstream for NAND";
-            		data = /incbin/("./nand.core.rbf");
-            		type = "fpga";
-            		arch = "arm64";
-            		compression = "none";
-            		load = <0x8A000000>;
-            		hash {
-                		algo = "crc32";
-            		};
-        	};
 
 		fpga-2 {
             		description = "FPGA bitstream for EMMC";
@@ -198,17 +164,6 @@
 				sign-images = "fdt-0", "kernel";
 			};
 		};
-		board-1 {
-            		description = "board_1";
-            		kernel = "kernel";
-            		fdt = "fdt-1";
-            		fpga = "fpga-1";
-            		signature {
-                		algo = "crc32";
-                		key-name-hint = "dev";
-                		sign-images = "fdt-1", "kernel", "fpga-1";
-            		};
-        	};
 
 		board-2 {
             		description = "board_2";
@@ -243,17 +198,6 @@
                 		algo = "crc32";
                 		key-name-hint = "dev";
                 		sign-images = "fdt-5", "kernel", "fpga-5";
-            		};
-        	};
-
-        	board-7 {
-            		description = "board_7";
-            		kernel = "kernel";
-            		fdt = "fdt-7";
-            		signature {
-                		algo = "crc32";
-                		key-name-hint = "dev";
-                		sign-images = "fdt-7", "kernel";
             		};
         	};
 

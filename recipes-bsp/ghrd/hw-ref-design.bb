@@ -57,20 +57,8 @@ SRC_URI:agilex7_dk_si_agf014eb ?= "\
 		${GHRD_REPO}/agilex7_dk_si_agf014eb_pr_persona1.rbf;name=agilex7_dk_si_agf014eb_pr_persona1 \
 		"
 
-SRC_URI:agilex7_dk_si_agi027fb ?= "\
-		${GHRD_REPO}/agilex7_dk_si_agi027fb_gsrd_${ARM64_GHRD_CORE_RBF};name=agilex7_dk_si_agi027fb_gsrd_core \
-		"
-
-SRC_URI:agilex7_dk_si_agi027fa ?= "\
-		${GHRD_REPO}/agilex7_dk_si_agi027fa_gsrd_${ARM64_GHRD_CORE_RBF};name=agilex7_dk_si_agi027fa_gsrd_core \
-		"
-
 SRC_URI:agilex7_dk_si_agi027fc ?= "\
 		${GHRD_REPO}/agilex7_dk_si_agi027fc_gsrd_${ARM64_GHRD_CORE_RBF};name=agilex7_dk_si_agi027fc_gsrd_core \
-		"
-
-SRC_URI:agilex7_dk_dev_agf027f1es ?= "\
-		${GHRD_REPO}/agilex7_dk_dev_agf027f1es_gsrd_${ARM64_GHRD_CORE_RBF};name=agilex7_dk_dev_agf027f1es_gsrd_core \
 		"
 
 SRC_URI:agilex7_dk_dev_agm039fes ?= "\

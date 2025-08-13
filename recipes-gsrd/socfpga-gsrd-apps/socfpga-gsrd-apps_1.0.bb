@@ -17,7 +17,7 @@ INSANE_SKIP:${PN}-dev = "ldflags"
 
 SRC_URI = " \
 		${REFDES_REPO};protocol=${REFDES_PROT};branch=${REFDES_BRANCH} \
-		file://README_agilex7_dk_dev_agf027f1es \
+		file://README_agilex7_dk_dev_agf023fa \
 		file://README_agilex5 \
 		"
 
@@ -53,8 +53,8 @@ do_install() {
 		install -m 0755 toggle/toggle ${D}/home/root/intelFPGA/toggle
 	fi
 
-	if [[ "${MACHINE}" == "agilex7_dk_dev_agf027f1es" ]]; then
-		install -m 0755 ${WORKDIR}/sources-unpack/README_agilex7_dk_dev_agf027f1es ${D}/home/root/README
+	if [[ "${MACHINE}" == "agilex7_dk_dev_agf023fa" ]]; then
+		install -m 0755 ${WORKDIR}/sources-unpack/README_agilex7_dk_dev_agf023fa ${D}/home/root/README
 	elif [[ "${MACHINE}" == *"agilex5"* ]]; then
 		install -m 0755 ${WORKDIR}/sources-unpack/README_agilex5 ${D}/home/root/README
 	else

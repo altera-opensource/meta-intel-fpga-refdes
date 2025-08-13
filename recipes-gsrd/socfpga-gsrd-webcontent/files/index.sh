@@ -31,17 +31,11 @@ stratix10_htile)
 agilex7_dk_si_agf014eb)
 	DEVKIT_NAME="Agilex7 DK-SI-AGF014EB (LINEAR) SoC Development Kit"
 	;;
-agilex7_dk_dev_agf027f1es)
-	DEVKIT_NAME="Agilex7 DK-DEV-AGF027F1ES SoC Development Kit"
-	;;
 agilex7_dk_dev_agf023fa)
 	DEVKIT_NAME="Agilex7 DK-DEV-AGF023FA SoC Development Kit"
 	;;
-agilex7_dk_si_agi027fb)
-	DEVKIT_NAME="Agilex7 DK-SI-AGI027FB SoC Development Kit"
-	;;
-agilex7_dk_si_agi027fa)
-	DEVKIT_NAME="Agilex7 DK-SI-AGI027FA (LINEAR) SoC Development Kit"
+agilex7_dk_si_agi027fc)
+	DEVKIT_NAME="Agilex7 DK-SI-AGI027FC (LINEAR) SoC Development Kit"
 	;;
 agilex5)
 	DEVKIT_NAME="Agilex5 SoC Development Kit"
@@ -147,15 +141,6 @@ echo -e "<ul>"
         echo -e "<li><a href=\"http://www.rocketboards.org\" target=\"_blank\">Rocketboards.org</a></li> "
 echo -e "</ul>"
 echo -e "</div>"
-elif [[ "$MACHINE" == "agilex7_dk_dev_agf027f1es" ]]; then
-echo -e "<div class=\"bup-links\">"
-echo -e "<h4>Developer Resources</h4>"
-echo -e "<ul>"
-        echo -e "<li><a href=\"https://www.intel.com/content/www/us/en/products/details/fpga/development-kits/agilex/f-series/dev-agf027-and-agf023.html\" target=\"_blank\">Agilex7 DK-DEV-AGF027F1ES SoC Quick Start Guide</a></li> "
-        echo -e "<li><a href=\"https://www.intel.com/content/www/us/en/docs/programmable/739942/current/overview.html\" target=\"_blank\">User Guide</a></li> "
-        echo -e "<li><a href=\"http://www.rocketboards.org\" target=\"_blank\">Rocketboards.org</a></li> "
-echo -e "</ul>"
-echo -e "</div>"
 elif [[ "$MACHINE" == "agilex7_dk_dev_agf023fa" ]]; then
 echo -e "<div class=\"bup-links\">"
 echo -e "<h4>Developer Resources</h4>"
@@ -208,9 +193,6 @@ elif [[ "$MACHINE" == "stratix10"* ]]; then
 elif [[ "$MACHINE" == "agilex7_dk_si_agf014e"* ]]; then
 	echo -e "<span><strong><h1>$DEVKIT_NAME Features</h1></strong><br/></span>"
         echo -e "<div><img src=\"../agilex7_dk_si_agf014ea-board-image.jpg\" style=\"width:640px;height:478px;\"></div>"
-elif [[ "$MACHINE" == "agilex7_dk_dev_agf027f1es" ]]; then
-	echo -e "<span><strong><h1>$DEVKIT_NAME Features</h1></strong><br/></span>"
-        echo -e "<div><img src=\"../agilex7_dk_dev_agf027f1es-board-image.jpg\" style=\"width:640px;height:478px;\"></div>"
 elif [[ "$MACHINE" == "agilex7_dk_dev_agf023fa" ]]; then
 	echo -e "<span><strong><h1>$DEVKIT_NAME Features</h1></strong><br/></span>"
         echo -e "<div><img src=\"../agilex7_dk_dev_agf023fa-board-image.jpg\" style=\"width:640px;height:478px;\"></div>"

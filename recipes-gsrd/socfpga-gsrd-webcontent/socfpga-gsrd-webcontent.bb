@@ -26,8 +26,6 @@ SRC_URI:append = " \
 	    file://style.css \
 	    file://validation_script.js \
 		file://agilex7_dk_si_agf014eb-board-image.jpg \
-		file://agilex7_dk_dev_agf027f1es-board-image.jpg \
-		file://agilex7_dk_si_agi027fb-board-image.jpg \
 		file://agilex7_dk_si_agi027fc-board-image.jpg \
 		file://agilex7_dk_dev_agm039fes-board-image.jpg \
 		file://agilex7_dk_dev_agm039fb-board-image.jpg \
@@ -59,8 +57,6 @@ do_install() {
 	install -m 0755 stratix10-board-image.jpg ${D}/www/pages/
 	install -m 0755 index.sh ${D}/www/pages/cgi-bin
 	install -m 0755 agilex7_dk_si_agf014eb-board-image.jpg ${D}/www/pages/
-	install -m 0755 agilex7_dk_dev_agf027f1es-board-image.jpg ${D}/www/pages/
-	install -m 0755 agilex7_dk_si_agi027fb-board-image.jpg ${D}/www/pages/
 	install -m 0755 agilex7_dk_si_agi027fc-board-image.jpg ${D}/www/pages/
 	install -m 0755 agilex7_dk_dev_agm039fes-board-image.jpg ${D}/www/pages/
 	install -m 0755 agilex7_dk_dev_agm039fb-board-image.jpg ${D}/www/pages/

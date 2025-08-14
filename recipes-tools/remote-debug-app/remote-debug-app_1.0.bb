@@ -11,7 +11,7 @@ SRC_URI = "${REMOTE_DBG_REPO};protocol=${REMOTE_DBG_PROT};branch=${REMOTE_DBG_BR
            git://github.com/altera-fpga/fpga-ip-access.git;protocol=https;branch=main;name=fpga-ip-access;subdir=git/fpga-ip-access \
           "
 
-SRCREV_default = "3a3eb126321429c0845276ef9c200df7786dbf74"
+SRCREV_default = "b6a13b03fe7e9566063eae65d99bd8bc1190ce62"
 SRCREV_fpga-ip-access = "df3fb3a7224aac2e55bf0af71a6c611c3cd46a8a"
 SRCREV_FORMAT = "default_fpga-ip-access"
 PV:append = "+git${SRCPV}"

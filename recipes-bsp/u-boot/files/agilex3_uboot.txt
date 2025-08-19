@@ -13,7 +13,7 @@ fi
 
 if test ${target} = "qspi"; then
 	setenv mtdids "nor0=nor0";
-	setenv mtdparts "mtdparts=nor0:6m(u-boot),58m(root)";
+	setenv mtdparts "mtdparts=nor0:12m(u-boot),52m(root)";
 	mtdparts;
 	ubi part root;
 	ubi readvol ${loadaddr} kernel;

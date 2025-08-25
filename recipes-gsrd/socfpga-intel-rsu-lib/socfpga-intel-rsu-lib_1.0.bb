@@ -11,7 +11,7 @@ SRC_URI = "git://github.com/altera-fpga/intel-rsu.git;protocol=https;branch=mast
           "
 
 PV = "1.0+git${SRCPV}"
-SRCREV = "91ce86efca46d6b819428ff7769fb458478556e7"
+SRCREV = "f6e0f1e15e8e77c0c1150e2df34a13d9a5bd9771"
 DEPENDS += "zlib"
 
 S = "${WORKDIR}/git"

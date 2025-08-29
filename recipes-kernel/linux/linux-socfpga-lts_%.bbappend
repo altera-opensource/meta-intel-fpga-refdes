@@ -121,8 +121,8 @@ do_deploy:append() {
 	elif [[ "${MACHINE}" == *"agilex5_"* ]]; then
 		if [[ "${MACHINE}" == "agilex5_mk_a5e065bb32aes1" ]]; then
 			# linux.dtb
-			cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_a0.dtb ${B}
-			cp ${DTBDEPLOYDIR}/socfpga_agilex5_vanilla_a0.dtb ${B}
+			cp ${DTBDEPLOYDIR}/socfpga_agilex5_vanilla_modular.dtb ${B}
+			cp ${DTBDEPLOYDIR}/socfpga_agilex5_socdk_modular.dtb ${B}
 			# core.rbf
 			cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd.core.rbf ${B}
 		elif [[ "${MACHINE}" == "agilex5_dk_a5e013bm16aea" ]]; then

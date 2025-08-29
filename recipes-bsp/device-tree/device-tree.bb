@@ -131,13 +131,15 @@ do_configure:append() {
 	if [[ "${MACHINE}" == *"agilex5_"* ]]; then
 		if [[ "${MACHINE}" == "agilex5_mk_a5e065bb32aes1" ]]; then
 			# Vanilla DTB Generation
-			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex5_socdk_a0.dts ${WORKDIR}/sources/socfpga_agilex5_vanilla_a0.dts
+			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex5_socdk_a0.dts ${WORKDIR}/sources/socfpga_agilex5_socdk.dts
+			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex5_socdk_modular.dts ${WORKDIR}/sources/socfpga_agilex5_vanilla_modular.dts
 			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex5.dtsi ${WORKDIR}/sources/socfpga_agilex5.dtsi
 
 			# GSRD DTB Generation
 			# MMC, QSPI
-			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex5_socdk_a0.dts ${WORKDIR}/sources/socfpga_agilex5_socdk_a0.dts
-			sed -i '/\#include \"socfpga_agilex5.dtsi\"/a \#include \"socfpga_agilex5_ghrd.dtsi\"' ${WORKDIR}/sources/socfpga_agilex5_socdk_a0.dts
+			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex5_socdk_modular.dts ${WORKDIR}/sources/socfpga_agilex5_socdk_modular.dts
+			sed -i '/\#include \"socfpga_agilex5_socdk.dts\"/a \#include \"socfpga_agilex5_ghrd.dtsi\"' ${WORKDIR}/sources/socfpga_agilex5_socdk_modular.dts
+
 		elif [[ "${MACHINE}" == "agilex5_dk_a5e013bm16aea" ]]; then
 			# Vanilla DTB Generation
 			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex5_socdk_013b.dts ${WORKDIR}/sources/socfpga_agilex5_vanilla_013b.dts

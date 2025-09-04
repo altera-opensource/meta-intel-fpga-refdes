@@ -1,0 +1,28 @@
+From 29d82726c7ec20c07c49ba263bdcea16c2618e03 Mon Sep 17 00:00:00 2001
+From: Dirk Lemstra <dirk@lemstra.org>
+Date: Thu, 26 Jun 2025 23:01:07 +0200
+Subject: [PATCH] Correct out of bounds read of a single byte.
+
+Upstream-Status: Backport [https://github.com/ImageMagick/ImageMagick/commit/29d82726c7ec20c07c49ba263bdcea16c2618e03]
+CVE: CVE-2025-53014
+
+---
+ MagickCore/image.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/MagickCore/image.c b/MagickCore/image.c
+index 4f13d1772..277f161e4 100644
+--- a/MagickCore/image.c
++++ b/MagickCore/image.c
+@@ -1676,7 +1676,7 @@ MagickExport size_t InterpretImageFilename(const ImageInfo *image_info,
+     q=(char *) p+1;
+     if (*q == '%')
+       {
+-        p=q+1;
++        p++;
+         continue;
+       }
+     field_width=0;
+-- 
+2.25.1
+

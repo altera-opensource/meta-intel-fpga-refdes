@@ -8,8 +8,8 @@ DEPENDS = "u-boot-mkimage-native dtc-native"
 HYP_BUILD ??= "0"
 
 SRC_URI:append:agilex7_dk_si_agf014eb = " file://fit_kernel_agilex7_dk_si_agf014eb.its ${@bb.utils.contains('HYP_BUILD', '1', 'file://xen.scc', '', d)}"
-SRC_URI:append:agilex7_dk_si_agi027fc = " file://fit_kernel_agilex7_dk_si_agi027fc.its ${@bb.utils.contains('HYP_BUILD', '1', 'file://xen.scc', '', d)}"
-SRC_URI:append:agilex7_dk_dev_agf023fa = " file://fit_kernel_agilex7_dk_dev_agf023fa.its ${@bb.utils.contains('HYP_BUILD', '1', 'file://xen.scc', '', d)}"
+SRC_URI:append:agilex7_dk_si_agi027fc = " file://fit_kernel_agilex7_dk_si_agi027fc.its file://agilex7_edac.scc ${@bb.utils.contains('HYP_BUILD', '1', 'file://xen.scc', '', d)}"
+SRC_URI:append:agilex7_dk_dev_agf023fa = " file://fit_kernel_agilex7_dk_dev_agf023fa.its file://agilex7_edac.scc ${@bb.utils.contains('HYP_BUILD', '1', 'file://xen.scc', '', d)}"
 SRC_URI:append:agilex7_dk_dev_agm039fes = " file://fit_kernel_agilex7_dk_dev_agm039fes.its"
 SRC_URI:append:agilex7_dk_dev_agm039fb = " file://fit_kernel_agilex7_dk_dev_agm039fb.its"
 SRC_URI:append:agilex5 = " file://fit_kernel_agilex5.its"
@@ -35,7 +35,7 @@ SRC_URI:append:cyclone5 = " file://0001-socfpga_cyclone5_socdk-include-reference
 
 # Append GSRD specific kernel config fragments
 SRC_URI:append = " file://ubifs.scc"
-SRC_URI:append:agilex7_dk_si_agf014eb = " file://sgmii.scc file://ilc.scc file://blk_dev_ram.scc"
+SRC_URI:append:agilex7_dk_si_agf014eb = " file://sgmii.scc file://ilc.scc file://blk_dev_ram.scc file://agilex7_edac.scc"
 SRC_URI:append:agilex5 = " file://initrd.scc \
                            file://xdp.scc \
                            file://tsn.scc \

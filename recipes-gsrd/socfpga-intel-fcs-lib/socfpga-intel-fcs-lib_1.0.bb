@@ -9,7 +9,7 @@ FCS_BRANCH ?= "main"
 SRC_URI = "${FCS_REPO};protocol=${FCS_PROT};branch=${FCS_BRANCH}"
  
 PV = "1.0+git${SRCPV}"
-SRCREV="1ce98f889a8f6acbdd6113b2858f662087e65184"
+SRCREV="8376964331cb220c3b4b6c436463d880e35a6032"
 DEPENDS = "dtc"
 
 FILES:${PN} = " /usr/lib/* \

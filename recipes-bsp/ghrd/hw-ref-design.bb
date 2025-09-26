@@ -65,8 +65,8 @@ SRC_URI:agilex7_dk_dev_agm039fes ?= "\
 		${GHRD_REPO}/agilex7_dk_dev_agm039fes_gsrd_${ARM64_GHRD_CORE_RBF};name=agilex7_dk_dev_agm039fes_gsrd_core \
 		"
 
-SRC_URI:agilex7_dk_dev_agm039fb ?= "\
-		${GHRD_REPO}/agilex7_dk_dev_agm039fb_gsrd_${ARM64_GHRD_CORE_RBF};name=agilex7_dk_dev_agm039fb_gsrd_core \
+SRC_URI:agilex7_dk_dev_agm039ea ?= "\
+		${GHRD_REPO}/agilex7_dk_dev_agm039ea_gsrd_${ARM64_GHRD_CORE_RBF};name=agilex7_dk_dev_agm039ea_gsrd_core \
 		"
 
 SRC_URI:agilex7_dk_dev_agf023fa ?= "\

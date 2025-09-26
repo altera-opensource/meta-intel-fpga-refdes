@@ -28,7 +28,7 @@ SRC_URI:append = " \
 		file://agilex7_dk_si_agf014eb-board-image.jpg \
 		file://agilex7_dk_si_agi027fc-board-image.jpg \
 		file://agilex7_dk_dev_agm039fes-board-image.jpg \
-		file://agilex7_dk_dev_agm039fb-board-image.jpg \
+		file://agilex7_dk_dev_agm039ea-board-image.jpg \
 		file://agilex7_dk_dev_agf023fa-board-image.jpg \
 	    "
 
@@ -58,7 +58,7 @@ do_install() {
 	install -m 0755 agilex7_dk_si_agf014eb-board-image.jpg ${D}/www/pages/
 	install -m 0755 agilex7_dk_si_agi027fc-board-image.jpg ${D}/www/pages/
 	install -m 0755 agilex7_dk_dev_agm039fes-board-image.jpg ${D}/www/pages/
-	install -m 0755 agilex7_dk_dev_agm039fb-board-image.jpg ${D}/www/pages/
+	install -m 0755 agilex7_dk_dev_agm039ea-board-image.jpg ${D}/www/pages/
 	install -m 0755 agilex7_dk_dev_agf023fa-board-image.jpg ${D}/www/pages/
 }
 

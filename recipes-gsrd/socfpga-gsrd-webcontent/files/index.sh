@@ -43,6 +43,9 @@ agilex5)
 agilex5_dk_a5e065bb32aes1)
 	DEVKIT_NAME="Agilex5 devkit SoC Development Kit"
 	;;
+agilex5_dk_a5e065bb32aes1_b0)
+	DEVKIT_NAME="Agilex5 devkit SoC Development Kit"
+	;;
 agilex5_dk_a5e013bm16aea)
 	DEVKIT_NAME="Agilex5 devkit SoC Development Kit"
 	;;

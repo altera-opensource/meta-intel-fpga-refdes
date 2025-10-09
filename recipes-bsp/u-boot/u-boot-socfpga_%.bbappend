@@ -7,6 +7,7 @@ DEPENDS:append:agilex7_dk_dev_agm039ea = " arm-trusted-firmware bash u-boot-socf
 DEPENDS:append:agilex7_dk_dev_agf023fa = " arm-trusted-firmware bash u-boot-socfpga-scr"
 DEPENDS:append:agilex5 = " arm-trusted-firmware bash u-boot-socfpga-scr"
 DEPENDS:append:agilex5_dk_a5e065bb32aes1 = " arm-trusted-firmware bash u-boot-socfpga-scr"
+DEPENDS:append:agilex5_dk_a5e065bb32aes1_b0 = " arm-trusted-firmware bash u-boot-socfpga-scr"
 DEPENDS:append:agilex5_dk_a5e013bm16aea = " arm-trusted-firmware bash u-boot-socfpga-scr"
 DEPENDS:append:agilex5_dk_a5e013bb32aes = " arm-trusted-firmware bash u-boot-socfpga-scr"
 DEPENDS:append:agilex5_dk_a5e013bb32aes_5s = " arm-trusted-firmware bash u-boot-socfpga-scr"

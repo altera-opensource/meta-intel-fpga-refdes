@@ -27,6 +27,10 @@ SRC_URI:agilex5_dk_a5e065bb32aes1 ?= "\
 		file://agilex5_dk_a5e065bb32aes1_debug2_ghrd.core.rbf \
 		"
 
+SRC_URI:agilex5_dk_a5e065bb32aes1_b0 ?= "\
+		${GHRD_REPO}/agilex5_dk_a5e065bb32aes1_b0_gsrd_${ARM64_GHRD_CORE_RBF};name=agilex5_dk_a5e065bb32aes1_b0_gsrd_core \
+		"
+
 SRC_URI:agilex5_dk_a5e013bm16aea ?= "\
 		${GHRD_REPO}/agilex5_dk_a5e013bm16aea_gsrd_${ARM64_GHRD_CORE_RBF};name=agilex5_dk_a5e013bm16aea_gsrd_core \
 		"
@@ -197,7 +201,7 @@ do_install () {
 			install -D -m 0644 ${WORKDIR}/${MACHINE}_gsrd_${ARM64_GHRD_CORE_RBF} ${D}/boot/${ARM64_GHRD_CORE_RBF}
 		elif [[ "${MACHINE}" == *"agilex5_dk_a5e"* ]]; then
 			install -D -m 0644 ${WORKDIR}/${MACHINE}_gsrd_${ARM64_GHRD_CORE_RBF} ${D}/boot/${ARM64_GHRD_CORE_RBF}
-			if [ "${MACHINE}" != "agilex5_dk_a5e013bm16aea" ]; then
+			if [[ "${MACHINE}" != "agilex5_dk_a5e013bm16aea" && "${MACHINE}" != "agilex5_dk_a5e065bb32aes1_b0" ]]; then
 				if [ "${IMAGE_TYPE}" == "nand" ]; then
 					install -D -m 0644 ${WORKDIR}/${MACHINE}_nand_${ARM64_GHRD_CORE_RBF} ${D}/boot/nand.core.rbf
 				fi
@@ -226,7 +230,7 @@ do_deploy () {
 			install -D -m 0644 ${WORKDIR}/${MACHINE}_${IMAGE_TYPE}_${ARM64_GHRD_CORE_RBF} ${DEPLOYDIR}/${MACHINE}_${IMAGE_TYPE}_ghrd/${ARM64_GHRD_CORE_RBF}
 		elif [[ "${MACHINE}" == *"agilex5_dk_a5e"* ]]; then
 			install -D -m 0644 ${WORKDIR}/${MACHINE}_gsrd_${ARM64_GHRD_CORE_RBF} ${DEPLOYDIR}/${MACHINE}_${IMAGE_TYPE}_ghrd/${ARM64_GHRD_CORE_RBF}
-			if [ "${MACHINE}" != "agilex5_dk_a5e013bm16aea" ]; then
+			if [[ "${MACHINE}" != "agilex5_dk_a5e013bm16aea" && "${MACHINE}" != "agilex5_dk_a5e065bb32aes1_b0" ]]; then
 				if [ "${IMAGE_TYPE}" == "nand" ]; then
 					install -D -m 0644 ${WORKDIR}/${MACHINE}_nand_${ARM64_GHRD_CORE_RBF} ${DEPLOYDIR}/${MACHINE}_${IMAGE_TYPE}_ghrd/nand.core.rbf
 				fi

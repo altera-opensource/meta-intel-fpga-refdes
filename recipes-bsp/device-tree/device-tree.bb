@@ -15,7 +15,7 @@ inherit devicetree
 
 PROVIDES = "virtual/dtb"
 
-COMPATIBLE_MACHINE = "(agilex3|agilex5_dk_a5e065bb32aes1|agilex5_dk_a5e013bm16aea|agilex5_dk_a5e013bb32aes|agilex5_dk_a5e013bb32aes_5s|agilex5_mk_a5e065bb32aes1|agilex7_dk_si_agf014eb|agilex7_dk_si_agi027fc|agilex7_dk_dev_agm039fes|agilex7_dk_dev_agm039ea|agilex7_dk_dev_agf023fa|stratix10_htile)"
+COMPATIBLE_MACHINE = "(agilex3|agilex5_dk_a5e065bb32aes1|agilex5_dk_a5e065bb32aes1_b0|agilex5_dk_a5e013bm16aea|agilex5_dk_a5e013bb32aes|agilex5_dk_a5e013bb32aes_5s|agilex5_mk_a5e065bb32aes1|agilex7_dk_si_agf014eb|agilex7_dk_si_agi027fc|agilex7_dk_dev_agm039fes|agilex7_dk_dev_agm039ea|agilex7_dk_dev_agf023fa|stratix10_htile)"
 
 SRC_URI:append:agilex7_dk_si_agf014eb = " \
 					file://socfpga_agilex7_ghrd.dtsi \
@@ -57,6 +57,10 @@ SRC_URI:append:stratix10_htile = " \
 SRC_URI:append:agilex5_dk_a5e065bb32aes1 = " \
 					file://socfpga_agilex5_ghrd.dtsi \
 					file://0001-AIC0-tsn-config.patch_bc \
+					"
+
+SRC_URI:append:agilex5_dk_a5e065bb32aes1_b0 = " \
+					file://socfpga_agilex5_ghrd.dtsi \
 					"
 
 SRC_URI:append:agilex5_dk_a5e013bm16aea = " \
@@ -171,6 +175,15 @@ do_configure:append() {
 			# TSN CONFIG2
 			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex5_socdk_tsn_cfg2.dts ${WORKDIR}/socfpga_agilex5_socdk_tsn_cfg2.dts
 			sed -i '/\#include \"socfpga_agilex5.dtsi\"/a \#include \"socfpga_agilex5_ghrd.dtsi\"' ${WORKDIR}/socfpga_agilex5_socdk_tsn_cfg2.dts
+		elif [[ "${MACHINE}" == "agilex5_dk_a5e065bb32aes1_b0" ]]; then
+			# Vanilla DTB Generation
+			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex5_socdk.dts ${WORKDIR}/socfpga_agilex5_vanilla.dts
+			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex5.dtsi ${WORKDIR}/socfpga_agilex5.dtsi
+
+			# GSRD DTB Generation
+			# MMC, QSPI
+			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex5_socdk.dts ${WORKDIR}/socfpga_agilex5_socdk.dts
+			sed -i '/\#include \"socfpga_agilex5.dtsi\"/a \#include \"socfpga_agilex5_ghrd.dtsi\"' ${WORKDIR}/socfpga_agilex5_socdk.dts
 		else
 			# Vanilla DTB Generation
 			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex5_socdk_a0.dts ${WORKDIR}/socfpga_agilex5_vanilla_a0.dts

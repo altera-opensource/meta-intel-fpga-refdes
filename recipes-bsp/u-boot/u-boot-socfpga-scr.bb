@@ -18,6 +18,7 @@ SRC_URI:agilex7_dk_dev_agm039ea = "file://uboot.txt file://uboot_script.its"
 SRC_URI:agilex7_dk_dev_agf023fa = "file://uboot.txt file://uboot_script.its"
 SRC_URI:agilex5 = "file://agilex5_uboot.txt file://agilex5_uboot_script.its"
 SRC_URI:agilex5_dk_a5e065bb32aes1 = "file://uboot.txt file://uboot_script.its"
+SRC_URI:agilex5_dk_a5e065bb32aes1_b0 = "file://uboot.txt file://uboot_script.its"
 SRC_URI:agilex5_dk_a5e013bm16aea = "file://uboot.txt file://uboot_script.its"
 SRC_URI:agilex5_dk_a5e013bb32aes = "file://uboot.txt file://uboot_script.its"
 SRC_URI:agilex5_dk_a5e013bb32aes_5s = "file://uboot.txt file://uboot_script.its"
@@ -30,6 +31,7 @@ SRC_URI:n5x = "file://n5x_u-boot.txt"
 
 SRC_URI:append:agilex3 = " ${@bb.utils.contains('HYP_BUILD', '1', 'file://agilex3_uboot_xen.txt file://agilex3_uboot_script_xen.its', '', d)}"
 SRC_URI:append:agilex5_dk_a5e065bb32aes1 = " ${@bb.utils.contains('HYP_BUILD', '1', 'file://agilex5_uboot_xen.txt file://agilex5_uboot_script_xen.its file://agilex5_uboot_xen_emmc.txt file://agilex5_uboot_script_xen_emmc.its file://agilex5_uboot_xen_debug.txt file://agilex5_uboot_script_xen_debug.its', '', d)}"
+SRC_URI:append:agilex5_dk_a5e065bb32aes1_b0 = " ${@bb.utils.contains('HYP_BUILD', '1', 'file://agilex5_uboot_xen.txt file://agilex5_uboot_script_xen.its file://agilex5_uboot_xen_emmc.txt file://agilex5_uboot_script_xen_emmc.its file://agilex5_uboot_xen_debug.txt file://agilex5_uboot_script_xen_debug.its', '', d)}"
 SRC_URI:append:agilex5_dk_a5e013bm16aea = " ${@bb.utils.contains('HYP_BUILD', '1', 'file://agilex5_013b_uboot_xen.txt file://agilex5_013b_uboot_script_xen.its', '', d)}"
 SRC_URI:append:agilex5_dk_a5e013bb32aes = " ${@bb.utils.contains('HYP_BUILD', '1', 'file://agilex5_uboot_xen.txt file://agilex5_uboot_script_xen.its file://agilex5_uboot_xen_emmc.txt file://agilex5_uboot_script_xen_emmc.its file://agilex5_uboot_xen_debug.txt file://agilex5_uboot_script_xen_debug.its', '', d)}"
 SRC_URI:append:agilex5_dk_a5e013bb32aes_5s = " ${@bb.utils.contains('HYP_BUILD', '1', 'file://agilex5_uboot_xen.txt file://agilex5_uboot_script_xen.its file://agilex5_uboot_xen_emmc.txt file://agilex5_uboot_script_xen_emmc.its file://agilex5_uboot_xen_debug.txt file://agilex5_uboot_script_xen_debug.its', '', d)}"
@@ -58,6 +60,16 @@ do_compile:agilex5() {
 }
 
 do_compile:agilex5_dk_a5e065bb32aes1() {
+	mkimage -f "${WORKDIR}/uboot_script.its" ${WORKDIR}/boot.scr.uimg
+	export HYP_BUILD="${@bb.utils.contains('HYP_BUILD', '1', '1', '0', d)}"
+	if [[ "${HYP_BUILD}" = "1" ]]; then
+		mkimage -f "${WORKDIR}/agilex5_uboot_script_xen.its" ${WORKDIR}/boot.scr.xen.uimg
+		mkimage -f "${WORKDIR}/agilex5_uboot_script_xen_emmc.its" ${WORKDIR}/boot.scr.xen.emmc.uimg
+		mkimage -f "${WORKDIR}/agilex5_uboot_script_xen_debug.its" ${WORKDIR}/boot.scr.xen.debug.uimg
+	fi
+}
+
+do_compile:agilex5_dk_a5e065bb32aes1_b0() {
 	mkimage -f "${WORKDIR}/uboot_script.its" ${WORKDIR}/boot.scr.uimg
 	export HYP_BUILD="${@bb.utils.contains('HYP_BUILD', '1', '1', '0', d)}"
 	if [[ "${HYP_BUILD}" = "1" ]]; then

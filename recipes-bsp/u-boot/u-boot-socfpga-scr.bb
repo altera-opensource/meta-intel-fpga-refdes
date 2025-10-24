@@ -35,7 +35,7 @@ SRC_URI:append:agilex5_dk_a5e065bb32aes1_b0 = " ${@bb.utils.contains('HYP_BUILD'
 SRC_URI:append:agilex5_dk_a5e013bm16aea = " ${@bb.utils.contains('HYP_BUILD', '1', 'file://agilex5_013b_uboot_xen.txt file://agilex5_013b_uboot_script_xen.its', '', d)}"
 SRC_URI:append:agilex5_dk_a5e013bb32aes = " ${@bb.utils.contains('HYP_BUILD', '1', 'file://agilex5_uboot_xen.txt file://agilex5_uboot_script_xen.its file://agilex5_uboot_xen_emmc.txt file://agilex5_uboot_script_xen_emmc.its file://agilex5_uboot_xen_debug.txt file://agilex5_uboot_script_xen_debug.its', '', d)}"
 SRC_URI:append:agilex5_dk_a5e013bb32aes_5s = " ${@bb.utils.contains('HYP_BUILD', '1', 'file://agilex5_uboot_xen.txt file://agilex5_uboot_script_xen.its file://agilex5_uboot_xen_emmc.txt file://agilex5_uboot_script_xen_emmc.its file://agilex5_uboot_xen_debug.txt file://agilex5_uboot_script_xen_debug.its', '', d)}"
-SRC_URI:append:agilex5_mk_a5e065bb32aes1 = " ${@bb.utils.contains('HYP_BUILD', '1', 'file://agilex5_uboot_xen.txt file://agilex5_uboot_script_xen.its file://agilex5_uboot_xen_emmc.txt file://agilex5_uboot_script_xen_emmc.its file://agilex5_uboot_xen_debug.txt file://agilex5_uboot_script_xen_debug.its', '', d)}"
+SRC_URI:append:agilex5_mk_a5e065bb32aes1 = " ${@bb.utils.contains('HYP_BUILD', '1', 'file://agilex5_modular_uboot_xen.txt file://agilex5_modular_uboot_script_xen.its', '', d)}"
 SRC_URI:append:agilex7_dk_si_agf014eb = " ${@bb.utils.contains('HYP_BUILD', '1', 'file://agilex7_uboot_xen.txt file://agilex7_uboot_script_xen.its', '', d)}"
 
 S = "${WORKDIR}/sources-unpack"
@@ -113,9 +113,7 @@ do_compile:agilex5_mk_a5e065bb32aes1() {
 	mkimage -f "${WORKDIR}/sources-unpack/uboot_script.its" ${WORKDIR}/sources-unpack/boot.scr.uimg
         export HYP_BUILD="${@bb.utils.contains('HYP_BUILD', '1', '1', '0', d)}"
         if [[ "${HYP_BUILD}" = "1" ]]; then
-                mkimage -f "${WORKDIR}/sources-unpack/agilex5_uboot_script_xen.its" ${WORKDIR}/sources-unpack/boot.scr.xen.uimg
-		mkimage -f "${WORKDIR}/sources-unpack/agilex5_uboot_script_xen_emmc.its" ${WORKDIR}/sources-unpack/boot.scr.xen.emmc.uimg
-		mkimage -f "${WORKDIR}/sources-unpack/agilex5_uboot_script_xen_debug.its" ${WORKDIR}/sources-unpack/boot.scr.xen.debug.uimg
+                mkimage -f "${WORKDIR}/sources-unpack/agilex5_modular_uboot_script_xen.its" ${WORKDIR}/sources-unpack/boot.scr.xen.uimg
         fi
 }
 
@@ -162,6 +160,8 @@ do_deploy() {
 			install -m 0644 ${WORKDIR}/sources-unpack/boot.scr.xen.uimg ${DEPLOYDIR}/boot.scr.xen.uimg
 			if [[ "${MACHINE}" == "agilex5_dk_a5e013bm16aea" ]]; then
 				install -m 0755 ${WORKDIR}/sources-unpack/agilex5_013b_uboot_xen.txt ${DEPLOYDIR}/u-boot_xen.txt
+			elif [[ "${MACHINE}" == "agilex5_mk_a5e065bb32aes1" ]]; then
+				install -m 0755 ${WORKDIR}/sources-unpack/agilex5_modular_uboot_xen.txt ${DEPLOYDIR}/u-boot_xen.txt
 			else
 				install -m 0755 ${WORKDIR}/sources-unpack/agilex5_uboot_xen.txt ${DEPLOYDIR}/u-boot_xen.txt
 				install -m 0755 ${WORKDIR}/sources-unpack/agilex5_uboot_xen_emmc.txt ${DEPLOYDIR}/u-boot_xen_emmc.txt

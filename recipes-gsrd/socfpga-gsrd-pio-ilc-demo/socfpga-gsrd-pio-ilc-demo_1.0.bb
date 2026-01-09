@@ -12,7 +12,8 @@ PV = "0.1"
 REFDES_REPO ?= "git://github.com/altera-fpga/linux-refdesigns.git"
 REFDES_PROT ?= "http"
 REFDES_BRANCH ?= "master"
-SRCREV = "${@'bcb6180adec1f10a7a20a6a91c913019095de35d' if d.getVar('PREFERRED_VERSION_linux-socfpga-lts') == '6.12%' else '57b44fdf88bb344491118db066142938344ee3c3'}"
+KERNEL_SERIES = "${@(d.getVar('PREFERRED_VERSION_linux-socfpga-lts') or '0').rstrip('%')}"
+SRCREV = "${@'bcb6180adec1f10a7a20a6a91c913019095de35d' if d.getVar('KERNEL_SERIES') >= '6.12' else '57b44fdf88bb344491118db066142938344ee3c3'}"
 
 SRC_URI = "${REFDES_REPO};protocol=${REFDES_PROT};branch=${REFDES_BRANCH} "
 

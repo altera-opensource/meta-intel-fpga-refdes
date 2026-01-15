@@ -11,7 +11,7 @@ inherit allarch systemd
 SRC_URI = "file://socfpga-gsrd.service \
 	   file://socfpga-gsrd-init.sh"
 
-S = "${WORKDIR}/sources-unpack"
+S = "${UNPACKDIR}/sources-unpack"
 
 do_compile() {
 	:
@@ -21,8 +21,8 @@ do_install() {
 	install -d ${D}${systemd_unitdir}/system
 	install -d ${D}/${bindir}/
 
-	install -m 0644 ${WORKDIR}/sources-unpack/socfpga-gsrd.service ${D}${systemd_unitdir}/system/
-	install -m 0744 ${WORKDIR}/sources-unpack/socfpga-gsrd-init.sh ${D}/${bindir}/
+	install -m 0644 ${UNPACKDIR}/socfpga-gsrd.service ${D}${systemd_unitdir}/system/
+	install -m 0744 ${UNPACKDIR}/socfpga-gsrd-init.sh ${D}/${bindir}/
 }
 
 NATIVE_SYSTEMD_SUPPORT = "1"

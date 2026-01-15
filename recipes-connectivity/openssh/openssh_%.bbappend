@@ -21,7 +21,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
 SRC_URI[sha256sum] = "dd8bd002a379b5d499dfb050dd1fa9af8029e80461f4bb6c523c49973f5a39f3"
 
 do_install:append () {
-	install -D -m 0755 ${WORKDIR}/openssh-${PV}/sshd-session ${D}${libexecdir}/sshd-session
+	install -D -m 0755 ${UNPACKDIR}/openssh-${PV}/sshd-session ${D}${libexecdir}/sshd-session
 }
 
 FILES:${PN}-sshd += "${libexecdir}/${BPN}/sshd_check_keys ${libexecdir}/sshd-session"

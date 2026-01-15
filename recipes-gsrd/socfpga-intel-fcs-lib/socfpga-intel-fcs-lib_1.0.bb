@@ -18,8 +18,6 @@ FILES:${PN} = " /usr/lib/* \
 INSANE_SKIP:${PN} = "libdir"
 INSANE_SKIP:${PN}-dbg = "libdir"
 
-S = "${WORKDIR}/git"
-
 inherit cmake
 
 EXTRA_OECMAKE += "-DARCH=linux_aarch64"

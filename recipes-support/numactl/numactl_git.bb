@@ -24,8 +24,6 @@ SRC_URI = "git://github.com/numactl/numactl;protocol=${NUMACTL_PROT};branch=${NU
            file://0001-define-run-test-target.patch \
            "
 
-S = "${WORKDIR}/git"
-
 do_install() {
     oe_runmake DESTDIR=${D} prefix=${D}/usr install
     #remove the empty man2 directory
@@ -53,7 +51,7 @@ do_install:ptest() {
         install -m 0755 ${B}/test/$i ${D}${PTEST_PATH}/test
     done
 
-    install -m 0755 ${WORKDIR}/Makefile ${D}${PTEST_PATH}/
+    install -m 0755 ${UNPACKDIR}/Makefile ${D}${PTEST_PATH}/
     install -m 0755 ${B}/.libs/numactl ${D}${PTEST_PATH}/
 }
 

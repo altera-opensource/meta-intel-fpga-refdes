@@ -16,4 +16,4 @@ SRCREV = "57b44fdf88bb344491118db066142938344ee3c3"
 
 SRC_URI = "${REFDES_REPO};protocol=${REFDES_PROT};branch=${REFDES_BRANCH} "
 
-S = "${WORKDIR}/git/pio-interrupt"
+S = "${UNPACKDIR}/${PN}-${PV}/pio-interrupt"

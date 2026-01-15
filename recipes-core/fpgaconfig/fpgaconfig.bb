@@ -11,7 +11,7 @@ SRC_URI = "file://fpgaconfig.sh \
 	   file://fpgaconfig@persona1.service \
           "
 
-S = "${WORKDIR}/sources-unpack"
+S = "${UNPACKDIR}/sources-unpack"
 
 do_compile() {
 	:
@@ -21,10 +21,10 @@ do_install () {
 	install -d ${D}${systemd_unitdir}/system
 	install -d ${D}/${bindir}/
 
-	install -m 0644 ${WORKDIR}/sources-unpack/fpgaconfig@fpga_static_region.service ${D}${systemd_unitdir}/system/
-	install -m 0644 ${WORKDIR}/sources-unpack/fpgaconfig@persona0.service ${D}${systemd_unitdir}/system/
-	install -m 0644 ${WORKDIR}/sources-unpack/fpgaconfig@persona1.service ${D}${systemd_unitdir}/system/
-	install -m 0744 ${WORKDIR}/sources-unpack/fpgaconfig.sh ${D}/${bindir}/
+	install -m 0644 ${UNPACKDIR}/fpgaconfig@fpga_static_region.service ${D}${systemd_unitdir}/system/
+	install -m 0644 ${UNPACKDIR}/fpgaconfig@persona0.service ${D}${systemd_unitdir}/system/
+	install -m 0644 ${UNPACKDIR}/fpgaconfig@persona1.service ${D}${systemd_unitdir}/system/
+	install -m 0744 ${UNPACKDIR}/fpgaconfig.sh ${D}/${bindir}/
 }
 
 NATIVE_SYSTEMD_SUPPORT = "1"

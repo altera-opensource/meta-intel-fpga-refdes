@@ -17,8 +17,6 @@ SRC_URI = "git://github.com/eembc/coremark.git;protocol=https;branch=main \
 PV = "1.0+git"
 SRCREV = "d5fad6bd094899101a4e5fd53af7298160ced6ab"
 
-S = "${WORKDIR}/git"
-
 do_compile () {
 	export CC="${CC}"
 	oe_runmake compile link

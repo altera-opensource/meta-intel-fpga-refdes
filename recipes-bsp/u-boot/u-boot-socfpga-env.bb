@@ -60,13 +60,13 @@ do_configure[noexec] = "1"
 do_install[noexec] = "1"
 
 do_compile() {
-	mkenvimage -s 0x2000 -o "${WORKDIR}/sources-unpack/uboot.env" ${WORKDIR}/sources-unpack/${UBOOT_CONFIG}_u-boot-env.txt
+	mkenvimage -s 0x2000 -o "${UNPACKDIR}/uboot.env" ${UNPACKDIR}/${UBOOT_CONFIG}_u-boot-env.txt
 }
 
 do_deploy() {
 	install -d ${DEPLOYDIR}
-		install -m 0755 ${WORKDIR}/sources-unpack/${UBOOT_CONFIG}_u-boot-env.txt ${DEPLOYDIR}/u-boot-env.txt
-		install -m 0644 ${WORKDIR}/sources-unpack/uboot.env ${DEPLOYDIR}/u-boot-socfpga-${MACHINE}-${PV}-${PR}.env
+		install -m 0755 ${UNPACKDIR}/${UBOOT_CONFIG}_u-boot-env.txt ${DEPLOYDIR}/u-boot-env.txt
+		install -m 0644 ${UNPACKDIR}/uboot.env ${DEPLOYDIR}/u-boot-socfpga-${MACHINE}-${PV}-${PR}.env
 		ln -sf u-boot-socfpga-${MACHINE}-${PV}-${PR}.env ${DEPLOYDIR}/uboot.env
 }
 

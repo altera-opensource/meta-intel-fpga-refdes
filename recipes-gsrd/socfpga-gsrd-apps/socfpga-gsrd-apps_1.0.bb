@@ -4,8 +4,6 @@ SECTION = "gsrd"
 LICENSE = "BSD-3-Clause"
 LIC_FILES_CHKSUM="file://${COMMON_LICENSE_DIR}/BSD-3-Clause;md5=550794465ba0ec5312d6919e203a55f9"
 
-S = "${WORKDIR}/git"
-
 DEPENDS = "ncurses"
 
 REFDES_REPO ?= "git://github.com/altera-fpga/linux-refdesigns.git"
@@ -54,9 +52,9 @@ do_install() {
 	fi
 
 	if [[ "${MACHINE}" == "agilex7_dk_dev_agf023fa" ]]; then
-		install -m 0755 ${WORKDIR}/sources-unpack/README_agilex7_dk_dev_agf023fa ${D}/home/root/README
+		install -m 0755 ${UNPACKDIR}/README_agilex7_dk_dev_agf023fa ${D}/home/root/README
 	elif [[ "${MACHINE}" == *"agilex5"* ]]; then
-		install -m 0755 ${WORKDIR}/sources-unpack/README_agilex5 ${D}/home/root/README
+		install -m 0755 ${UNPACKDIR}/README_agilex5 ${D}/home/root/README
 	else
 		install -m 0755 doc/README ${D}/home/root/
 	fi

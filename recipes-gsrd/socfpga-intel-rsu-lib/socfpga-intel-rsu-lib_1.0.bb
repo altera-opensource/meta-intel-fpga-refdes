@@ -14,7 +14,6 @@ PV = "1.0+git${SRCPV}"
 SRCREV = "f6e0f1e15e8e77c0c1150e2df34a13d9a5bd9771"
 DEPENDS += "zlib"
 
-S = "${WORKDIR}/git"
 LIBRSU_VER = "0"
 
 FILES:${PN} = "/usr/lib/* \

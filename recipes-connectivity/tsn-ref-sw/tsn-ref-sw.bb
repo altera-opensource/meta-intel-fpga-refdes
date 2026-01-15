@@ -15,8 +15,6 @@ SRC_URI = "git://github.com/intel/iotg_tsn_ref_sw.git;protocol=https;branch=mast
 SRCREV = "d03a8f751ce7206a91ad4c597dead6b324460e48"
 PV = "1.0-git${SRCPV}"
 
-S = "${WORKDIR}/git"
-
 inherit autotools pkgconfig
 
 DEPENDS += " elfutils json-c xdp-tools"

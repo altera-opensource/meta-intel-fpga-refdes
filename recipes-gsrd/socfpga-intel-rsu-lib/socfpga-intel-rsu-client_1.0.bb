@@ -14,8 +14,6 @@ PV = "1.0+git${SRCPV}"
 SRCREV = "f6e0f1e15e8e77c0c1150e2df34a13d9a5bd9771"
 DEPENDS += "zlib socfpga-intel-rsu-lib"
 
-S = "${WORKDIR}/git"
-
 FILES:${PN} = "/home/root /etc"
 FILES:${PN}-dbg = "/home/root/.debug /etc/.debug"
 

@@ -17,6 +17,6 @@ SRCREV = "${@'bcb6180adec1f10a7a20a6a91c913019095de35d' if d.getVar('KERNEL_SERI
 
 SRC_URI = "${REFDES_REPO};protocol=${REFDES_PROT};branch=${REFDES_BRANCH} "
 
-S = "${WORKDIR}/git/pio_ilc_demo"
+S = "${UNPACKDIR}/${PN}-${PV}/pio_ilc_demo"
 
 RPROVIDES_${PN} += "kernel-module-intel_pio_ilc"

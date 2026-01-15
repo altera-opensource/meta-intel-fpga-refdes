@@ -90,7 +90,7 @@ SRC_URI:append:cyclone5 = " file://tse.scc"
 
 inherit deploy
 
-LINUXDEPLOYDIR = "${WORKDIR}/deploy-${PN}"
+LINUXDEPLOYDIR = "${DEPLOYDIR}"
 DTBDEPLOYDIR = "${DEPLOY_DIR_IMAGE}/devicetree"
 
 do_deploy[depends] += "${@'' if d.getVar('MACHINE') in ['agilex5', 'arria10', 'cyclone5', 'n5x'] else 'hw-ref-design:do_deploy device-tree:do_deploy'}"
@@ -204,9 +204,9 @@ do_deploy:append() {
 	if [[ "${MACHINE}" == *"agilex"* || "${MACHINE}" == *"stratix10"* ]]; then
 		# kernel.its
 		if [ "${IMAGE_TYPE}" == "nand" ]; then
-			cp ${WORKDIR}/sources-unpack/fit_kernel_${MACHINE}_nand.its ${B}/fit_kernel_${MACHINE}.its
+			cp ${UNPACKDIR}/fit_kernel_${MACHINE}_nand.its ${B}/fit_kernel_${MACHINE}.its
 		else
-			cp ${WORKDIR}/sources-unpack/fit_kernel_${MACHINE}.its ${B}
+			cp ${UNPACKDIR}/fit_kernel_${MACHINE}.its ${B}
 		fi
 		# Image
 		cp ${LINUXDEPLOYDIR}/Image ${B}

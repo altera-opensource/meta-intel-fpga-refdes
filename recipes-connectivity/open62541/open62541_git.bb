@@ -13,8 +13,6 @@ SRC_URI = "gitsm://github.com/open62541/open62541.git;protocol=https;branch=mast
 PV = "1.0+git${SRCPV}"
 SRCREV = "5f5214427b62e96e066270f4c2798f68b1375213"
 
-S = "${WORKDIR}/git"
-
 DEPENDS = "openssl"
 
 inherit cmake python3native

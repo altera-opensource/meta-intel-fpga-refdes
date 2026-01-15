@@ -32,35 +32,32 @@ SRC_URI:append = " \
 		file://agilex7_dk_dev_agf023fa-board-image.jpg \
 	    "
 
-S = "${WORKDIR}/sources"
-UNPACKDIR = "${S}"
-
 do_install() {
 	install -d ${D}/www/pages/cgi-bin
 	install -d ${D}/home/root/intelFPGA
-	install -m 0755 intel-logo.jpg ${D}/www/pages/
-	install -m 0755 arriav-board-image.jpg ${D}/www/pages/
-	install -m 0755 arria10-board-image.jpg ${D}/www/pages/
-	install -m 0755 blinkled.gif ${D}/www/pages/
-	install -m 0755 board-flash.jpg ${D}/www/pages/
-	install -m 0755 board.jpg ${D}/www/pages/
-	install -m 0755 cyclonev-board-image.jpg ${D}/www/pages/
-	install -m 0755 favicon.ico ${D}/www/pages/
-	install -m 0755 helper_script.js ${D}/www/pages/
-	install -m 0755 not_found.html ${D}/www/pages/
-	install -m 0755 offled.jpg ${D}/www/pages/
-	install -m 0755 onled.jpg ${D}/www/pages/
-	install -m 0755 progress.js ${D}/www/pages/
-	install -m 0755 runningled.gif ${D}/www/pages/
-	install -m 0755 style.css ${D}/www/pages/
-	install -m 0755 validation_script.js ${D}/www/pages/
-	install -m 0755 stratix10-board-image.jpg ${D}/www/pages/
-	install -m 0755 index.sh ${D}/www/pages/cgi-bin
-	install -m 0755 agilex7_dk_si_agf014eb-board-image.jpg ${D}/www/pages/
-	install -m 0755 agilex7_dk_si_agi027fc-board-image.jpg ${D}/www/pages/
-	install -m 0755 agilex7_dk_dev_agm039fes-board-image.jpg ${D}/www/pages/
-	install -m 0755 agilex7_dk_dev_agm039ea-board-image.jpg ${D}/www/pages/
-	install -m 0755 agilex7_dk_dev_agf023fa-board-image.jpg ${D}/www/pages/
+	install -m 0755 ${UNPACKDIR}/intel-logo.jpg ${D}/www/pages/
+	install -m 0755 ${UNPACKDIR}/arriav-board-image.jpg ${D}/www/pages/
+	install -m 0755 ${UNPACKDIR}/arria10-board-image.jpg ${D}/www/pages/
+	install -m 0755 ${UNPACKDIR}/blinkled.gif ${D}/www/pages/
+	install -m 0755 ${UNPACKDIR}/board-flash.jpg ${D}/www/pages/
+	install -m 0755 ${UNPACKDIR}/board.jpg ${D}/www/pages/
+	install -m 0755 ${UNPACKDIR}/cyclonev-board-image.jpg ${D}/www/pages/
+	install -m 0755 ${UNPACKDIR}/favicon.ico ${D}/www/pages/
+	install -m 0755 ${UNPACKDIR}/helper_script.js ${D}/www/pages/
+	install -m 0755 ${UNPACKDIR}/not_found.html ${D}/www/pages/
+	install -m 0755 ${UNPACKDIR}/offled.jpg ${D}/www/pages/
+	install -m 0755 ${UNPACKDIR}/onled.jpg ${D}/www/pages/
+	install -m 0755 ${UNPACKDIR}/progress.js ${D}/www/pages/
+	install -m 0755 ${UNPACKDIR}/runningled.gif ${D}/www/pages/
+	install -m 0755 ${UNPACKDIR}/style.css ${D}/www/pages/
+	install -m 0755 ${UNPACKDIR}/validation_script.js ${D}/www/pages/
+	install -m 0755 ${UNPACKDIR}/stratix10-board-image.jpg ${D}/www/pages/
+	install -m 0755 ${UNPACKDIR}/index.sh ${D}/www/pages/cgi-bin
+	install -m 0755 ${UNPACKDIR}/agilex7_dk_si_agf014eb-board-image.jpg ${D}/www/pages/
+	install -m 0755 ${UNPACKDIR}/agilex7_dk_si_agi027fc-board-image.jpg ${D}/www/pages/
+	install -m 0755 ${UNPACKDIR}/agilex7_dk_dev_agm039fes-board-image.jpg ${D}/www/pages/
+	install -m 0755 ${UNPACKDIR}/agilex7_dk_dev_agm039ea-board-image.jpg ${D}/www/pages/
+	install -m 0755 ${UNPACKDIR}/agilex7_dk_dev_agf023fa-board-image.jpg ${D}/www/pages/
 }
 
 FILES:${PN} = "/www/pages/* /home/*"

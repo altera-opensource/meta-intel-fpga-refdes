@@ -9,8 +9,6 @@ XEN_DTB_PROT ?= "http"
 
 SRC_URI = "${XEN_DTB_REPO};protocol=${XEN_DTB_PROT};branch=${XEN_DTB_BRANCH}"
 
-S = "${WORKDIR}/git"
-
 # Add dtc-native to the build dependencies
 DEPENDS += "dtc-native"
 

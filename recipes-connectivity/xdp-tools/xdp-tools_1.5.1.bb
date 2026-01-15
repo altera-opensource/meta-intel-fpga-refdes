@@ -25,8 +25,6 @@ SRC_URI = "gitsm://github.com/xdp-project/xdp-tools.git;branch=main;protocol=htt
 
 SRCREV = "1cb08b9d2d6390bbdaa8a82458c4d6a5c5bee828"
 
-S = "${WORKDIR}/git"
-
 FILES:${PN} += "${@"${libdir}/bpf/* /usr/lib/custom_bpf/*" if d.getVar('MACHINE', True).startswith('agilex5_dk_a5e') else "${libdir}/bpf/* ${libdir}/custom_bpf/*"}"
 
 INHIBIT_PACKAGE_STRIP = "1"
@@ -44,8 +42,8 @@ CFLAGS += "-I${STAGING_INCDIR} -I${D}${libdir}"
 
 do_configure:append() {
     # workaround to patch libbpf submodule
-    cp ${WORKDIR}/sources-unpack/0001-workaround-the-install-libbpf-header-to-local ${S}/lib/libbpf/0001-workaround-the-install-libbpf-header-to-local.patch
-    cp ${WORKDIR}/sources-unpack/0001-add-txtime-in-if_xdp.h-for-libbpf-library ${S}/lib/libbpf/0001-add-txtime-in-if_xdp.h-for-libbpf-library.patch
+    cp ${UNPACKDIR}/0001-workaround-the-install-libbpf-header-to-local ${S}/lib/libbpf/0001-workaround-the-install-libbpf-header-to-local.patch
+    cp ${UNPACKDIR}/0001-add-txtime-in-if_xdp.h-for-libbpf-library ${S}/lib/libbpf/0001-add-txtime-in-if_xdp.h-for-libbpf-library.patch
     pushd ${S}/lib/libbpf
     git am 0001-workaround-the-install-libbpf-header-to-local.patch
     git am 0001-add-txtime-in-if_xdp.h-for-libbpf-library.patch

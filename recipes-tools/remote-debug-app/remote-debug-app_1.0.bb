@@ -16,8 +16,10 @@ SRCREV_fpga-ip-access = "df3fb3a7224aac2e55bf0af71a6c611c3cd46a8a"
 SRCREV_FORMAT = "default_fpga-ip-access"
 PV:append = "+git${SRCPV}"
 
+TARGET_CFLAGS += " -Wno-error=incompatible-pointer-types"
+
 # Specify any options you want to pass to cmake using EXTRA_OECMAKE:
-EXTRA_OECMAKE = ' -DCROSS_COMPILE="${TARGET_PREFIX}" -DFETCHCONTENT_FULLY_DISCONNECTED=OFF -DIP_ACCESS_API_LIB_GIT_URL="${UNPACKDIR}/fpga-ip-access"'
+EXTRA_OECMAKE = ' -DCROSS_COMPILE="${TARGET_PREFIX}" -DFETCHCONTENT_FULLY_DISCONNECTED=OFF -DIP_ACCESS_API_LIB_GIT_URL="${UNPACKDIR}/fpga-ip-access" -DCMAKE_POLICY_VERSION_MINIMUM=3.5'
 
 do_install() {
 	install -d ${D}${bindir}

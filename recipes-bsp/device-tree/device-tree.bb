@@ -102,6 +102,9 @@ do_configure:append() {
 			# NAND
 			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex_socdk_nand.dts ${UNPACKDIR}/socfpga_agilex7_socdk_nand.dts
 			sed -i '/\#include \"socfpga_agilex.dtsi\"/a \#include \"socfpga_agilex7_ghrd_sgmii.dtsi\"\n\#include \"socfpga_ilc.dtsi\"' ${UNPACKDIR}/socfpga_agilex7_socdk_nand.dts
+			# EMMC
+			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex_socdk_emmc.dts ${UNPACKDIR}/socfpga_agilex7_socdk_emmc.dts
+			sed -i '/\#include \"socfpga_agilex.dtsi\"/a \#include \"socfpga_agilex7_ghrd_sgmii.dtsi\"\n\#include \"socfpga_ilc.dtsi\"' ${UNPACKDIR}/socfpga_agilex7_socdk_emmc.dts
 			# PR
 			cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/intel/socfpga_agilex_socdk.dts ${UNPACKDIR}/socfpga_agilex7_socdk_pr.dts
 			sed -i '/\#include \"socfpga_agilex.dtsi\"/a \#include \"socfpga_agilex7_ghrd.dtsi\"\n\#include \"socfpga_ilc.dtsi\"' ${UNPACKDIR}/socfpga_agilex7_socdk_pr.dts
@@ -246,6 +249,9 @@ do_configure:append:stratix10_htile() {
 	# NAND
 	cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/altera/socfpga_stratix10_socdk_nand.dts ${UNPACKDIR}
 	sed -i '/\#include \"socfpga_stratix10.dtsi\"/a \#include \"socfpga_stratix10_qse_sgmii_ghrd_nand.dtsi\"\n\#include \"socfpga_ilc.dtsi\"' ${UNPACKDIR}/socfpga_stratix10_socdk_nand.dts
+	# EMMC
+	cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/altera/socfpga_stratix10_socdk_emmc.dts ${UNPACKDIR}
+	sed -i '/\#include \"socfpga_stratix10.dtsi\"/a \#include \"socfpga_stratix10_qse_sgmii_ghrd.dtsi\"\n\#include \"socfpga_ilc.dtsi\"' ${UNPACKDIR}/socfpga_stratix10_socdk_emmc.dts
 	# PR
 	cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/altera/socfpga_stratix10_socdk.dts ${UNPACKDIR}/socfpga_stratix10_socdk_pr.dts
 }

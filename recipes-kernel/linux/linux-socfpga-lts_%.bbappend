@@ -108,12 +108,14 @@ do_deploy:append() {
 		cp ${DTBDEPLOYDIR}/socfpga_agilex7_vanilla.dtb ${B}
 		if [[ "${MACHINE}" == "agilex7_dk_si_agf014e"* ]]; then
 			cp ${DTBDEPLOYDIR}/socfpga_agilex7_socdk_nand.dtb ${B}
+			cp ${DTBDEPLOYDIR}/socfpga_agilex7_socdk_emmc.dtb ${B}
 			cp ${DTBDEPLOYDIR}/socfpga_agilex7_socdk_pr.dtb ${B}
 		fi
 		# core.rbf
 		cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd.core.rbf ${B}
 		if [[ "${MACHINE}" == *"agilex7_dk_si_agf014e"* ]]; then
 			cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/nand.core.rbf ${B}
+			cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/emmc.core.rbf ${B}
 			cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd_pr.core.rbf ${B}
 		fi
 	elif [[ "${MACHINE}" == "agilex5" ]]; then
@@ -193,10 +195,12 @@ do_deploy:append() {
 		cp ${DTBDEPLOYDIR}/socfpga_stratix10_socdk.dtb ${B}
 		cp ${DTBDEPLOYDIR}/socfpga_stratix10_vanilla.dtb ${B}
 		cp ${DTBDEPLOYDIR}/socfpga_stratix10_socdk_nand.dtb ${B}
+		cp ${DTBDEPLOYDIR}/socfpga_stratix10_socdk_emmc.dtb ${B}
 		cp ${DTBDEPLOYDIR}/socfpga_stratix10_socdk_pr.dtb ${B}
 		# core.rbf
 		cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd.core.rbf ${B}
 		cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/nand.core.rbf ${B}
+		cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/emmc.core.rbf ${B}
 		cp ${DEPLOY_DIR_IMAGE}/${MACHINE}_${IMAGE_TYPE}_ghrd/ghrd_pr.core.rbf ${B}
 	fi
 

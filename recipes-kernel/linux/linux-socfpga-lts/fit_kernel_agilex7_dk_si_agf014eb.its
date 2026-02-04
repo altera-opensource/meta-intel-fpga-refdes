@@ -80,6 +80,17 @@
 			};
 		};
 
+		fdt-11 {
+			description = "socfpga_socdk_sgmii";
+			data = /incbin/("./socfpga_agilex7_socdk_sgmii.dtb");
+			type = "flat_dt";
+			arch = "arm64";
+			compression = "none";
+			hash {
+				algo = "crc32";
+			};
+		};
+
 		fpga-1 {
 			description = "FPGA bitstream for NAND";
 			data = /incbin/("./nand.core.rbf");
@@ -119,6 +130,18 @@
 		fpga-4 {
 			description = "FPGA bitstream for GHRD";
 			data = /incbin/("./ghrd.core.rbf");
+			type = "fpga";
+			arch = "arm64";
+			compression = "none";
+			load = <0xA000000>;
+			hash {
+				algo = "crc32";
+			};
+		};
+
+		fpga-11 {
+			description = "FPGA bitstream for SGMII";
+			data = /incbin/("./sgmii.core.rbf");
 			type = "fpga";
 			arch = "arm64";
 			compression = "none";
@@ -188,6 +211,18 @@
 				algo = "crc32";
 				key-name-hint = "dev";
 				sign-images = "fdt-4", "kernel", "fpga-4";
+			};
+		};
+
+		board-11 {
+			description = "board_11";
+			kernel = "kernel";
+			fdt = "fdt-11";
+			fpga = "fpga-11";
+			signature {
+				algo = "crc32";
+				key-name-hint = "dev";
+				sign-images = "fdt-11", "kernel", "fpga-11";
 			};
 		};
 	};

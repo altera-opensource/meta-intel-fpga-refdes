@@ -3,7 +3,6 @@ IMAGE_INSTALL:remove = " \
     packagegroup-core-x11 \
     packagegroup-core-graphics \
     packagegroup-core-multimedia \
-    kernel-module-xt-comment \
 "
 
 # Optimize the image by minimizing installed packages and features

@@ -47,6 +47,7 @@ SRC_URI:append:agilex7_dk_dev_agf023fa = " \
 					"
 
 SRC_URI:append:stratix10_htile = " \
+					file://socfpga_stratix10_ghrd_emmc.dtsi \
 					file://socfpga_stratix10_qse_sgmii_ghrd.dtsi \
 					file://socfpga_stratix10_qse_sgmii_ghrd_nand.dtsi \
 					file://stratix10_pr_fpga_static_region.dts \
@@ -254,7 +255,7 @@ do_configure:append:stratix10_htile() {
 	sed -i '/\#include \"socfpga_stratix10.dtsi\"/a \#include \"socfpga_stratix10_qse_sgmii_ghrd_nand.dtsi\"\n\#include \"socfpga_ilc.dtsi\"' ${WORKDIR}/socfpga_stratix10_socdk_nand.dts
 	# EMMC
 	cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/altera/socfpga_stratix10_socdk_emmc.dts ${WORKDIR}
-	sed -i '/\#include \"socfpga_stratix10.dtsi\"/a \#include \"socfpga_stratix10_qse_sgmii_ghrd.dtsi\"\n\#include \"socfpga_ilc.dtsi\"' ${WORKDIR}/socfpga_stratix10_socdk_emmc.dts
+	sed -i '/\#include \"socfpga_stratix10.dtsi\"/a \#include \"socfpga_stratix10_ghrd_emmc.dtsi\"\n\#include \"socfpga_ilc.dtsi\"' ${WORKDIR}/socfpga_stratix10_socdk_emmc.dts
 	# PR
 	cp ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/altera/socfpga_stratix10_socdk.dts ${WORKDIR}/socfpga_stratix10_socdk_pr.dts
 }

@@ -34,7 +34,7 @@ SRC_URI:append = " \
 
 do_install() {
 	install -d ${D}/www/pages/cgi-bin
-	install -d ${D}/home/root/intelFPGA
+	install -d ${D}/home/root/alteraFPGA
 	install -m 0755 ${UNPACKDIR}/intel-logo.jpg ${D}/www/pages/
 	install -m 0755 ${UNPACKDIR}/arriav-board-image.jpg ${D}/www/pages/
 	install -m 0755 ${UNPACKDIR}/arria10-board-image.jpg ${D}/www/pages/

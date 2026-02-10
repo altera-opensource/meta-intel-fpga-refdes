@@ -4,6 +4,7 @@ IMAGE_INSTALL:remove = " \
     packagegroup-core-graphics \
     packagegroup-core-multimedia \
     kernel-module-xt-comment \
+    kernel-module-xt-masquerade \
 "
 
 # Optimize the image by minimizing installed packages and features

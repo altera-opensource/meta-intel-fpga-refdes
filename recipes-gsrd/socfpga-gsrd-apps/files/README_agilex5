@@ -15,8 +15,8 @@ to interact with soft IP through driver developed.
 The source codes of these applications can be found from the installation path
 of  (<Yocto_install_path>/meta-intel-fpga-refdes/recipes-gsrd).
 
-The binaries of these applications can be found in /home/root/intelFPGA/. Please
-'cd' to /home/root/intelFPGA to execute these applications.
+The binaries of these applications can be found in /home/root/alteraFPGA/. Please
+'cd' to /home/root/alteraFPGA to execute these applications.
 
 Example applications usages are shown below.
 

@@ -24,11 +24,11 @@ SRC_URI = " \
 SRCREV = "57b44fdf88bb344491118db066142938344ee3c3"
 
 FILES:${PN} = "/www/pages/* \
-	       /home/root/intelFPGA/* \
+	       /home/root/alteraFPGA/* \
 	       /home/root/README \
 	      "
 
-FILES:${PN}-dbg = "/www/pages/cgi-bin/.debug/ /usr /home/root/intelFPGA/.debug"
+FILES:${PN}-dbg = "/www/pages/cgi-bin/.debug/ /usr /home/root/alteraFPGA/.debug"
 
 do_compile() {
 	echo "Compiling GSRD Reference Applications"
@@ -39,17 +39,17 @@ do_compile() {
 do_install() {
 	cd ${S}
 	install -d ${D}/www/pages/cgi-bin
-	install -d ${D}/home/root/intelFPGA
-	install -m 0755 hello/hello ${D}/home/root/intelFPGA/hello
-	install -m 0755 syschk/syschk ${D}/home/root/intelFPGA/syschk
+	install -d ${D}/home/root/alteraFPGA
+	install -m 0755 hello/hello ${D}/home/root/alteraFPGA/hello
+	install -m 0755 syschk/syschk ${D}/home/root/alteraFPGA/syschk
 	if [[ "${MACHINE}" != "agilex5" ]]; then
 		install -m 0755 blink/blink ${D}/www/pages/cgi-bin/blink
 		install -m 0755 scroll_server/scroll_server ${D}/www/pages/cgi-bin/scroll_server
 		install -m 0755 scroll_client/scroll_client ${D}/www/pages/cgi-bin/scroll_client
 		install -m 0755 toggle/toggle ${D}/www/pages/cgi-bin/toggle
-		install -m 0755 blink/blink ${D}/home/root/intelFPGA/blink
-		install -m 0755 scroll_client/scroll_client ${D}/home/root/intelFPGA/scroll_client
-		install -m 0755 toggle/toggle ${D}/home/root/intelFPGA/toggle
+		install -m 0755 blink/blink ${D}/home/root/alteraFPGA/blink
+		install -m 0755 scroll_client/scroll_client ${D}/home/root/alteraFPGA/scroll_client
+		install -m 0755 toggle/toggle ${D}/home/root/alteraFPGA/toggle
 	fi
 
 	if [[ "${MACHINE}" == "agilex7_dk_dev_agf023fa" ]]; then

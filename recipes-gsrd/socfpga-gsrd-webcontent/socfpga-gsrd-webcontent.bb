@@ -36,7 +36,7 @@ S = "${WORKDIR}"
 
 do_install() {
 	install -d ${D}/www/pages/cgi-bin
-	install -d ${D}/home/root/intelFPGA
+	install -d ${D}/home/root/alteraFPGA
 	install -m 0755 intel-logo.jpg ${D}/www/pages/
 	install -m 0755 arriav-board-image.jpg ${D}/www/pages/
 	install -m 0755 arria10-board-image.jpg ${D}/www/pages/

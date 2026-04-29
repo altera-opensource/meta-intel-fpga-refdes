@@ -1,3 +1,5 @@
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
+
 SRCREV = "${AUTOREV}"
 
 XEN_REPO ?= "git://github.com/altera-fpga/xen-hypervisor.git"
@@ -9,6 +11,7 @@ SRC_URI = " \
 	${XEN_REPO};protocol=${XEN_PROT};branch=${XEN_BRANCH} \
 	file://0001-menuconfig-mconf-cfg-Allow-specification-of-ncurses-location.patch \
 	file://0001-arm-silence-gcc14-warning-error-on-irq-bounds-check.patch \
+	file://0001-ARM-Drop-ThumbEE-support.patch \
 	"
 
 INSANE_SKIP:${PN}-dbg += "buildpaths"

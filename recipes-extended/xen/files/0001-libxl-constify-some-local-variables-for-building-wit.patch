@@ -1,0 +1,104 @@
+From 8f7158589979041f96da2f73e7a5f69bc06d46b7 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Marek=20Marczykowski-G=C3=B3recki?=
+ <marmarek@invisiblethingslab.com>
+Date: Thu, 26 Feb 2026 13:31:48 +0100
+Subject: [PATCH 01/15] libxl: constify some local variables for building with
+ glibc 2.43
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Archlinux just updated glibc to 2.43+r5+g856c426a7534-1 and that
+causes libxl build failure:
+
+    libxl_cpuid.c: In function ‘libxl_cpuid_parse_config_xend’:
+    libxl_cpuid.c:447:16: error: assignment discards ‘const’ qualifier from pointer target type [-Werror=discarded-qualifiers]
+      447 |         endptr = strchr(str, '=');
+          |                ^
+    libxl_cpuid.c:452:16: error: assignment discards ‘const’ qualifier from pointer target type [-Werror=discarded-qualifiers]
+      452 |         endptr = strchr(str, ',');
+          |                ^
+    libxl_cpuid.c:454:20: error: assignment discards ‘const’ qualifier from pointer target type [-Werror=discarded-qualifiers]
+      454 |             endptr = strchr(str, 0);
+          |                    ^
+    cc1: all warnings being treated as errors
+
+Add missing consts. Note in libxl_cpuid_parse_config_xend() non-const
+endptr still is needed, to be compatible with the second argument to
+strtoul(). Add second variable for this reason.
+
+And while at it, move semicolon to its own line
+
+Upstream-Status: Pending
+
+Signed-off-by: Marek Marczykowski-Górecki <marmarek@invisiblethingslab.com>
+Reviewed-by: Jan Beulich <jbeulich@suse.com>
+Acked-by: Anthony PERARD <anthony.perard@vates.tech>
+(cherry picked from commit 44da0e3b4ff7fa15ad28b628f57412a05dae653c)
+---
+ tools/libs/light/libxl_cpuid.c    | 21 ++++++++++++---------
+ tools/libs/light/libxl_internal.c |  2 +-
+ 2 files changed, 13 insertions(+), 10 deletions(-)
+
+diff --git a/tools/libs/light/libxl_cpuid.c b/tools/libs/light/libxl_cpuid.c
+index f738e17b19..ba428e5ebb 100644
+--- a/tools/libs/light/libxl_cpuid.c
++++ b/tools/libs/light/libxl_cpuid.c
+@@ -440,29 +440,32 @@ int libxl_cpuid_parse_config_xend(libxl_cpuid_policy_list *policy,
+     str = endptr + 1;
+     entry = cpuid_find_match(policy, leaf, subleaf);
+     for (str = endptr + 1; *str != 0;) {
++        const char *endptrc;
++
+         if (str[0] != 'e' || str[2] != 'x') {
+             return 4;
+         }
+         value = str[1] - 'a';
+-        endptr = strchr(str, '=');
+-        if (value > 3 || endptr == NULL) {
++        endptrc = strchr(str, '=');
++        if (value > 3 || endptrc == NULL) {
+             return 4;
+         }
+-        str = endptr + 1;
+-        endptr = strchr(str, ',');
+-        if (endptr == NULL) {
+-            endptr = strchr(str, 0);
++        str = endptrc + 1;
++        endptrc = strchr(str, ',');
++        if (endptrc == NULL) {
++            endptrc = strchr(str, 0);
+         }
+-        if (endptr - str != 32) {
++        if (endptrc - str != 32) {
+             return 5;
+         }
+         entry->policy[value] = calloc(32 + 1, 1);
+         strncpy(entry->policy[value], str, 32);
+         entry->policy[value][32] = 0;
+-        if (*endptr == 0) {
++        if (*endptrc == 0) {
+             break;
+         }
+-        for (str = endptr + 1; *str == ' ' || *str == '\n'; str++);
++        for (str = endptrc + 1; *str == ' ' || *str == '\n'; str++)
++            ;
+     }
+     return 0;
+ }
+diff --git a/tools/libs/light/libxl_internal.c b/tools/libs/light/libxl_internal.c
+index c95624933f..7e3c0eaae5 100644
+--- a/tools/libs/light/libxl_internal.c
++++ b/tools/libs/light/libxl_internal.c
+@@ -204,7 +204,7 @@ char *libxl__strndup(libxl__gc *gc, const char *c, size_t n)
+ 
+ char *libxl__dirname(libxl__gc *gc, const char *s)
+ {
+-    char *c = strrchr(s, '/');
++    const char *c = strrchr(s, '/');
+ 
+     if (!c)
+         return NULL;
+-- 
+2.49.0
+

@@ -7,6 +7,7 @@ LIC_FILES_CHKSUM="file://${COMMON_LICENSE_DIR}/BSD-3-Clause;md5=550794465ba0ec53
 PR = "r0"
 
 SRC_URI:append = " \
+	    file://altera-logo.jpg \
 	    file://arria10-board-image.jpg \
 	    file://arriav-board-image.jpg \
 	    file://blinkled.gif \
@@ -16,7 +17,6 @@ SRC_URI:append = " \
 	    file://favicon.ico \
 	    file://helper_script.js \
 	    file://index.sh \
-	    file://intel-logo.jpg \
 	    file://not_found.html \
 	    file://offled.jpg \
 	    file://onled.jpg \
@@ -35,7 +35,7 @@ SRC_URI:append = " \
 do_install() {
 	install -d ${D}/www/pages/cgi-bin
 	install -d ${D}/home/root/alteraFPGA
-	install -m 0755 ${UNPACKDIR}/intel-logo.jpg ${D}/www/pages/
+	install -m 0755 ${UNPACKDIR}/altera-logo.jpg ${D}/www/pages/
 	install -m 0755 ${UNPACKDIR}/arriav-board-image.jpg ${D}/www/pages/
 	install -m 0755 ${UNPACKDIR}/arria10-board-image.jpg ${D}/www/pages/
 	install -m 0755 ${UNPACKDIR}/blinkled.gif ${D}/www/pages/
